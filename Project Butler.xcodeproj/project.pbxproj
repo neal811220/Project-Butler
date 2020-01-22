@@ -3,12 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		1861E10523D7F71400673640 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861E10423D7F71400673640 /* AppDelegate.swift */; };
-		1861E10723D7F71400673640 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861E10623D7F71400673640 /* SceneDelegate.swift */; };
 		1861E10923D7F71400673640 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861E10823D7F71400673640 /* ViewController.swift */; };
 		1861E10C23D7F71400673640 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1861E10A23D7F71400673640 /* Main.storyboard */; };
 		1861E10E23D7F71500673640 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1861E10D23D7F71500673640 /* Assets.xcassets */; };
@@ -20,7 +19,6 @@
 /* Begin PBXFileReference section */
 		1861E10123D7F71400673640 /* Project Butler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project Butler.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1861E10423D7F71400673640 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1861E10623D7F71400673640 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		1861E10823D7F71400673640 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1861E10B23D7F71400673640 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1861E10D23D7F71500673640 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -66,15 +64,46 @@
 			isa = PBXGroup;
 			children = (
 				1861E10423D7F71400673640 /* AppDelegate.swift */,
-				1861E10623D7F71400673640 /* SceneDelegate.swift */,
-				1861E10823D7F71400673640 /* ViewController.swift */,
-				1861E10A23D7F71400673640 /* Main.storyboard */,
-				1861E10D23D7F71500673640 /* Assets.xcassets */,
-				1861E10F23D7F71500673640 /* LaunchScreen.storyboard */,
+				1861E11D23D82E3800673640 /* Resource */,
+				1861E11A23D82DB900673640 /* Model */,
+				1861E11C23D82E1500673640 /* View */,
+				1861E11B23D82E0600673640 /* Controller */,
 				1861E11223D7F71500673640 /* Info.plist */,
 				1861E11823D816C700673640 /* GoogleService-Info.plist */,
 			);
 			path = "Project Butler";
+			sourceTree = "<group>";
+		};
+		1861E11A23D82DB900673640 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1861E11B23D82E0600673640 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1861E10823D7F71400673640 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		1861E11C23D82E1500673640 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1861E10A23D7F71400673640 /* Main.storyboard */,
+				1861E10F23D7F71500673640 /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1861E11D23D82E3800673640 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				1861E10D23D7F71500673640 /* Assets.xcassets */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		457B2D8672F8B072CD41852A /* Frameworks */ = {
@@ -91,7 +120,6 @@
 				31E235C089173A4059097F39 /* Pods-Project Butler.debug.xcconfig */,
 				E9C9CB790BEC62E7D28C9D75 /* Pods-Project Butler.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -213,7 +241,6 @@
 			files = (
 				1861E10923D7F71400673640 /* ViewController.swift in Sources */,
 				1861E10523D7F71400673640 /* AppDelegate.swift in Sources */,
-				1861E10723D7F71400673640 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
