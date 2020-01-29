@@ -11,7 +11,7 @@ import FacebookLogin
 import Firebase
 
 class LoginViewController: UIViewController {
-
+    
     @IBOutlet weak var userEmailTextField: UITextField!
     
     @IBOutlet weak var passwordTextField: UITextField!
@@ -23,6 +23,19 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var facebookButton: UIButton!
     
     @IBOutlet weak var googleButton: UIButton!
+    
+    override func viewDidLoad() {
+           super.viewDidLoad()
+           
+           loginButton.layer.cornerRadius = 28
+           
+           appleIdButton.layer.cornerRadius = 20
+           
+           facebookButton.layer.cornerRadius = 20
+           
+           googleButton.layer.cornerRadius = 20
+           // Do any additional setup after loading the view.
+       }
     
     @IBAction func signupButton(_ sender: UIButton) {
         
@@ -42,21 +55,24 @@ class LoginViewController: UIViewController {
         manager.logIn(permissions: [.email], viewController: self) { (result) in
             
             if case LoginResult.success(granted: _, declined: _, token: _) = result {
-                print("login ok")
                 
                 guard let tokenString = AccessToken.current?.tokenString else { return }
                 
                 let credential = FacebookAuthProvider.credential(withAccessToken: tokenString)
-                print(credential)
+                
                 Auth.auth().signIn(with: credential) { [weak self] (result, error) in
                     
                     guard let self = self else { return }
-
+                    
                     guard error == nil else {
+                        
                         print(error?.localizedDescription)
+                        
                         return
                     }
+                    
                     self.dismiss(animated: true, completion: nil)
+                    
                     print("FBLogin Success")
                 }
             } else {
@@ -66,19 +82,7 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func pressedGoogleLogin(_ sender: UIButton) {
+        
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        loginButton.layer.cornerRadius = 28
-        
-        appleIdButton.layer.cornerRadius = 20
-        
-        facebookButton.layer.cornerRadius = 20
-        
-        googleButton.layer.cornerRadius = 20
-        // Do any additional setup after loading the view.
-    }
-
 }
