@@ -18,7 +18,7 @@
 		18AD1F3F23DB4AF600C75504 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */; };
 		18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */; };
 		18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */; };
-		18FFB56523E175E2004B43C0 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 18FFB56423E175E2004B43C0 /* SwiftPackageProductDependency */; };
+		18FFB56523E175E2004B43C0 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 18FFB56423E175E2004B43C0 /* FacebookLogin */; };
 		85E28742B6924B98277E4719 /* Pods_Project_Butler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7B481A550B741A992B2F45 /* Pods_Project_Butler.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,7 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18FFB56523E175E2004B43C0 /* BuildFile in Frameworks */,
+				18FFB56523E175E2004B43C0 /* FacebookLogin in Frameworks */,
 				85E28742B6924B98277E4719 /* Pods_Project_Butler.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -176,7 +176,7 @@
 			);
 			name = "Project Butler";
 			packageProductDependencies = (
-				18FFB56423E175E2004B43C0 /* SwiftPackageProductDependency */,
+				18FFB56423E175E2004B43C0 /* FacebookLogin */,
 			);
 			productName = "Project Butler";
 			productReference = 1861E10123D7F71400673640 /* Project Butler.app */;
@@ -207,7 +207,7 @@
 			);
 			mainGroup = 1861E0F823D7F71400673640;
 			packageReferences = (
-				18FFB56323E175E2004B43C0 /* RemoteSwiftPackageReference */,
+				18FFB56323E175E2004B43C0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 			);
 			productRefGroup = 1861E10223D7F71400673640 /* Products */;
 			projectDirPath = "";
@@ -504,7 +504,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		18FFB56323E175E2004B43C0 /* RemoteSwiftPackageReference */ = {
+		18FFB56323E175E2004B43C0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
 			requirement = {
@@ -515,9 +515,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		18FFB56423E175E2004B43C0 /* SwiftPackageProductDependency */ = {
+		18FFB56423E175E2004B43C0 /* FacebookLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 18FFB56323E175E2004B43C0 /* RemoteSwiftPackageReference */;
+			package = 18FFB56323E175E2004B43C0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
 			productName = FacebookLogin;
 		};
 /* End XCSwiftPackageProductDependency section */

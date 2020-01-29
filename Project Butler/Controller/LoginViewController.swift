@@ -9,6 +9,7 @@
 import UIKit
 import FacebookLogin
 import Firebase
+import GoogleSignIn
 
 class LoginViewController: UIViewController {
     
@@ -25,17 +26,19 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var googleButton: UIButton!
     
     override func viewDidLoad() {
-           super.viewDidLoad()
-           
-           loginButton.layer.cornerRadius = 28
-           
-           appleIdButton.layer.cornerRadius = 20
-           
-           facebookButton.layer.cornerRadius = 20
-           
-           googleButton.layer.cornerRadius = 20
-           // Do any additional setup after loading the view.
-       }
+        super.viewDidLoad()
+        
+        loginButton.layer.cornerRadius = 28
+        
+        appleIdButton.layer.cornerRadius = 20
+        
+        facebookButton.layer.cornerRadius = 20
+        
+        googleButton.layer.cornerRadius = 20
+        
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        
+    }
     
     @IBAction func signupButton(_ sender: UIButton) {
         
@@ -82,6 +85,8 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func pressedGoogleLogin(_ sender: UIButton) {
+        
+        GIDSignIn.sharedInstance().signIn()
         
     }
     
