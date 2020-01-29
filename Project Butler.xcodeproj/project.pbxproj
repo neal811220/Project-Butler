@@ -8,23 +8,31 @@
 
 /* Begin PBXBuildFile section */
 		1861E10523D7F71400673640 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861E10423D7F71400673640 /* AppDelegate.swift */; };
-		1861E10923D7F71400673640 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861E10823D7F71400673640 /* ViewController.swift */; };
+		1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861E10823D7F71400673640 /* PersonalViewController.swift */; };
 		1861E10C23D7F71400673640 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1861E10A23D7F71400673640 /* Main.storyboard */; };
 		1861E10E23D7F71500673640 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1861E10D23D7F71500673640 /* Assets.xcassets */; };
 		1861E11123D7F71500673640 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1861E10F23D7F71500673640 /* LaunchScreen.storyboard */; };
 		1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1861E11823D816C700673640 /* GoogleService-Info.plist */; };
+		18AD1F3B23DB4A3F00C75504 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18AD1F3A23DB4A3F00C75504 /* Login.storyboard */; };
+		18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */; };
+		18AD1F3F23DB4AF600C75504 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F3E23DB4AF600C75504 /* RegisterViewController.swift */; };
+		18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */; };
 		85E28742B6924B98277E4719 /* Pods_Project_Butler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7B481A550B741A992B2F45 /* Pods_Project_Butler.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1861E10123D7F71400673640 /* Project Butler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project Butler.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1861E10423D7F71400673640 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1861E10823D7F71400673640 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1861E10823D7F71400673640 /* PersonalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalViewController.swift; sourceTree = "<group>"; };
 		1861E10B23D7F71400673640 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1861E10D23D7F71500673640 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1861E11023D7F71500673640 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1861E11223D7F71500673640 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1861E11823D816C700673640 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		18AD1F3A23DB4A3F00C75504 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		18AD1F3E23DB4AF600C75504 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ResetPasswordViewController.swift; path = "/Users/apple/Desktop/Project Butler/Project Butler/Controller/ResetPasswordViewController.swift"; sourceTree = "<absolute>"; };
 		31E235C089173A4059097F39 /* Pods-Project Butler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project Butler.debug.xcconfig"; path = "Target Support Files/Pods-Project Butler/Pods-Project Butler.debug.xcconfig"; sourceTree = "<group>"; };
 		DB7B481A550B741A992B2F45 /* Pods_Project_Butler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Project_Butler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9C9CB790BEC62E7D28C9D75 /* Pods-Project Butler.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project Butler.release.xcconfig"; path = "Target Support Files/Pods-Project Butler/Pods-Project Butler.release.xcconfig"; sourceTree = "<group>"; };
@@ -64,6 +72,8 @@
 			isa = PBXGroup;
 			children = (
 				1861E10423D7F71400673640 /* AppDelegate.swift */,
+				1885EE6B23DA9B29005A4835 /* Third Party Wapper */,
+				1885EE6C23DABDAE005A4835 /* Extension */,
 				1861E11D23D82E3800673640 /* Resource */,
 				1861E11A23D82DB900673640 /* Model */,
 				1861E11C23D82E1500673640 /* View */,
@@ -84,7 +94,10 @@
 		1861E11B23D82E0600673640 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				1861E10823D7F71400673640 /* ViewController.swift */,
+				1861E10823D7F71400673640 /* PersonalViewController.swift */,
+				18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */,
+				18AD1F3E23DB4AF600C75504 /* RegisterViewController.swift */,
+				18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -93,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				1861E10A23D7F71400673640 /* Main.storyboard */,
+				18AD1F3A23DB4A3F00C75504 /* Login.storyboard */,
 				1861E10F23D7F71500673640 /* LaunchScreen.storyboard */,
 			);
 			path = View;
@@ -104,6 +118,20 @@
 				1861E10D23D7F71500673640 /* Assets.xcassets */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		1885EE6B23DA9B29005A4835 /* Third Party Wapper */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Third Party Wapper";
+			sourceTree = "<group>";
+		};
+		1885EE6C23DABDAE005A4835 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		457B2D8672F8B072CD41852A /* Frameworks */ = {
@@ -186,6 +214,7 @@
 				1861E11123D7F71500673640 /* LaunchScreen.storyboard in Resources */,
 				1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */,
 				1861E10E23D7F71500673640 /* Assets.xcassets in Resources */,
+				18AD1F3B23DB4A3F00C75504 /* Login.storyboard in Resources */,
 				1861E10C23D7F71400673640 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -239,8 +268,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1861E10923D7F71400673640 /* ViewController.swift in Sources */,
+				18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */,
+				1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */,
+				18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */,
 				1861E10523D7F71400673640 /* AppDelegate.swift in Sources */,
+				18AD1F3F23DB4AF600C75504 /* RegisterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
