@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Register View Controller-->
+        <!--Signup View Controller-->
         <scene sceneID="g9O-MH-sJ6">
             <objects>
-                <viewController id="d4N-tP-KVN" customClass="RegisterViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="d4N-tP-KVN" customClass="SignupViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Xa4-nX-ggE">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
