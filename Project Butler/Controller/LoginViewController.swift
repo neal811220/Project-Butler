@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FacebookLogin
+import Firebase
 
 class LoginViewController: UIViewController {
 
@@ -34,6 +36,33 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func pressedFacebookLogin(_ sender: UIButton) {
+        
+        let manager = LoginManager()
+        
+        manager.logIn(permissions: [.email], viewController: self) { (result) in
+            
+            if case LoginResult.success(granted: _, declined: _, token: _) = result {
+                print("login ok")
+                
+                guard let tokenString = AccessToken.current?.tokenString else { return }
+                
+                let credential = FacebookAuthProvider.credential(withAccessToken: tokenString)
+                print(credential)
+                Auth.auth().signIn(with: credential) { [weak self] (result, error) in
+                    
+                    guard let self = self else { return }
+
+                    guard error == nil else {
+                        print(error?.localizedDescription)
+                        return
+                    }
+                    self.dismiss(animated: true, completion: nil)
+                    print("FBLogin Success")
+                }
+            } else {
+                print("login fail")
+            }
+        }
     }
     
     @IBAction func pressedGoogleLogin(_ sender: UIButton) {
