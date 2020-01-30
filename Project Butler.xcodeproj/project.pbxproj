@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		182A42F023E305D6002D8013 /* Personal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 182A42EF23E305D6002D8013 /* Personal.storyboard */; };
+		182A42F223E3079C002D8013 /* NewProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182A42F123E3079C002D8013 /* NewProjectViewController.swift */; };
 		1861E10523D7F71400673640 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861E10423D7F71400673640 /* AppDelegate.swift */; };
 		1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861E10823D7F71400673640 /* PersonalViewController.swift */; };
 		1861E10C23D7F71400673640 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1861E10A23D7F71400673640 /* Main.storyboard */; };
@@ -23,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		182A42EF23E305D6002D8013 /* Personal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Personal.storyboard; sourceTree = "<group>"; };
+		182A42F123E3079C002D8013 /* NewProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectViewController.swift; sourceTree = "<group>"; };
 		1861E10123D7F71400673640 /* Project Butler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project Butler.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1861E10423D7F71400673640 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1861E10823D7F71400673640 /* PersonalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalViewController.swift; sourceTree = "<group>"; };
@@ -54,6 +58,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		182A42F323E307AF002D8013 /* Personal */ = {
+			isa = PBXGroup;
+			children = (
+				1861E10823D7F71400673640 /* PersonalViewController.swift */,
+				182A42F123E3079C002D8013 /* NewProjectViewController.swift */,
+			);
+			path = Personal;
+			sourceTree = "<group>";
+		};
+		182A42F423E307C5002D8013 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */,
+				18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */,
+				18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		1861E0F823D7F71400673640 = {
 			isa = PBXGroup;
 			children = (
@@ -98,10 +121,8 @@
 		1861E11B23D82E0600673640 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				1861E10823D7F71400673640 /* PersonalViewController.swift */,
-				18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */,
-				18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */,
-				18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */,
+				182A42F323E307AF002D8013 /* Personal */,
+				182A42F423E307C5002D8013 /* Login */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -111,6 +132,7 @@
 			children = (
 				1861E10A23D7F71400673640 /* Main.storyboard */,
 				18AD1F3A23DB4A3F00C75504 /* Login.storyboard */,
+				182A42EF23E305D6002D8013 /* Personal.storyboard */,
 				1861E10F23D7F71500673640 /* LaunchScreen.storyboard */,
 			);
 			path = View;
@@ -223,6 +245,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				182A42F023E305D6002D8013 /* Personal.storyboard in Resources */,
 				1861E11123D7F71500673640 /* LaunchScreen.storyboard in Resources */,
 				1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */,
 				1861E10E23D7F71500673640 /* Assets.xcassets in Resources */,
@@ -300,6 +323,7 @@
 				18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */,
 				18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */,
 				1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */,
+				182A42F223E3079C002D8013 /* NewProjectViewController.swift in Sources */,
 				18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */,
 				1861E10523D7F71400673640 /* AppDelegate.swift in Sources */,
 				18AD1F3F23DB4AF600C75504 /* SignupViewController.swift in Sources */,
