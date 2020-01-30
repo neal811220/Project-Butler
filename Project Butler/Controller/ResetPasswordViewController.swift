@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ResetPasswordViewController: UIViewController, UITextFieldDelegate {
 
@@ -17,12 +18,32 @@ class ResetPasswordViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         resetButton.layer.cornerRadius = 28
+        
+        resetPasswordEmail.delegate = self
         // Do any additional setup after loading the view.
     }
     
     @IBAction func pressedreset(_ sender: UIButton) {
         
         if resetPasswordEmail.text == "" {
+            
+            PBProgressHUD.showFailure(text: "Please enter an email", viewController: self)
+            
+        } else {
+            
+            Auth.auth().sendPasswordReset(withEmail: resetPasswordEmail.text!) { (error) in
+                
+                if error != nil {
+                    PBProgressHUD.showFailure(text: "\(error?.localizedDescription ?? "Error")", viewController: self)
+                } else {
+                    
+                    PBProgressHUD.showSuccess(text: "Send successfully, please reset your password by email", viewController: self)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+            }
             
         }
     }

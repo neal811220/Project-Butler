@@ -19,7 +19,14 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         signupButton.layer.cornerRadius = 28
+        
+        signupEmail.delegate = self
+        
+        signupPassword.delegate = self
+        
+        signupConfirmPassword.delegate = self
         // Do any additional setup after loading the view.
     }
     
@@ -30,6 +37,10 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                 Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
                     guard error == nil else { return PBProgressHUD.showFailure(text: "\(error!.localizedDescription)", viewController: self)}
                     PBProgressHUD.showSuccess(text: "Sign up Success!", viewController: self)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+                        self.dismiss(animated: true, completion: nil)
+                    }
                 }
             } else{
                 PBProgressHUD.showFailure(text: "Password Not Match!", viewController: self)
