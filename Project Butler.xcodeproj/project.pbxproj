@@ -3,27 +3,46 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		182A42F023E305D6002D8013 /* Personal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 182A42EF23E305D6002D8013 /* Personal.storyboard */; };
+		182A42F223E3079C002D8013 /* NewProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182A42F123E3079C002D8013 /* NewProjectViewController.swift */; };
 		1861E10523D7F71400673640 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861E10423D7F71400673640 /* AppDelegate.swift */; };
-		1861E10723D7F71400673640 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861E10623D7F71400673640 /* SceneDelegate.swift */; };
-		1861E10923D7F71400673640 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861E10823D7F71400673640 /* ViewController.swift */; };
+		1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861E10823D7F71400673640 /* PersonalViewController.swift */; };
 		1861E10C23D7F71400673640 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1861E10A23D7F71400673640 /* Main.storyboard */; };
 		1861E10E23D7F71500673640 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1861E10D23D7F71500673640 /* Assets.xcassets */; };
 		1861E11123D7F71500673640 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1861E10F23D7F71500673640 /* LaunchScreen.storyboard */; };
+		1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1861E11823D816C700673640 /* GoogleService-Info.plist */; };
+		18AD1F3B23DB4A3F00C75504 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18AD1F3A23DB4A3F00C75504 /* Login.storyboard */; };
+		18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */; };
+		18AD1F3F23DB4AF600C75504 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */; };
+		18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */; };
+		18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */; };
+		18FFB56523E175E2004B43C0 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 18FFB56423E175E2004B43C0 /* FacebookLogin */; };
+		85E28742B6924B98277E4719 /* Pods_Project_Butler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7B481A550B741A992B2F45 /* Pods_Project_Butler.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		182A42EF23E305D6002D8013 /* Personal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Personal.storyboard; sourceTree = "<group>"; };
+		182A42F123E3079C002D8013 /* NewProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectViewController.swift; sourceTree = "<group>"; };
 		1861E10123D7F71400673640 /* Project Butler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project Butler.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1861E10423D7F71400673640 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1861E10623D7F71400673640 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1861E10823D7F71400673640 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1861E10823D7F71400673640 /* PersonalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalViewController.swift; sourceTree = "<group>"; };
 		1861E10B23D7F71400673640 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1861E10D23D7F71500673640 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1861E11023D7F71500673640 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1861E11223D7F71500673640 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1861E11823D816C700673640 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		18AD1F3A23DB4A3F00C75504 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ResetPasswordViewController.swift; path = "/Users/apple/Desktop/Project Butler/Project Butler/Controller/ResetPasswordViewController.swift"; sourceTree = "<absolute>"; };
+		18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWapper.swift; sourceTree = "<group>"; };
+		31E235C089173A4059097F39 /* Pods-Project Butler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project Butler.debug.xcconfig"; path = "Target Support Files/Pods-Project Butler/Pods-Project Butler.debug.xcconfig"; sourceTree = "<group>"; };
+		DB7B481A550B741A992B2F45 /* Pods_Project_Butler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Project_Butler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9C9CB790BEC62E7D28C9D75 /* Pods-Project Butler.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project Butler.release.xcconfig"; path = "Target Support Files/Pods-Project Butler/Pods-Project Butler.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +50,40 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18FFB56523E175E2004B43C0 /* FacebookLogin in Frameworks */,
+				85E28742B6924B98277E4719 /* Pods_Project_Butler.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		182A42F323E307AF002D8013 /* Personal */ = {
+			isa = PBXGroup;
+			children = (
+				1861E10823D7F71400673640 /* PersonalViewController.swift */,
+				182A42F123E3079C002D8013 /* NewProjectViewController.swift */,
+			);
+			path = Personal;
+			sourceTree = "<group>";
+		};
+		182A42F423E307C5002D8013 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */,
+				18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */,
+				18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		1861E0F823D7F71400673640 = {
 			isa = PBXGroup;
 			children = (
 				1861E10323D7F71400673640 /* Project Butler */,
 				1861E10223D7F71400673640 /* Products */,
+				7DD6E061D3FB32A47030AF93 /* Pods */,
+				457B2D8672F8B072CD41852A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,14 +99,83 @@
 			isa = PBXGroup;
 			children = (
 				1861E10423D7F71400673640 /* AppDelegate.swift */,
-				1861E10623D7F71400673640 /* SceneDelegate.swift */,
-				1861E10823D7F71400673640 /* ViewController.swift */,
-				1861E10A23D7F71400673640 /* Main.storyboard */,
-				1861E10D23D7F71500673640 /* Assets.xcassets */,
-				1861E10F23D7F71500673640 /* LaunchScreen.storyboard */,
+				1885EE6B23DA9B29005A4835 /* Third Party Wapper */,
+				1885EE6C23DABDAE005A4835 /* Extension */,
+				1861E11D23D82E3800673640 /* Resource */,
+				1861E11A23D82DB900673640 /* Model */,
+				1861E11C23D82E1500673640 /* View */,
+				1861E11B23D82E0600673640 /* Controller */,
 				1861E11223D7F71500673640 /* Info.plist */,
+				1861E11823D816C700673640 /* GoogleService-Info.plist */,
 			);
 			path = "Project Butler";
+			sourceTree = "<group>";
+		};
+		1861E11A23D82DB900673640 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1861E11B23D82E0600673640 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				182A42F323E307AF002D8013 /* Personal */,
+				182A42F423E307C5002D8013 /* Login */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		1861E11C23D82E1500673640 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1861E10A23D7F71400673640 /* Main.storyboard */,
+				18AD1F3A23DB4A3F00C75504 /* Login.storyboard */,
+				182A42EF23E305D6002D8013 /* Personal.storyboard */,
+				1861E10F23D7F71500673640 /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1861E11D23D82E3800673640 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				1861E10D23D7F71500673640 /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		1885EE6B23DA9B29005A4835 /* Third Party Wapper */ = {
+			isa = PBXGroup;
+			children = (
+				18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */,
+			);
+			path = "Third Party Wapper";
+			sourceTree = "<group>";
+		};
+		1885EE6C23DABDAE005A4835 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		457B2D8672F8B072CD41852A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DB7B481A550B741A992B2F45 /* Pods_Project_Butler.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7DD6E061D3FB32A47030AF93 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				31E235C089173A4059097F39 /* Pods-Project Butler.debug.xcconfig */,
+				E9C9CB790BEC62E7D28C9D75 /* Pods-Project Butler.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,15 +185,21 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1861E11523D7F71500673640 /* Build configuration list for PBXNativeTarget "Project Butler" */;
 			buildPhases = (
+				6E6DC7327D371D5A4E563ECF /* [CP] Check Pods Manifest.lock */,
 				1861E0FD23D7F71400673640 /* Sources */,
 				1861E0FE23D7F71400673640 /* Frameworks */,
 				1861E0FF23D7F71400673640 /* Resources */,
+				BB09A2514DAD9A73DFAAD469 /* [CP] Embed Pods Frameworks */,
+				15F5903466A5945554944ED7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "Project Butler";
+			packageProductDependencies = (
+				18FFB56423E175E2004B43C0 /* FacebookLogin */,
+			);
 			productName = "Project Butler";
 			productReference = 1861E10123D7F71400673640 /* Project Butler.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +228,9 @@
 				Base,
 			);
 			mainGroup = 1861E0F823D7F71400673640;
+			packageReferences = (
+				18FFB56323E175E2004B43C0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+			);
 			productRefGroup = 1861E10223D7F71400673640 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -125,22 +245,88 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				182A42F023E305D6002D8013 /* Personal.storyboard in Resources */,
 				1861E11123D7F71500673640 /* LaunchScreen.storyboard in Resources */,
+				1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */,
 				1861E10E23D7F71500673640 /* Assets.xcassets in Resources */,
+				18AD1F3B23DB4A3F00C75504 /* Login.storyboard in Resources */,
 				1861E10C23D7F71400673640 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		15F5903466A5945554944ED7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Project Butler/Pods-Project Butler-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Project Butler/Pods-Project Butler-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Project Butler/Pods-Project Butler-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6E6DC7327D371D5A4E563ECF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Project Butler-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BB09A2514DAD9A73DFAAD469 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Project Butler/Pods-Project Butler-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Project Butler/Pods-Project Butler-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Project Butler/Pods-Project Butler-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1861E0FD23D7F71400673640 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1861E10923D7F71400673640 /* ViewController.swift in Sources */,
+				18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */,
+				18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */,
+				1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */,
+				182A42F223E3079C002D8013 /* NewProjectViewController.swift in Sources */,
+				18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */,
 				1861E10523D7F71400673640 /* AppDelegate.swift in Sources */,
-				1861E10723D7F71400673640 /* SceneDelegate.swift in Sources */,
+				18AD1F3F23DB4AF600C75504 /* SignupViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +468,7 @@
 		};
 		1861E11623D7F71500673640 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 31E235C089173A4059097F39 /* Pods-Project Butler.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -300,6 +487,7 @@
 		};
 		1861E11723D7F71500673640 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E9C9CB790BEC62E7D28C9D75 /* Pods-Project Butler.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -338,6 +526,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		18FFB56323E175E2004B43C0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.15.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		18FFB56423E175E2004B43C0 /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 18FFB56323E175E2004B43C0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1861E0F923D7F71400673640 /* Project object */;
 }
