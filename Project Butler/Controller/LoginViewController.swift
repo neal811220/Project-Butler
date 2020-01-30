@@ -11,7 +11,7 @@ import FacebookLogin
 import Firebase
 import GoogleSignIn
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var userEmailTextField: UITextField!
     
@@ -35,6 +35,10 @@ class LoginViewController: UIViewController {
         facebookButton.layer.cornerRadius = 20
         
         googleButton.layer.cornerRadius = 20
+        
+        userEmailTextField.delegate = self
+        
+        passwordTextField.delegate = self
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
         
@@ -69,7 +73,7 @@ class LoginViewController: UIViewController {
                     
                     guard error == nil else {
                         
-                        print(error?.localizedDescription)
+                        print(error!.localizedDescription)
                         
                         return
                     }
@@ -88,6 +92,16 @@ class LoginViewController: UIViewController {
         
         GIDSignIn.sharedInstance().signIn()
         
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        self.view.endEditing(true)
     }
     
 }

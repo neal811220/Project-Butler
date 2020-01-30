@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ResetPasswordViewController: UIViewController {
+class ResetPasswordViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var resetPasswordEmail: UITextField!
     
@@ -22,20 +22,23 @@ class ResetPasswordViewController: UIViewController {
     
     @IBAction func pressedreset(_ sender: UIButton) {
         
+        if resetPasswordEmail.text == "" {
+            
+        }
     }
     
     @IBAction func skip(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+           textField.resignFirstResponder()
+           return true
+       }
+       
+       override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+           
+           self.view.endEditing(true)
+       }
+    
 }

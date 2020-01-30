@@ -130,7 +130,7 @@
                                     <constraint firstAttribute="height" constant="1" id="BLr-4p-aWN"/>
                                 </constraints>
                             </view>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qpv-MA-UZF">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Qpv-MA-UZF">
                                 <rect key="frame" x="37" y="448" width="340" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="h22-Do-uZB"/>
@@ -517,7 +517,7 @@
                                     <constraint firstAttribute="height" constant="1" id="X5H-Ln-CZ4"/>
                                 </constraints>
                             </view>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tO2-Fa-BGN">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="tO2-Fa-BGN">
                                 <rect key="frame" x="37" y="311.5" width="340" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="uC5-lk-Lx1"/>

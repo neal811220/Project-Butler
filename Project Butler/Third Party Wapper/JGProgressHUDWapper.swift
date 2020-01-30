@@ -29,13 +29,13 @@ class PBProgressHUD {
 
     }
 
-    static func showSuccess(text: String = "Success") {
+    static func showSuccess(text: String = "Success", viewController: UIViewController) {
 
         if !Thread.isMainThread {
 
             DispatchQueue.main.async {
 
-                showSuccess(text: text)
+                showSuccess(text: text, viewController: viewController)
             }
             return
         }
@@ -44,17 +44,17 @@ class PBProgressHUD {
 
         shared.hud.indicatorView = JGProgressHUDSuccessIndicatorView()
 
-        shared.hud.show(in: shared.view)
+        shared.hud.show(in: viewController.view)
 
         shared.hud.dismiss(afterDelay: 1.5)
     }
 
-    static func showFailure(text: String = "Failure") {
+    static func showFailure(text: String = "Failure", viewController: UIViewController) {
 
            if !Thread.isMainThread {
 
                DispatchQueue.main.async {
-                   showFailure(text: text)
+                showFailure(text: text, viewController: viewController)
                }
 
                return
@@ -64,7 +64,7 @@ class PBProgressHUD {
 
            shared.hud.indicatorView = JGProgressHUDErrorIndicatorView()
 
-           shared.hud.show(in: shared.view)
+           shared.hud.show(in: viewController.view)
 
            shared.hud.dismiss(afterDelay: 1.5)
        }

@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import JGProgressHUD
 
-class SignupViewController: UIViewController {
+class SignupViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var signupEmail: UITextField!
     @IBOutlet weak var signupPassword: UITextField!
@@ -28,49 +28,28 @@ class SignupViewController: UIViewController {
         if let email = signupEmail.text, let password = signupPassword.text, let confirm = signupConfirmPassword.text, email != "", password != "", confirm != "" {
             if password == confirm {
                 Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
-                    guard error == nil else { return self.errorHUD(text: "\(error!.localizedDescription)")}
-                    self.successHUD(text: "Signup Success!")
+                    guard error == nil else { return PBProgressHUD.showFailure(text: "\(error!.localizedDescription)", viewController: self)}
+                    PBProgressHUD.showSuccess(text: "Sign up Success!", viewController: self)
                 }
             } else{
-                self.errorHUD(text: "Password not match!")
+                PBProgressHUD.showFailure(text: "Password Not Match!", viewController: self)
             }
         } else {
-            self.errorHUD(text: "Input Wrong!")
+            PBProgressHUD.showFailure(text: "Input Worng!", viewController: self)
         }
     }
     @IBAction func skip(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
     
-    func successHUD(text: String) {
-        
-        let hud = JGProgressHUD(style: .dark)
-        
-        hud.textLabel.text = text
-        
-        hud.indicatorView = JGProgressHUDSuccessIndicatorView()
-        
-        hud.show(in: self.view, animated: true)
-        
-        hud.dismiss(afterDelay: 2)
-        
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-            self.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    func errorHUD(text: String) {
-        
-        let hud = JGProgressHUD(style: .dark)
-        
-        hud.textLabel.text = text
-        
-        hud.indicatorView = JGProgressHUDErrorIndicatorView()
-        
-        hud.show(in: self.view, animated: true)
-        
-        hud.dismiss(afterDelay: 2.0)
-        
-    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+           textField.resignFirstResponder()
+           return true
+       }
+       
+       override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+           
+           self.view.endEditing(true)
+       }
     
 }
