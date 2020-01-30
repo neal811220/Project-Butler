@@ -1,0 +1,6 @@
+framework module Pods_Project_Butler {
+  umbrella header "Pods-Project Butler-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1051253402749-77q5l1l6t8fvqd1vo7pvt06v0q8iflj9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1051253402749-77q5l1l6t8fvqd1vo7pvt06v0q8iflj9</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBO5HFrUhrXyHnWO8w8SRafZY-BMFW3N8g</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1051253402749</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.neal811220.Project-Butler</string>
+	<key>PROJECT_ID</key>
+	<string>project-butler-b950b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>project-butler-b950b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1051253402749:ios:6771b8f477f3dc3a24d514</string>
+	<key>DATABASE_URL</key>
+	<string>https://project-butler-b950b.firebaseio.com</string>
+</dict>
+</plist>
