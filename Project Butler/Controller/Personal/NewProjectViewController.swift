@@ -27,13 +27,13 @@ class NewProjectViewController: UIViewController {
         super.viewDidLoad()
         backgroundView.layer.cornerRadius = 60
         
-        setButtonInfo(button: projectLeaderfButton)
+        settingButtonInfo(button: projectLeaderfButton)
         
-        setButtonInfo(button: dateButton)
+        settingButtonInfo(button: dateButton)
         
-        setButtonInfo(button: memberButton)
+        settingButtonInfo(button: memberButton)
         
-        setButtonInfo(button: workItemButton)
+        settingButtonInfo(button: workItemButton)
         
         workItemTableView.dataSource = self
         
@@ -41,10 +41,16 @@ class NewProjectViewController: UIViewController {
         
         cellBackgroundView.backgroundColor = UIColor.clear
         
+        self.navigationItem.title = "New Project"
+        
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 23/255, green: 61/255, blue: 160/255, alpha: 1.0)]
+        
         // Do any additional setup after loading the view.
     }
     
-    func setButtonInfo(button: UIButton) {
+    func settingButtonInfo(button: UIButton) {
         
         button.layer.shadowOpacity = 0.5
         
