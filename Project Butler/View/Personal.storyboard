@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AsF-JY-srg">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
@@ -10,18 +10,275 @@
         <!--New Project View Controller-->
         <scene sceneID="EQ1-aq-Dls">
             <objects>
-                <viewController id="G4a-WX-T2V" customClass="NewProjectViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewProjectPage" id="G4a-WX-T2V" customClass="NewProjectViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="50L-L5-f3f">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jfg-pd-64h">
+                                <rect key="frame" x="0.0" y="194" width="414" height="702"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icons_32px_ProjectName" translatesAutoresizingMaskIntoConstraints="NO" id="MUL-Fo-20E">
+                                        <rect key="frame" x="49" y="63" width="35" height="35"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="fyp-ZT-SMg"/>
+                                            <constraint firstAttribute="width" constant="35" id="or5-Y5-Jje"/>
+                                        </constraints>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5NL-ut-yEP">
+                                        <rect key="frame" x="102" y="52" width="1" height="70"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="1" id="iHi-gE-Xco"/>
+                                            <constraint firstAttribute="height" constant="70" id="tQN-PT-Oxk"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="APL-2K-8IZ">
+                                        <rect key="frame" x="121" y="51" width="131" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="2lF-fg-0uc"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
+                                        <color key="textColor" red="0.42792624235153198" green="0.4466022253036499" blue="0.47059226036071777" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Hello" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="12T-LW-a1J">
+                                        <rect key="frame" x="121" y="80" width="275" height="34"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="mM7-iD-j7g"/>
+                                        </constraints>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uYW-OP-0zU">
+                                        <rect key="frame" x="30" y="122" width="354" height="1"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="b55-CD-kWO"/>
+                                        </constraints>
+                                    </view>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="Icons_32px_Leader" translatesAutoresizingMaskIntoConstraints="NO" id="P9b-0a-EhT">
+                                        <rect key="frame" x="49" y="193" width="35" height="35"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="35" id="K3Q-hJ-Ck2"/>
+                                            <constraint firstAttribute="height" constant="35" id="UNr-qG-kFo"/>
+                                        </constraints>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wDr-dV-UnG">
+                                        <rect key="frame" x="102" y="182" width="1" height="70"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="1" id="Bvu-wA-cOa"/>
+                                            <constraint firstAttribute="height" constant="70" id="I8f-DA-4ix"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Project Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jzu-ax-PJm">
+                                        <rect key="frame" x="121" y="181" width="131" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="Rpo-z5-kDI"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
+                                        <color key="textColor" red="0.42792624239999999" green="0.44660222529999999" blue="0.47059226040000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Hello" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bpd-vq-rM2">
+                                        <rect key="frame" x="121" y="210" width="275" height="34"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="Y3O-lt-Lky"/>
+                                        </constraints>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z1N-4l-YKs">
+                                        <rect key="frame" x="30" y="252" width="354" height="1"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="3d0-9c-Efi"/>
+                                        </constraints>
+                                    </view>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="Icons_32px_Calendar" translatesAutoresizingMaskIntoConstraints="NO" id="YYc-BN-CWz">
+                                        <rect key="frame" x="49" y="311" width="35" height="35"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="35" id="t5D-tK-K1h"/>
+                                            <constraint firstAttribute="height" constant="35" id="tpL-4y-Doe"/>
+                                        </constraints>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pgE-sx-kzY">
+                                        <rect key="frame" x="102" y="300" width="1" height="70"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="1" id="17T-bG-bYo"/>
+                                            <constraint firstAttribute="height" constant="70" id="eDw-tx-qpC"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Project Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Btu-eJ-Zfy">
+                                        <rect key="frame" x="121" y="299" width="131" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="2Io-xl-pgx"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
+                                        <color key="textColor" red="0.42792624239999999" green="0.44660222529999999" blue="0.47059226040000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Hello" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mbt-dC-Rej">
+                                        <rect key="frame" x="121" y="328" width="275" height="34"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="oBW-Wm-HHu"/>
+                                        </constraints>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HWm-TT-ygY">
+                                        <rect key="frame" x="30" y="370" width="354" height="1"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="xxZ-0F-fKJ"/>
+                                        </constraints>
+                                    </view>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="Icons_32px_Member" translatesAutoresizingMaskIntoConstraints="NO" id="KYR-0S-sBv">
+                                        <rect key="frame" x="49" y="410" width="35" height="35"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="35" id="Vz9-rY-SXw"/>
+                                            <constraint firstAttribute="height" constant="35" id="lqf-Vi-bg9"/>
+                                        </constraints>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HcN-oU-ZM0">
+                                        <rect key="frame" x="102" y="399" width="1" height="70"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="70" id="K54-N4-AaL"/>
+                                            <constraint firstAttribute="width" constant="1" id="M6m-gC-d7h"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Project Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gvb-2o-eUi">
+                                        <rect key="frame" x="121" y="398" width="131" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="thE-MT-l4H"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
+                                        <color key="textColor" red="0.42792624239999999" green="0.44660222529999999" blue="0.47059226040000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Hello" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qfv-Kk-wv9">
+                                        <rect key="frame" x="121" y="427" width="275" height="34"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="FOs-dg-Oda"/>
+                                        </constraints>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RfW-XW-Xio">
+                                        <rect key="frame" x="30" y="469" width="354" height="1"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="JlS-3Y-l9O"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="0.50718551874160767" green="0.80668848752975464" blue="0.61566150188446045" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstItem="HcN-oU-ZM0" firstAttribute="leading" secondItem="KYR-0S-sBv" secondAttribute="trailing" constant="18" id="2KR-AP-XBf"/>
+                                    <constraint firstItem="Mbt-dC-Rej" firstAttribute="leading" secondItem="pgE-sx-kzY" secondAttribute="trailing" constant="18" id="3lk-6g-FKO"/>
+                                    <constraint firstItem="uYW-OP-0zU" firstAttribute="top" secondItem="5NL-ut-yEP" secondAttribute="bottom" id="5HN-Hi-ywU"/>
+                                    <constraint firstItem="Z1N-4l-YKs" firstAttribute="top" secondItem="wDr-dV-UnG" secondAttribute="bottom" id="6cN-oN-IE3"/>
+                                    <constraint firstItem="MUL-Fo-20E" firstAttribute="top" secondItem="jfg-pd-64h" secondAttribute="top" constant="63" id="6ks-4g-pOM"/>
+                                    <constraint firstItem="12T-LW-a1J" firstAttribute="top" secondItem="APL-2K-8IZ" secondAttribute="bottom" constant="8" id="FuX-wT-TZ8"/>
+                                    <constraint firstItem="APL-2K-8IZ" firstAttribute="leading" secondItem="5NL-ut-yEP" secondAttribute="trailing" constant="18" id="Hcy-6I-FGf"/>
+                                    <constraint firstItem="bpd-vq-rM2" firstAttribute="top" secondItem="jzu-ax-PJm" secondAttribute="bottom" constant="8" id="IkD-bg-vzD"/>
+                                    <constraint firstItem="HWm-TT-ygY" firstAttribute="top" secondItem="pgE-sx-kzY" secondAttribute="bottom" id="JZe-tR-QCL"/>
+                                    <constraint firstItem="MUL-Fo-20E" firstAttribute="leading" secondItem="jfg-pd-64h" secondAttribute="leading" constant="49" id="LL3-TG-PIi"/>
+                                    <constraint firstItem="12T-LW-a1J" firstAttribute="leading" secondItem="5NL-ut-yEP" secondAttribute="trailing" constant="18" id="M1c-cr-W4m"/>
+                                    <constraint firstItem="jzu-ax-PJm" firstAttribute="leading" secondItem="wDr-dV-UnG" secondAttribute="trailing" constant="18" id="Mt4-KI-TNi"/>
+                                    <constraint firstAttribute="trailing" secondItem="uYW-OP-0zU" secondAttribute="trailing" constant="30" id="Nxb-DM-Ld9"/>
+                                    <constraint firstAttribute="trailing" secondItem="12T-LW-a1J" secondAttribute="trailing" constant="18" id="Q1r-ds-3wk"/>
+                                    <constraint firstItem="RfW-XW-Xio" firstAttribute="top" secondItem="HcN-oU-ZM0" secondAttribute="bottom" id="QzD-21-55a"/>
+                                    <constraint firstItem="pgE-sx-kzY" firstAttribute="leading" secondItem="YYc-BN-CWz" secondAttribute="trailing" constant="18" id="Yza-1F-CqG"/>
+                                    <constraint firstItem="Gvb-2o-eUi" firstAttribute="leading" secondItem="HcN-oU-ZM0" secondAttribute="trailing" constant="18" id="dYF-bg-Afy"/>
+                                    <constraint firstItem="Mbt-dC-Rej" firstAttribute="top" secondItem="Btu-eJ-Zfy" secondAttribute="bottom" constant="8" id="gvf-OV-sss"/>
+                                    <constraint firstItem="bpd-vq-rM2" firstAttribute="leading" secondItem="wDr-dV-UnG" secondAttribute="trailing" constant="18" id="jH4-lC-2fu"/>
+                                    <constraint firstItem="wDr-dV-UnG" firstAttribute="leading" secondItem="P9b-0a-EhT" secondAttribute="trailing" constant="18" id="jMh-4N-yzd"/>
+                                    <constraint firstItem="5NL-ut-yEP" firstAttribute="leading" secondItem="MUL-Fo-20E" secondAttribute="trailing" constant="18" id="lJZ-uz-cLM"/>
+                                    <constraint firstItem="uYW-OP-0zU" firstAttribute="leading" secondItem="jfg-pd-64h" secondAttribute="leading" constant="30" id="m9q-1t-pdP"/>
+                                    <constraint firstItem="qfv-Kk-wv9" firstAttribute="top" secondItem="Gvb-2o-eUi" secondAttribute="bottom" constant="8" id="njM-HI-Yxg"/>
+                                    <constraint firstAttribute="trailing" secondItem="APL-2K-8IZ" secondAttribute="trailing" constant="162" id="oXf-qR-Y5e"/>
+                                    <constraint firstItem="5NL-ut-yEP" firstAttribute="top" secondItem="jfg-pd-64h" secondAttribute="top" constant="52" id="uX4-Ug-09O"/>
+                                    <constraint firstItem="APL-2K-8IZ" firstAttribute="top" secondItem="jfg-pd-64h" secondAttribute="top" constant="51" id="xTJ-kt-g2m"/>
+                                    <constraint firstItem="qfv-Kk-wv9" firstAttribute="leading" secondItem="HcN-oU-ZM0" secondAttribute="trailing" constant="18" id="yez-G4-sxz"/>
+                                    <constraint firstItem="Btu-eJ-Zfy" firstAttribute="leading" secondItem="pgE-sx-kzY" secondAttribute="trailing" constant="18" id="yjE-pi-A93"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="jfg-pd-64h" firstAttribute="top" secondItem="NWc-84-6ic" secondAttribute="top" constant="150" id="HbA-Ne-E4X"/>
+                            <constraint firstItem="jfg-pd-64h" firstAttribute="trailing" secondItem="NWc-84-6ic" secondAttribute="trailing" id="MVJ-cm-ntd"/>
+                            <constraint firstItem="jfg-pd-64h" firstAttribute="leading" secondItem="NWc-84-6ic" secondAttribute="leading" id="Ret-iA-P5f"/>
+                            <constraint firstAttribute="bottom" secondItem="jfg-pd-64h" secondAttribute="bottom" id="iZ1-JZ-e3d"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="NWc-84-6ic"/>
                     </view>
                     <navigationItem key="navigationItem" id="Jpd-yg-hjw"/>
+                    <connections>
+                        <outlet property="backgroundView" destination="jfg-pd-64h" id="fj0-im-AEb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fzd-eO-ZL5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="986.95652173913049" y="221.65178571428569"/>
+            <point key="canvasLocation" x="1897.1014492753625" y="221.65178571428569"/>
+        </scene>
+        <!--Personal View Controller-->
+        <scene sceneID="xOU-YP-2t3">
+            <objects>
+                <viewController id="qDL-5j-jSj" customClass="PersonalViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PMr-gM-BXr">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sXq-2S-9cQ">
+                                <rect key="frame" x="184" y="433" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="LoginButton:" destination="qDL-5j-jSj" eventType="touchUpInside" id="gXj-IX-9jN"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="mZ5-PI-SKy"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="33w-GB-HxV"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DC1-Cr-cZq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1028.985507246377" y="221.65178571428569"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="7tV-sZ-L77">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AsF-JY-srg" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="icS-nM-OuA">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="qDL-5j-jSj" kind="relationship" relationship="rootViewController" id="VYK-El-K2F"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gsQ-DQ-1Js" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="118.84057971014494" y="221.65178571428569"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Icons_32px_Calendar" width="32" height="32"/>
+        <image name="Icons_32px_Leader" width="32" height="32"/>
+        <image name="Icons_32px_Member" width="32" height="32"/>
+        <image name="Icons_32px_ProjectName" width="32" height="32"/>
+    </resources>
 </document>

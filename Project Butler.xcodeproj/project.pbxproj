@@ -15,6 +15,15 @@
 		1861E10E23D7F71500673640 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1861E10D23D7F71500673640 /* Assets.xcassets */; };
 		1861E11123D7F71500673640 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1861E10F23D7F71500673640 /* LaunchScreen.storyboard */; };
 		1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1861E11823D816C700673640 /* GoogleService-Info.plist */; };
+		1895D75123E3C51F00207016 /* PBTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1895D75023E3C51F00207016 /* PBTabBarViewController.swift */; };
+		1895D75423E3C5F500207016 /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1895D75323E3C5F500207016 /* UIStoryboard+Extension.swift */; };
+		18A059BF23E3C6FB002860B6 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A059BE23E3C6FB002860B6 /* UIImage+Extension.swift */; };
+		18A059C123E3CC66002860B6 /* Report.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18A059C023E3CC66002860B6 /* Report.storyboard */; };
+		18A059C423E3CC95002860B6 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18A059C323E3CC95002860B6 /* Profile.storyboard */; };
+		18A059C623E3CCE3002860B6 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A059C523E3CCE3002860B6 /* ProfileViewController.swift */; };
+		18A059CC23E3CDC7002860B6 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A059CB23E3CDC7002860B6 /* ReportViewController.swift */; };
+		18A059D123E3D683002860B6 /* FriendListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A059D023E3D683002860B6 /* FriendListViewController.swift */; };
+		18A059D523E3D824002860B6 /* FriendList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18A059D423E3D824002860B6 /* FriendList.storyboard */; };
 		18AD1F3B23DB4A3F00C75504 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18AD1F3A23DB4A3F00C75504 /* Login.storyboard */; };
 		18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */; };
 		18AD1F3F23DB4AF600C75504 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */; };
@@ -35,6 +44,15 @@
 		1861E11023D7F71500673640 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1861E11223D7F71500673640 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1861E11823D816C700673640 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1895D75023E3C51F00207016 /* PBTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBTabBarViewController.swift; sourceTree = "<group>"; };
+		1895D75323E3C5F500207016 /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
+		18A059BE23E3C6FB002860B6 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		18A059C023E3CC66002860B6 /* Report.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Report.storyboard; sourceTree = "<group>"; };
+		18A059C323E3CC95002860B6 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
+		18A059C523E3CCE3002860B6 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		18A059CB23E3CDC7002860B6 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
+		18A059D023E3D683002860B6 /* FriendListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendListViewController.swift; sourceTree = "<group>"; };
+		18A059D423E3D824002860B6 /* FriendList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FriendList.storyboard; sourceTree = "<group>"; };
 		18AD1F3A23DB4A3F00C75504 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
@@ -121,6 +139,10 @@
 		1861E11B23D82E0600673640 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				1895D75223E3C55900207016 /* Base */,
+				18A059CD23E3CDCF002860B6 /* Report */,
+				18A059CA23E3CD4D002860B6 /* FriendList */,
+				18A059C723E3CCEB002860B6 /* Profile */,
 				182A42F323E307AF002D8013 /* Personal */,
 				182A42F423E307C5002D8013 /* Login */,
 			);
@@ -130,8 +152,11 @@
 		1861E11C23D82E1500673640 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				18A059D423E3D824002860B6 /* FriendList.storyboard */,
 				1861E10A23D7F71400673640 /* Main.storyboard */,
 				18AD1F3A23DB4A3F00C75504 /* Login.storyboard */,
+				18A059C023E3CC66002860B6 /* Report.storyboard */,
+				18A059C323E3CC95002860B6 /* Profile.storyboard */,
 				182A42EF23E305D6002D8013 /* Personal.storyboard */,
 				1861E10F23D7F71500673640 /* LaunchScreen.storyboard */,
 			);
@@ -157,8 +182,42 @@
 		1885EE6C23DABDAE005A4835 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				1895D75323E3C5F500207016 /* UIStoryboard+Extension.swift */,
+				18A059BE23E3C6FB002860B6 /* UIImage+Extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		1895D75223E3C55900207016 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				1895D75023E3C51F00207016 /* PBTabBarViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		18A059C723E3CCEB002860B6 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				18A059C523E3CCE3002860B6 /* ProfileViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		18A059CA23E3CD4D002860B6 /* FriendList */ = {
+			isa = PBXGroup;
+			children = (
+				18A059D023E3D683002860B6 /* FriendListViewController.swift */,
+			);
+			path = FriendList;
+			sourceTree = "<group>";
+		};
+		18A059CD23E3CDCF002860B6 /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				18A059CB23E3CDC7002860B6 /* ReportViewController.swift */,
+			);
+			path = Report;
 			sourceTree = "<group>";
 		};
 		457B2D8672F8B072CD41852A /* Frameworks */ = {
@@ -246,6 +305,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				182A42F023E305D6002D8013 /* Personal.storyboard in Resources */,
+				18A059D523E3D824002860B6 /* FriendList.storyboard in Resources */,
+				18A059C123E3CC66002860B6 /* Report.storyboard in Resources */,
+				18A059C423E3CC95002860B6 /* Profile.storyboard in Resources */,
 				1861E11123D7F71500673640 /* LaunchScreen.storyboard in Resources */,
 				1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */,
 				1861E10E23D7F71500673640 /* Assets.xcassets in Resources */,
@@ -321,12 +383,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */,
+				18A059CC23E3CDC7002860B6 /* ReportViewController.swift in Sources */,
 				18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */,
 				1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */,
 				182A42F223E3079C002D8013 /* NewProjectViewController.swift in Sources */,
+				1895D75123E3C51F00207016 /* PBTabBarViewController.swift in Sources */,
 				18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */,
+				18A059C623E3CCE3002860B6 /* ProfileViewController.swift in Sources */,
+				18A059D123E3D683002860B6 /* FriendListViewController.swift in Sources */,
 				1861E10523D7F71400673640 /* AppDelegate.swift in Sources */,
+				18A059BF23E3C6FB002860B6 /* UIImage+Extension.swift in Sources */,
 				18AD1F3F23DB4AF600C75504 /* SignupViewController.swift in Sources */,
+				1895D75423E3C5F500207016 /* UIStoryboard+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,20 +1,17 @@
 //
-//  NewProjectViewController.swift
-//  Project Butler
+//  FriendListViewController.swift
+//  
 //
-//  Created by Neal on 2020/1/30.
-//  Copyright © 2020 neal812220. All rights reserved.
+//  Created by Neal on 2020/1/31.
 //
 
 import UIKit
 
-class NewProjectViewController: UIViewController {
+class FriendListViewController: UIViewController {
 
-    @IBOutlet weak var backgroundView: UIView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        backgroundView.layer.cornerRadius = 60
+
         // Do any additional setup after loading the view.
     }
     
