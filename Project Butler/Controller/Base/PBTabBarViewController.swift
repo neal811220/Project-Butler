@@ -80,18 +80,10 @@ class PBTabBarViewController: UITabBarController {
 
     private let tabs: [Tab] = [.personal, .report, .friendList, .profile]
     
-    var trolleyTabBarItem: UITabBarItem!
-    
-    var orderObserver: NSKeyValueObservation!
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         viewControllers = tabs.map({ $0.controller() })
-
-        trolleyTabBarItem = viewControllers?[2].tabBarItem
-        
-        trolleyTabBarItem.badgeColor = .brown
         
     }
 
