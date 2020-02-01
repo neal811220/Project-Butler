@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		182A42F023E305D6002D8013 /* Personal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 182A42EF23E305D6002D8013 /* Personal.storyboard */; };
 		182A42F223E3079C002D8013 /* NewProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182A42F123E3079C002D8013 /* NewProjectViewController.swift */; };
+		1844082323E541D000A879F7 /* FriendListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1844082123E541D000A879F7 /* FriendListTableViewCell.swift */; };
+		1844082423E541D000A879F7 /* FriendListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1844082223E541D000A879F7 /* FriendListTableViewCell.xib */; };
+		1844082623E56F4100A879F7 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1844082523E56F4100A879F7 /* UserData.swift */; };
+		1844082923E57AAB00A879F7 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1844082723E57AAB00A879F7 /* Country.swift */; };
 		1861E10523D7F71400673640 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861E10423D7F71400673640 /* AppDelegate.swift */; };
 		1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861E10823D7F71400673640 /* PersonalViewController.swift */; };
 		1861E10C23D7F71400673640 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1861E10A23D7F71400673640 /* Main.storyboard */; };
@@ -37,6 +41,10 @@
 /* Begin PBXFileReference section */
 		182A42EF23E305D6002D8013 /* Personal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Personal.storyboard; sourceTree = "<group>"; };
 		182A42F123E3079C002D8013 /* NewProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectViewController.swift; sourceTree = "<group>"; };
+		1844082123E541D000A879F7 /* FriendListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListTableViewCell.swift; sourceTree = "<group>"; };
+		1844082223E541D000A879F7 /* FriendListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendListTableViewCell.xib; sourceTree = "<group>"; };
+		1844082523E56F4100A879F7 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		1844082723E57AAB00A879F7 /* Country.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		1861E10123D7F71400673640 /* Project Butler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project Butler.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1861E10423D7F71400673640 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1861E10823D7F71400673640 /* PersonalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +143,8 @@
 		1861E11A23D82DB900673640 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1844082723E57AAB00A879F7 /* Country.swift */,
+				1844082523E56F4100A879F7 /* UserData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -142,8 +152,8 @@
 		1861E11B23D82E0600673640 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				1895D75223E3C55900207016 /* Base */,
 				18A059CD23E3CDCF002860B6 /* Report */,
+				1895D75223E3C55900207016 /* Base */,
 				18A059CA23E3CD4D002860B6 /* FriendList */,
 				18A059C723E3CCEB002860B6 /* Profile */,
 				182A42F323E307AF002D8013 /* Personal */,
@@ -211,6 +221,8 @@
 			isa = PBXGroup;
 			children = (
 				18A059D023E3D683002860B6 /* FriendListViewController.swift */,
+				1844082123E541D000A879F7 /* FriendListTableViewCell.swift */,
+				1844082223E541D000A879F7 /* FriendListTableViewCell.xib */,
 			);
 			path = FriendList;
 			sourceTree = "<group>";
@@ -316,6 +328,7 @@
 				1861E10E23D7F71500673640 /* Assets.xcassets in Resources */,
 				18AD1F3B23DB4A3F00C75504 /* Login.storyboard in Resources */,
 				1861E10C23D7F71400673640 /* Main.storyboard in Resources */,
+				1844082423E541D000A879F7 /* FriendListTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,17 +400,20 @@
 			files = (
 				18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */,
 				18A059CC23E3CDC7002860B6 /* ReportViewController.swift in Sources */,
+				1844082623E56F4100A879F7 /* UserData.swift in Sources */,
 				18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */,
 				1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */,
 				182A42F223E3079C002D8013 /* NewProjectViewController.swift in Sources */,
 				1895D75123E3C51F00207016 /* PBTabBarViewController.swift in Sources */,
 				18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */,
 				18A059C623E3CCE3002860B6 /* ProfileViewController.swift in Sources */,
+				1844082923E57AAB00A879F7 /* Country.swift in Sources */,
 				18A059D123E3D683002860B6 /* FriendListViewController.swift in Sources */,
 				1861E10523D7F71400673640 /* AppDelegate.swift in Sources */,
 				18A059BF23E3C6FB002860B6 /* UIImage+Extension.swift in Sources */,
 				18C54CA423E4259700FD7EB2 /* WorkItemTableViewCell.swift in Sources */,
 				18AD1F3F23DB4AF600C75504 /* SignupViewController.swift in Sources */,
+				1844082323E541D000A879F7 /* FriendListTableViewCell.swift in Sources */,
 				1895D75423E3C5F500207016 /* UIStoryboard+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

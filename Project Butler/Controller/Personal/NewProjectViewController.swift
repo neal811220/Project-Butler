@@ -52,15 +52,15 @@ class NewProjectViewController: UIViewController {
     
     func settingButtonInfo(button: UIButton) {
         
-        button.layer.shadowOpacity = 0.5
-        
-        button.layer.shadowOffset = CGSize(width: 3, height: 3)
+//        button.layer.shadowOpacity = 0.5
+//
+//        button.layer.shadowOffset = CGSize(width: 3, height: 3)
         
         button.layer.borderWidth = 1
         
         button.layer.borderColor = UIColor.darkGray.cgColor
         
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = 15
     }
     
 }

@@ -8,65 +8,46 @@ import Foundation
 import UIKit
 
 class FriendListViewController: UIViewController {
-
-    var allFriendButton: UIButton = {
+    
+    lazy var friendListTableView: UITableView = {
         
-        let all = UIButton()
+        let tableview = UITableView()
         
-        all.setTitle("AllFriend", for: .normal)
+        tableview.translatesAutoresizingMaskIntoConstraints = false
         
-        all.tag = 0
+        tableview.delegate = self
         
-        return all
+        tableview.dataSource = self
+        
+        let nib = UINib(nibName: "FriendListTableViewCell", bundle: nil)
+        
+        tableview.register(nib, forCellReuseIdentifier: "FriendListCell")
+        
+        tableview.rowHeight = UITableView.automaticDimension
+        
+        tableview.separatorStyle = .none
+        
+        return tableview
     }()
     
-    var confirmButton: UIButton = {
+    lazy var friendSearchController: UISearchController = {
+        let bar  = UISearchController(searchResultsController: nil)
+        bar.searchResultsUpdater = self
+        bar.obscuresBackgroundDuringPresentation = false
+        bar.searchBar.placeholder = "Type Email To Search Friend"
+        bar.searchBar.sizeToFit()
+        bar.searchBar.scopeButtonTitles = ["AllFrined", "Confirm", "Accept"]
+        bar.searchBar.searchBarStyle = .prominent
+        bar.searchBar.delegate = self
         
-        let confirm = UIButton()
-       
-        confirm.setTitle("Confirm", for: .normal)
-        
-        confirm.tag = 1
-        
-        return confirm
+        return bar
     }()
     
-    var acceptButton: UIButton = {
-        
-        let accept = UIButton()
-  
-        accept.setTitle("Accept", for: .normal)
-        
-        accept.tag  = 2
-        
-        return accept
-    }()
+    //All count
+    let countries = Country.GetAllCountries()
     
-    var selectView: UIView = {
-        
-        let view = UIView()
-        
-        view.frame.size = CGSize(width: 110, height: 2)
-        
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.backgroundColor = UIColor(red: 28/255, green: 61/255, blue: 160/255, alpha: 1.0)
-        
-        return view
-    }()
-    
-    var buttonStackView: UIStackView = {
-        
-        let stack = UIStackView()
-        
-        stack.axis = NSLayoutConstraint.Axis.horizontal
-        
-        stack.distribution = UIStackView.Distribution.fillEqually
-        
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        
-        return stack
-    }()
+    //filterCount
+    var filteredCountries = [Country]()
     
     var selectCenterConstraint: NSLayoutConstraint?
     
@@ -81,69 +62,109 @@ class FriendListViewController: UIViewController {
         
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 23/255, green: 61/255, blue: 160/255, alpha: 1.0)]
         
-        settingInfo()
+        self.navigationItem.searchController = friendSearchController
+//        settingInfo()
+        
+        settingTableview()
     }
 
-    func settingInfo() {
-        
-        view.addSubview(selectView)
-        
-        view.addSubview(buttonStackView)
-        
-        buttonStackView.addArrangedSubview(allFriendButton)
-        
-        buttonStackView.addArrangedSubview(confirmButton)
-        
-        buttonStackView.addArrangedSubview(acceptButton)
-        
-        settingButtonInfo(button: allFriendButton)
-        
-        settingButtonInfo(button: confirmButton)
-        
-        settingButtonInfo(button: acceptButton)
-        
-        selectCenterConstraint = selectView.centerXAnchor.constraint(equalTo: allFriendButton.centerXAnchor)
-        
-        NSLayoutConstraint.activate([
-            buttonStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
-            buttonStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 25),
-            buttonStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -25),
-            buttonStackView.heightAnchor.constraint(equalToConstant: 25)
-        ])
-        
-        NSLayoutConstraint.activate([
-            selectView.topAnchor.constraint(equalTo: view.topAnchor, constant: 240),
-            selectCenterConstraint!,
-            selectView.heightAnchor.constraint(equalToConstant: 3),
-            selectView.widthAnchor.constraint(equalToConstant: 100)
-        ])
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
+        filteredCountries = countries.filter({ (country: Country) -> Bool in
+            let doesCategoryMatch = (scope == "All") || (country.continent == scope)
+            
+            //return true
+            if isSearchBarEmpty() {
+                return doesCategoryMatch
+            } else {
+                return doesCategoryMatch && country.title.lowercased().contains(searchText.lowercased())
+            }
+        })
+        friendListTableView.reloadData()
+    }
+
+
+    func isSearchBarEmpty() -> Bool {
+        //if text == nil(return true) else (return nil)
+        return friendSearchController.searchBar.text?.isEmpty ?? true
     }
     
-    func settingButtonInfo(button: UIButton) {
-        
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        button.frame.size = CGSize(width: 100, height: 24)
-        
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
-        
-        button.setTitleColor(UIColor(red: 23/255, green: 61/255, blue: 160/255, alpha: 1.0), for: .selected)
-        
-        button.setTitleColor(UIColor(red: 109/255, green: 114/255, blue: 120/255, alpha: 1.0), for: .normal)
-        
-        button.addTarget(self, action: #selector(didSelectButton), for: .touchUpInside)
-        
-        buttons.append(button)
+    func isFiltering() -> Bool {
+        //if scope == 1 or 2 return true
+        let searchBarScopeIsFiltering = friendSearchController.searchBar.selectedScopeButtonIndex != 0
+        return friendSearchController.isActive && (!isSearchBarEmpty() || searchBarScopeIsFiltering)
     }
     
-    @objc func didSelectButton(sender: UIButton) {
+    func settingTableview() {
         
-        UIView.animate(withDuration: 0.5) {
-            self.selectCenterConstraint?.isActive = false
-            self.selectCenterConstraint = self.selectView.centerXAnchor.constraint(equalTo: self.buttons[sender.tag].centerXAnchor)
-            self.selectCenterConstraint?.isActive = true
-            self.view.layoutIfNeeded()
+        view.addSubview(friendListTableView)
+        
+        NSLayoutConstraint.activate([
+            friendListTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            friendListTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            friendListTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            friendListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+}
+
+extension FriendListViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering() {
+            return filteredCountries.count
+        } else {
+            let allfriend = countries.filter { (country) -> Bool in
+                return country.continent == "AllFrined"
+            }
+            return allfriend.count
         }
     }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendListCell", for: indexPath) as? FriendListTableViewCell else { return UITableViewCell() }
+        let currentCountry: Country
+        
+        if  isFiltering() {
+            currentCountry = filteredCountries[indexPath.row]
+        } else {
+            let allfriend = countries.filter { (country) -> Bool in
+                return country.continent == "AllFrined"
+            }
+            currentCountry = allfriend[indexPath.row]
+        }
+        cell.friendTitle.text = currentCountry.title
+        cell.friendEmail.text = currentCountry.continent
+        switch currentCountry.continent {
+        case "AllFrined":
+            cell.rightButton.isHidden = true
+        case "Confirm":
+            cell.rightButton.isHidden = false
+            cell.rightButton.setImage(UIImage(named: "Icons_32px_Confirm"), for: .normal)
+        case "Accept":
+            cell.rightButton.isHidden = false
+            cell.rightButton.setImage(UIImage(named: "Icons_32px_Accept"), for: .normal)
+        default:
+            break
+        }
+        return cell
+    }
+    
 }
+
+extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating {
+
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        filterContentForSearchText(searchText: searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
+        print("New scope index is now \(selectedScope)")
+        
+    }
+
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
+
+        filterContentForSearchText(searchText: searchController.searchBar.text!, scope: scope)
+    }
+}
+
