@@ -15,7 +15,7 @@ struct FriendInfo {
     
     let title: String
     
-    static func GetAllCountries() -> [FriendInfo] {
+    static func GetAllFriends() -> [FriendInfo] {
         return [
             FriendInfo(email:"AllFriend", title:"Denmark"),
             FriendInfo(email:"AllFriend", title:"United Kingdom"),

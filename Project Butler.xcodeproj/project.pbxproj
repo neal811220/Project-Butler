@@ -91,10 +91,9 @@
 		182A42F323E307AF002D8013 /* Personal */ = {
 			isa = PBXGroup;
 			children = (
-				18AA9EBA23E6B05100D390CE /* MemberListViewController.swift */,
-				18C54CA323E4259700FD7EB2 /* WorkItemTableViewCell.swift */,
-				1861E10823D7F71400673640 /* PersonalViewController.swift */,
-				182A42F123E3079C002D8013 /* NewProjectViewController.swift */,
+				18AA9EBE23E6B96700D390CE /* Member */,
+				18AA9EC023E6B99900D390CE /* ProsonalProject */,
+				18AA9EBF23E6B98700D390CE /* NewProject */,
 			);
 			path = Personal;
 			sourceTree = "<group>";
@@ -236,6 +235,31 @@
 				18A059CB23E3CDC7002860B6 /* ReportViewController.swift */,
 			);
 			path = Report;
+			sourceTree = "<group>";
+		};
+		18AA9EBE23E6B96700D390CE /* Member */ = {
+			isa = PBXGroup;
+			children = (
+				18AA9EBA23E6B05100D390CE /* MemberListViewController.swift */,
+			);
+			path = Member;
+			sourceTree = "<group>";
+		};
+		18AA9EBF23E6B98700D390CE /* NewProject */ = {
+			isa = PBXGroup;
+			children = (
+				182A42F123E3079C002D8013 /* NewProjectViewController.swift */,
+			);
+			path = NewProject;
+			sourceTree = "<group>";
+		};
+		18AA9EC023E6B99900D390CE /* ProsonalProject */ = {
+			isa = PBXGroup;
+			children = (
+				18C54CA323E4259700FD7EB2 /* WorkItemTableViewCell.swift */,
+				1861E10823D7F71400673640 /* PersonalViewController.swift */,
+			);
+			path = ProsonalProject;
 			sourceTree = "<group>";
 		};
 		457B2D8672F8B072CD41852A /* Frameworks */ = {

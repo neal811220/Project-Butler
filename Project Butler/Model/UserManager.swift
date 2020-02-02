@@ -23,9 +23,13 @@ class UserManager {
     
     private init(){ }
     
-    var friendListlargeTitle = "FriendList"
+    var friendListLargeTitle = "Friend List"
+    
+    var memberListLargeTitle = "Member List"
     
     var friendSearcchPlaceHolder = "Type Email To Search Friend"
+    
+    var newProjectLargeTitle = "New Project"
     
     var scopeButtons = ["AllFriend", "Confirm", "Accept"]
     

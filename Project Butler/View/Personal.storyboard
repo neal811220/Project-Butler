@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jfg-pd-64h">
-                                <rect key="frame" x="0.0" y="94" width="414" height="802"/>
+                                <rect key="frame" x="0.0" y="138" width="414" height="758"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icons_32px_ProjectName" translatesAutoresizingMaskIntoConstraints="NO" id="MUL-Fo-20E">
                                         <rect key="frame" x="49" y="63" width="35" height="35"/>
@@ -147,6 +147,10 @@
                                         <state key="normal" title="Member">
                                             <color key="titleColor" red="0.42409688229999998" green="0.44652402400000002" blue="0.4745144248" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
+                                        <connections>
+                                            <action selector="pressedMember:" destination="G4a-WX-T2V" eventType="touchUpInside" id="NF7-aE-xbf"/>
+                                            <segue destination="Pls-G5-LdS" kind="show" id="8nW-5A-JVW"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DQ7-XY-adJ">
                                         <rect key="frame" x="121" y="52" width="154" height="30"/>
@@ -183,7 +187,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KXY-Bc-2eg">
-                                        <rect key="frame" x="161" y="538" width="0.0" height="30"/>
+                                        <rect key="frame" x="161" y="494" width="0.0" height="30"/>
                                         <color key="backgroundColor" red="0.40273964410000002" green="0.81877201799999999" blue="0.59997171159999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="MUY-83-Xnu"/>
@@ -213,7 +217,7 @@
                                         </constraints>
                                     </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="f43-Ug-5qQ">
-                                        <rect key="frame" x="49" y="512" width="335" height="256"/>
+                                        <rect key="frame" x="49" y="512" width="335" height="212"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="workItemCell" id="d9d-TR-XT6" customClass="WorkItemTableViewCell" customModule="Project_Butler" customModuleProvider="target">
@@ -350,7 +354,23 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fzd-eO-ZL5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1897.1014492753625" y="221.65178571428569"/>
+            <point key="canvasLocation" x="1800" y="222"/>
+        </scene>
+        <!--Member List View Controller-->
+        <scene sceneID="wk4-Ih-r9Z">
+            <objects>
+                <viewController storyboardIdentifier="apple" id="Pls-G5-LdS" customClass="MemberListViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MHc-tJ-7Ku">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Q5k-lv-N1j"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="EgS-v7-JfP"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Hh-Ps-9HQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2588" y="222"/>
         </scene>
         <!--Personal View Controller-->
         <scene sceneID="xOU-YP-2t3">
@@ -366,6 +386,7 @@
                                 <state key="normal" title="Button"/>
                                 <connections>
                                     <action selector="LoginButton:" destination="qDL-5j-jSj" eventType="touchUpInside" id="gXj-IX-9jN"/>
+                                    <segue destination="G4a-WX-T2V" kind="show" id="UFi-Ub-OzB"/>
                                 </connections>
                             </button>
                         </subviews>

@@ -11,9 +11,9 @@ import UIKit
 class PersonalViewController: UIViewController {
 
     @IBAction func LoginButton(_ sender: UIButton) {
-        let personalStoryboard = UIStoryboard(name: "Personal", bundle: nil)
-        guard let loginPage = personalStoryboard.instantiateViewController(identifier: "NewProjectPage") as? NewProjectViewController else { return }
-        show(loginPage, sender: nil)
+//        let personalStoryboard = UIStoryboard(name: "Personal", bundle: nil)
+//        guard let loginPage = personalStoryboard.instantiateViewController(identifier: "NewProjectPage") as? NewProjectViewController else { return }
+//        show(loginPage, sender: nil)
     }
     override func viewDidLoad() {
         super.viewDidLoad()

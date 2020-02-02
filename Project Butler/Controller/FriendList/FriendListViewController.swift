@@ -15,8 +15,6 @@ class FriendListViewController: UIViewController {
         
         tableview.translatesAutoresizingMaskIntoConstraints = false
         
-        tableview.delegate = self
-        
         tableview.dataSource = self
         
         let nib = UINib(nibName: "FriendListTableViewCell", bundle: nil)
@@ -52,10 +50,10 @@ class FriendListViewController: UIViewController {
     }()
     
     //All count
-    let countries = FriendInfo.GetAllCountries()
+    let friends = FriendInfo.GetAllFriends()
         
     //filterCount
-    var filteredCountries = [FriendInfo]()
+    var filteredFriends = [FriendInfo]()
     
     var selectCenterConstraint: NSLayoutConstraint?
     
@@ -65,20 +63,19 @@ class FriendListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = UserManager.shared.friendListlargeTitle
+        self.navigationItem.title = UserManager.shared.friendListLargeTitle
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 23/255, green: 61/255, blue: 160/255, alpha: 1.0)]
         
         self.navigationItem.searchController = friendSearchController
-//        settingInfo()
         
         settingTableview()
     }
 
     func filterContentForSearchText(searchText: String, scope: String = ScopeButton.all.rawValue) {
-        filteredCountries = countries.filter({ (country: FriendInfo) -> Bool in
+        filteredFriends = friends.filter({ (country: FriendInfo) -> Bool in
             let doesCategoryMatch = (scope == ScopeButton.all.rawValue) || (country.email == scope)
             //return true
             if isSearchBarEmpty() {
@@ -118,15 +115,15 @@ class FriendListViewController: UIViewController {
     }
 }
 
-extension FriendListViewController: UITableViewDelegate, UITableViewDataSource {
+extension FriendListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
            
-            return filteredCountries.count
+            return filteredFriends.count
         
         } else {
-            let allfriend = countries.filter { (country) -> Bool in
+            let allfriend = friends.filter { (country) -> Bool in
               
                 return country.email == ScopeButton.all.rawValue
             }
@@ -139,24 +136,24 @@ extension FriendListViewController: UITableViewDelegate, UITableViewDataSource {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendListCell", for: indexPath) as? FriendListTableViewCell else { return UITableViewCell() }
         
-        let currentCountry: FriendInfo
+        let currentFriend: FriendInfo
         
         if  isFiltering() {
             
-            currentCountry = filteredCountries[indexPath.row]
+            currentFriend = filteredFriends[indexPath.row]
         } else {
-            let allfriend = countries.filter { (country) -> Bool in
+            let allfriend = friends.filter { (country) -> Bool in
                 
                 return country.email == ScopeButton.all.rawValue
             }
             
-            currentCountry = allfriend[indexPath.row]
+            currentFriend = allfriend[indexPath.row]
         }
-        cell.friendTitle.text = currentCountry.title
+        cell.friendTitle.text = currentFriend.title
         
-        cell.friendEmail.text = currentCountry.email
+        cell.friendEmail.text = currentFriend.email
         
-        switch currentCountry.email {
+        switch currentFriend.email {
         
         case ScopeButton.all.rawValue:
             

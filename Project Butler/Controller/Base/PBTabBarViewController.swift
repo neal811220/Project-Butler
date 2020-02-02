@@ -97,7 +97,7 @@ class PBTabBarViewController: UITabBarController {
         guard let navVC = viewController as? UINavigationController,
               navVC.viewControllers.first is PersonalViewController
         else { return true }
-        
+
         return true
     }
 }

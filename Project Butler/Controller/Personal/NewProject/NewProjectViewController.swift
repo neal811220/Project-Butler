@@ -41,20 +41,16 @@ class NewProjectViewController: UIViewController {
         
         cellBackgroundView.backgroundColor = UIColor.clear
         
-        self.navigationItem.title = "New Project"
-        
+        self.navigationItem.title = UserManager.shared.newProjectLargeTitle
+
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        
+                
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 23/255, green: 61/255, blue: 160/255, alpha: 1.0)]
         
         // Do any additional setup after loading the view.
     }
     
     func settingButtonInfo(button: UIButton) {
-        
-//        button.layer.shadowOpacity = 0.5
-//
-//        button.layer.shadowOffset = CGSize(width: 3, height: 3)
         
         button.layer.borderWidth = 1
         
@@ -63,6 +59,9 @@ class NewProjectViewController: UIViewController {
         button.layer.cornerRadius = 15
     }
     
+    @IBAction func pressedMember(_ sender: UIButton) {
+        
+    }
 }
 
 extension NewProjectViewController: UITableViewDataSource {
