@@ -59,7 +59,6 @@ class FriendListViewController: UIViewController {
     
     var buttons = [UIButton]()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -119,16 +118,30 @@ extension FriendListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
-           
-            return filteredFriends.count
-        
-        } else {
-            let allfriend = friends.filter { (country) -> Bool in
-              
-                return country.email == ScopeButton.all.rawValue
+            if friendSearchController.searchBar.selectedScopeButtonIndex == 0 {
+                
+                let allfriend = filteredFriends.filter { (country) -> Bool in
+                  
+                    return country.email == ScopeButton.all.rawValue
+                }
+                 return allfriend.count
+            } else {
+                return filteredFriends.count
             }
-            
-            return allfriend.count
+           
+        } else {
+            if friendSearchController.searchBar.selectedScopeButtonIndex == 0 {
+                
+                let allfriend = friends.filter { (country) -> Bool in
+                  
+                    return country.email == ScopeButton.all.rawValue
+                }
+                
+                return allfriend.count
+                
+            } else {
+                return friends.count
+            }
         }
     }
     
@@ -139,15 +152,34 @@ extension FriendListViewController: UITableViewDataSource {
         let currentFriend: FriendInfo
         
         if  isFiltering() {
-            
-            currentFriend = filteredFriends[indexPath.row]
-        } else {
-            let allfriend = friends.filter { (country) -> Bool in
+            if friendSearchController.searchBar.selectedScopeButtonIndex == 0 {
                 
-                return country.email == ScopeButton.all.rawValue
+                let allfriend = filteredFriends.filter { (country) -> Bool in
+                    
+                    return country.email == ScopeButton.all.rawValue
+                }
+                currentFriend = allfriend[indexPath.row]
+            } else {
+                
+                currentFriend = filteredFriends[indexPath.row]
+                
             }
             
-            currentFriend = allfriend[indexPath.row]
+        } else {
+            if friendSearchController.searchBar.selectedScopeButtonIndex == 0 {
+                
+                let allfriend = friends.filter { (country) -> Bool in
+                    
+                    return country.email == ScopeButton.all.rawValue
+                }
+                
+                currentFriend = allfriend[indexPath.row]
+            } else{
+                
+                currentFriend = friends[indexPath.row]
+                
+            }
+            
         }
         cell.friendTitle.text = currentFriend.title
         
