@@ -28,6 +28,7 @@
 		18A059CC23E3CDC7002860B6 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A059CB23E3CDC7002860B6 /* ReportViewController.swift */; };
 		18A059D123E3D683002860B6 /* FriendListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A059D023E3D683002860B6 /* FriendListViewController.swift */; };
 		18A059D523E3D824002860B6 /* FriendList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18A059D423E3D824002860B6 /* FriendList.storyboard */; };
+		18AA9EBB23E6B05100D390CE /* MemberListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AA9EBA23E6B05100D390CE /* MemberListViewController.swift */; };
 		18AD1F3B23DB4A3F00C75504 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18AD1F3A23DB4A3F00C75504 /* Login.storyboard */; };
 		18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */; };
 		18AD1F3F23DB4AF600C75504 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */; };
@@ -62,6 +63,7 @@
 		18A059CB23E3CDC7002860B6 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		18A059D023E3D683002860B6 /* FriendListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendListViewController.swift; sourceTree = "<group>"; };
 		18A059D423E3D824002860B6 /* FriendList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FriendList.storyboard; sourceTree = "<group>"; };
+		18AA9EBA23E6B05100D390CE /* MemberListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberListViewController.swift; sourceTree = "<group>"; };
 		18AD1F3A23DB4A3F00C75504 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 		182A42F323E307AF002D8013 /* Personal */ = {
 			isa = PBXGroup;
 			children = (
+				18AA9EBA23E6B05100D390CE /* MemberListViewController.swift */,
 				18C54CA323E4259700FD7EB2 /* WorkItemTableViewCell.swift */,
 				1861E10823D7F71400673640 /* PersonalViewController.swift */,
 				182A42F123E3079C002D8013 /* NewProjectViewController.swift */,
@@ -406,6 +409,7 @@
 				182A42F223E3079C002D8013 /* NewProjectViewController.swift in Sources */,
 				1895D75123E3C51F00207016 /* PBTabBarViewController.swift in Sources */,
 				18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */,
+				18AA9EBB23E6B05100D390CE /* MemberListViewController.swift in Sources */,
 				18A059C623E3CCE3002860B6 /* ProfileViewController.swift in Sources */,
 				1844082923E57AAB00A879F7 /* FriendInfo.swift in Sources */,
 				18A059D123E3D683002860B6 /* FriendListViewController.swift in Sources */,
