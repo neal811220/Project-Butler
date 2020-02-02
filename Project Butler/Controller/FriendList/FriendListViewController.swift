@@ -31,32 +31,41 @@ class FriendListViewController: UIViewController {
     }()
     
     lazy var friendSearchController: UISearchController = {
+        
         let bar  = UISearchController(searchResultsController: nil)
+        
         bar.searchResultsUpdater = self
+        
         bar.obscuresBackgroundDuringPresentation = false
-        bar.searchBar.placeholder = "Type Email To Search Friend"
+        
+        bar.searchBar.placeholder = UserManager.shared.friendSearcchPlaceHolder
+        
         bar.searchBar.sizeToFit()
-        bar.searchBar.scopeButtonTitles = ["AllFrined", "Confirm", "Accept"]
+        
+        bar.searchBar.scopeButtonTitles = UserManager.shared.scopeButtons
+        
         bar.searchBar.searchBarStyle = .prominent
+        
         bar.searchBar.delegate = self
         
         return bar
     }()
     
     //All count
-    let countries = Country.GetAllCountries()
-    
+    let countries = FriendInfo.GetAllCountries()
+        
     //filterCount
-    var filteredCountries = [Country]()
+    var filteredCountries = [FriendInfo]()
     
     var selectCenterConstraint: NSLayoutConstraint?
     
     var buttons = [UIButton]()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = "FriendList"
+        self.navigationItem.title = UserManager.shared.friendListlargeTitle
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
@@ -68,10 +77,9 @@ class FriendListViewController: UIViewController {
         settingTableview()
     }
 
-    func filterContentForSearchText(searchText: String, scope: String = "All") {
-        filteredCountries = countries.filter({ (country: Country) -> Bool in
-            let doesCategoryMatch = (scope == "All") || (country.continent == scope)
-            
+    func filterContentForSearchText(searchText: String, scope: String = ScopeButton.all.rawValue) {
+        filteredCountries = countries.filter({ (country: FriendInfo) -> Bool in
+            let doesCategoryMatch = (scope == ScopeButton.all.rawValue) || (country.email == scope)
             //return true
             if isSearchBarEmpty() {
                 return doesCategoryMatch
@@ -100,8 +108,11 @@ class FriendListViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             friendListTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            
             friendListTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            
             friendListTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            
             friendListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
@@ -111,11 +122,15 @@ extension FriendListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
+           
             return filteredCountries.count
+        
         } else {
             let allfriend = countries.filter { (country) -> Bool in
-                return country.continent == "AllFrined"
+              
+                return country.email == ScopeButton.all.rawValue
             }
+            
             return allfriend.count
         }
     }
@@ -123,27 +138,42 @@ extension FriendListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendListCell", for: indexPath) as? FriendListTableViewCell else { return UITableViewCell() }
-        let currentCountry: Country
+        
+        let currentCountry: FriendInfo
         
         if  isFiltering() {
+            
             currentCountry = filteredCountries[indexPath.row]
         } else {
             let allfriend = countries.filter { (country) -> Bool in
-                return country.continent == "AllFrined"
+                
+                return country.email == ScopeButton.all.rawValue
             }
+            
             currentCountry = allfriend[indexPath.row]
         }
         cell.friendTitle.text = currentCountry.title
-        cell.friendEmail.text = currentCountry.continent
-        switch currentCountry.continent {
-        case "AllFrined":
+        
+        cell.friendEmail.text = currentCountry.email
+        
+        switch currentCountry.email {
+        
+        case ScopeButton.all.rawValue:
+            
             cell.rightButton.isHidden = true
-        case "Confirm":
+        
+        case ScopeButton.confirm.rawValue:
+            
             cell.rightButton.isHidden = false
-            cell.rightButton.setImage(UIImage(named: "Icons_32px_Confirm"), for: .normal)
-        case "Accept":
+            
+            cell.rightButton.setImage(UIImage.asset(.Icons_32px_Confirm), for: .normal)
+        
+        case ScopeButton.accept.rawValue:
+           
             cell.rightButton.isHidden = false
-            cell.rightButton.setImage(UIImage(named: "Icons_32px_Accept"), for: .normal)
+            
+            cell.rightButton.setImage(UIImage.asset(.Icons_32px_Accept), for: .normal)
+            
         default:
             break
         }
@@ -153,17 +183,16 @@ extension FriendListViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating {
-
+    
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         filterContentForSearchText(searchText: searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
-        print("New scope index is now \(selectedScope)")
-        
     }
-
+    
     func updateSearchResults(for searchController: UISearchController) {
+        
         let searchBar = searchController.searchBar
+        
         let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
-
         filterContentForSearchText(searchText: searchController.searchBar.text!, scope: scope)
     }
 }

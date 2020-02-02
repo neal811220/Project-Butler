@@ -9,7 +9,8 @@
 import UIKit
 
 enum ImageAsset: String {
-
+    
+    //tabbarItem
     case Icons_32px_List_Normal
     
     case Icons_32px_List_Selected
@@ -26,9 +27,15 @@ enum ImageAsset: String {
     
     case Icons_32px_Profile_Selected
     
+    //FriendStatus
+    case Icons_32px_Confirm
+    
+    case Icons_32px_Accept
+    
+    case Icons_32px_AddFriend
+    
+    case Icons_32px_Remove
 }
-
-// swiftlint:enable identifier_name
 
 extension UIImage {
 
