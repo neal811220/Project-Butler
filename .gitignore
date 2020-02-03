@@ -134,7 +134,8 @@ iOSInjectionProject/
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
 GoogleService-Info.plist
-
+Project Butler.xcworkspace/xcuserdata/apple.xcuserdatad/UserInterfaceState.xcuserstate
+.xcworkspace/xcuserdata/apple.xcuserdatad/UserInterfaceState.xcuserstate
 ### Xcode Patch ###
 **/xcshareddata/WorkspaceSettings.xcsettings
 

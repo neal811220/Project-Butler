@@ -10,16 +10,17 @@ import UIKit
 
 class PersonalViewController: UIViewController {
 
-    @IBAction func LoginButton(_ sender: UIButton) {
-        let loginStoryboard = UIStoryboard(name: "Login", bundle: nil)
-        guard let loginPage = loginStoryboard.instantiateViewController(identifier: "LoginPage") as? LoginViewController else { return }
-        present(loginPage, animated: true, completion: nil)
-    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
 
-
+    @IBAction func loginButton(_ sender: UIButton) {
+        guard let loginVC = UIStoryboard.login.instantiateViewController(identifier: "LoginPage") as? LoginViewController else { return }
+        present(loginVC, animated: true, completion: nil)
+        
+    }
+    
 }
 
