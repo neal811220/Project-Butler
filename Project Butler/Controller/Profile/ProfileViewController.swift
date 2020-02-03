@@ -1,14 +1,14 @@
 //
-//  NewProjectViewController.swift
+//  ProfileViewController.swift
 //  Project Butler
 //
-//  Created by Neal on 2020/1/30.
+//  Created by Neal on 2020/1/31.
 //  Copyright © 2020 neal812220. All rights reserved.
 //
 
 import UIKit
 
-class NewProjectViewController: UIViewController {
+class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
