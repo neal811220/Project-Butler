@@ -41,7 +41,7 @@ class NewProjectViewController: UIViewController {
         
         cellBackgroundView.backgroundColor = UIColor.clear
         
-        self.navigationItem.title = UserManager.shared.newProjectLargeTitle
+        self.navigationItem.title = LargeTitle.newProject.rawValue
 
         self.navigationController?.navigationBar.prefersLargeTitles = true
                 

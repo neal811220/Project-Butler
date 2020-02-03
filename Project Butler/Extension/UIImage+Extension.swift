@@ -35,6 +35,9 @@ enum ImageAsset: String {
     case Icons_32px_AddFriend
     
     case Icons_32px_Remove
+    
+    //Visitors
+    case Icons_32px_Visitors
 }
 
 extension UIImage {

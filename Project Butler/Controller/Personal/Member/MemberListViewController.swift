@@ -44,7 +44,7 @@ class MemberListViewController: UIViewController {
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
-        self.navigationItem.title = UserManager.shared.memberListLargeTitle
+        self.navigationItem.title = LargeTitle.memberList.rawValue
 
         self.navigationItem.searchController = searchController
         

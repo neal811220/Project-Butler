@@ -61,8 +61,8 @@ class FriendListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.navigationItem.title = UserManager.shared.friendListLargeTitle
+        
+        self.navigationItem.title = LargeTitle.friendList.rawValue
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
         

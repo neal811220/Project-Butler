@@ -11,7 +11,7 @@ import FacebookLogin
 import Firebase
 import GoogleSignIn
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDelegate {
     
     @IBOutlet weak var userEmailTextField: UITextField!
     
@@ -41,6 +41,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.delegate = self
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
+        
+        GIDSignIn.sharedInstance()?.delegate = self
         
     }
     
@@ -80,6 +82,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     
                     self.dismiss(animated: true, completion: nil)
                     
+                    guard let userName = Auth.auth().currentUser?.displayName, let userEmail = Auth.auth().currentUser?.email, let userImage = Auth.auth().currentUser?.photoURL?.absoluteString else { return }
+
+                    
+                    UserManager.shared.addUserData(name: userName, email: userEmail, imageUrl: userImage)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+                        
+                        self.dismiss(animated: true, completion: nil)
+                    }
                     print("FBLogin Success")
                 }
             } else {
@@ -103,5 +114,33 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         self.view.endEditing(true)
     }
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+           
+           if let error = error {
+               print(error.localizedDescription)
+               return
+           }
+           
+           guard let authentication = user.authentication else { return }
+       
+           let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
+           
+           Auth.auth().signIn(with: credential) { (result, error) in
+               if let error = error {
+                   print(error.localizedDescription)
+               }
+               
+               guard let userName = Auth.auth().currentUser?.displayName, let userEmail = Auth.auth().currentUser?.email, let userImage = Auth.auth().currentUser?.photoURL?.absoluteString else { return }
+               
+               UserManager.shared.addUserData(name: userName, email: userEmail, imageUrl: userImage)
+               
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
+                self.dismiss(animated: true, completion: nil)
+            }
+                
+               print("Success!!")
+           }
+       }
     
 }
