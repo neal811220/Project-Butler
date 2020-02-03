@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		182A42F023E305D6002D8013 /* Personal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 182A42EF23E305D6002D8013 /* Personal.storyboard */; };
-		182A42F223E3079C002D8013 /* NewProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182A42F123E3079C002D8013 /* NewProjectViewController.swift */; };
 		1844082323E541D000A879F7 /* FriendListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1844082123E541D000A879F7 /* FriendListTableViewCell.swift */; };
 		1844082423E541D000A879F7 /* FriendListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1844082223E541D000A879F7 /* FriendListTableViewCell.xib */; };
 		1844082623E56F4100A879F7 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1844082523E56F4100A879F7 /* UserManager.swift */; };
@@ -19,6 +18,11 @@
 		1861E10E23D7F71500673640 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1861E10D23D7F71500673640 /* Assets.xcassets */; };
 		1861E11123D7F71500673640 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1861E10F23D7F71500673640 /* LaunchScreen.storyboard */; };
 		1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1861E11823D816C700673640 /* GoogleService-Info.plist */; };
+		188FE73423E7EEB300DDF30C /* NewProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188FE73323E7EEB300DDF30C /* NewProjectViewController.swift */; };
+		188FE73A23E7F05700DDF30C /* NewProjectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188FE73823E7F05700DDF30C /* NewProjectTableViewCell.xib */; };
+		188FE73E23E7F0E800DDF30C /* WorkItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188FE73C23E7F0E800DDF30C /* WorkItemTableViewCell.xib */; };
+		188FE74023E8002200DDF30C /* NewProjectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188FE73F23E8002200DDF30C /* NewProjectTableViewCell.swift */; };
+		188FE74223E8004300DDF30C /* WorkItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188FE74123E8004300DDF30C /* WorkItemTableViewCell.swift */; };
 		1895D75123E3C51F00207016 /* PBTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1895D75023E3C51F00207016 /* PBTabBarViewController.swift */; };
 		1895D75423E3C5F500207016 /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1895D75323E3C5F500207016 /* UIStoryboard+Extension.swift */; };
 		18A059BF23E3C6FB002860B6 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A059BE23E3C6FB002860B6 /* UIImage+Extension.swift */; };
@@ -33,7 +37,6 @@
 		18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */; };
 		18AD1F3F23DB4AF600C75504 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */; };
 		18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */; };
-		18C54CA423E4259700FD7EB2 /* WorkItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C54CA323E4259700FD7EB2 /* WorkItemTableViewCell.swift */; };
 		18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */; };
 		18FFB56523E175E2004B43C0 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 18FFB56423E175E2004B43C0 /* FacebookLogin */; };
 		85E28742B6924B98277E4719 /* Pods_Project_Butler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7B481A550B741A992B2F45 /* Pods_Project_Butler.framework */; };
@@ -41,7 +44,6 @@
 
 /* Begin PBXFileReference section */
 		182A42EF23E305D6002D8013 /* Personal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Personal.storyboard; sourceTree = "<group>"; };
-		182A42F123E3079C002D8013 /* NewProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectViewController.swift; sourceTree = "<group>"; };
 		1844082123E541D000A879F7 /* FriendListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListTableViewCell.swift; sourceTree = "<group>"; };
 		1844082223E541D000A879F7 /* FriendListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendListTableViewCell.xib; sourceTree = "<group>"; };
 		1844082523E56F4100A879F7 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -54,6 +56,11 @@
 		1861E11023D7F71500673640 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1861E11223D7F71500673640 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1861E11823D816C700673640 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		188FE73323E7EEB300DDF30C /* NewProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectViewController.swift; sourceTree = "<group>"; };
+		188FE73823E7F05700DDF30C /* NewProjectTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewProjectTableViewCell.xib; sourceTree = "<group>"; };
+		188FE73C23E7F0E800DDF30C /* WorkItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorkItemTableViewCell.xib; sourceTree = "<group>"; };
+		188FE73F23E8002200DDF30C /* NewProjectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectTableViewCell.swift; sourceTree = "<group>"; };
+		188FE74123E8004300DDF30C /* WorkItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkItemTableViewCell.swift; sourceTree = "<group>"; };
 		1895D75023E3C51F00207016 /* PBTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBTabBarViewController.swift; sourceTree = "<group>"; };
 		1895D75323E3C5F500207016 /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
 		18A059BE23E3C6FB002860B6 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
@@ -68,7 +75,6 @@
 		18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ResetPasswordViewController.swift; path = "/Users/apple/Desktop/Project Butler/Project Butler/Controller/ResetPasswordViewController.swift"; sourceTree = "<absolute>"; };
-		18C54CA323E4259700FD7EB2 /* WorkItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkItemTableViewCell.swift; sourceTree = "<group>"; };
 		18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWapper.swift; sourceTree = "<group>"; };
 		31E235C089173A4059097F39 /* Pods-Project Butler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project Butler.debug.xcconfig"; path = "Target Support Files/Pods-Project Butler/Pods-Project Butler.debug.xcconfig"; sourceTree = "<group>"; };
 		DB7B481A550B741A992B2F45 /* Pods_Project_Butler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Project_Butler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -167,6 +173,8 @@
 		1861E11C23D82E1500673640 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				188FE73523E7EF8800DDF30C /* FriendList */,
+				188FE73623E7EFA100DDF30C /* NewProject */,
 				1861E10A23D7F71400673640 /* Main.storyboard */,
 				18A059D423E3D824002860B6 /* FriendList.storyboard */,
 				18AD1F3A23DB4A3F00C75504 /* Login.storyboard */,
@@ -203,6 +211,26 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		188FE73523E7EF8800DDF30C /* FriendList */ = {
+			isa = PBXGroup;
+			children = (
+				1844082123E541D000A879F7 /* FriendListTableViewCell.swift */,
+				1844082223E541D000A879F7 /* FriendListTableViewCell.xib */,
+			);
+			path = FriendList;
+			sourceTree = "<group>";
+		};
+		188FE73623E7EFA100DDF30C /* NewProject */ = {
+			isa = PBXGroup;
+			children = (
+				188FE73F23E8002200DDF30C /* NewProjectTableViewCell.swift */,
+				188FE73823E7F05700DDF30C /* NewProjectTableViewCell.xib */,
+				188FE74123E8004300DDF30C /* WorkItemTableViewCell.swift */,
+				188FE73C23E7F0E800DDF30C /* WorkItemTableViewCell.xib */,
+			);
+			path = NewProject;
+			sourceTree = "<group>";
+		};
 		1895D75223E3C55900207016 /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,8 +251,6 @@
 			isa = PBXGroup;
 			children = (
 				18A059D023E3D683002860B6 /* FriendListViewController.swift */,
-				1844082123E541D000A879F7 /* FriendListTableViewCell.swift */,
-				1844082223E541D000A879F7 /* FriendListTableViewCell.xib */,
 			);
 			path = FriendList;
 			sourceTree = "<group>";
@@ -248,7 +274,7 @@
 		18AA9EBF23E6B98700D390CE /* NewProject */ = {
 			isa = PBXGroup;
 			children = (
-				182A42F123E3079C002D8013 /* NewProjectViewController.swift */,
+				188FE73323E7EEB300DDF30C /* NewProjectViewController.swift */,
 			);
 			path = NewProject;
 			sourceTree = "<group>";
@@ -256,7 +282,6 @@
 		18AA9EC023E6B99900D390CE /* ProsonalProject */ = {
 			isa = PBXGroup;
 			children = (
-				18C54CA323E4259700FD7EB2 /* WorkItemTableViewCell.swift */,
 				1861E10823D7F71400673640 /* PersonalViewController.swift */,
 			);
 			path = ProsonalProject;
@@ -349,8 +374,10 @@
 				182A42F023E305D6002D8013 /* Personal.storyboard in Resources */,
 				18A059D523E3D824002860B6 /* FriendList.storyboard in Resources */,
 				18A059C123E3CC66002860B6 /* Report.storyboard in Resources */,
+				188FE73E23E7F0E800DDF30C /* WorkItemTableViewCell.xib in Resources */,
 				18A059C423E3CC95002860B6 /* Profile.storyboard in Resources */,
 				1861E11123D7F71500673640 /* LaunchScreen.storyboard in Resources */,
+				188FE73A23E7F05700DDF30C /* NewProjectTableViewCell.xib in Resources */,
 				1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */,
 				1861E10E23D7F71500673640 /* Assets.xcassets in Resources */,
 				18AD1F3B23DB4A3F00C75504 /* Login.storyboard in Resources */,
@@ -430,19 +457,20 @@
 				1844082623E56F4100A879F7 /* UserManager.swift in Sources */,
 				18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */,
 				1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */,
-				182A42F223E3079C002D8013 /* NewProjectViewController.swift in Sources */,
 				1895D75123E3C51F00207016 /* PBTabBarViewController.swift in Sources */,
 				18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */,
 				18AA9EBB23E6B05100D390CE /* MemberListViewController.swift in Sources */,
 				18A059C623E3CCE3002860B6 /* ProfileViewController.swift in Sources */,
 				1844082923E57AAB00A879F7 /* FriendInfo.swift in Sources */,
 				18A059D123E3D683002860B6 /* FriendListViewController.swift in Sources */,
+				188FE74023E8002200DDF30C /* NewProjectTableViewCell.swift in Sources */,
 				1861E10523D7F71400673640 /* AppDelegate.swift in Sources */,
 				18A059BF23E3C6FB002860B6 /* UIImage+Extension.swift in Sources */,
-				18C54CA423E4259700FD7EB2 /* WorkItemTableViewCell.swift in Sources */,
+				188FE73423E7EEB300DDF30C /* NewProjectViewController.swift in Sources */,
 				18AD1F3F23DB4AF600C75504 /* SignupViewController.swift in Sources */,
 				1844082323E541D000A879F7 /* FriendListTableViewCell.swift in Sources */,
 				1895D75423E3C5F500207016 /* UIStoryboard+Extension.swift in Sources */,
+				188FE74223E8004300DDF30C /* WorkItemTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

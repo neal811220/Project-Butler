@@ -2,7 +2,7 @@
 //  WorkItemTableViewCell.swift
 //  Project Butler
 //
-//  Created by Neal on 2020/1/31.
+//  Created by Neal on 2020/2/3.
 //  Copyright © 2020 neal812220. All rights reserved.
 //
 
@@ -12,14 +12,12 @@ class WorkItemTableViewCell: UITableViewCell {
 
     @IBOutlet weak var workItemLabel: UILabel!
     
-    @IBAction func deleteButton(_ sender: UIButton) {
+    @IBAction func pressedDelete(_ sender: UIButton) {
+        
     }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        workItemLabel.layer.cornerRadius = 15
-        
-        workItemLabel.clipsToBounds = true
         // Initialization code
     }
 

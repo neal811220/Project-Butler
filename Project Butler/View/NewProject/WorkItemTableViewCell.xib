@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="workItemCell" rowHeight="-102" id="KGk-i7-Jjw" customClass="WorkItemTableViewCell" customModule="Project_Butler" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="76"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="76"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project One" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mJf-MG-PMR">
+                        <rect key="frame" x="49" y="23" width="335" height="30"/>
+                        <color key="backgroundColor" red="0.10410266369581223" green="0.44280475378036499" blue="0.58013463020324707" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1N2-FC-ImO">
+                        <rect key="frame" x="357" y="30" width="15" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="b4V-c3-NtO"/>
+                            <constraint firstAttribute="width" constant="15" id="nYz-kV-9GM"/>
+                        </constraints>
+                        <state key="normal" image="Icons_32px_ItemDelete"/>
+                        <connections>
+                            <action selector="pressedDelete:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="YaO-tv-cuh"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" name="NewProjectBackgroung"/>
+                <constraints>
+                    <constraint firstItem="1N2-FC-ImO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="30" id="A2g-sw-LZg"/>
+                    <constraint firstItem="1N2-FC-ImO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="357" id="D4v-mt-F58"/>
+                    <constraint firstItem="mJf-MG-PMR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="23" id="Izt-F7-sWE"/>
+                    <constraint firstAttribute="bottom" secondItem="1N2-FC-ImO" secondAttribute="bottom" constant="30" id="Ydc-Rr-4ZF"/>
+                    <constraint firstAttribute="trailing" secondItem="1N2-FC-ImO" secondAttribute="trailing" constant="42" id="aPr-GG-xj4"/>
+                    <constraint firstAttribute="bottom" secondItem="mJf-MG-PMR" secondAttribute="bottom" constant="23" id="dpF-An-jlM"/>
+                    <constraint firstAttribute="trailing" secondItem="mJf-MG-PMR" secondAttribute="trailing" constant="30" id="nQj-jK-hnm"/>
+                    <constraint firstItem="mJf-MG-PMR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="49" id="vEv-Zb-gt8"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="workItemLabel" destination="mJf-MG-PMR" id="uSV-ZY-W72"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="64.955357142857139"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Icons_32px_ItemDelete" width="32" height="32"/>
+        <namedColor name="NewProjectBackgroung">
+            <color red="0.50588235294117645" green="0.80784313725490198" blue="0.61568627450980395" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

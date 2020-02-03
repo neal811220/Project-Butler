@@ -38,6 +38,17 @@ enum ImageAsset: String {
     
     //Visitors
     case Icons_32px_Visitors
+    
+    //NewProject
+    case Icons_32px_ProjectName
+    
+    case Icons_32px_Leader
+    
+    case Icons_32px_Calendar
+    
+    case Icons_32px_Member
+    
+    case Icons_32px_WorkItem
 }
 
 extension UIImage {
