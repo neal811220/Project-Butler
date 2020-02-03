@@ -50,5 +50,22 @@ class UserManager {
         ])
     }
     
+    func getUserInfo(name: String, email: String) {
+        
+        db.collection("users").getDocuments { (snapshot, error) in
+            
+            if let error = error {
+                print(error)
+            } else {
+                for document in snapshot!.documents {
+                    print(document.documentID, document.data())
+                    let data = document.data()
+                    guard let name = data["UserName"] else { return }
+                    print(name)
+                }
+            }
+        }
+    }
+    
 }
 

@@ -6,6 +6,7 @@
 //
 import Foundation
 import UIKit
+import Firebase
 
 class FriendListViewController: UIViewController {
     
@@ -71,6 +72,8 @@ class FriendListViewController: UIViewController {
         self.navigationItem.searchController = friendSearchController
         
         settingTableview()
+        
+        UserManager.shared.getUserInfo(name: (Auth.auth().currentUser?.displayName)!, email: (Auth.auth().currentUser?.email)!)
     }
 
     func filterContentForSearchText(searchText: String, scope: String = ScopeButton.all.rawValue) {
