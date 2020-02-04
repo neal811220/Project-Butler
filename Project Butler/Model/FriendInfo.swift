@@ -15,8 +15,7 @@ struct FriendInfo {
     
     let title: String
     
-    
-    static func GetAllFriends(title: String, email: String) -> [FriendInfo] {
+    static func GetAllFriends() -> [FriendInfo] {
         return [
             FriendInfo(email:"AllFriend", title:"Denmark"),
             FriendInfo(email:"AllFriend", title:"United Kingdom"),
@@ -35,3 +34,13 @@ struct FriendInfo {
         ]
     }
 }
+
+struct AuthInfo: Codable {
+    
+    let userName: String
+    
+    let userEmail: String
+    
+    let userImageUrl: String
+}
+
