@@ -14,31 +14,25 @@ class PersonalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        fetchUserData()
-    }
-
-    @IBAction func loginButton(_ sender: UIButton) {
-        guard let loginVC = UIStoryboard.login.instantiateViewController(identifier: "LoginPage") as? LoginViewController else { return }
-        present(loginVC, animated: true, completion: nil)
-        
-    }
-    
-    func fetchUserData() {
         
         UserManager.shared.getUserInfo { (result) in
             switch result {
                 
             case .success(let data):
                 
-                UserManager.shared.userInfo.append(contentsOf: data)
+                print("GetUserInfoSuccess!===>>\(data)")
                 
-                print(data)
             case .failure(let error):
                 
                 print(error)
-                
             }
         }
+    }
+
+    @IBAction func loginButton(_ sender: UIButton) {
+        guard let loginVC = UIStoryboard.login.instantiateViewController(identifier: "LoginPage") as? LoginViewController else { return }
+        present(loginVC, animated: true, completion: nil)
+        
     }
     
 }

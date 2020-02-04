@@ -51,10 +51,10 @@ class FriendListViewController: UIViewController {
     }()
     
     //All count
-    let friends = FriendInfo.GetAllFriends()
+    var friends = [AuthInfo]()
         
     //filterCount
-    var filteredFriends = [FriendInfo]()
+    var filteredFriends = [AuthInfo]()
     
     var selectCenterConstraint: NSLayoutConstraint?
     
@@ -73,16 +73,18 @@ class FriendListViewController: UIViewController {
         
         settingTableview()
         
+        friends = UserManager.shared.userInfo
     }
 
     func filterContentForSearchText(searchText: String, scope: String = ScopeButton.all.rawValue) {
-        filteredFriends = friends.filter({ (country: FriendInfo) -> Bool in
-            let doesCategoryMatch = (scope == ScopeButton.all.rawValue) || (country.email == scope)
+        filteredFriends = friends.filter({ (friend: AuthInfo) -> Bool in
+//            let doesCategoryMatch = (scope == ScopeButton.all.rawValue) || (friend.userEmail == scope)
+            let doesCategoryMatch = !(scope == ScopeButton.all.rawValue)
             //return true
             if isSearchBarEmpty() {
                 return doesCategoryMatch
             } else {
-                return doesCategoryMatch && country.title.lowercased().contains(searchText.lowercased())
+                return doesCategoryMatch && friend.userName.lowercased().contains(searchText.lowercased())
             }
         })
         friendListTableView.reloadData()
@@ -122,11 +124,13 @@ extension FriendListViewController: UITableViewDataSource {
         if isFiltering() {
             if friendSearchController.searchBar.selectedScopeButtonIndex == 0 {
                 
-                let allfriend = filteredFriends.filter { (country) -> Bool in
-                  
-                    return country.email == ScopeButton.all.rawValue
-                }
-                 return allfriend.count
+//                let allfriend = filteredFriends.filter { (friend) -> Bool in
+//
+//                    return friend.userEmail == ScopeButton.all.rawValue
+//
+//                }
+//                 return allfriend.count
+                return friends.count
             } else {
                 return filteredFriends.count
             }
@@ -134,12 +138,13 @@ extension FriendListViewController: UITableViewDataSource {
         } else {
             if friendSearchController.searchBar.selectedScopeButtonIndex == 0 {
                 
-                let allfriend = friends.filter { (country) -> Bool in
-                  
-                    return country.email == ScopeButton.all.rawValue
-                }
-                
-                return allfriend.count
+//                let allfriend = friends.filter { (friend) -> Bool in
+//
+//                    return friend.userEmail == ScopeButton.all.rawValue
+//                }
+//
+//                return allfriend.count
+                return friends.count
                 
             } else {
                 return friends.count
@@ -151,16 +156,18 @@ extension FriendListViewController: UITableViewDataSource {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendListCell", for: indexPath) as? FriendListTableViewCell else { return UITableViewCell() }
         
-        let currentFriend: FriendInfo
+        let currentFriend: AuthInfo
         
         if  isFiltering() {
             if friendSearchController.searchBar.selectedScopeButtonIndex == 0 {
                 
-                let allfriend = filteredFriends.filter { (country) -> Bool in
-                    
-                    return country.email == ScopeButton.all.rawValue
-                }
-                currentFriend = allfriend[indexPath.row]
+//                let allfriend = filteredFriends.filter { (friend) -> Bool in
+//
+//                    return friend.userEmail == ScopeButton.all.rawValue
+//                }
+//                currentFriend = allfriend[indexPath.row]
+                currentFriend = friends[indexPath.row]
+                
             } else {
                 
                 currentFriend = filteredFriends[indexPath.row]
@@ -170,12 +177,13 @@ extension FriendListViewController: UITableViewDataSource {
         } else {
             if friendSearchController.searchBar.selectedScopeButtonIndex == 0 {
                 
-                let allfriend = friends.filter { (country) -> Bool in
-                    
-                    return country.email == ScopeButton.all.rawValue
-                }
+//                let allfriend = friends.filter { (friend) -> Bool in
+//
+//                    return friend.userEmail == ScopeButton.all.rawValue
+//                }
                 
-                currentFriend = allfriend[indexPath.row]
+                currentFriend = friends[indexPath.row]
+                
             } else{
                 
                 currentFriend = friends[indexPath.row]
@@ -183,31 +191,31 @@ extension FriendListViewController: UITableViewDataSource {
             }
             
         }
-        cell.friendTitle.text = currentFriend.title
+        cell.friendTitle.text = currentFriend.userName
         
-        cell.friendEmail.text = currentFriend.email
+        cell.friendEmail.text = currentFriend.userEmail
         
-        switch currentFriend.email {
-        
-        case ScopeButton.all.rawValue:
-            
-            cell.rightButton.isHidden = true
-        
-        case ScopeButton.confirm.rawValue:
-            
-            cell.rightButton.isHidden = false
-            
-            cell.rightButton.setImage(UIImage.asset(.Icons_32px_Confirm), for: .normal)
-        
-        case ScopeButton.accept.rawValue:
-           
-            cell.rightButton.isHidden = false
-            
-            cell.rightButton.setImage(UIImage.asset(.Icons_32px_Accept), for: .normal)
-            
-        default:
-            break
-        }
+//        switch currentFriend.userEmail {
+//
+//        case ScopeButton.all.rawValue:
+//
+//            cell.rightButton.isHidden = true
+//
+//        case ScopeButton.confirm.rawValue:
+//
+//            cell.rightButton.isHidden = false
+//
+//            cell.rightButton.setImage(UIImage.asset(.Icons_32px_Confirm), for: .normal)
+//
+//        case ScopeButton.accept.rawValue:
+//
+//            cell.rightButton.isHidden = false
+//
+//            cell.rightButton.setImage(UIImage.asset(.Icons_32px_Accept), for: .normal)
+//
+//        default:
+//            break
+//        }
         return cell
     }
     
