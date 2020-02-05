@@ -59,13 +59,29 @@ class UserManager {
         
         let uid = db.collection("users").document().documentID
         
-        db.collection("users").document(uid).setData([
-            "userName": name,
-            "userEmail": email,
-            "userImageUrl": imageUrl,
-            "userID": uid
-        ])
+        let userdetail: [String: Any] = ["userName": name, "userEmail": email, "userImageUrl": imageUrl, "userID": uid]
+        
+        let friendStatus:[String: Any] = ["accept": false, "confirm": false, "friend": false, "userID": uid, "userName": name, "userEmail": email, "userImageUrl": imageUrl]
+        
+        db.collection("users").document(uid).setData(userdetail)
+        
+        db.collection("users").document(uid).collection("friends").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
+            
+            if error == nil && snapshot != nil && snapshot?.documents.count != 0 {
+                
+                for document in snapshot!.documents {
+                    
+                    print(document.data())
+                }
+            } else if error == nil && snapshot != nil {
+                self.db.collection("users").document(uid).collection("friends").addDocument(data: friendStatus)
+            } else {
+                
+                print(error)
+            }
+        }
     }
+    
     
     func getUserInfo(completion: @escaping FetchUserResult) {
         
@@ -78,10 +94,51 @@ class UserManager {
                     do {
                         if let data = try document.data(as: AuthInfo.self, decoder: Firestore.Decoder()) {
                             
-                            self.userInfo.append(data)
+//                            self.userInfo.append(data)
                         }
                     } catch {
                         
+                        completion(.failure(error))
+                    }
+                }
+                completion(.success(self.userInfo))
+            }
+        }
+    }
+    
+    func addFriend() {
+        
+        
+    }
+    
+    func searchUser(text: String, completion: @escaping FetchUserResult) {
+        
+        guard let lastCharacter = text.last else {
+            
+            return
+        }
+        
+        let nextASICCode = lastCharacter.asciiValue! + 1
+        
+        let nextCharacter = Character(UnicodeScalar(nextASICCode))
+        
+        let nextWord = text.dropLast().appending(String(nextCharacter))
+        db.collection("users").whereField("userName", isGreaterThanOrEqualTo: text).whereField("userName", isLessThan: nextWord).getDocuments { (snapshot, error) in
+            
+            self.userInfo = []
+
+            if let error = error {
+                print(error)
+            } else {
+                for document in snapshot!.documents {
+                    do {
+                        if let data = try document.data(as: AuthInfo.self, decoder: Firestore.Decoder()) {
+
+                            self.userInfo.append(data)
+
+                        }
+                    } catch {
+
                         completion(.failure(error))
                     }
                 }

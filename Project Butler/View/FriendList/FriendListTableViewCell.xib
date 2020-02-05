@@ -36,7 +36,6 @@
                         <constraints>
                             <constraint firstAttribute="width" constant="32" id="vlZ-fY-lmB"/>
                         </constraints>
-                        <state key="normal" image="Icons_32px_Confirm"/>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HandSome Boy@gmail.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZKG-50-ueE">
                         <rect key="frame" x="116" y="41" width="246" height="21"/>
@@ -75,7 +74,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Icons_32px_Confirm" width="32" height="32"/>
         <image name="Luke" width="192" height="192"/>
     </resources>
 </document>

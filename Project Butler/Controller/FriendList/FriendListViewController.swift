@@ -60,6 +60,8 @@ class FriendListViewController: UIViewController {
     
     var buttons = [UIButton]()
     
+    var isSearch = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -73,7 +75,6 @@ class FriendListViewController: UIViewController {
         
         settingTableview()
         
-        friends = UserManager.shared.userInfo
     }
 
     func filterContentForSearchText(searchText: String, scope: String = ScopeButton.all.rawValue) {
@@ -195,6 +196,8 @@ extension FriendListViewController: UITableViewDataSource {
         
         cell.friendEmail.text = currentFriend.userEmail
         
+        cell.friendImage.loadImage(friends[indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_Visitors))
+        
 //        switch currentFriend.userEmail {
 //
 //        case ScopeButton.all.rawValue:
@@ -233,6 +236,22 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
         
         let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
         filterContentForSearchText(searchText: searchController.searchBar.text!, scope: scope)
+        
+        UserManager.shared.searchUser(text: searchController.searchBar.text!) { (result) in
+            switch result {
+                
+            case .success(let data):
+                
+                self.friends = UserManager.shared.userInfo
+                
+                self.friendListTableView.reloadData()
+                
+            case .failure(let error):
+                
+                print(error)
+                
+            }
+        }
     }
 }
 

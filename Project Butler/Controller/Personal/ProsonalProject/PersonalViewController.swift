@@ -14,19 +14,6 @@ class PersonalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        UserManager.shared.getUserInfo { (result) in
-            switch result {
-                
-            case .success(let data):
-                
-                print("GetUserInfoSuccess!===>>\(data)")
-                
-            case .failure(let error):
-                
-                print(error)
-            }
-        }
     }
 
     @IBAction func loginButton(_ sender: UIButton) {

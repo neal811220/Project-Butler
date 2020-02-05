@@ -37,7 +37,7 @@ enum ImageAsset: String {
     case Icons_32px_Remove
     
     //Visitors
-    case Icons_32px_Visitors
+    case Icons_128px_Visitors
     
     //NewProject
     case Icons_32px_ProjectName
