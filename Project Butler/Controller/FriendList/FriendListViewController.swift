@@ -227,19 +227,6 @@ extension FriendListViewController: UITableViewDataSource {
         
         userManager.isSearching = false
         
-        //        UserManager.shared.searchUser(text: friendSearchController.searchBar.text!) { (result) in
-        //            switch result {
-        //
-        //            case .success(let data):
-        //
-        //                print(data)
-        //
-        //            case .failure(let error):
-        //
-        //                print(error)
-        //
-        //            }
-        //        }
     }
     
     @objc func tapButton(sender: UIButton) {
@@ -318,25 +305,27 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
         activityView.startAnimating()
         
         if searchController.searchBar.text == "" {
-            
-            UserManager.shared.searchAll { (result) in
-                
-                switch result {
+                            
+                UserManager.shared.searchAll { (result) in
                     
-                case .success(()):
+                    switch result {
+                        
+                    case .success(()):
+                        
+                        print("Success")
+                        
+                    case .failure(let error):
+                        
+                        print(error)
+                        
+                    }
+                                        
+                    self.reloadData()
                     
-                    print("Success")
+                    UserManager.shared.clearAll()
                     
-                case .failure(let error):
-                    
-                    print(error)
-                
+                    self.activityView.stopAnimating()
                 }
-                
-                self.reloadData()
-                
-                self.activityView.stopAnimating()
-            }
         } else {
             
             UserManager.shared.searchUser(text: searchController.searchBar.text!) { (result) in
