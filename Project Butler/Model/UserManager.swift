@@ -175,6 +175,8 @@ class UserManager {
         
         clearAll()
         
+        lastSearchText = ""
+
         db.collection("users").document(userID).collection("friends").getDocuments { (snapshot, error) in
             
             if error == nil && snapshot != nil && snapshot!.documents.count != 0 {
@@ -200,10 +202,12 @@ class UserManager {
                         completion(.failure(error))
                     }
                 }
+                
                 completion(.success(()))
+                
             } else {
                 
-                return
+                return completion(.success(()))
             }
         }
     }
@@ -288,32 +292,6 @@ class UserManager {
 //        }
 //
 //        isSearching = true
-
-        
-        guard text != "" else {
-
-            lastSearchText = text
-            
-            clearAll()
-
-            searchAll { (result) in
-
-                switch result {
-
-                case .success(()):
-
-                    print("Allfriend")
-                    
-                case .failure(let error):
-
-                    print(error)
-                }
-                
-                self.notification()
-                 
-            }
-            return
-        }
         
         guard lastSearchText != text else {
 
@@ -347,6 +325,10 @@ class UserManager {
                 for document in snapshot!.documents {
                     do {
                         if let data = try document.data(as: AuthInfo.self, decoder: Firestore.Decoder()) {
+                            
+                            if data.userID == CurrentUserInfo.shared.userID {
+                                continue
+                            }
                             
                             self.group.enter()
                             

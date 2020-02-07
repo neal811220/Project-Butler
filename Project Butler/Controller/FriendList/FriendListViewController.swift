@@ -317,18 +317,45 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
         
         activityView.startAnimating()
         
-        UserManager.shared.searchUser(text: searchController.searchBar.text!) { (result) in
-          
-            switch result {
+        if searchController.searchBar.text == "" {
+            
+            UserManager.shared.searchAll { (result) in
                 
-            case .success(let data):
+                switch result {
+                    
+                case .success(()):
+                    
+                    print("Success")
+                    
+                case .failure(let error):
+                    
+                    print(error)
                 
-                print(data)
+                }
                 
-            case .failure(let error):
+                self.reloadData()
                 
-                print(error)
+                self.activityView.stopAnimating()
+            }
+        } else {
+            
+            UserManager.shared.searchUser(text: searchController.searchBar.text!) { (result) in
+              
+                switch result {
+                    
+                case .success(let data):
+                    
+                    print(data)
+                    
+                case .failure(let error):
+                    
+                    print(error)
+                    
+                }
                 
+                self.reloadData()
+                
+                self.activityView.stopAnimating()
             }
         }
     }
