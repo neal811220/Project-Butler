@@ -80,7 +80,7 @@ struct AuthInfo: Codable, Userable {
                 
             case .success(()):
                 
-                let text = UserManager.shared.lastSearchText
+                guard let text = UserManager.shared.lastSearchText else { return }
                 
                 UserManager.shared.lastSearchText = ""
                 

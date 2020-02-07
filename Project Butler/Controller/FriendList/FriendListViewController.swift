@@ -84,6 +84,17 @@ class FriendListViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: Notification.Name("searchReload"), object: nil)
         
+        userManager.searchAll { (result) in
+            
+            switch result {
+            case .success(()):
+                
+                self.friendListTableView.reloadData()
+            case .failure(let error):
+                
+                print(error)
+            }
+        }
     }
     
     func settingTableview() {
@@ -184,6 +195,22 @@ extension FriendListViewController: UITableViewDataSource {
         }
         
         friendListTableView.reloadData()
+        
+        userManager.isSearching = false
+        
+//        UserManager.shared.searchUser(text: friendSearchController.searchBar.text!) { (result) in
+//            switch result {
+//
+//            case .success(let data):
+//
+//                print(data)
+//
+//            case .failure(let error):
+//
+//                print(error)
+//
+//            }
+//        }
     }
     
     @objc func tapButton(sender: UIButton) {

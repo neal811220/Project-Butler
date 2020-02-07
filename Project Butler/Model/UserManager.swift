@@ -77,11 +77,12 @@ class UserManager {
     }
     
     func addFriend(uid: String, name: String, email: String, image: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let current = Auth.auth().currentUser else { return }
+        let currentUserId = current.uid
         
-        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        let addStatus:[String: Any] = ["accept": false, "confirm": true, "userID": uid, "userName": name, "userEmail": email, "userImageUrl": image, "didAdd": false]
         
-        let friendStatus:[String: Any] = ["accept": false, "confirm": true, "userID": uid, "userName": name, "userEmail": email, "userImageUrl": image, "didAdd": false]
-        
+        let friendStatu:[String: Any] = ["accept": true, "confirm": false, "userID": currentUserId, "userName": name, "userEmail": email, "userImageUrl": image, "didAdd": false]
         db.collection("users").document(currentUserId).collection("friends").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
             
             if error == nil && snapshot != nil && snapshot?.documents.count != 0 {
@@ -100,7 +101,7 @@ class UserManager {
                 }
                 
             } else if error == nil && snapshot != nil {
-                self.db.collection("users").document(currentUserId).collection("friends").document(uid).setData(friendStatus)
+                self.db.collection("users").document(currentUserId).collection("friends").document(uid).setData(addStatus)
                 completion(.success(()))
                 
             } else {
@@ -114,13 +115,48 @@ class UserManager {
         }
     }
     
+    func searchAll(completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        
+        db.collection("users").document(userID).collection("friends").getDocuments { (snapshot, error) in
+            
+            if error == nil && snapshot != nil && snapshot!.documents.count != 0 {
+                
+                for document in snapshot!.documents {
+                    
+                    do {
+                        guard let data = try document.data(as: FriendDetail.self, decoder: Firestore.Decoder()) else { return }
+                        
+                        if data.accept == true && data.confirm == true {
+                            
+                            self.friendArray.append(data)
+                            
+                        } else if data.confirm == true && data.accept == false {
+                            
+                            self.confirmArray.append(data)
+                            
+                        } else if data.confirm == false && data.accept == true {
+                            
+                            self.acceptArray.append(data)
+                        }
+                    } catch {
+                        completion(.failure(error))
+                    }
+                }
+                completion(.success(()))
+            } else {
+                
+                return
+            }
+        }
+    }
+    
     func searchUserStatus(uid: String, completion: @escaping (Result<Void, Error>) -> Void) {
         
         guard let userID = Auth.auth().currentUser?.uid else { return }
         
         db.collection("users").document(userID).collection("friends").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
-            
-            
             
             if error == nil && snapshot != nil && snapshot!.documents.count != 0 {
                 
@@ -172,24 +208,62 @@ class UserManager {
         }
     }
     
-    var lastSearchText: String = ""
+    var lastSearchText: String? = nil
+    
+    var isSearching = false
     
     func searchUser(text: String, completion: @escaping FetchUserResult) {
-        
-        var currentSearchUseID: String?
                 
-        let searchGroup = DispatchGroup()
+//        if isSearching {
+//
+//            return
+//        }
+//
+//        isSearching = true
+
         
-        guard lastSearchText != text && currentSearchUseID  == nil else {
+        guard text != "" else {
+
+            lastSearchText = text
             
-            NotificationCenter.default.post(name: Notification.Name("searchReload"), object: nil, userInfo: nil)
-            
+            self.friendArray = []
+
+            self.confirmArray = []
+
+            self.acceptArray = []
+
+            self.searchUserArray = []
+
+            searchAll { (result) in
+
+                switch result {
+
+                case .success(()):
+
+                    print("Allfriend")
+                    
+                case .failure(let error):
+
+                    print(error)
+                }
+                
+                 NotificationCenter.default.post(name: Notification.Name("searchReload"), object: nil, userInfo: nil)
+                 
+            }
             return
         }
         
+        guard lastSearchText != text else {
+
+            return
+        }
+
         lastSearchText = text
         
         guard let lastCharacter = text.last else {
+            
+            NotificationCenter.default.post(name: Notification.Name("searchReload"), object: nil, userInfo: nil)
+            
             return
         }
         
@@ -216,8 +290,6 @@ class UserManager {
                     do {
                         if let data = try document.data(as: AuthInfo.self, decoder: Firestore.Decoder()) {
                             
-                            currentSearchUseID = data.userID
-
                             self.group.enter()
                             
                             self.searchUserStatus(uid: data.userID) { (result) in
