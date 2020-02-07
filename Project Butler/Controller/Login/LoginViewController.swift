@@ -68,6 +68,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
                 
                 UserManager.shared.addGeneralUserData(name: String(userName), email: email, imageUrl: userImage)
                 
+                UserManager.shared.getLoginUserInfo()
+                
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                     
                     self.dismiss(animated: true, completion: nil)
@@ -109,6 +111,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
                     }
                     
                     UserManager.shared.addSocialUserData()
+                    
+                    UserManager.shared.getLoginUserInfo()
                     
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                         
@@ -155,6 +159,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
                }
             
             UserManager.shared.addSocialUserData()
+            
+            UserManager.shared.getLoginUserInfo()
                
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
                 self.dismiss(animated: true, completion: nil)

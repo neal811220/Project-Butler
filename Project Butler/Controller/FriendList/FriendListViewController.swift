@@ -50,6 +50,12 @@ class FriendListViewController: UIViewController {
         return bar
     }()
     
+    var activityView: UIActivityIndicatorView = {
+        let ac = UIActivityIndicatorView()
+        ac.translatesAutoresizingMaskIntoConstraints = false
+        return ac
+    }()
+    
     //All count
     var searchUserArray: [AuthInfo] = []
     //filterCount
@@ -82,19 +88,38 @@ class FriendListViewController: UIViewController {
         
         settingTableview()
         
+        settingActivityView()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: Notification.Name("searchReload"), object: nil)
         
+        activityView.startAnimating()
+        
         userManager.searchAll { (result) in
-            
+
             switch result {
             case .success(()):
                 
                 self.friendListTableView.reloadData()
-            case .failure(let error):
                 
+                self.activityView.stopAnimating()
+                
+            case .failure(let error):
+
                 print(error)
             }
         }
+    }
+    
+    func settingActivityView() {
+        
+        view.addSubview(activityView)
+        
+        NSLayoutConstraint.activate([
+            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            activityView.heightAnchor.constraint(equalToConstant: view.frame.size.width / 10),
+            activityView.widthAnchor.constraint(equalToConstant: view.frame.size.width / 10)
+        ])
     }
     
     func settingTableview() {
@@ -135,8 +160,10 @@ extension FriendListViewController: UITableViewDataSource {
         cell.friendEmail.text = datas[indexPath.section][indexPath.row].userEmail
         
         cell.friendImage.loadImage(datas[indexPath.section][indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
-                
+        
         cell.rightButton.addTarget(self, action: #selector(tapButton(sender:)), for: .touchUpInside)
+        
+        cell.leftButton.addTarget(self, action: #selector(tapButton(sender:)), for: .touchUpInside)
         
         cell.delegate = self
         
@@ -176,15 +203,15 @@ extension FriendListViewController: UITableViewDataSource {
         switch currentSeletedIndex {
             
         case 0:
-        
+            
             datas.append(userManager.searchUserArray)
             
-            datas.append(userManager.friendArray)
+            //            datas.append(userManager.friendArray)
             
         case 1:
             
             datas.append(userManager.confirmArray)
-        
+            
             datas.append(userManager.acceptArray)
             
         case 2:
@@ -196,26 +223,29 @@ extension FriendListViewController: UITableViewDataSource {
         
         friendListTableView.reloadData()
         
+        activityView.stopAnimating()
+        
         userManager.isSearching = false
         
-//        UserManager.shared.searchUser(text: friendSearchController.searchBar.text!) { (result) in
-//            switch result {
-//
-//            case .success(let data):
-//
-//                print(data)
-//
-//            case .failure(let error):
-//
-//                print(error)
-//
-//            }
-//        }
+        //        UserManager.shared.searchUser(text: friendSearchController.searchBar.text!) { (result) in
+        //            switch result {
+        //
+        //            case .success(let data):
+        //
+        //                print(data)
+        //
+        //            case .failure(let error):
+        //
+        //                print(error)
+        //
+        //            }
+        //        }
     }
     
     @objc func tapButton(sender: UIButton) {
         
         guard let indexPath = currentIndexPath else { return }
+        
         if sender.tag == 0 {
             userTapStatus = false
         } else {
@@ -223,10 +253,28 @@ extension FriendListViewController: UITableViewDataSource {
         }
         
         sender.isSelected = !sender.isSelected
-        
-        datas[indexPath.section][indexPath.row].tapButtonInfo()
+        switch currentSeletedIndex {
+            
+        case 0:
+            activityView.startAnimating()
+            datas[indexPath.section][indexPath.row].tapAddButton()
+            
+        case 1:
+            
+            if sender.tag == 0 {
+                activityView.startAnimating()
+                datas[indexPath.section][indexPath.row].tapRefuseButton()
+                
+            } else {
+                activityView.startAnimating()
+                datas[indexPath.section][indexPath.row].tapAcceptButton()
+                
+            }
+        default:
+            
+            break
+        }
     }
-    
     
 }
 
@@ -267,7 +315,10 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
         
         friendListTableView.reloadData()
         
+        activityView.startAnimating()
+        
         UserManager.shared.searchUser(text: searchController.searchBar.text!) { (result) in
+          
             switch result {
                 
             case .success(let data):

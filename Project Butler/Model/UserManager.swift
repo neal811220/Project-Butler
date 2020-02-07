@@ -76,13 +76,65 @@ class UserManager {
         db.collection("users").document(uid).setData(userdetail)
     }
     
+    func getLoginUserInfo() {
+       
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        db.collection("users").document(uid).getDocument { (snapshot, error) in
+            
+            if error == nil && snapshot != nil && snapshot?.data()?.count != 0 {
+                do {
+                    let data = try snapshot?.data(as: AuthInfo.self, decoder: Firestore.Decoder())
+                    CurrentUserInfo.shared.userName = data?.userName
+                    CurrentUserInfo.shared.userEmail = data?.userEmail
+                    CurrentUserInfo.shared.userID = data?.userID
+                    CurrentUserInfo.shared.userImageUrl = data?.userImageUrl
+                    print("Get User Info Successfully")
+                } catch {
+                    return
+                }
+            }
+        }
+    }
+    
+    func notification() {
+        
+        NotificationCenter.default.post(name: Notification.Name("searchReload"), object: nil, userInfo: nil)
+    }
+    
+    func refuseFriend(uid: String) {
+        
+        guard let id = CurrentUserInfo.shared.userID else { return }
+        
+        db.collection("users").document(id).collection("friends").document(uid).delete()
+        
+        db.collection("users").document(uid).collection("friends").document(id).delete()
+    }
+    
+    func acceptFrined(uid: String) {
+        
+        guard let id = CurrentUserInfo.shared.userID else { return }
+        db.collection("users").document(id).collection("friends").document(uid).setData(["confirm": true], merge: true)
+        
+        db.collection("users").document(uid).collection("friends").document(id).setData(["accept": true], merge: true)
+    }
+    
+    func changeFriendStatus(uid: String) {
+        
+        let current = CurrentUserInfo.shared
+        guard let id = current.userID, let name = current.userName, let email = current.userEmail, let image = current.userImageUrl else { return }
+        
+        let friendStatu:[String: Any] = ["accept": true, "confirm": false, "userID": id, "userName": name, "userEmail": email, "userImageUrl": image]
+        db.collection("users").document(uid).collection("friends").document(id).setData(friendStatu)
+    }
+    
     func addFriend(uid: String, name: String, email: String, image: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        
         guard let current = Auth.auth().currentUser else { return }
+        
         let currentUserId = current.uid
         
-        let addStatus:[String: Any] = ["accept": false, "confirm": true, "userID": uid, "userName": name, "userEmail": email, "userImageUrl": image, "didAdd": false]
-        
-        let friendStatu:[String: Any] = ["accept": true, "confirm": false, "userID": currentUserId, "userName": name, "userEmail": email, "userImageUrl": image, "didAdd": false]
+        let addStatus:[String: Any] = ["accept": false, "confirm": true, "userID": uid, "userName": name, "userEmail": email, "userImageUrl": image]
         db.collection("users").document(currentUserId).collection("friends").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
             
             if error == nil && snapshot != nil && snapshot?.documents.count != 0 {
@@ -102,6 +154,8 @@ class UserManager {
                 
             } else if error == nil && snapshot != nil {
                 self.db.collection("users").document(currentUserId).collection("friends").document(uid).setData(addStatus)
+                self.changeFriendStatus(uid: uid)
+                
                 completion(.success(()))
                 
             } else {
@@ -118,6 +172,8 @@ class UserManager {
     func searchAll(completion: @escaping (Result<Void, Error>) -> Void) {
         
         guard let userID = Auth.auth().currentUser?.uid else { return }
+        
+        clearAll()
         
         db.collection("users").document(userID).collection("friends").getDocuments { (snapshot, error) in
             
@@ -212,6 +268,18 @@ class UserManager {
     
     var isSearching = false
     
+    func clearAll () {
+        
+        self.friendArray = []
+
+        self.confirmArray = []
+
+        self.acceptArray = []
+
+        self.searchUserArray = []
+
+    }
+    
     func searchUser(text: String, completion: @escaping FetchUserResult) {
                 
 //        if isSearching {
@@ -226,13 +294,7 @@ class UserManager {
 
             lastSearchText = text
             
-            self.friendArray = []
-
-            self.confirmArray = []
-
-            self.acceptArray = []
-
-            self.searchUserArray = []
+            clearAll()
 
             searchAll { (result) in
 
@@ -247,7 +309,7 @@ class UserManager {
                     print(error)
                 }
                 
-                 NotificationCenter.default.post(name: Notification.Name("searchReload"), object: nil, userInfo: nil)
+                self.notification()
                  
             }
             return
@@ -255,14 +317,16 @@ class UserManager {
         
         guard lastSearchText != text else {
 
+            self.notification()
+            
             return
         }
-
+        
         lastSearchText = text
         
         guard let lastCharacter = text.last else {
             
-            NotificationCenter.default.post(name: Notification.Name("searchReload"), object: nil, userInfo: nil)
+            notification()
             
             return
         }
@@ -273,13 +337,7 @@ class UserManager {
         
         let nextWord = text.dropLast().appending(String(nextCharacter))
         
-        self.friendArray = []
-        
-        self.confirmArray = []
-        
-        self.acceptArray = []
-        
-        self.searchUserArray = []
+        clearAll()
         
         db.collection("users").whereField("userEmail", isGreaterThanOrEqualTo: text).whereField("userEmail", isLessThan: nextWord).getDocuments { (snapshot, error) in
             
@@ -310,7 +368,7 @@ class UserManager {
                 
                 self.group.notify(queue: DispatchQueue.main) {
                     
-                    NotificationCenter.default.post(name: Notification.Name("searchReload"), object: nil, userInfo: nil)
+                    self.notification()
                 }
             }
         }

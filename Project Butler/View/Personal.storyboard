@@ -42,7 +42,7 @@
         <!--Personal View Controller-->
         <scene sceneID="xOU-YP-2t3">
             <objects>
-                <viewController id="qDL-5j-jSj" customClass="PersonalViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="personalVC" id="qDL-5j-jSj" customClass="PersonalViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PMr-gM-BXr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

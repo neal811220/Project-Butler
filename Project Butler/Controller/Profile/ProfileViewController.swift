@@ -7,9 +7,27 @@
 //
 
 import UIKit
+import Firebase
 
 class ProfileViewController: UIViewController {
 
+    @IBAction func Logout(_ sender: UIButton) {
+        do {
+            
+            let delegate = UIApplication.shared.delegate as! AppDelegate
+            
+            let tabbarVC = UIStoryboard.main.instantiateViewController(identifier: "TabBarVC") as? PBTabBarViewController
+            try Auth.auth().signOut()
+            
+            delegate.window?.rootViewController = tabbarVC
+            
+        } catch {
+            
+            print("Error")
+            
+        }
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -58,7 +58,11 @@ protocol Userable: Codable {
     
     func userStatus(flag: Bool) -> String
     
-    func tapButtonInfo()
+    func tapAddButton()
+    
+    func tapAcceptButton()
+    
+    func tapRefuseButton()
     
 }
 
@@ -72,7 +76,9 @@ struct AuthInfo: Codable, Userable {
     
     let userID: String
     
-    func tapButtonInfo() {
+    func tapAcceptButton() { }
+    
+    func tapAddButton() {
         
         UserManager.shared.addFriend(uid: userID, name: userName, email: userEmail, image: userImageUrl) { (result) in
             
@@ -107,6 +113,8 @@ struct AuthInfo: Codable, Userable {
         }
     }
     
+    func tapRefuseButton() { }
+    
     func userStatus(flag: Bool) -> String {
         
         return "NotFriend"
@@ -128,7 +136,48 @@ struct FriendDetail: Codable, Userable {
     
     let userName: String
     
-    func tapButtonInfo() {
+    func tapAcceptButton() {
+        
+        UserManager.shared.acceptFrined(uid: userID)
+        
+        UserManager.shared.searchAll { (result) in
+            switch result {
+                
+            case .success(()):
+                
+                print("Accept Successfully")
+                
+            case .failure(let error):
+                
+                print(error)
+            }
+            
+            UserManager.shared.notification()
+        }
+    }
+    
+    func tapRefuseButton() {
+        
+        UserManager.shared.refuseFriend(uid: userID)
+        
+        UserManager.shared.searchAll { (result) in
+            switch result {
+                
+            case .success(()):
+                
+                print("Refuse Successfully")
+                
+            case .failure(let error):
+                
+                print(error)
+            }
+            
+            UserManager.shared.notification()
+        }
+
+    }
+    
+    func tapAddButton() {
         
         print("...")
     }

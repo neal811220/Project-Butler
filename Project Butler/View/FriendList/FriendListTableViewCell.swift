@@ -33,6 +33,7 @@ class FriendListTableViewCell: UITableViewCell {
     }
     @IBAction func pressedLeftButton(_ sender: UIButton) {
         
+        delegate?.passIndexPath(self)
     }
     override func awakeFromNib() {
         super.awakeFromNib()

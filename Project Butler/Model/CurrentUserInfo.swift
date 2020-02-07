@@ -1,5 +1,5 @@
 //
-//  SocialUserInfo.swift
+//  CurrentUserInfo.swift
 //  Project Butler
 //
 //  Created by Neal on 2020/2/7.
@@ -8,9 +8,9 @@
 
 import Foundation
 
-class Social {
+class CurrentUserInfo {
     
-    static let shared = Social()
+    static let shared = CurrentUserInfo()
     
     private init() { }
     
@@ -21,5 +21,7 @@ class Social {
     var userID: String?
     
     var userImageUrl: String?
+    
+    var isLogin: Bool?
     
 }
