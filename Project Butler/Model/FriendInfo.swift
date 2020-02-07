@@ -35,12 +35,115 @@ struct FriendInfo {
     }
 }
 
-struct AuthInfo: Codable {
+enum FriendStatus: String {
+    
+    case friend = "Friend"
+    
+    case confirm = "Confirm"
+    
+    case accept = "Accept"
+    
+    case notFriend = "NotFriend"
+}
+
+protocol Userable: Codable {
+    
+    var userName: String { get }
+    
+    var userEmail: String { get }
+    
+    var userImageUrl: String { get }
+    
+    var userID: String { get }
+    
+    func userStatus(flag: Bool) -> String
+    
+    func tapButtonInfo()
+    
+}
+
+struct AuthInfo: Codable, Userable {
     
     let userName: String
     
     let userEmail: String
     
     let userImageUrl: String
+    
+    let userID: String
+    
+    func tapButtonInfo() {
+        
+        UserManager.shared.addFriend(uid: userID, name: userName, email: userEmail, image: userImageUrl) { (result) in
+            
+            switch result {
+                
+            case .success(()):
+                
+                let text = UserManager.shared.lastSearchText
+                
+                UserManager.shared.lastSearchText = ""
+                
+                UserManager.shared.searchUser(text: text) { (result) in
+                    switch result {
+                        
+                        case .success(let data):
+                            
+                            print(data)
+                            
+                        case .failure(let error):
+                            
+                            print(error)
+                    }
+                    
+                }
+                
+                print("AddFriend Success")
+                
+            case .failure(let error):
+                
+                print(error)
+            }
+        }
+    }
+    
+    func userStatus(flag: Bool) -> String {
+        
+        return "NotFriend"
+    }
+    
+}
+
+struct FriendDetail: Codable, Userable {
+    
+    let accept: Bool
+    
+    let confirm: Bool
+    
+    let userEmail: String
+    
+    let userID: String
+    
+    let userImageUrl: String
+    
+    let userName: String
+    
+    func tapButtonInfo() {
+        
+        print("...")
+    }
+    
+    func userStatus(flag: Bool) -> String {
+        
+        if confirm == true && accept == true {
+            return "Friend"
+        } else if confirm == true && accept == false {
+            return "Confirm"
+        } else if confirm == false && accept == true {
+            return "Accept"
+        } else {
+            return "NotFriend"
+        }
+    }
 }
 

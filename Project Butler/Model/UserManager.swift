@@ -13,11 +13,11 @@ import FirebaseFirestoreSwift
 
 enum ScopeButton:String {
     
-    case all = "AllFriend"
+    case all = "All"
     
     case confirm = "Confirm"
     
-    case accept = "Accept"
+    case friend = "Friend"
 }
 
 enum LargeTitle: String {
@@ -31,6 +31,9 @@ enum LargeTitle: String {
 
 typealias FetchUserResult = (Result<[AuthInfo], Error>) -> Void
 
+typealias FetchFriendResult = (Result<[FriendDetail], Error>) -> Void
+
+
 class UserManager {
     
     static let shared = UserManager()
@@ -39,82 +42,154 @@ class UserManager {
     
     var friendSearcchPlaceHolder = "Type Email To Search Friend"
     
-    var scopeButtons = ["AllFriend", "Confirm", "Accept"]
+    var scopeButtons = ["All", "Confirm", "Friend"]
     
     let db = Firestore.firestore()
     
-    var userInfo = [AuthInfo]()
+    var searchUserArray = [AuthInfo]()
     
-    func addUserDetail() {
+    var friendArray = [FriendDetail]()
+    
+    var confirmArray = [FriendDetail]()
+    
+    var acceptArray = [FriendDetail]()
+    
+    let group = DispatchGroup()
+    
+    
+    func addSocialUserData() {
         
         guard let userName = Auth.auth().currentUser?.displayName,
             let userEmail = Auth.auth().currentUser?.email,
             let userImage = Auth.auth().currentUser?.photoURL?.absoluteString
             else { return }
         
-        UserManager.shared.addUserData(name: userName, email: userEmail, imageUrl: userImage)
+        UserManager.shared.addGeneralUserData(name: userName, email: userEmail, imageUrl: userImage)
     }
     
-    func addUserData(name: String, email: String, imageUrl: String) {
+    func addGeneralUserData(name: String, email: String, imageUrl: String) {
         
-        let uid = db.collection("users").document().documentID
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
         let userdetail: [String: Any] = ["userName": name, "userEmail": email, "userImageUrl": imageUrl, "userID": uid]
         
-        let friendStatus:[String: Any] = ["accept": false, "confirm": false, "friend": false, "userID": uid, "userName": name, "userEmail": email, "userImageUrl": imageUrl]
-        
         db.collection("users").document(uid).setData(userdetail)
+    }
+    
+    func addFriend(uid: String, name: String, email: String, image: String, completion: @escaping (Result<Void, Error>) -> Void) {
         
-        db.collection("users").document(uid).collection("friends").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        
+        let friendStatus:[String: Any] = ["accept": false, "confirm": true, "userID": uid, "userName": name, "userEmail": email, "userImageUrl": image, "didAdd": false]
+        
+        db.collection("users").document(currentUserId).collection("friends").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
             
             if error == nil && snapshot != nil && snapshot?.documents.count != 0 {
                 
                 for document in snapshot!.documents {
-                    
-                    print(document.data())
-                }
-            } else if error == nil && snapshot != nil {
-                self.db.collection("users").document(uid).collection("friends").addDocument(data: friendStatus)
-            } else {
-                
-                print(error)
-            }
-        }
-    }
-    
-    
-    func getUserInfo(completion: @escaping FetchUserResult) {
-        
-        db.collection("users").getDocuments { (snapshot, error) in
-            
-            if let error = error {
-                print(error)
-            } else {
-                for document in snapshot!.documents {
                     do {
                         if let data = try document.data(as: AuthInfo.self, decoder: Firestore.Decoder()) {
-                            
-//                            self.userInfo.append(data)
+                            print(data)
                         }
                     } catch {
                         
                         completion(.failure(error))
                     }
+                    
+                    print(document.data())
                 }
-                completion(.success(self.userInfo))
+                
+            } else if error == nil && snapshot != nil {
+                self.db.collection("users").document(currentUserId).collection("friends").document(uid).setData(friendStatus)
+                completion(.success(()))
+                
+            } else {
+                
+                guard let error = error else { return }
+                
+                completion(.failure(error))
+                
+                print(error)
             }
         }
     }
     
-    func addFriend() {
+    func searchUserStatus(uid: String, completion: @escaping (Result<Void, Error>) -> Void) {
         
+        guard let userID = Auth.auth().currentUser?.uid else { return }
         
+        db.collection("users").document(userID).collection("friends").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
+            
+            
+            
+            if error == nil && snapshot != nil && snapshot!.documents.count != 0 {
+                
+                for document in snapshot!.documents {
+                    do {
+                        guard let data = try document.data(as: FriendDetail.self, decoder: Firestore.Decoder()) else { return }
+                        
+                        if data.accept == true && data.confirm == true {
+                            
+                            self.friendArray.append(data)
+                            
+                        } else if data.confirm == true && data.accept == false {
+                            
+                            self.confirmArray.append(data)
+                            
+                        } else if data.confirm == false && data.accept == true {
+                            
+                            self.acceptArray.append(data)
+                            
+                        }
+                        completion(.success(()))
+                        print(data)
+                        
+                    } catch {
+                        print(error)
+                        completion(.failure(error))
+                    }
+                }
+                
+            } else {
+                
+                self.db.collection("users").document(uid).getDocument { (snapshot, error) in
+                    if error == nil {
+                        do {
+                            guard let data = try snapshot?.data(as: AuthInfo.self, decoder: Firestore.Decoder()) else { return }
+                            
+                            self.searchUserArray.append(data)
+                            
+                            self.group.leave()
+                            
+                        } catch {
+                            
+                            print(error)
+                        }
+                        
+                    }
+                }
+            }
+        }
     }
+    
+    var lastSearchText: String = ""
     
     func searchUser(text: String, completion: @escaping FetchUserResult) {
         
-        guard let lastCharacter = text.last else {
+        var currentSearchUseID: String?
+                
+        let searchGroup = DispatchGroup()
+        
+        guard lastSearchText != text && currentSearchUseID  == nil else {
             
+            NotificationCenter.default.post(name: Notification.Name("searchReload"), object: nil, userInfo: nil)
+            
+            return
+        }
+        
+        lastSearchText = text
+        
+        guard let lastCharacter = text.last else {
             return
         }
         
@@ -123,28 +198,51 @@ class UserManager {
         let nextCharacter = Character(UnicodeScalar(nextASICCode))
         
         let nextWord = text.dropLast().appending(String(nextCharacter))
-        db.collection("users").whereField("userName", isGreaterThanOrEqualTo: text).whereField("userName", isLessThan: nextWord).getDocuments { (snapshot, error) in
+        
+        self.friendArray = []
+        
+        self.confirmArray = []
+        
+        self.acceptArray = []
+        
+        self.searchUserArray = []
+        
+        db.collection("users").whereField("userEmail", isGreaterThanOrEqualTo: text).whereField("userEmail", isLessThan: nextWord).getDocuments { (snapshot, error) in
             
-            self.userInfo = []
-
             if let error = error {
                 print(error)
             } else {
                 for document in snapshot!.documents {
                     do {
                         if let data = try document.data(as: AuthInfo.self, decoder: Firestore.Decoder()) {
+                            
+                            currentSearchUseID = data.userID
 
-                            self.userInfo.append(data)
-
+                            self.group.enter()
+                            
+                            self.searchUserStatus(uid: data.userID) { (result) in
+                                switch result {
+                                case .success(let data):
+                                    print(data)
+                                case .failure(let error):
+                                    print(error)
+                                }
+                                self.group.leave()
+                            }
                         }
                     } catch {
-
+                        
                         completion(.failure(error))
                     }
                 }
-                completion(.success(self.userInfo))
+                
+                self.group.notify(queue: DispatchQueue.main) {
+                    
+                    NotificationCenter.default.post(name: Notification.Name("searchReload"), object: nil, userInfo: nil)
+                }
             }
         }
+        
     }
     
 }

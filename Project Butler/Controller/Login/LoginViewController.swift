@@ -64,9 +64,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
                 guard let userName = email.split(separator: "@").first else { return }
                 print(userName)
                 
-                let userImage = "Icons_32px_ Visitors"
+                let userImage = "Icons_32px_General"
                 
-                UserManager.shared.addUserData(name: String(userName), email: email, imageUrl: userImage)
+                UserManager.shared.addGeneralUserData(name: String(userName), email: email, imageUrl: userImage)
                 
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                     
@@ -108,7 +108,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
                         return
                     }
                     
-                    UserManager.shared.addUserDetail()
+                    UserManager.shared.addSocialUserData()
                     
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                         
@@ -154,7 +154,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
                    print(error.localizedDescription)
                }
             
-            UserManager.shared.addUserDetail()
+            UserManager.shared.addSocialUserData()
                
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
                 self.dismiss(animated: true, completion: nil)

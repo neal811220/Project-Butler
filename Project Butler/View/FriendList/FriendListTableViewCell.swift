@@ -8,8 +8,15 @@
 
 import UIKit
 
+@objc protocol FriendListTableViewCellDelegate: AnyObject {
+    
+    func passIndexPath(_ friendListTableViewCell: FriendListTableViewCell)
+}
+
 class FriendListTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var whitLabel: UILabel!
+    @IBOutlet weak var leftButton: UIButton!
     @IBOutlet weak var friendImage: UIImageView!
     
     @IBOutlet weak var friendTitle: UILabel!
@@ -18,11 +25,21 @@ class FriendListTableViewCell: UITableViewCell {
     
     @IBOutlet weak var rightButton: UIButton!
     
+    weak var delegate: FriendListTableViewCellDelegate?
+    
+    @IBAction func pressedRightbutton(_ sender: UIButton) {
+        
+        delegate?.passIndexPath(self)
+    }
+    @IBAction func pressedLeftButton(_ sender: UIButton) {
+        
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         
         friendImage.layer.cornerRadius  = friendImage.frame.width / 2
         
+        whitLabel.layer.cornerRadius = 10
         // Initialization code
     }
 
@@ -31,5 +48,7 @@ class FriendListTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    
     
 }

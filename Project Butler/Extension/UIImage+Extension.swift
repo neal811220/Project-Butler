@@ -32,12 +32,16 @@ enum ImageAsset: String {
     
     case Icons_32px_Accept
     
-    case Icons_32px_AddFriend
+    case Icons_32px_AddFriend_Normal
     
     case Icons_32px_Remove
     
-    //Visitors
-    case Icons_128px_Visitors
+    case Icons_32px_AddFriend_DidTap
+    
+    case Icons_32px_Refuse
+    
+    //General
+    case Icons_128px_General
     
     //NewProject
     case Icons_32px_ProjectName

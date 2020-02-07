@@ -14,7 +14,7 @@ extension UIImageView {
     func loadImage(_ urlString: String?, placeHolder: UIImage? = nil) {
         
         guard urlString != nil else { return }
-        if urlString == "Icons_128px_Visitors" {
+        if urlString == "Icons_128px_General" {
             self.image = UIImage(named: urlString!)
         } else {
             

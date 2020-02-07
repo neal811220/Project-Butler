@@ -51,16 +51,23 @@ class FriendListViewController: UIViewController {
     }()
     
     //All count
-    var friends = [AuthInfo]()
-        
+    var searchUserArray: [AuthInfo] = []
     //filterCount
-    var filteredFriends = [AuthInfo]()
+    var friendArray: [FriendDetail] = []
     
-    var selectCenterConstraint: NSLayoutConstraint?
+    var accepFriendArray: [FriendDetail] = []
     
-    var buttons = [UIButton]()
+    var confirmFriendArray: [FriendDetail] = []
     
-    var isSearch = false
+    var datas: [[Userable]] = []
+    
+    var currentIndexPath: IndexPath?
+    
+    var currentSeletedIndex = 0
+    
+    var userTapStatus = false
+    
+    var userManager = UserManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,32 +82,8 @@ class FriendListViewController: UIViewController {
         
         settingTableview()
         
-    }
-
-    func filterContentForSearchText(searchText: String, scope: String = ScopeButton.all.rawValue) {
-        filteredFriends = friends.filter({ (friend: AuthInfo) -> Bool in
-//            let doesCategoryMatch = (scope == ScopeButton.all.rawValue) || (friend.userEmail == scope)
-            let doesCategoryMatch = !(scope == ScopeButton.all.rawValue)
-            //return true
-            if isSearchBarEmpty() {
-                return doesCategoryMatch
-            } else {
-                return doesCategoryMatch && friend.userName.lowercased().contains(searchText.lowercased())
-            }
-        })
-        friendListTableView.reloadData()
-    }
-
-
-    func isSearchBarEmpty() -> Bool {
-        //if text == nil(return true) else (return nil)
-        return friendSearchController.searchBar.text?.isEmpty ?? true
-    }
-    
-    func isFiltering() -> Bool {
-        //if scope == 1 or 2 return true
-        let searchBarScopeIsFiltering = friendSearchController.searchBar.selectedScopeButtonIndex != 0
-        return friendSearchController.isActive && (!isSearchBarEmpty() || searchBarScopeIsFiltering)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: Notification.Name("searchReload"), object: nil)
+        
     }
     
     func settingTableview() {
@@ -121,105 +104,123 @@ class FriendListViewController: UIViewController {
 
 extension FriendListViewController: UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering() {
-            if friendSearchController.searchBar.selectedScopeButtonIndex == 0 {
-                
-//                let allfriend = filteredFriends.filter { (friend) -> Bool in
-//
-//                    return friend.userEmail == ScopeButton.all.rawValue
-//
-//                }
-//                 return allfriend.count
-                return friends.count
-            } else {
-                return filteredFriends.count
-            }
-           
-        } else {
-            if friendSearchController.searchBar.selectedScopeButtonIndex == 0 {
-                
-//                let allfriend = friends.filter { (friend) -> Bool in
-//
-//                    return friend.userEmail == ScopeButton.all.rawValue
-//                }
-//
-//                return allfriend.count
-                return friends.count
-                
-            } else {
-                return friends.count
-            }
-        }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        return datas.count
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return datas[section].count
+    }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendListCell", for: indexPath) as? FriendListTableViewCell else { return UITableViewCell() }
         
-        let currentFriend: AuthInfo
+        cell.friendTitle.text = datas[indexPath.section][indexPath.row].userName
         
-        if  isFiltering() {
-            if friendSearchController.searchBar.selectedScopeButtonIndex == 0 {
+        cell.friendEmail.text = datas[indexPath.section][indexPath.row].userEmail
+        
+        cell.friendImage.loadImage(datas[indexPath.section][indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
                 
-//                let allfriend = filteredFriends.filter { (friend) -> Bool in
-//
-//                    return friend.userEmail == ScopeButton.all.rawValue
-//                }
-//                currentFriend = allfriend[indexPath.row]
-                currentFriend = friends[indexPath.row]
-                
-            } else {
-                
-                currentFriend = filteredFriends[indexPath.row]
-                
-            }
+        cell.rightButton.addTarget(self, action: #selector(tapButton(sender:)), for: .touchUpInside)
+        
+        cell.delegate = self
+        
+        cell.rightButton.isSelected = false
+        
+        switch datas[indexPath.section][indexPath.row].userStatus(flag: userTapStatus) {
             
-        } else {
-            if friendSearchController.searchBar.selectedScopeButtonIndex == 0 {
-                
-//                let allfriend = friends.filter { (friend) -> Bool in
-//
-//                    return friend.userEmail == ScopeButton.all.rawValue
-//                }
-                
-                currentFriend = friends[indexPath.row]
-                
-            } else{
-                
-                currentFriend = friends[indexPath.row]
-                
-            }
+        case FriendStatus.friend.rawValue:
+            cell.leftButton.isHidden = true
+            cell.rightButton.isHidden = true
             
+        case FriendStatus.accept.rawValue:
+            cell.leftButton.isHidden = false
+            cell.rightButton.isHidden = false
+            cell.rightButton.setImage(UIImage.asset(.Icons_32px_Accept), for: .normal)
+            cell.leftButton.setImage(UIImage.asset(.Icons_32px_Refuse), for: .normal)
+            
+        case FriendStatus.confirm.rawValue:
+            cell.leftButton.isHidden = true
+            cell.rightButton.isHidden = false
+            cell.rightButton.setImage(UIImage.asset(.Icons_32px_Confirm), for: .normal)
+        default:
+            cell.leftButton.isHidden = true
+            cell.rightButton.setImage(UIImage.asset(.Icons_32px_AddFriend_Normal), for: .normal)
+            cell.rightButton.setImage(UIImage.asset(.Icons_32px_AddFriend_DidTap), for: .selected)
+            cell.rightButton.isHidden = false
+            cell.whitLabel.isHidden = true
         }
-        cell.friendTitle.text = currentFriend.userName
         
-        cell.friendEmail.text = currentFriend.userEmail
-        
-        cell.friendImage.loadImage(friends[indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_Visitors))
-        
-//        switch currentFriend.userEmail {
-//
-//        case ScopeButton.all.rawValue:
-//
-//            cell.rightButton.isHidden = true
-//
-//        case ScopeButton.confirm.rawValue:
-//
-//            cell.rightButton.isHidden = false
-//
-//            cell.rightButton.setImage(UIImage.asset(.Icons_32px_Confirm), for: .normal)
-//
-//        case ScopeButton.accept.rawValue:
-//
-//            cell.rightButton.isHidden = false
-//
-//            cell.rightButton.setImage(UIImage.asset(.Icons_32px_Accept), for: .normal)
-//
-//        default:
-//            break
-//        }
         return cell
+    }
+    
+    @objc func reloadData() {
+        
+        datas = []
+        
+        switch currentSeletedIndex {
+            
+        case 0:
+        
+            datas.append(userManager.searchUserArray)
+            
+            datas.append(userManager.friendArray)
+            
+        case 1:
+            
+            datas.append(userManager.confirmArray)
+        
+            datas.append(userManager.acceptArray)
+            
+        case 2:
+            
+            datas.append(userManager.friendArray)
+            
+        default: break
+        }
+        
+        friendListTableView.reloadData()
+    }
+    
+    @objc func tapButton(sender: UIButton) {
+        
+        guard let indexPath = currentIndexPath else { return }
+        if sender.tag == 0 {
+            userTapStatus = false
+        } else {
+            userTapStatus = true
+        }
+        
+        sender.isSelected = !sender.isSelected
+        
+        datas[indexPath.section][indexPath.row].tapButtonInfo()
+    }
+    
+    
+}
+
+extension FriendListViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        currentIndexPath = indexPath
+        print(indexPath)
+    }
+    
+    
+}
+
+extension FriendListViewController: FriendListTableViewCellDelegate {
+    
+    func passIndexPath(_ friendListTableViewCell: FriendListTableViewCell) {
+        
+        guard let indexPath = friendListTableView.indexPath(for: friendListTableViewCell) else { return }
+        
+        currentIndexPath = indexPath
     }
     
 }
@@ -227,24 +228,24 @@ extension FriendListViewController: UITableViewDataSource {
 extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating {
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        filterContentForSearchText(searchText: searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
+        
+        currentSeletedIndex = selectedScope
+        
+        friendListTableView.reloadData()
     }
     
     func updateSearchResults(for searchController: UISearchController) {
         
-        let searchBar = searchController.searchBar
+        datas = []
         
-        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
-        filterContentForSearchText(searchText: searchController.searchBar.text!, scope: scope)
+        friendListTableView.reloadData()
         
         UserManager.shared.searchUser(text: searchController.searchBar.text!) { (result) in
             switch result {
                 
             case .success(let data):
                 
-                self.friends = UserManager.shared.userInfo
-                
-                self.friendListTableView.reloadData()
+                print(data)
                 
             case .failure(let error):
                 
@@ -254,4 +255,3 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
         }
     }
 }
-
