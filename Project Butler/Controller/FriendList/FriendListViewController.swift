@@ -82,7 +82,7 @@ class FriendListViewController: UIViewController {
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 23/255, green: 61/255, blue: 160/255, alpha: 1.0)]
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
         
         self.navigationItem.searchController = friendSearchController
         

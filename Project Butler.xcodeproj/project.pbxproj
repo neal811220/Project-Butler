@@ -38,6 +38,11 @@
 		18AD1F3F23DB4AF600C75504 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */; };
 		18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */; };
 		18BEF14723E977C200CC401C /* KingFisherWapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BEF14623E977C200CC401C /* KingFisherWapper.swift */; };
+		18D2494823EED9C3006528A6 /* CompletedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D2494623EED9C3006528A6 /* CompletedTableViewCell.swift */; };
+		18D2494923EED9C3006528A6 /* CompletedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D2494723EED9C3006528A6 /* CompletedTableViewCell.xib */; };
+		18D93DC723EEA225005398B7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D93DC623EEA225005398B7 /* UIColor+Extension.swift */; };
+		18D93DCA23EEC268005398B7 /* PersonalProcessingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D93DC823EEC268005398B7 /* PersonalProcessingTableViewCell.swift */; };
+		18D93DCB23EEC268005398B7 /* PersonalProcessingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D93DC923EEC268005398B7 /* PersonalProcessingTableViewCell.xib */; };
 		18F8CC3D23ED1993004D8420 /* CurrentUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F8CC3C23ED1993004D8420 /* CurrentUserInfo.swift */; };
 		18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */; };
 		18FFB56523E175E2004B43C0 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 18FFB56423E175E2004B43C0 /* FacebookLogin */; };
@@ -78,6 +83,11 @@
 		18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ResetPasswordViewController.swift; path = "/Users/apple/Desktop/Project Butler/Project Butler/Controller/ResetPasswordViewController.swift"; sourceTree = "<absolute>"; };
 		18BEF14623E977C200CC401C /* KingFisherWapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingFisherWapper.swift; sourceTree = "<group>"; };
+		18D2494623EED9C3006528A6 /* CompletedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedTableViewCell.swift; sourceTree = "<group>"; };
+		18D2494723EED9C3006528A6 /* CompletedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CompletedTableViewCell.xib; sourceTree = "<group>"; };
+		18D93DC623EEA225005398B7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		18D93DC823EEC268005398B7 /* PersonalProcessingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalProcessingTableViewCell.swift; sourceTree = "<group>"; };
+		18D93DC923EEC268005398B7 /* PersonalProcessingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PersonalProcessingTableViewCell.xib; sourceTree = "<group>"; };
 		18F8CC3C23ED1993004D8420 /* CurrentUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserInfo.swift; sourceTree = "<group>"; };
 		18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWapper.swift; sourceTree = "<group>"; };
 		31E235C089173A4059097F39 /* Pods-Project Butler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project Butler.debug.xcconfig"; path = "Target Support Files/Pods-Project Butler/Pods-Project Butler.debug.xcconfig"; sourceTree = "<group>"; };
@@ -178,6 +188,7 @@
 		1861E11C23D82E1500673640 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				18D93DCC23EEC272005398B7 /* PersonalProject */,
 				188FE73523E7EF8800DDF30C /* FriendList */,
 				188FE73623E7EFA100DDF30C /* NewProject */,
 				1861E10A23D7F71400673640 /* Main.storyboard */,
@@ -211,6 +222,7 @@
 		1885EE6C23DABDAE005A4835 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				18D93DC623EEA225005398B7 /* UIColor+Extension.swift */,
 				1895D75323E3C5F500207016 /* UIStoryboard+Extension.swift */,
 				18A059BE23E3C6FB002860B6 /* UIImage+Extension.swift */,
 			);
@@ -291,6 +303,17 @@
 				1861E10823D7F71400673640 /* PersonalViewController.swift */,
 			);
 			path = ProsonalProject;
+			sourceTree = "<group>";
+		};
+		18D93DCC23EEC272005398B7 /* PersonalProject */ = {
+			isa = PBXGroup;
+			children = (
+				18D93DC823EEC268005398B7 /* PersonalProcessingTableViewCell.swift */,
+				18D2494623EED9C3006528A6 /* CompletedTableViewCell.swift */,
+				18D2494723EED9C3006528A6 /* CompletedTableViewCell.xib */,
+				18D93DC923EEC268005398B7 /* PersonalProcessingTableViewCell.xib */,
+			);
+			path = PersonalProject;
 			sourceTree = "<group>";
 		};
 		457B2D8672F8B072CD41852A /* Frameworks */ = {
@@ -379,6 +402,8 @@
 			files = (
 				182A42F023E305D6002D8013 /* Personal.storyboard in Resources */,
 				18A059D523E3D824002860B6 /* FriendList.storyboard in Resources */,
+				18D93DCB23EEC268005398B7 /* PersonalProcessingTableViewCell.xib in Resources */,
+				18D2494923EED9C3006528A6 /* CompletedTableViewCell.xib in Resources */,
 				18A059C123E3CC66002860B6 /* Report.storyboard in Resources */,
 				188FE73E23E7F0E800DDF30C /* WorkItemTableViewCell.xib in Resources */,
 				18A059C423E3CC95002860B6 /* Profile.storyboard in Resources */,
@@ -461,8 +486,11 @@
 				18F8CC3D23ED1993004D8420 /* CurrentUserInfo.swift in Sources */,
 				18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */,
 				18A059CC23E3CDC7002860B6 /* ReportViewController.swift in Sources */,
+				18D93DCA23EEC268005398B7 /* PersonalProcessingTableViewCell.swift in Sources */,
+				18D93DC723EEA225005398B7 /* UIColor+Extension.swift in Sources */,
 				1844082623E56F4100A879F7 /* UserManager.swift in Sources */,
 				18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */,
+				18D2494823EED9C3006528A6 /* CompletedTableViewCell.swift in Sources */,
 				1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */,
 				1895D75123E3C51F00207016 /* PBTabBarViewController.swift in Sources */,
 				18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */,
