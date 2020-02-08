@@ -27,6 +27,8 @@ enum LargeTitle: String {
     case memberList = "Member List"
     
     case newProject = "New Project"
+    
+    case personalProject = "Personal Project"
 }
 
 typealias FetchUserResult = (Result<[AuthInfo], Error>) -> Void

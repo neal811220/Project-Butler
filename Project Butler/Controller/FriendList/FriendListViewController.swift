@@ -95,8 +95,9 @@ class FriendListViewController: UIViewController {
         activityView.startAnimating()
         
         userManager.searchAll { (result) in
-
+            
             switch result {
+                
             case .success(()):
                 
                 self.friendListTableView.reloadData()
@@ -104,7 +105,7 @@ class FriendListViewController: UIViewController {
                 self.activityView.stopAnimating()
                 
             case .failure(let error):
-
+                
                 print(error)
             }
         }
@@ -305,31 +306,32 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
         activityView.startAnimating()
         
         if searchController.searchBar.text == "" {
-                            
-                UserManager.shared.searchAll { (result) in
+            
+            UserManager.shared.searchAll { (result) in
+                
+                switch result {
                     
-                    switch result {
-                        
-                    case .success(()):
-                        
-                        print("Success")
-                        
-                    case .failure(let error):
-                        
-                        print(error)
-                        
-                    }
-                                        
-                    self.reloadData()
+                case .success(()):
                     
-                    UserManager.shared.clearAll()
+                    print("Success")
                     
-                    self.activityView.stopAnimating()
+                case .failure(let error):
+                    
+                    print(error)
+                    
                 }
+                
+                self.reloadData()
+                
+                UserManager.shared.clearAll()
+                
+                self.activityView.stopAnimating()
+            }
+            
         } else {
             
             UserManager.shared.searchUser(text: searchController.searchBar.text!) { (result) in
-              
+                
                 switch result {
                     
                 case .success(let data):
