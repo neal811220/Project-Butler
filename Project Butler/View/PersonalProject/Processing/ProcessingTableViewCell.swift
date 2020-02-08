@@ -67,4 +67,7 @@ extension ProcessingTableViewCell: UICollectionViewDataSource {
 
 extension ProcessingTableViewCell: UICollectionViewDelegateFlowLayout {
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 40, height: 40)
+    }
 }

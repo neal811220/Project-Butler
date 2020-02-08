@@ -10,8 +10,10 @@ import UIKit
 
 class CompletedCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var memberImage: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
+        memberImage.layer.cornerRadius = memberImage.frame.width / 2
         // Initialization code
     }
 

@@ -11,14 +11,25 @@ import UIKit
 class CompletedTableViewCell: UITableViewCell {
 
     @IBOutlet weak var backView: UIView!
+    
     @IBOutlet weak var leaderImage: UIImageView!
+    
     @IBOutlet weak var titleLabel: UILabel!
+    
     @IBOutlet weak var completedImage: UIImageView!
+    
     @IBOutlet weak var dateLabel: UILabel!
+    
     @IBOutlet weak var completionDataLabel: UILabel!
+    
     @IBOutlet weak var hourLabel: UILabel!
+    
     @IBOutlet weak var completionHourLable: UILabel!
+    
     @IBOutlet weak var collectionView: UICollectionView!
+    
+    let nib = UINib(nibName: "ProcessingCollectionViewCell", bundle: nil)
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         backView.layer.shadowOpacity = 0.5
