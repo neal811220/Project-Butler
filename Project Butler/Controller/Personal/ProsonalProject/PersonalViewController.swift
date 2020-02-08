@@ -52,6 +52,7 @@ class PersonalViewController: UIViewController {
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
         bt.translatesAutoresizingMaskIntoConstraints = false
         bt.isEnabled = true
+        bt.tag = 0
         bt.addTarget(self, action: #selector(didTapStatusButton), for: .touchUpInside)
         return bt
     }()
@@ -63,6 +64,7 @@ class PersonalViewController: UIViewController {
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
         bt.translatesAutoresizingMaskIntoConstraints = false
         bt.isEnabled = true
+        bt.tag = 1
         bt.addTarget(self, action: #selector(didTapStatusButton), for: .touchUpInside)
         return bt
     }()
@@ -79,13 +81,18 @@ class PersonalViewController: UIViewController {
         tb.rowHeight = UITableView.automaticDimension
         tb.translatesAutoresizingMaskIntoConstraints = false
         tb.dataSource = self
+        tb.delegate = self
         tb.separatorStyle = .none
-        let nib = UINib(nibName: "PersonalProcessingTableViewCell", bundle: nil)
-        tb.register(nib, forCellReuseIdentifier: "ProcessingCell")
+        let processingNib = UINib(nibName: "PersonalProcessingTableViewCell", bundle: nil)
+        let completedNib = UINib(nibName: "CompletedTableViewCell", bundle: nil)
+        tb.register(processingNib, forCellReuseIdentifier: "ProcessingCell")
+        tb.register(completedNib, forCellReuseIdentifier: "CompletedCell")
         return tb
     }()
     
     var indicatorViewCenterXConstraint: NSLayoutConstraint?
+    
+    var checkButton = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,6 +120,8 @@ class PersonalViewController: UIViewController {
     
     @objc func didTapStatusButton(sender: UIButton) {
         
+        checkButton = sender.tag
+        
         UIView.animate(withDuration: 0.5) {
             
             self.indicatorViewCenterXConstraint?.isActive = false
@@ -123,6 +132,8 @@ class PersonalViewController: UIViewController {
             
             self.view.layoutIfNeeded()
         }
+        
+        tableView.reloadData()
     }
     
     func settingTableView() {
@@ -191,8 +202,35 @@ extension PersonalViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProcessingCell") as? PersonalProcessingTableViewCell else { return UITableViewCell() }
-        return cell
+        switch checkButton {
+        case 0:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProcessingCell") as? PersonalProcessingTableViewCell else { return UITableViewCell() }
+            return cell
+        case 1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedCell") as? CompletedTableViewCell else { return UITableViewCell() }
+            return cell
+        default:
+            return UITableViewCell()
+        }
     }
+}
+
+extension PersonalViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        let spring = UISpringTimingParameters(dampingRatio: 0.5, initialVelocity: CGVector(dx: 1.0, dy: 0.2))
+        
+      let animator = UIViewPropertyAnimator(duration: 1.0, timingParameters: spring)
+            cell.alpha = 0
+            cell.transform = CGAffineTransform(translationX: 0, y: 100 * 0.6)
+            animator.addAnimations {
+                cell.alpha = 1
+                cell.transform = .identity
+              self.tableView.layoutIfNeeded()
+            }
+            animator.startAnimation(afterDelay: 0.3 * Double(indexPath.item))
+    }
+    
 }
 
