@@ -83,7 +83,7 @@ class PersonalViewController: UIViewController {
         tb.dataSource = self
         tb.delegate = self
         tb.separatorStyle = .none
-        let processingNib = UINib(nibName: "PersonalProcessingTableViewCell", bundle: nil)
+        let processingNib = UINib(nibName: "ProcessingTableViewCell", bundle: nil)
         let completedNib = UINib(nibName: "CompletedTableViewCell", bundle: nil)
         tb.register(processingNib, forCellReuseIdentifier: "ProcessingCell")
         tb.register(completedNib, forCellReuseIdentifier: "CompletedCell")
@@ -204,7 +204,7 @@ extension PersonalViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch checkButton {
         case 0:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProcessingCell") as? PersonalProcessingTableViewCell else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProcessingCell") as? ProcessingTableViewCell else { return UITableViewCell() }
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedCell") as? CompletedTableViewCell else { return UITableViewCell() }
