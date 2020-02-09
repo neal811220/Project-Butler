@@ -21,12 +21,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZJ-mb-DXc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1683" y="222"/>
+            <point key="canvasLocation" x="1707" y="222"/>
         </scene>
         <!--Member List View Controller-->
         <scene sceneID="wk4-Ih-r9Z">
             <objects>
-                <viewController storyboardIdentifier="apple" id="Pls-G5-LdS" customClass="MemberListViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MemberVC" id="Pls-G5-LdS" customClass="MemberListViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MHc-tJ-7Ku">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -37,12 +37,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Hh-Ps-9HQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2414" y="222"/>
+            <point key="canvasLocation" x="951" y="896"/>
         </scene>
         <!--Personal View Controller-->
         <scene sceneID="xOU-YP-2t3">
             <objects>
-                <viewController storyboardIdentifier="personalVC" id="qDL-5j-jSj" customClass="PersonalViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PersonalVC" id="qDL-5j-jSj" customClass="PersonalViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PMr-gM-BXr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

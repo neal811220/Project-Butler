@@ -12,7 +12,7 @@ class MemberListViewController: UIViewController {
     
     lazy var searchController: UISearchController = {
         let search = UISearchController(searchResultsController: nil)
-        search.searchBar.placeholder = UserManager.shared.friendSearcchPlaceHolder
+        search.searchBar.placeholder = PlaceHolder.friendPlaceHolder.rawValue
         search.obscuresBackgroundDuringPresentation = false
         search.searchBar.sizeToFit()
         search.searchBar.searchBarStyle = .prominent

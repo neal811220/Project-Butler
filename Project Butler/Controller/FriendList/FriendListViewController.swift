@@ -37,7 +37,7 @@ class FriendListViewController: UIViewController {
         
         bar.obscuresBackgroundDuringPresentation = false
         
-        bar.searchBar.placeholder = UserManager.shared.friendSearcchPlaceHolder
+        bar.searchBar.placeholder = PlaceHolder.friendPlaceHolder.rawValue
         
         bar.searchBar.sizeToFit()
         
@@ -78,13 +78,13 @@ class FriendListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = LargeTitle.friendList.rawValue
+        navigationItem.title = LargeTitle.friendList.rawValue
         
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = true
         
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
         
-        self.navigationItem.searchController = friendSearchController
+        navigationItem.searchController = friendSearchController
         
         settingTableview()
         

@@ -31,6 +31,13 @@ enum LargeTitle: String {
     case personalProject = "Personal Project"
 }
 
+enum PlaceHolder: String {
+    
+    case friendPlaceHolder = "Type Email To Search Friend"
+    
+    case projectPlaceHolder = "Type Project Name To Search Project"
+}
+
 typealias FetchUserResult = (Result<[AuthInfo], Error>) -> Void
 
 typealias FetchFriendResult = (Result<[FriendDetail], Error>) -> Void
@@ -41,8 +48,6 @@ class UserManager {
     static let shared = UserManager()
     
     private init(){ }
-    
-    var friendSearcchPlaceHolder = "Type Email To Search Friend"
     
     var scopeButtons = ["All", "Confirm", "Friend"]
     

@@ -15,7 +15,6 @@ class PersonalViewController: UIViewController {
         let bt = UIButton()
         bt.setImage(searchImage, for: .normal)
         bt.translatesAutoresizingMaskIntoConstraints = false
-        bt.addTarget(self, action: #selector(didTapSearchButton(sender:)), for: .touchUpInside)
         return bt
     }()
     
@@ -24,7 +23,7 @@ class PersonalViewController: UIViewController {
         let bt = UIButton()
         bt.setImage(addrProjectImage, for: .normal)
         bt.translatesAutoresizingMaskIntoConstraints = false
-        bt.addTarget(self, action: #selector(didTapAddProjtButton(sender:)), for: .touchUpInside)
+        bt.isEnabled = true
         return bt
     }()
     
@@ -41,7 +40,6 @@ class PersonalViewController: UIViewController {
         st.axis = NSLayoutConstraint.Axis.horizontal
         st.distribution = UIStackView.Distribution.fillEqually
         st.translatesAutoresizingMaskIntoConstraints = false
-        st.backgroundColor = UIColor.red
         return st
     }()
     
@@ -76,6 +74,13 @@ class PersonalViewController: UIViewController {
         return view
     }()
     
+    let searchbarStackView: UIStackView = {
+        let st = UIStackView()
+        st.axis = NSLayoutConstraint.Axis.horizontal
+        st.translatesAutoresizingMaskIntoConstraints = false
+        return st
+    }()
+    
    lazy var tableView: UITableView = {
         let tb = UITableView()
         tb.rowHeight = UITableView.automaticDimension
@@ -90,9 +95,38 @@ class PersonalViewController: UIViewController {
         return tb
     }()
     
+    let searchBar: UISearchBar = {
+        let sb = UISearchBar()
+        
+        sb.placeholder = PlaceHolder.projectPlaceHolder.rawValue
+        
+        sb.sizeToFit()
+
+        sb.searchBarStyle = .minimal
+        
+        sb.translatesAutoresizingMaskIntoConstraints = false
+                
+//        seb.searchResultsUpdater = self
+//
+//        seb.searchBar.delegate = self
+        return sb
+    }()
+    
+    let searchImage: UIButton = {
+        let searchImage = UIImage.asset(.Icons_32px_Leader)
+        let bt = UIButton()
+        bt.setImage(searchImage, for: .normal)
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        return bt
+    }()
+    
     var indicatorViewCenterXConstraint: NSLayoutConstraint?
     
     var checkButton = 0
+    
+    var searchBarStackViewHightConstraint: NSLayoutConstraint?
+    
+    var tableViewTopConstraint: NSLayoutConstraint?
     
     let projectBackground: [ProjectColor] = [.BCB1, .BCB2, .BCB3, .BCG1, .BCG2, .BCB3, .BCO1, .BCR1, .BCR2]
     
@@ -109,14 +143,16 @@ class PersonalViewController: UIViewController {
         
         settingButtonStackView()
         
-        settingTableView() 
+        settingSearchBar()
+        
+        settingTableView()
     }
     
-    @objc func didTapSearchButton(sender: UIBarButtonItem) {
+    @objc func didTouchSearchBtn(sender: UIButton) {
         
     }
     
-    @objc func didTapAddProjtButton(sender: UIBarButtonItem) {
+    @objc func didTouchAddBtn(sender: UIButton) {
         
     }
     
@@ -138,12 +174,44 @@ class PersonalViewController: UIViewController {
         tableView.reloadData()
     }
     
+    func settingSearchBar() {
+        
+        view.addSubview(searchbarStackView)
+        
+        searchbarStackView.addSubview(searchBar)
+        
+        searchbarStackView.addSubview(searchImage)
+        
+        searchBarStackViewHightConstraint = searchbarStackView.heightAnchor.constraint(equalToConstant: 30)
+        NSLayoutConstraint.activate([
+            searchbarStackView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20),
+            searchbarStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            searchbarStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            searchBarStackViewHightConstraint!
+        ])
+        
+        NSLayoutConstraint.activate([
+            searchBar.topAnchor.constraint(equalTo: searchbarStackView.topAnchor),
+            searchBar.leftAnchor.constraint(equalTo: searchbarStackView.leftAnchor),
+            searchBar.bottomAnchor.constraint(equalTo: searchbarStackView.bottomAnchor),
+            searchBar.widthAnchor.constraint(equalToConstant: view.frame.width - 80)
+        ])
+        
+        NSLayoutConstraint.activate([
+            searchImage.topAnchor.constraint(equalTo: searchbarStackView.topAnchor),
+            searchImage.rightAnchor.constraint(equalTo: searchbarStackView.rightAnchor),
+            searchImage.bottomAnchor.constraint(equalTo: searchbarStackView.bottomAnchor),
+            searchImage.leftAnchor.constraint(equalTo: searchBar.rightAnchor)
+        ])
+        
+    }
+    
     func settingTableView() {
         
         view.addSubview(tableView)
-        
+        tableViewTopConstraint = tableView.topAnchor.constraint(equalTo: searchbarStackView.bottomAnchor, constant: 20)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20),
+            tableViewTopConstraint!,
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -160,6 +228,10 @@ class PersonalViewController: UIViewController {
         
         titleStackView.addArrangedSubview(addButton)
         
+        searchButton.addTarget(self, action: #selector(didTouchSearchBtn), for: .touchUpInside)
+        
+        addButton.addTarget(self, action: #selector(didTouchAddBtn), for: .touchUpInside)
+
         NSLayoutConstraint.activate([
             titleStackView.bottomAnchor.constraint(equalTo: navigationbar.bottomAnchor, constant: -10),
             titleStackView.rightAnchor.constraint(equalTo: navigationbar.rightAnchor, constant: -15),
