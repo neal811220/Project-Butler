@@ -28,13 +28,22 @@ class CompletedTableViewCell: UITableViewCell {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    let nib = UINib(nibName: "ProcessingCollectionViewCell", bundle: nil)
+    let nib = UINib(nibName: "CompletedCollectionViewCell", bundle: nil)
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         backView.layer.shadowOpacity = 0.5
+        
         backView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        
         backView.layer.cornerRadius = 20
+        
+        collectionView.delegate = self
+        
+        collectionView.dataSource = self
+        
+        collectionView.register(nib, forCellWithReuseIdentifier: "CompletedCell")
         // Initialization code
     }
 
@@ -44,4 +53,29 @@ class CompletedTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+}
+
+extension CompletedTableViewCell: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CompletedCell", for: indexPath) as? CompletedCollectionViewCell else { return UICollectionViewCell() }
+        return cell
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+}
+
+extension CompletedTableViewCell: UICollectionViewDelegate {
+    
+}
+
+extension CompletedTableViewCell: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.height, height: collectionView.frame.height)
+    }
 }

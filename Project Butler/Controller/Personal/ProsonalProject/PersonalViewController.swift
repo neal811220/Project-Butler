@@ -94,6 +94,8 @@ class PersonalViewController: UIViewController {
     
     var checkButton = 0
     
+    let projectBackground: [ProjectColor] = [.BCB1, .BCB2, .BCB3, .BCG1, .BCG2, .BCB3, .BCO1, .BCR1, .BCR2]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -202,12 +204,20 @@ extension PersonalViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let randomImage = projectBackground.randomElement() else { return UITableViewCell() }
         switch checkButton {
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProcessingCell") as? ProcessingTableViewCell else { return UITableViewCell() }
+            cell.titleLabel.text = "Handsome Boy"
+            cell.dateLabel.text = "2020/01/01"
+            cell.hourLabel.text = "720(30Day)"
+            cell.backView.backgroundColor = UIColor(patternImage: UIImage(named: "\(randomImage)")!)
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedCell") as? CompletedTableViewCell else { return UITableViewCell() }
+            cell.titleLabel.text = "Handsome Boy"
+            cell.dateLabel.text = "2020/01/01"
+            cell.hourLabel.text = "720(30Day)"
             return cell
         default:
             return UITableViewCell()
@@ -221,15 +231,15 @@ extension PersonalViewController: UITableViewDelegate {
         
         let spring = UISpringTimingParameters(dampingRatio: 0.5, initialVelocity: CGVector(dx: 1.0, dy: 0.2))
         
-      let animator = UIViewPropertyAnimator(duration: 1.0, timingParameters: spring)
-            cell.alpha = 0
-            cell.transform = CGAffineTransform(translationX: 0, y: 100 * 0.6)
-            animator.addAnimations {
-                cell.alpha = 1
-                cell.transform = .identity
-              self.tableView.layoutIfNeeded()
-            }
-            animator.startAnimation(afterDelay: 0.3 * Double(indexPath.item))
+        let animator = UIViewPropertyAnimator(duration: 1.0, timingParameters: spring)
+        cell.alpha = 0
+        cell.transform = CGAffineTransform(translationX: 0, y: 100 * 0.6)
+        animator.addAnimations {
+            cell.alpha = 1
+            cell.transform = .identity
+            self.tableView.layoutIfNeeded()
+        }
+        animator.startAnimation(afterDelay: 0.3 * Double(indexPath.item))
     }
     
 }
