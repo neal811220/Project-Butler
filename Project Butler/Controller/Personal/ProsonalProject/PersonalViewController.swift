@@ -124,6 +124,8 @@ class PersonalViewController: UIViewController {
     
     var checkButton = 0
     
+    var searchBarStatus = false
+    
     var searchBarStackViewHightConstraint: NSLayoutConstraint?
     
     var tableViewTopConstraint: NSLayoutConstraint?
@@ -150,7 +152,51 @@ class PersonalViewController: UIViewController {
     
     @objc func didTouchSearchBtn(sender: UIButton) {
         
+        searchBarStatus = !searchBarStatus
+        
+        if searchBarStatus {
+            
+            UIView.animate(withDuration: 0.3) {
+                
+                self.tableViewTopConstraint?.isActive = false
+                
+                self.searchBarStackViewHightConstraint?.isActive = false
+                
+                 self.searchBarStackViewHightConstraint = self.searchbarStackView.heightAnchor.constraint(equalToConstant: 30)
+                
+                self.tableViewTopConstraint = self.tableView.topAnchor.constraint(equalTo: self.searchbarStackView.bottomAnchor, constant: 20)
+                
+                self.tableViewTopConstraint?.isActive = true
+                
+                self.searchBarStackViewHightConstraint?.isActive = true
+                
+                self.view.layoutIfNeeded()
+            }
+            
+        } else {
+            
+            UIView.animate(withDuration: 0.3) {
+                
+                self.tableViewTopConstraint?.isActive = false
+                
+                self.searchBarStackViewHightConstraint?.isActive = false
+                
+                 self.searchBarStackViewHightConstraint = self.searchbarStackView.heightAnchor.constraint(equalToConstant: 0)
+                
+                self.tableViewTopConstraint = self.tableView.topAnchor.constraint(equalTo: self.indicatorView.bottomAnchor, constant: 20)
+                
+                self.tableViewTopConstraint?.isActive = true
+                
+                self.searchBarStackViewHightConstraint?.isActive = true
+                
+                self.view.layoutIfNeeded()
+            }
+            
+        }
+        
     }
+    
+    
     
     @objc func didTouchAddBtn(sender: UIButton) {
         
@@ -182,7 +228,7 @@ class PersonalViewController: UIViewController {
         
         searchbarStackView.addSubview(searchImage)
         
-        searchBarStackViewHightConstraint = searchbarStackView.heightAnchor.constraint(equalToConstant: 30)
+        searchBarStackViewHightConstraint = searchbarStackView.heightAnchor.constraint(equalToConstant: 0)
         NSLayoutConstraint.activate([
             searchbarStackView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20),
             searchbarStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
@@ -209,7 +255,7 @@ class PersonalViewController: UIViewController {
     func settingTableView() {
         
         view.addSubview(tableView)
-        tableViewTopConstraint = tableView.topAnchor.constraint(equalTo: searchbarStackView.bottomAnchor, constant: 20)
+        tableViewTopConstraint = tableView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20)
         NSLayoutConstraint.activate([
             tableViewTopConstraint!,
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
