@@ -191,7 +191,6 @@ extension FriendListViewController: UITableViewDataSource {
             cell.rightButton.setImage(UIImage.asset(.Icons_32px_AddFriend_Normal), for: .normal)
             cell.rightButton.setImage(UIImage.asset(.Icons_32px_AddFriend_DidTap), for: .selected)
             cell.rightButton.isHidden = false
-            cell.whitLabel.isHidden = true
         }
         
         return cell

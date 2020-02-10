@@ -39,9 +39,6 @@ class FriendListTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         friendImage.layer.cornerRadius  = friendImage.frame.width / 2
-        
-        whitLabel.layer.cornerRadius = 10
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

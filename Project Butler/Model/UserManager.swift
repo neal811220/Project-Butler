@@ -296,13 +296,6 @@ class UserManager {
     }
     
     func searchUser(text: String, completion: @escaping FetchUserResult) {
-                
-//        if isSearching {
-//
-//            return
-//        }
-//
-//        isSearching = true
         
         guard lastSearchText != text else {
 

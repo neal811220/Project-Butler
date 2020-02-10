@@ -32,11 +32,15 @@ class MemberListViewController: UIViewController {
         return tableview
     }()
     
-    var filterFriendList = [FriendInfo]()
+    let userManager = UserManager.shared
     
-    let friends = FriendInfo.GetAllFriends()
+    let activityView = UIActivityIndicatorView()
     
-    var shouldShowSearchResults = false
+    var datas: [[Userable]] = []
+    
+    var friendsArray: [FriendDetail] = []
+    
+    var searchFriendArray: [FriendDetail] = []
     
     override func viewDidLoad() {
         
@@ -45,8 +49,10 @@ class MemberListViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         self.navigationItem.title = LargeTitle.memberList.rawValue
-
+        
         self.navigationItem.searchController = searchController
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: Notification.Name("searchReload"), object: nil)
         
         settingTableView()
     }
@@ -66,71 +72,42 @@ class MemberListViewController: UIViewController {
         ])
     }
     
-    func filterContentForSearchText(searchText: String) {
-           filterFriendList = friends.filter({ (friend: FriendInfo) -> Bool in
-            
-               //return true
-               if isSearchBarEmpty() {
-                   return false
-               } else {
-                   return true && friend.title.lowercased().contains(searchText.lowercased())
-               }
-           })
-           memberTableView.reloadData()
-       }
-
-
-       func isSearchBarEmpty() -> Bool {
-           //if text == nil(return true) else (return nil)
-           return searchController.searchBar.text?.isEmpty ?? true
-       }
-
-       func isFiltering() -> Bool {
-           //if scope == 1 or 2 return true
-           return searchController.isActive && (!isSearchBarEmpty())
-       }
+    @objc func reloadData() {
+        
+        datas.append(userManager.searchUserArray)
+        
+        memberTableView.reloadData()
+        
+        activityView.stopAnimating()
+        
+    }
     
 }
 
 extension MemberListViewController: UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        return datas.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if isFiltering() {
-            
-            return filterFriendList.count
-            
-        } else {
-            let friendAll = friends.filter { (friend) -> Bool in
-                return friend.email == ScopeButton.all.rawValue
-            }
-            return friendAll.count
-        }
-        
+        return datas[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendListCell") as? FriendListTableViewCell else { return UITableViewCell() }
         
-        let currentFriend: FriendInfo
-
-        if isFiltering() {
-            
-            currentFriend = filterFriendList[indexPath.row]
-            
-        } else {
-            
-            let friendAll = friends.filter { (friend) -> Bool in
-                
-                return friend.email == ScopeButton.all.rawValue
-            }
-            currentFriend = friendAll[indexPath.row]
-            
-        }
+        cell.leftButton.isHidden = true
         
-        cell.friendEmail.text = currentFriend.email
+        cell.rightButton.isHidden = true
         
-        cell.friendTitle.text = currentFriend.title
+        cell.friendImage.loadImage(datas[indexPath.section][indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
+        
+        cell.friendTitle.text = datas[indexPath.section][indexPath.row].userName
+        
+        cell.friendEmail.text = datas[indexPath.section][indexPath.row].userEmail
         
         return cell
     }
@@ -143,10 +120,55 @@ extension MemberListViewController: UISearchBarDelegate {
 
 extension MemberListViewController: UISearchResultsUpdating {
     
-    
     func updateSearchResults(for searchController: UISearchController) {
+        
+        datas = []
+        
+        memberTableView.reloadData()
+        
+        activityView.startAnimating()
+        
+        if searchController.searchBar.text == "" {
+            
+            userManager.searchAll { (result) in
                 
-        filterContentForSearchText(searchText: searchController.searchBar.text!)
+                switch result {
+                    
+                case .success(()):
+                    
+                    print("SearchAll Success")
+                
+                case .failure(let error):
+                    
+                    print(error)
+                }
+                
+                self.reloadData()
+                
+                self.userManager.clearAll()
+            }
+            
+        } else {
+            
+            userManager.searchUser(text: searchController.searchBar.text!) { (result) in
+                
+                switch result {
+                    
+                case .success(let data):
+                    
+                    print("SearchUser Success")
+                    print(data)
+                    
+                case .failure(let error):
+                    
+                    print(error)
+                }
+                
+                self.reloadData()
+                
+                self.userManager.clearAll()
+            }
+        }
     }
     
 }
