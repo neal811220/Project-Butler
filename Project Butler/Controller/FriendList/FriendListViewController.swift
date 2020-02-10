@@ -205,9 +205,7 @@ extension FriendListViewController: UITableViewDataSource {
         case 0:
             
             datas.append(userManager.searchUserArray)
-            
-            //            datas.append(userManager.friendArray)
-            
+                        
         case 1:
             
             datas.append(userManager.confirmArray)
@@ -240,6 +238,7 @@ extension FriendListViewController: UITableViewDataSource {
         }
         
         sender.isSelected = !sender.isSelected
+        
         switch currentSeletedIndex {
             
         case 0:

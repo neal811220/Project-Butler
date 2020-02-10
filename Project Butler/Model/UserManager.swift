@@ -66,9 +66,7 @@ class UserManager {
     var image = UIImage()
     
     let group = DispatchGroup()
-    
-    let st = Storage.storage().reference()
-    
+        
     func addSocialUserData() {
         
         guard let userName = Auth.auth().currentUser?.displayName,

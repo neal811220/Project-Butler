@@ -198,8 +198,6 @@ class PersonalViewController: UIViewController {
         
     }
     
-    
-    
     @objc func didTouchAddBtn(sender: UIButton) {
         
         guard let newProjectVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "NewProjectVC") as? NewProjectViewController else { return }

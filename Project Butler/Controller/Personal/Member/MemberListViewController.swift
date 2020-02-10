@@ -29,7 +29,14 @@ class MemberListViewController: UIViewController {
         tableview.register(nib, forCellReuseIdentifier: "FriendListCell")
         tableview.separatorStyle = .none
         tableview.dataSource = self
+        tableview.delegate = self
         return tableview
+    }()
+    
+    let doneButton: UIBarButtonItem = {
+        let bt = UIBarButtonItem()
+        bt.tintColor = UIColor.B1
+        return bt
     }()
     
     let userManager = UserManager.shared
@@ -42,6 +49,10 @@ class MemberListViewController: UIViewController {
     
     var searchFriendArray: [FriendDetail] = []
     
+    var selectedLeader: IndexPath?
+    
+    let rightBarButton = UIBarButtonItem(title: "DONE", style: .done, target: self, action: #selector(didTapDoneButton))
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -52,9 +63,12 @@ class MemberListViewController: UIViewController {
         
         self.navigationItem.searchController = searchController
         
+        self.navigationItem.rightBarButtonItem = rightBarButton
+        
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: Notification.Name("searchReload"), object: nil)
         
         settingTableView()
+        
     }
     
     func settingTableView() {
@@ -82,6 +96,12 @@ class MemberListViewController: UIViewController {
         
     }
     
+    @objc func didTapDoneButton(sender: UIBarButtonItem) {
+        
+        
+    }
+    
+    
 }
 
 extension MemberListViewController: UITableViewDataSource {
@@ -97,11 +117,18 @@ extension MemberListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendListCell") as? FriendListTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendListCell") as?
+            FriendListTableViewCell else { return UITableViewCell() }
+        
+        cell.delegate = self
         
         cell.leftButton.isHidden = true
         
-        cell.rightButton.isHidden = true
+        cell.rightButton.isHidden = false
+        
+        cell.rightButton.setImage(UIImage.asset(.Icons_64px_Check_Normal), for: .normal)
+        
+        cell.rightButton.setImage(UIImage.asset(.Icos_62px_Check_Seleted), for: .selected)
         
         cell.friendImage.loadImage(datas[indexPath.section][indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
         
@@ -112,6 +139,15 @@ extension MemberListViewController: UITableViewDataSource {
         return cell
     }
     
+}
+
+extension MemberListViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        selectedLeader = indexPath
+        
+    }
 }
 
 extension MemberListViewController: UISearchBarDelegate {
@@ -128,49 +164,42 @@ extension MemberListViewController: UISearchResultsUpdating {
         
         activityView.startAnimating()
         
-        if searchController.searchBar.text == "" {
-            
-            userManager.searchAll { (result) in
-                
-                switch result {
-                    
-                case .success(()):
-                    
-                    print("SearchAll Success")
-                
-                case .failure(let error):
-                    
-                    print(error)
-                }
-                
-                self.reloadData()
-                
-                self.userManager.clearAll()
-            }
-            
-        } else {
+        if searchController.searchBar.text != "" {
             
             userManager.searchUser(text: searchController.searchBar.text!) { (result) in
                 
                 switch result {
                     
                 case .success(let data):
-                    
-                    print("SearchUser Success")
                     print(data)
-                    
                 case .failure(let error):
-                    
                     print(error)
                 }
                 
                 self.reloadData()
                 
-                self.userManager.clearAll()
+                UserManager.shared.clearAll()
+                
+                self.activityView.stopAnimating()
             }
+        } else {
+            
+            self.reloadData()
         }
     }
     
 }
 
+extension MemberListViewController: FriendListTableViewCellDelegate {
+    
+    func passIndexPath(_ friendListTableViewCell: FriendListTableViewCell) {
+        
+        guard let indexPath = memberTableView.indexPath(for: friendListTableViewCell) else { return }
+        
+        let uid = datas[indexPath.section][indexPath.row].userID
+        
+        
+    }
+    
+}
 

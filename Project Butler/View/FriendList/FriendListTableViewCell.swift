@@ -29,6 +29,8 @@ class FriendListTableViewCell: UITableViewCell {
     
     @IBAction func pressedRightbutton(_ sender: UIButton) {
         
+        sender.isSelected.toggle()
+        
         delegate?.passIndexPath(self)
     }
     @IBAction func pressedLeftButton(_ sender: UIButton) {

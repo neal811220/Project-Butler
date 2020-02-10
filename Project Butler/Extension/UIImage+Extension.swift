@@ -58,6 +58,11 @@ enum ImageAsset: String {
     case Icons_32px_SearchProjectButton
     
     case Icons_32px_AddProjectButton
+    
+    //MemberButton
+    case Icons_64px_Check_Normal
+    
+    case Icos_62px_Check_Seleted
 }
 
 extension UIImage {
