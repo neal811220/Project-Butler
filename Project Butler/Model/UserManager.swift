@@ -10,6 +10,7 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseStorage
 
 enum ScopeButton:String {
     
@@ -29,6 +30,7 @@ enum LargeTitle: String {
     case newProject = "New Project"
     
     case personalProject = "Personal Project"
+    
 }
 
 enum PlaceHolder: String {
@@ -61,8 +63,11 @@ class UserManager {
     
     var acceptArray = [FriendDetail]()
     
+    var image = UIImage()
+    
     let group = DispatchGroup()
     
+    let st = Storage.storage().reference()
     
     func addSocialUserData() {
         
@@ -130,7 +135,6 @@ class UserManager {
         
         let current = CurrentUserInfo.shared
         guard let id = current.userID, let name = current.userName, let email = current.userEmail, let image = current.userImageUrl else { return }
-        
         let friendStatu:[String: Any] = ["accept": true, "confirm": false, "userID": id, "userName": name, "userEmail": email, "userImageUrl": image]
         db.collection("users").document(uid).collection("friends").document(id).setData(friendStatu)
     }
@@ -365,4 +369,3 @@ class UserManager {
     }
     
 }
-

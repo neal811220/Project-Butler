@@ -105,10 +105,7 @@ class PersonalViewController: UIViewController {
         sb.searchBarStyle = .minimal
         
         sb.translatesAutoresizingMaskIntoConstraints = false
-                
-//        seb.searchResultsUpdater = self
-//
-//        seb.searchBar.delegate = self
+        
         return sb
     }()
     
@@ -148,6 +145,11 @@ class PersonalViewController: UIViewController {
         settingSearchBar()
         
         settingTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        titleStackView.isHidden = false
     }
     
     @objc func didTouchSearchBtn(sender: UIButton) {
@@ -200,6 +202,9 @@ class PersonalViewController: UIViewController {
     
     @objc func didTouchAddBtn(sender: UIButton) {
         
+        guard let newProjectVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "NewProjectVC") as? NewProjectViewController else { return }
+        titleStackView.isHidden = true
+        show(newProjectVC, sender: nil)
     }
     
     @objc func didTapStatusButton(sender: UIButton) {

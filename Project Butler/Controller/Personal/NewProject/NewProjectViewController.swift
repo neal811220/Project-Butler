@@ -8,25 +8,13 @@
 
 import UIKit
 
-enum ItemTitle: String {
-    
-    case projectName = "ProjectName"
-    
-    case projectLeader = "ProjectLeader"
-    
-    case date = "Date"
-    
-    case member = "Member"
-    
-    case workItem = "WorkItem"
-}
-
 class NewProjectViewController: UIViewController {
 
     lazy var newProjectTableView: UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.dataSource = self
+        tv.delegate = self
         tv.rowHeight = UITableView.automaticDimension
         let topNib = UINib(nibName: "NewProjectTableViewCell", bundle: nil)
         let workItemNib = UINib(nibName: "WorkItemTableViewCell", bundle: nil)
@@ -67,7 +55,13 @@ class NewProjectViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        navigationItem.title = LargeTitle.newProject.rawValue
+        
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
+        
         // Do any additional setup after loading the view.
         settingTableView()
     }
@@ -135,6 +129,8 @@ extension NewProjectViewController: UITableViewDataSource {
 
                 cell.inputContentView.addSubview(projectNametextField)
                 
+                cell.titleLabel.text = ItemTitle.projectName.rawValue
+                
                 projectNametextField.frame = cell.inputContentView.frame
                 
                 cell.layoutIfNeeded()
@@ -143,6 +139,8 @@ extension NewProjectViewController: UITableViewDataSource {
                 cell.leftImageView?.image = UIImage.asset(.Icons_32px_Leader)
 
                 cell.inputContentView.addSubview(settingLabel(text: "Hello"))
+                
+                cell.titleLabel.text = ItemTitle.projectLeader.rawValue
                 
                 leaderLabel.frame = cell.inputContentView.frame
 
@@ -153,6 +151,8 @@ extension NewProjectViewController: UITableViewDataSource {
                 
                 cell.inputContentView.addSubview(settingLabel(text: "OKOK"))
                 
+                cell.titleLabel.text = ItemTitle.date.rawValue
+                
                 leaderLabel.frame = cell.inputContentView.frame
 
                 cell.layoutIfNeeded()
@@ -161,9 +161,16 @@ extension NewProjectViewController: UITableViewDataSource {
                 
                 cell.inputContentView.addSubview(settingLabel(text: "HEY"))
                 
+                cell.titleLabel.text = ItemTitle.member.rawValue
+                
                 leaderLabel.frame = cell.inputContentView.frame
                 
                 cell.layoutIfNeeded()
+            case 4:
+                cell.leftImageView.image = UIImage.asset(.Icons_32px_WorkItem)
+                
+                cell.titleLabel.text = ItemTitle.workItem.rawValue
+                
             default:
                 break
             }
@@ -180,5 +187,15 @@ extension NewProjectViewController: UITableViewDataSource {
 
 extension NewProjectViewController: UITableViewDelegate {
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else { return }
+        
+        if indexPath.section == 0 && indexPath.row == 1 {
+            
+            show(memberVC, sender: nil)
+        } else if indexPath.section == 0 && indexPath.row == 3{
+            
+            show(memberVC, sender: nil)
+        }
+    }
 }

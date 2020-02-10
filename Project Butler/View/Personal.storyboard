@@ -10,7 +10,7 @@
         <!--New Project View Controller-->
         <scene sceneID="9fd-up-cCa">
             <objects>
-                <viewController id="byC-mJ-gTj" customClass="NewProjectViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewProjectVC" id="byC-mJ-gTj" customClass="NewProjectViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="b7y-5u-VI7">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
