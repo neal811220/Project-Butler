@@ -17,6 +17,12 @@
                 <rect key="frame" x="0.0" y="0.0" width="414" height="267"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lFe-zM-JPN">
+                        <rect key="frame" x="10" y="10" width="394" height="247"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="247" id="vFi-dh-9ge"/>
+                        </constraints>
+                    </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xhr-Wf-BqQ">
                         <rect key="frame" x="10" y="10" width="394" height="247"/>
                         <subviews>
@@ -129,7 +135,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Ue3-eS-Jhs"/>
                                 </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OQz-hM-Fpv">
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OQz-hM-Fpv">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -144,7 +150,7 @@
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" name="G1"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="x3w-BD-6Bh" firstAttribute="leading" secondItem="xhr-Wf-BqQ" secondAttribute="leading" constant="30" id="0Jy-5r-6NN"/>
                             <constraint firstAttribute="trailing" secondItem="3Rq-Vo-jQO" secondAttribute="trailing" constant="30" id="142-iP-N0n"/>
@@ -190,13 +196,18 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="xhr-Wf-BqQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="5n1-E4-u8y"/>
+                    <constraint firstAttribute="bottom" secondItem="lFe-zM-JPN" secondAttribute="bottom" constant="10" id="Wgw-Ms-Ivu"/>
                     <constraint firstAttribute="trailing" secondItem="xhr-Wf-BqQ" secondAttribute="trailing" constant="10" id="Zxo-zu-2Or"/>
+                    <constraint firstItem="lFe-zM-JPN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="cKG-w7-0FH"/>
+                    <constraint firstAttribute="trailing" secondItem="lFe-zM-JPN" secondAttribute="trailing" constant="10" id="ivO-Pt-ty5"/>
+                    <constraint firstItem="lFe-zM-JPN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="mjs-WW-01J"/>
                     <constraint firstItem="xhr-Wf-BqQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="qw8-Du-03n"/>
                     <constraint firstAttribute="bottom" secondItem="xhr-Wf-BqQ" secondAttribute="bottom" constant="10" id="yUi-Af-GFA"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="backImage" destination="lFe-zM-JPN" id="PFL-lH-TKV"/>
                 <outlet property="backView" destination="xhr-Wf-BqQ" id="Ge3-Mr-6cz"/>
                 <outlet property="collectionView" destination="Hrn-BO-rPe" id="2ck-EJ-U9O"/>
                 <outlet property="completedImage" destination="25T-VO-scr" id="Ule-ir-33V"/>
@@ -216,9 +227,6 @@
         <image name="Icons_32px_Leader" width="32" height="32"/>
         <namedColor name="B2">
             <color red="0.090196078431372548" green="0.23921568627450981" blue="0.62745098039215685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="G1">
-            <color red="0.50588235294117645" green="0.80784313725490198" blue="0.61568627450980395" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

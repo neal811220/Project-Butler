@@ -80,6 +80,7 @@
                 <outlet property="inputContentView" destination="M12-mi-5zh" id="Bmc-C6-6ea"/>
                 <outlet property="leftImageView" destination="8zL-3j-sQ6" id="xXe-0P-aYd"/>
                 <outlet property="titleLabel" destination="wZr-iG-8jN" id="xpe-Nz-uYM"/>
+                <outlet property="titleTopConstraint" destination="U5f-DR-Emn" id="LaC-kg-Lz3"/>
             </connections>
             <point key="canvasLocation" x="205.07246376811597" y="154.01785714285714"/>
         </tableViewCell>

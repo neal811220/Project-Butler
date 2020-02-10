@@ -334,13 +334,14 @@ extension PersonalViewController: UITableViewDataSource {
             cell.titleLabel.text = "Handsome Boy"
             cell.dateLabel.text = "2020/01/01"
             cell.hourLabel.text = "720(30Day)"
-            cell.backView.backgroundColor = UIColor(patternImage: UIImage(named: "\(randomImage)")!)
+            cell.backImage.image = UIImage(named: "\(randomImage)")
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedCell") as? CompletedTableViewCell else { return UITableViewCell() }
             cell.titleLabel.text = "Handsome Boy"
             cell.dateLabel.text = "2020/01/01"
             cell.hourLabel.text = "720(30Day)"
+            cell.backImage.image = UIImage(named: "\(randomImage)")
             return cell
         default:
             return UITableViewCell()

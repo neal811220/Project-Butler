@@ -10,6 +10,8 @@ import UIKit
 
 class NewProjectTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var leftImageView: UIImageView!

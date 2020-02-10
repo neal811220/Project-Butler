@@ -111,7 +111,7 @@ extension NewProjectViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 4
+            return 5
         } else {
             return 3
         }
@@ -170,6 +170,8 @@ extension NewProjectViewController: UITableViewDataSource {
                 cell.leftImageView.image = UIImage.asset(.Icons_32px_WorkItem)
                 
                 cell.titleLabel.text = ItemTitle.workItem.rawValue
+                
+                cell.titleTopConstraint.constant += 20
                 
             default:
                 break
