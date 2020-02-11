@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		182A42F023E305D6002D8013 /* Personal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 182A42EF23E305D6002D8013 /* Personal.storyboard */; };
+		182A856523F2A6D400D5394F /* ProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182A856423F2A6D400D5394F /* ProjectManager.swift */; };
 		1844082323E541D000A879F7 /* FriendListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1844082123E541D000A879F7 /* FriendListTableViewCell.swift */; };
 		1844082423E541D000A879F7 /* FriendListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1844082223E541D000A879F7 /* FriendListTableViewCell.xib */; };
 		1844082623E56F4100A879F7 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1844082523E56F4100A879F7 /* UserManager.swift */; };
@@ -58,6 +59,7 @@
 
 /* Begin PBXFileReference section */
 		182A42EF23E305D6002D8013 /* Personal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Personal.storyboard; sourceTree = "<group>"; };
+		182A856423F2A6D400D5394F /* ProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectManager.swift; sourceTree = "<group>"; };
 		1844082123E541D000A879F7 /* FriendListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListTableViewCell.swift; sourceTree = "<group>"; };
 		1844082223E541D000A879F7 /* FriendListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendListTableViewCell.xib; sourceTree = "<group>"; };
 		1844082523E56F4100A879F7 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -142,6 +144,14 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		182A856623F2A6DE00D5394F /* Project */ = {
+			isa = PBXGroup;
+			children = (
+				182A856423F2A6D400D5394F /* ProjectManager.swift */,
+			);
+			path = Project;
+			sourceTree = "<group>";
+		};
 		1861E0F823D7F71400673640 = {
 			isa = PBXGroup;
 			children = (
@@ -179,11 +189,7 @@
 		1861E11A23D82DB900673640 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				18B9591623F0432600C6E8EB /* NewProject.swift */,
-				1844082523E56F4100A879F7 /* UserManager.swift */,
-				18F8CC3C23ED1993004D8420 /* CurrentUserInfo.swift */,
-				1844082723E57AAB00A879F7 /* FriendInfo.swift */,
-				18B9590C23EFCDE400C6E8EB /* ProjectColor.swift */,
+				182A856623F2A6DE00D5394F /* Project */,
 				18B9591323EFD65500C6E8EB /* UserInfo */,
 				18B9590E23EFCDF500C6E8EB /* Personal */,
 				18B9590F23EFCE0700C6E8EB /* Friend */,
@@ -328,6 +334,8 @@
 		18B9590E23EFCDF500C6E8EB /* Personal */ = {
 			isa = PBXGroup;
 			children = (
+				18B9590C23EFCDE400C6E8EB /* ProjectColor.swift */,
+				18B9591623F0432600C6E8EB /* NewProject.swift */,
 			);
 			path = Personal;
 			sourceTree = "<group>";
@@ -335,6 +343,7 @@
 		18B9590F23EFCE0700C6E8EB /* Friend */ = {
 			isa = PBXGroup;
 			children = (
+				1844082723E57AAB00A879F7 /* FriendInfo.swift */,
 			);
 			path = Friend;
 			sourceTree = "<group>";
@@ -342,6 +351,8 @@
 		18B9591323EFD65500C6E8EB /* UserInfo */ = {
 			isa = PBXGroup;
 			children = (
+				1844082523E56F4100A879F7 /* UserManager.swift */,
+				18F8CC3C23ED1993004D8420 /* CurrentUserInfo.swift */,
 			);
 			path = UserInfo;
 			sourceTree = "<group>";
@@ -553,6 +564,7 @@
 				18D93DC723EEA225005398B7 /* UIColor+Extension.swift in Sources */,
 				1844082623E56F4100A879F7 /* UserManager.swift in Sources */,
 				18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */,
+				182A856523F2A6D400D5394F /* ProjectManager.swift in Sources */,
 				18D2494823EED9C3006528A6 /* CompletedTableViewCell.swift in Sources */,
 				1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */,
 				1895D75123E3C51F00207016 /* PBTabBarViewController.swift in Sources */,

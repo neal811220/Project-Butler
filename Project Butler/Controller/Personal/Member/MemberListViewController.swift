@@ -22,7 +22,7 @@ class MemberListViewController: UIViewController {
     }()
     
     lazy var memberTableView: UITableView = {
-        let tableview = UITableView()
+        let tableview = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .grouped)
         tableview.translatesAutoresizingMaskIntoConstraints = false
         tableview.rowHeight = UITableView.automaticDimension
         let nib = UINib(nibName: "FriendListTableViewCell", bundle: nil)
@@ -47,15 +47,11 @@ class MemberListViewController: UIViewController {
     
     var friendsArray: [FriendDetail] = []
     
-    var searchFriendArray: [FriendDetail] = []
-    
     var selectedLeader: IndexPath?
     
     var leaderName = ""
     
     var passLeaderName: ((String) -> Void)?
-    
-   
     
     override func viewDidLoad() {
         
@@ -107,30 +103,9 @@ class MemberListViewController: UIViewController {
     @objc func didTapDoneButton(sender: UIBarButtonItem) {
         
         passLeaderName?(leaderName)
+        
         navigationController?.popViewController(animated: true)
     }
-    
-    func loadFriendData() {
-        
-        activityView.startAnimating()
-        
-        userManager.searchAll { (result) in
-            
-            switch result {
-                
-            case.success:
-                
-                self.memberTableView.reloadData()
-                
-            case .failure(let error):
-                
-                print(error)
-            }
-            
-            self.activityView.stopAnimating()
-        }
-    }
-    
     
 }
 
@@ -144,6 +119,19 @@ extension MemberListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return datas[section].count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        if section == 0 {
+            
+            return "Member"
+            
+        } else {
+            
+            return "Friend"
+            
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -190,6 +178,8 @@ extension MemberListViewController: UISearchResultsUpdating {
         
         datas = []
         
+        userManager.clearAll()
+        
         memberTableView.reloadData()
         
         activityView.startAnimating()
@@ -201,20 +191,23 @@ extension MemberListViewController: UISearchResultsUpdating {
                 switch result {
                     
                 case .success(let data):
+                    
                     print(data)
+                    
                 case .failure(let error):
                     print(error)
                 }
                 
-                self.reloadData()
+                self.userManager.lastSearchText = ""
                 
-                UserManager.shared.clearAll()
+                self.userManager.clearAll()
                 
                 self.activityView.stopAnimating()
             }
+            
         } else {
             
-            self.reloadData()
+            self.userManager.lastSearchText = ""
         }
     }
     
