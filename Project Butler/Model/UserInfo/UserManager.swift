@@ -107,20 +107,24 @@ class UserManager {
         }
     }
     
-    func getSeletedLeader(uid: String, completion: @escaping (Result<AuthInfo, Error>) -> Void) {
+    func getSeletedLeader(uid: String, completion: @escaping (Result<FriendDetail, Error>) -> Void) {
+        
+        guard let id = CurrentUserInfo.shared.userID else { return }
 
-        db.collection("users").document(uid).getDocument { (snapshot, error) in
+        db.collection("users").document(id).collection("friends").document(uid).getDocument { (snapshot, error) in
             
-            if error == nil && snapshot?.data()?.count != 0 {
+            if let error = error {
+                
+                print(error)
+                
+            } else {
                 
                 do {
+                    guard let data = try snapshot?.data(as: FriendDetail.self, decoder:Firestore.Decoder()) else { return }
                     
-                    guard let data = try snapshot?.data(as: AuthInfo.self, decoder: Firestore.Decoder()) else { return }
-                        
                     completion(.success(data))
                     
                 } catch {
-                    
                     completion(.failure(error))
                 }
             }
@@ -144,6 +148,7 @@ class UserManager {
     func acceptFrined(uid: String) {
         
         guard let id = CurrentUserInfo.shared.userID else { return }
+        
         db.collection("users").document(id).collection("friends").document(uid).setData(["confirm": true], merge: true)
         
         db.collection("users").document(uid).collection("friends").document(id).setData(["accept": true], merge: true)
@@ -252,6 +257,9 @@ class UserManager {
                 }
                 
                 self.isSearching = false
+                
+                completion(.success(()))
+                
             }
         }
     }

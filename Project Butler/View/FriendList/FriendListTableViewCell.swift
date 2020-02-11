@@ -27,10 +27,12 @@ class FriendListTableViewCell: UITableViewCell {
     
     weak var delegate: FriendListTableViewCellDelegate?
     
+    var indexPath: IndexPath?
+        
     @IBAction func pressedRightbutton(_ sender: UIButton) {
         
         sender.isSelected.toggle()
-        
+                
         delegate?.passIndexPath(self)
     }
     @IBAction func pressedLeftButton(_ sender: UIButton) {

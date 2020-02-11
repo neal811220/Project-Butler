@@ -47,15 +47,21 @@ class MemberListViewController: UIViewController {
     
     var friendsArray: [FriendDetail] = []
     
-    var selectedLeader: IndexPath?
+    var seletedLeader: [FriendDetail] = []
+    
+    var leaderIndex: IndexPath?
     
     var leaderName = ""
     
+    var lastSelectedUid = ""
+    
     var passLeaderName: ((String) -> Void)?
+    
+    var isCancel = false
     
     override func viewDidLoad() {
         
-         let rightBarButton = UIBarButtonItem(title: "DONE", style: .done, target: self, action: #selector(didTapDoneButton))
+        let rightBarButton = UIBarButtonItem(title: "DONE", style: .done, target: self, action: #selector(didTapDoneButton))
         
         super.viewDidLoad()
         
@@ -92,7 +98,13 @@ class MemberListViewController: UIViewController {
     
     @objc func reloadData() {
         
+        datas = []
+        
+        friendsArray = userManager.friendArray
+        
         datas.append(userManager.friendArray)
+        
+        isCancel = false
         
         memberTableView.reloadData()
         
@@ -163,7 +175,7 @@ extension MemberListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        selectedLeader = indexPath
+        leaderIndex = indexPath
         
     }
 }
@@ -176,11 +188,7 @@ extension MemberListViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         
-        datas = []
-        
         userManager.clearAll()
-        
-        memberTableView.reloadData()
         
         activityView.startAnimating()
         
@@ -195,6 +203,7 @@ extension MemberListViewController: UISearchResultsUpdating {
                     print(data)
                     
                 case .failure(let error):
+                    
                     print(error)
                 }
                 
@@ -207,7 +216,17 @@ extension MemberListViewController: UISearchResultsUpdating {
             
         } else {
             
+            guard isCancel != true else { return }
+            
             self.userManager.lastSearchText = ""
+            
+            if friendsArray.count != 0 &&  seletedLeader.count != 0 {
+                
+                datas.remove(at: 0)
+                isCancel = true
+                memberTableView.reloadData()
+            }
+            
         }
     }
     
@@ -216,20 +235,34 @@ extension MemberListViewController: UISearchResultsUpdating {
 extension MemberListViewController: FriendListTableViewCellDelegate {
     
     func passIndexPath(_ friendListTableViewCell: FriendListTableViewCell) {
+                
+        if let selected = leaderIndex {
+            
+            if let cell = memberTableView.cellForRow(at: selected) as? FriendListTableViewCell {
+                
+                cell.rightButton.isSelected = false
+            }
+        }
         
         guard let indexPath = memberTableView.indexPath(for: friendListTableViewCell) else { return }
         
-        let uid = datas[indexPath.section][indexPath.row].userID
+        leaderIndex = indexPath
         
+        let uid = datas[indexPath.section][indexPath.row].userID
+
         userManager.getSeletedLeader(uid: uid) { (result) in
             
             switch result {
                 
             case .success(let data):
                 
-                print(data)
+                self.datas.append([data])
+                
+                self.seletedLeader.append(data)
                 
                 self.leaderName = data.userName
+                
+                print(data)
                 
             case .failure(let error):
                 

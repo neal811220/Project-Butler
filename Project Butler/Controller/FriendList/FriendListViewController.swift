@@ -275,7 +275,8 @@ extension FriendListViewController: UITableViewDataSource {
         
         switch currentSeletedIndex {
             
-        case 0:
+        case 2:
+            
             activityView.startAnimating()
             datas[indexPath.section][indexPath.row].tapAddButton()
             
@@ -288,8 +289,8 @@ extension FriendListViewController: UITableViewDataSource {
             } else {
                 activityView.startAnimating()
                 datas[indexPath.section][indexPath.row].tapAcceptButton()
-                
             }
+            
         default:
             
             break
