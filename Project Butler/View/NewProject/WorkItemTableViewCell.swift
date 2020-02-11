@@ -18,6 +18,8 @@ class WorkItemTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        workItemLabel.layer.cornerRadius = 10
         // Initialization code
     }
 

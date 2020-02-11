@@ -53,6 +53,21 @@ class NewProjectViewController: UIViewController {
         return lbl
     }()
     
+//    lazy var memberCollectionView: UICollectionView = {
+//        let layoutObject = UICollectionViewFlowLayout.init()
+//        let member = UICollectionView(frame: CGRect.zero, collectionViewLayout: layoutObject)
+//        let memberNib = UINib(nibName: "ProcessingTableViewCell", bundle: nil)
+//        member.translatesAutoresizingMaskIntoConstraints = false
+//        member.delegate = self
+//        member.dataSource = self
+//        member.register(memberNib, forCellWithReuseIdentifier: "ProcessingCell")
+//        member.isScrollEnabled = true
+//        layoutObject.scrollDirection = .vertical
+//        return member
+//    }()
+    
+    var leaderName = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -101,6 +116,30 @@ class NewProjectViewController: UIViewController {
         return leaderLabel
     }
     
+    func settingCollectionView() -> UICollectionView {
+        
+        var memberCollectionView: UICollectionView = {
+               let layoutObject = UICollectionViewFlowLayout.init()
+               let member = UICollectionView(frame: CGRect.zero, collectionViewLayout: layoutObject)
+               let memberNib = UINib(nibName: "ProcessingTableViewCell", bundle: nil)
+               member.translatesAutoresizingMaskIntoConstraints = false
+               member.delegate = self
+               member.dataSource = self
+               member.register(memberNib, forCellWithReuseIdentifier: "ProcessingCell")
+               member.isScrollEnabled = true
+               layoutObject.scrollDirection = .vertical
+               return member
+           }()
+        
+        NSLayoutConstraint.activate([
+            memberCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            memberCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            memberCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            memberCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
+        return memberCollectionView
+    }
+    
 }
 
 extension NewProjectViewController: UITableViewDataSource {
@@ -138,7 +177,7 @@ extension NewProjectViewController: UITableViewDataSource {
 
                 cell.leftImageView?.image = UIImage.asset(.Icons_32px_Leader)
 
-                cell.inputContentView.addSubview(settingLabel(text: "Hello"))
+                cell.inputContentView.addSubview(settingLabel(text: leaderName))
                 
                 cell.titleLabel.text = ItemTitle.projectLeader.rawValue
                 
@@ -149,7 +188,7 @@ extension NewProjectViewController: UITableViewDataSource {
                 
                 cell.leftImageView?.image = UIImage.asset(.Icons_32px_Calendar)
                 
-                cell.inputContentView.addSubview(settingLabel(text: "OKOK"))
+                cell.inputContentView.addSubview(settingLabel(text: "2020/01/01~2020/01/30"))
                 
                 cell.titleLabel.text = ItemTitle.date.rawValue
                 
@@ -159,7 +198,7 @@ extension NewProjectViewController: UITableViewDataSource {
             case 3:
                 cell.leftImageView?.image = UIImage.asset(.Icons_32px_Member)
                 
-                cell.inputContentView.addSubview(settingLabel(text: "HEY"))
+//                cell.inputContentView.addSubview(settingCollectionView())
                 
                 cell.titleLabel.text = ItemTitle.member.rawValue
                 
@@ -171,7 +210,7 @@ extension NewProjectViewController: UITableViewDataSource {
                 
                 cell.titleLabel.text = ItemTitle.workItem.rawValue
                 
-                cell.titleTopConstraint.constant += 20
+                cell.titleTopConstraint.constant += 10
                 
             default:
                 break
@@ -194,10 +233,41 @@ extension NewProjectViewController: UITableViewDelegate {
         
         if indexPath.section == 0 && indexPath.row == 1 {
             
+            memberVC.passLeaderName = {
+                self.leaderName = $0
+                self.newProjectTableView.reloadData()
+            }
+            
             show(memberVC, sender: nil)
         } else if indexPath.section == 0 && indexPath.row == 3{
             
             show(memberVC, sender: nil)
         }
+    }
+}
+
+extension NewProjectViewController: UICollectionViewDelegate {
+    
+    
+}
+
+extension NewProjectViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProcessingCell", for: indexPath) as? ProcessingCollectionViewCell else { return UICollectionViewCell()}
+        return cell
+    }
+    
+}
+
+extension NewProjectViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 20, height: 20)
     }
 }

@@ -51,9 +51,15 @@ class MemberListViewController: UIViewController {
     
     var selectedLeader: IndexPath?
     
-    let rightBarButton = UIBarButtonItem(title: "DONE", style: .done, target: self, action: #selector(didTapDoneButton))
+    var leaderName = ""
+    
+    var passLeaderName: ((String) -> Void)?
+    
+   
     
     override func viewDidLoad() {
+        
+         let rightBarButton = UIBarButtonItem(title: "DONE", style: .done, target: self, action: #selector(didTapDoneButton))
         
         super.viewDidLoad()
         
@@ -88,7 +94,7 @@ class MemberListViewController: UIViewController {
     
     @objc func reloadData() {
         
-        datas.append(userManager.searchUserArray)
+        datas.append(userManager.friendArray)
         
         memberTableView.reloadData()
         
@@ -98,7 +104,8 @@ class MemberListViewController: UIViewController {
     
     @objc func didTapDoneButton(sender: UIBarButtonItem) {
         
-        
+        passLeaderName?(leaderName)
+        navigationController?.popViewController(animated: true)
     }
     
     
@@ -198,7 +205,22 @@ extension MemberListViewController: FriendListTableViewCellDelegate {
         
         let uid = datas[indexPath.section][indexPath.row].userID
         
-        
+        userManager.getSeletedLeader(uid: uid) { (result) in
+            
+            switch result {
+                
+            case .success(let data):
+                
+                print(data)
+                
+                self.leaderName = data.userName
+                
+            case .failure(let error):
+                
+                print(error)
+                
+            }
+        }
     }
     
 }

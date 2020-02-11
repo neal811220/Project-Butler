@@ -107,6 +107,26 @@ class UserManager {
         }
     }
     
+    func getSeletedLeader(uid: String, completion: @escaping (Result<AuthInfo, Error>) -> Void) {
+
+        db.collection("users").document(uid).getDocument { (snapshot, error) in
+            
+            if error == nil && snapshot?.data()?.count != 0 {
+                
+                do {
+                    
+                    guard let data = try snapshot?.data(as: AuthInfo.self, decoder: Firestore.Decoder()) else { return }
+                        
+                    completion(.success(data))
+                    
+                } catch {
+                    
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+    
     func notification() {
         
         NotificationCenter.default.post(name: Notification.Name("searchReload"), object: nil, userInfo: nil)
