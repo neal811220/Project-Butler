@@ -16,17 +16,29 @@ private enum GHColor: String {
     case B1
     
     case B2
+    
+    case Gray1
+    
+    case Gray2
+    
+    case Gray3
 }
 extension UIColor {
     
-    static let G1 = GHColor(.G1)
+    static let G1 = PBColor(.G1)
     
-    static let B1 = GHColor(.B1)
+    static let B1 = PBColor(.B1)
     
-    static let B2 = GHColor(.B2)
+    static let B2 = PBColor(.B2)
+    
+    static let Gray1 = PBColor(.Gray1)
+    
+    static let Gray2 = PBColor(.Gray2)
+    
+    static let Gray3 = PBColor(.Gray3)
     
     // swiftlint:enable identifier_name
-    private static func GHColor(_ color: GHColor) -> UIColor? {
+    private static func PBColor(_ color: GHColor) -> UIColor? {
         return UIColor(named: color.rawValue)
     }
 }

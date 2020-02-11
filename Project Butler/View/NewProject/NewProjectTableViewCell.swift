@@ -20,9 +20,14 @@ class NewProjectTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        titleLabel.layer.borderWidth = 1
-        titleLabel.layer.borderColor = UIColor.gray.cgColor
+        
+//        titleLabel.layer.borderWidth = 1
+//
+//        titleLabel.layer.borderColor = UIColor.gray.cgColor
+        
         titleLabel.layer.cornerRadius = 10
+        
+        titleLabel.clipsToBounds = true
         // Initialization code
     }
 

@@ -18,8 +18,10 @@ class WorkItemTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        workItemLabel.layer.borderWidth = 1
+        workItemLabel.layer.borderColor = UIColor.lightGray.cgColor
         workItemLabel.layer.cornerRadius = 10
+        workItemLabel.clipsToBounds = true
         // Initialization code
     }
 

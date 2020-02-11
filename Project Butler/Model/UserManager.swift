@@ -51,7 +51,7 @@ class UserManager {
     
     private init(){ }
     
-    var scopeButtons = ["All", "Confirm", "Friend"]
+    var scopeButtons = ["Friend", "Confirm", "SearchUser"]
     
     let db = Firestore.firestore()
     
@@ -197,8 +197,16 @@ class UserManager {
             }
         }
     }
+    
+    var isSearchingAll = false
         
     func searchAll(completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        guard isSearching == false else {
+            return
+        }
+        
+        isSearching = true
         
         guard let userID = Auth.auth().currentUser?.uid else { return }
         
@@ -227,6 +235,7 @@ class UserManager {
                             
                             self.acceptArray.append(data)
                         }
+                        
                     } catch {
                         completion(.failure(error))
                     }
@@ -234,9 +243,15 @@ class UserManager {
                 
                 completion(.success(()))
                 
-            } else {
+                self.isSearching = false
                 
-                return completion(.success(()))
+            } else {
+
+                if let error = error {
+                    completion(.failure(error))
+                }
+                
+                self.isSearching = false
             }
         }
     }

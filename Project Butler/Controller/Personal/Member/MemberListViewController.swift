@@ -71,6 +71,8 @@ class MemberListViewController: UIViewController {
         
         self.navigationItem.rightBarButtonItem = rightBarButton
         
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: Notification.Name("searchReload"), object: nil)
         
         settingTableView()
@@ -106,6 +108,27 @@ class MemberListViewController: UIViewController {
         
         passLeaderName?(leaderName)
         navigationController?.popViewController(animated: true)
+    }
+    
+    func loadFriendData() {
+        
+        activityView.startAnimating()
+        
+        userManager.searchAll { (result) in
+            
+            switch result {
+                
+            case.success:
+                
+                self.memberTableView.reloadData()
+                
+            case .failure(let error):
+                
+                print(error)
+            }
+            
+            self.activityView.stopAnimating()
+        }
     }
     
     

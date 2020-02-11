@@ -143,8 +143,8 @@ struct FriendDetail: Codable, Userable {
         UserManager.shared.searchAll { (result) in
             switch result {
                 
-            case .success(()):
-                
+            case .success(let data):
+                print(data)
                 print("Accept Successfully")
                 
             case .failure(let error):
@@ -163,8 +163,8 @@ struct FriendDetail: Codable, Userable {
         UserManager.shared.searchAll { (result) in
             switch result {
                 
-            case .success(()):
-                
+            case .success(let data):
+                print(data)
                 print("Refuse Successfully")
                 
             case .failure(let error):

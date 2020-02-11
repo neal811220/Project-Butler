@@ -69,7 +69,10 @@ class FriendListViewController: UIViewController {
     
     var currentIndexPath: IndexPath?
     
-    var currentSeletedIndex = 0
+    var currentSeletedIndex: Int {
+        
+        return friendSearchController.searchBar.selectedScopeButtonIndex
+    }
     
     var userTapStatus = false
     
@@ -98,16 +101,18 @@ class FriendListViewController: UIViewController {
             
             switch result {
                 
-            case .success(()):
+            case .success:
                 
                 self.reloadData()
-                                
-                self.activityView.stopAnimating()
                 
             case .failure(let error):
                 
                 print(error)
+                
             }
+            
+            self.activityView.stopAnimating()
+            
         }
     }
     
@@ -150,6 +155,7 @@ extension FriendListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         if currentSeletedIndex == 1 {
+            
             switch section {
                 
             case 0:
@@ -166,11 +172,11 @@ extension FriendListViewController: UITableViewDataSource {
             }
         } else if currentSeletedIndex == 0{
             
-            return "SearchUser"
+            return "Friend"
             
         } else {
             
-            return "Friend"
+            return "SearchUser"
         }
     }
     
@@ -232,7 +238,7 @@ extension FriendListViewController: UITableViewDataSource {
             
         case 0:
             
-            datas.append(userManager.searchUserArray)
+            datas.append(userManager.friendArray)
                         
         case 1:
             
@@ -242,7 +248,7 @@ extension FriendListViewController: UITableViewDataSource {
             
         case 2:
             
-            datas.append(userManager.friendArray)
+            datas.append(userManager.searchUserArray)
             
         default: break
         }
@@ -318,8 +324,6 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         
-        currentSeletedIndex = selectedScope
-        
         friendListTableView.reloadData()
     }
     
@@ -337,7 +341,9 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
                 
                 switch result {
                     
-                case .success(()):
+                case .success(let data):
+                    
+                    print(data)
                     
                     print("Success")
                     
@@ -348,8 +354,6 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
                 }
                 
                 self.reloadData()
-                
-                UserManager.shared.clearAll()
                 
                 self.activityView.stopAnimating()
             }

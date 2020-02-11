@@ -20,7 +20,7 @@ class NewProjectViewController: UIViewController {
         let workItemNib = UINib(nibName: "WorkItemTableViewCell", bundle: nil)
         tv.register(topNib, forCellReuseIdentifier: "cell")
         tv.register(workItemNib, forCellReuseIdentifier: "workItemCell")
-        tv.backgroundColor = UIColor(named: "NewProjectBackgroung")
+        tv.backgroundColor = UIColor.Gray1
         tv.layer.cornerRadius = 60
         tv.separatorStyle = .none
         return tv
@@ -29,7 +29,7 @@ class NewProjectViewController: UIViewController {
     let backgroundView: UIView = {
         let bv = UIView()
         bv.layer.cornerRadius = 60
-        bv.backgroundColor = UIColor(red: 129/255, green: 206/255, blue: 157/255, alpha: 1/0)
+        bv.backgroundColor = UIColor.Gray1
         bv.translatesAutoresizingMaskIntoConstraints = false
         return bv
     }()
@@ -38,7 +38,7 @@ class NewProjectViewController: UIViewController {
         let tf = UITextField()
         tf.placeholder = "Enter Your Project Name "
         tf.isEnabled = true
-        tf.textColor = UIColor.white
+        tf.textColor = UIColor.Gray3
         tf.font = UIFont.boldSystemFont(ofSize: 17)
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
@@ -46,25 +46,12 @@ class NewProjectViewController: UIViewController {
     
     let leaderLabel: UILabel = {
         let lbl = UILabel()
-        lbl.textColor = UIColor.white
+        lbl.textColor = UIColor.Gray2
         lbl.font = UIFont.boldSystemFont(ofSize: 17)
         lbl.text = "Hello"
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
-    
-//    lazy var memberCollectionView: UICollectionView = {
-//        let layoutObject = UICollectionViewFlowLayout.init()
-//        let member = UICollectionView(frame: CGRect.zero, collectionViewLayout: layoutObject)
-//        let memberNib = UINib(nibName: "ProcessingTableViewCell", bundle: nil)
-//        member.translatesAutoresizingMaskIntoConstraints = false
-//        member.delegate = self
-//        member.dataSource = self
-//        member.register(memberNib, forCellWithReuseIdentifier: "ProcessingCell")
-//        member.isScrollEnabled = true
-//        layoutObject.scrollDirection = .vertical
-//        return member
-//    }()
     
     var leaderName = ""
     
@@ -76,7 +63,7 @@ class NewProjectViewController: UIViewController {
         navigationItem.title = LargeTitle.newProject.rawValue
         
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
-        
+                
         // Do any additional setup after loading the view.
         settingTableView()
     }
@@ -90,7 +77,7 @@ class NewProjectViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             
-            backgroundView.topAnchor.constraint(equalTo: view.topAnchor, constant: 250),
+            backgroundView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
             backgroundView.leftAnchor.constraint(equalTo: view.leftAnchor),
             backgroundView.rightAnchor.constraint(equalTo: view.rightAnchor),
             backgroundView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 100),
@@ -106,7 +93,7 @@ class NewProjectViewController: UIViewController {
         
         let leaderLabel: UILabel = {
             let lbl = UILabel()
-            lbl.textColor = UIColor.white
+            lbl.textColor = UIColor.Gray3
             lbl.font = UIFont.boldSystemFont(ofSize: 17)
             lbl.text = text
             lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -114,30 +101,6 @@ class NewProjectViewController: UIViewController {
         }()
         
         return leaderLabel
-    }
-    
-    func settingCollectionView() -> UICollectionView {
-        
-        var memberCollectionView: UICollectionView = {
-               let layoutObject = UICollectionViewFlowLayout.init()
-               let member = UICollectionView(frame: CGRect.zero, collectionViewLayout: layoutObject)
-               let memberNib = UINib(nibName: "ProcessingTableViewCell", bundle: nil)
-               member.translatesAutoresizingMaskIntoConstraints = false
-               member.delegate = self
-               member.dataSource = self
-               member.register(memberNib, forCellWithReuseIdentifier: "ProcessingCell")
-               member.isScrollEnabled = true
-               layoutObject.scrollDirection = .vertical
-               return member
-           }()
-        
-        NSLayoutConstraint.activate([
-            memberCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            memberCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            memberCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            memberCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
-        return memberCollectionView
     }
     
 }
@@ -198,8 +161,8 @@ extension NewProjectViewController: UITableViewDataSource {
             case 3:
                 cell.leftImageView?.image = UIImage.asset(.Icons_32px_Member)
                 
-//                cell.inputContentView.addSubview(settingCollectionView())
-                
+                cell.inputContentView.addSubview(settingLabel(text: "2020/01/01~2020/01/30"))
+
                 cell.titleLabel.text = ItemTitle.member.rawValue
                 
                 leaderLabel.frame = cell.inputContentView.frame

@@ -3,7 +3,6 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -27,7 +26,7 @@
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ix1-Xw-18a">
                         <rect key="frame" x="102" y="28" width="1" height="70"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" red="0.59219002720000002" green="0.55694860219999998" blue="0.52547168730000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="70" id="PV3-xs-AUv"/>
                             <constraint firstAttribute="width" constant="1" id="kAw-vF-oCb"/>
@@ -35,18 +34,18 @@
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1We-PP-1hn">
                         <rect key="frame" x="30" y="98" width="353" height="1"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" red="0.59219002720000002" green="0.55694860219999998" blue="0.52547168730000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="40C-8y-Ht1"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wZr-iG-8jN">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wZr-iG-8jN">
                         <rect key="frame" x="121" y="28" width="153" height="25"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="AbZ-fg-2Uq"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
-                        <color key="textColor" red="0.4202696681022644" green="0.44644492864608765" blue="0.47843652963638306" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="textColor" red="0.59219002720000002" green="0.55694860219999998" blue="0.52547168730000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M12-mi-5zh">
@@ -57,7 +56,7 @@
                         </constraints>
                     </view>
                 </subviews>
-                <color key="backgroundColor" name="NewProjectBackgroung"/>
+                <color key="backgroundColor" white="0.94014875856164382" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="8zL-3j-sQ6" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="49" id="4Bb-z1-YDq"/>
                     <constraint firstItem="8zL-3j-sQ6" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="41" id="Bxi-SC-sVD"/>
@@ -82,12 +81,7 @@
                 <outlet property="titleLabel" destination="wZr-iG-8jN" id="xpe-Nz-uYM"/>
                 <outlet property="titleTopConstraint" destination="U5f-DR-Emn" id="LaC-kg-Lz3"/>
             </connections>
-            <point key="canvasLocation" x="205.07246376811597" y="154.01785714285714"/>
+            <point key="canvasLocation" x="325" y="151"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <namedColor name="NewProjectBackgroung">
-            <color red="0.50588235294117645" green="0.80784313725490198" blue="0.61568627450980395" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-    </resources>
 </document>

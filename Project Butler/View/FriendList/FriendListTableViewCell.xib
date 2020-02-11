@@ -50,7 +50,6 @@
                             <constraint firstAttribute="width" constant="32" id="ay6-Zz-Ogw"/>
                             <constraint firstAttribute="height" constant="32" id="mzq-bR-Nf9"/>
                         </constraints>
-                        <state key="normal" image="Icons_64px_Check_Normal"/>
                         <connections>
                             <action selector="pressedLeftButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="7s4-dq-D2S"/>
                         </connections>
@@ -95,7 +94,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Icons_64px_Check_Normal" width="64" height="64"/>
         <image name="Icos_62px_Check_Seleted" width="64" height="64"/>
         <image name="Luke" width="192" height="192"/>
     </resources>
