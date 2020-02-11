@@ -12,7 +12,7 @@ class FriendListViewController: UIViewController {
     
     lazy var friendListTableView: UITableView = {
         
-        let tableview = UITableView()
+        let tableview = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .grouped)
         
         tableview.translatesAutoresizingMaskIntoConstraints = false
         
@@ -100,8 +100,8 @@ class FriendListViewController: UIViewController {
                 
             case .success(()):
                 
-                self.friendListTableView.reloadData()
-                
+                self.reloadData()
+                                
                 self.activityView.stopAnimating()
                 
             case .failure(let error):
@@ -144,6 +144,34 @@ extension FriendListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         
         return datas.count
+        
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        if currentSeletedIndex == 1 {
+            switch section {
+                
+            case 0:
+                
+                return "Waiting Accept"
+                
+            case 1:
+                
+                return "Accept OR Refuse"
+                
+            default:
+                
+                return ""
+            }
+        } else if currentSeletedIndex == 0{
+            
+            return "SearchUser"
+            
+        } else {
+            
+            return "Friend"
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
