@@ -49,6 +49,10 @@ class SelectMembersViewController: UIViewController {
     
     var datas: [FriendDetail] = []
     
+    var seletedArray: [FriendDetail] = []
+    
+    var passSelectMemeber: (([FriendDetail]) -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -73,6 +77,15 @@ class SelectMembersViewController: UIViewController {
     }
     
     @objc func didTapDoneBarButton(sender: UIBarButtonItem) {
+        
+        if allfriends.count != 0 {
+            
+            seletedArray = allfriends.filter({ $0.isSeleted == true })
+            
+            passSelectMemeber?(seletedArray)
+            
+            print(seletedArray)
+        }
         
         navigationController?.popViewController(animated: true)
     }
@@ -196,17 +209,26 @@ extension SelectMembersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? SelectMemberTableViewCell else { return }
         
-        if cell.select == false {
+        allfriends[indexPath.row].isSeleted = !allfriends[indexPath.row].isSeleted
+        
+        switch cell.select {
+            
+        case false:
             
             cell.rightImage.image = UIImage.asset(.Icos_62px_Check_Selected)
+            
             cell.select = true
             
-        } else{
-            
+        case true:
+
             cell.rightImage.image = UIImage.asset(.Icons_64px_Check_Normal)
+            
             cell.select = false
+            
+        default:
+            
+            break
         }
-        
     }
 }
 

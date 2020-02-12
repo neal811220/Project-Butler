@@ -11,17 +11,15 @@ import UIKit
 class CreateWorkItemViewController: UIViewController {
 
     lazy var tableview: UITableView = {
-        let tv = UITableView()
-//        tv.dataSource = self()
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        
-        return tv
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
     }
     
 }

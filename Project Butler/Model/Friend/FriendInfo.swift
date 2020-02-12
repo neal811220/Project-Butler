@@ -109,6 +109,13 @@ struct FriendDetail: Codable, Userable {
     
     let userName: String
     
+    var isSeleted: Bool = false
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case accept, confirm, userEmail, userID, userImageUrl, userName
+    }
+    
     func tapAcceptButton() {
         
         UserManager.shared.acceptFrined(uid: userID)

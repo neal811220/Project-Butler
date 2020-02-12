@@ -145,6 +145,8 @@ class PersonalViewController: UIViewController {
         setupSearchBar()
         
         setupTableView()
+        
+        fetchCurrentUserInfo()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -221,6 +223,11 @@ class PersonalViewController: UIViewController {
         }
         
         tableView.reloadData()
+    }
+    
+    func fetchCurrentUserInfo() {
+        
+        UserManager.shared.getLoginUserInfo()
     }
     
     func setupSearchBar() {

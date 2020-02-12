@@ -9,7 +9,7 @@
 import UIKit
 
 class NewProjectViewController: UIViewController {
-
+    
     lazy var tableView: UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
@@ -55,6 +55,10 @@ class NewProjectViewController: UIViewController {
     
     var leaderName = ""
     
+    var membersArray: [FriendDetail] = []
+    
+    var members: [String] = ["Please Select Member"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -63,7 +67,7 @@ class NewProjectViewController: UIViewController {
         navigationItem.title = LargeTitle.newProject.rawValue
         
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
-                
+        
         // Do any additional setup after loading the view.
         setupTableView()
     }
@@ -112,10 +116,15 @@ extension NewProjectViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         if section == 0 {
+            
             return 5
+            
         } else {
+            
             return 3
+            
         }
         
     }
@@ -124,11 +133,11 @@ extension NewProjectViewController: UITableViewDataSource {
         if indexPath.section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? NewProjectTableViewCell else { return UITableViewCell() }
             switch indexPath.row {
-
+                
             case 0:
-
+                
                 cell.leftImageView?.image = UIImage.asset(.Icons_32px_ProjectName)
-
+                
                 cell.inputContentView.addSubview(projectNametextField)
                 
                 cell.titleLabel.text = ItemTitle.projectName.rawValue
@@ -137,15 +146,15 @@ extension NewProjectViewController: UITableViewDataSource {
                 
                 cell.layoutIfNeeded()
             case 1:
-
+                
                 cell.leftImageView?.image = UIImage.asset(.Icons_32px_Leader)
-
-                cell.inputContentView.addSubview(setupLabel(text: leaderName))
+                
+                cell.inputContentView.addSubview(setupLabel(text: CurrentUserInfo.shared.userName ?? ""))
                 
                 cell.titleLabel.text = ItemTitle.projectLeader.rawValue
                 
                 leaderLabel.frame = cell.inputContentView.frame
-
+                
                 cell.layoutIfNeeded()
             case 2:
                 
@@ -156,13 +165,15 @@ extension NewProjectViewController: UITableViewDataSource {
                 cell.titleLabel.text = ItemTitle.date.rawValue
                 
                 leaderLabel.frame = cell.inputContentView.frame
-
-                cell.layoutIfNeeded()
-            case 3:
-                cell.leftImageView?.image = UIImage.asset(.Icons_32px_Member)
                 
-                cell.inputContentView.addSubview(setupLabel(text: "2020/01/01~2020/01/30"))
-
+                cell.layoutIfNeeded()
+                
+            case 3:
+                
+                cell.leftImageView?.image = UIImage.asset(.Icons_32px_Member)
+                    
+                cell.inputContentView.addSubview(setupLabel(text: members[0]))
+                
                 cell.titleLabel.text = ItemTitle.member.rawValue
                 
                 leaderLabel.frame = cell.inputContentView.frame
@@ -193,22 +204,23 @@ extension NewProjectViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else { return }
-        
         guard let selectMemeberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "SelectMemeberVC") as? SelectMembersViewController else { return }
         
-        if indexPath.section == 0 && indexPath.row == 1 {
+        if indexPath.section == 0 && indexPath.row == 3 {
             
-            memberVC.passLeaderName = {
-                self.leaderName = $0
-                self.tableView.reloadData()
+            selectMemeberVC.passSelectMemeber = {
+                
+                self.membersArray = $0
+                
+                if self.membersArray.count != 0 {
+                    self.members.removeAll()
+                    self.members.append(self.membersArray[0].userName)
+                    tableView.reloadData()
+                }
             }
             
-            show(memberVC, sender: nil)
-            
-        } else if indexPath.section == 0 && indexPath.row == 3{
-            
             show(selectMemeberVC, sender: nil)
+            
         }
     }
 }

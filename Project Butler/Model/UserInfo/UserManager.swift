@@ -37,7 +37,7 @@ class UserManager {
     var image = UIImage()
     
     let group = DispatchGroup()
-        
+    
     func addSocialUserData() {
         
         guard let userName = Auth.auth().currentUser?.displayName,
@@ -58,7 +58,7 @@ class UserManager {
     }
     
     func getLoginUserInfo() {
-       
+        
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         db.collection("users").document(uid).getDocument { (snapshot, error) in
@@ -81,7 +81,7 @@ class UserManager {
     func getSeletedLeader(uid: String, completion: @escaping (Result<FriendDetail, Error>) -> Void) {
         
         guard let id = CurrentUserInfo.shared.userID else { return }
-
+        
         db.collection("users").document(id).collection("friends").document(uid).getDocument { (snapshot, error) in
             
             if let error = error {
@@ -127,10 +127,36 @@ class UserManager {
     
     func changeFriendStatus(uid: String) {
         
-        let current = CurrentUserInfo.shared
-        guard let id = current.userID, let name = current.userName, let email = current.userEmail, let image = current.userImageUrl else { return }
-        let friendStatu:[String: Any] = ["accept": true, "confirm": false, "userID": id, "userName": name, "userEmail": email, "userImageUrl": image]
-        db.collection("users").document(uid).collection("friends").document(id).setData(friendStatu)
+        guard let id = Auth.auth().currentUser?.uid else { return }
+        
+        var name = ""
+        
+        var email = ""
+        
+        var image = ""
+        
+        db.collection("users").document(id).getDocument { (snapshot, error) in
+            
+            guard let snapshot = snapshot, error == nil else { return }
+            
+            do {
+                guard let data = try snapshot.data(as: AuthInfo.self, decoder: Firestore.Decoder()) else { return }
+                
+                name = data.userName
+                
+                email = data.userEmail
+                
+                image = data.userImageUrl
+                
+                let friendStatu:[String: Any] = ["accept": true, "confirm": false, "userID": id, "userName": name, "userEmail": email, "userImageUrl": image]
+                self.db.collection("users").document(uid).collection("friends").document(id).setData(friendStatu)
+                
+            } catch {
+                
+                print(error)
+                
+            }
+        }
     }
     
     func addFriend(uid: String, name: String, email: String, image: String, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -175,7 +201,7 @@ class UserManager {
     }
     
     var isSearchingAll = false
-        
+    
     func searchAll(completion: @escaping (Result<Void, Error>) -> Void) {
         
         guard isSearching == false else {
@@ -189,7 +215,7 @@ class UserManager {
         clearAll()
         
         lastSearchText = ""
-
+        
         db.collection("users").document(userID).collection("friends").getDocuments { (snapshot, error) in
             
             if error == nil && snapshot != nil && snapshot!.documents.count != 0 {
@@ -222,7 +248,7 @@ class UserManager {
                 self.isSearching = false
                 
             } else {
-
+                
                 if let error = error {
                     completion(.failure(error))
                 }
@@ -298,19 +324,19 @@ class UserManager {
     func clearAll () {
         
         self.friendArray = []
-
+        
         self.confirmArray = []
-
+        
         self.acceptArray = []
-
+        
         self.searchUserArray = []
-
+        
     }
     
     func searchUser(text: String, completion: @escaping FetchUserResult) {
         
         guard lastSearchText != text else {
-
+            
             self.notification()
             
             return
