@@ -12,38 +12,9 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseStorage
 
-enum ScopeButton:String {
-    
-    case all = "All"
-    
-    case confirm = "Confirm"
-    
-    case friend = "Friend"
-}
-
-enum LargeTitle: String {
-    
-    case friendList = "Friend List"
-    
-    case memberList = "Member List"
-    
-    case newProject = "New Project"
-    
-    case personalProject = "Personal Project"
-    
-}
-
-enum PlaceHolder: String {
-    
-    case friendPlaceHolder = "Type Email To Search Friend"
-    
-    case projectPlaceHolder = "Type Project Name To Search Project"
-}
-
 typealias FetchUserResult = (Result<[AuthInfo], Error>) -> Void
 
 typealias FetchFriendResult = (Result<[FriendDetail], Error>) -> Void
-
 
 class UserManager {
     

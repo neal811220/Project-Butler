@@ -39,7 +39,6 @@
                             <constraint firstAttribute="width" constant="32" id="JhY-Ym-xT0"/>
                             <constraint firstAttribute="height" constant="32" id="v3r-SA-0lj"/>
                         </constraints>
-                        <state key="normal" image="Icos_62px_Check_Seleted"/>
                         <connections>
                             <action selector="pressedRightbutton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="3HI-q4-9Nx"/>
                         </connections>
@@ -94,7 +93,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Icos_62px_Check_Seleted" width="64" height="64"/>
         <image name="Luke" width="192" height="192"/>
     </resources>
 </document>

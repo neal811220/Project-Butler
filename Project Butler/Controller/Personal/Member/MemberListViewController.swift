@@ -33,12 +33,6 @@ class MemberListViewController: UIViewController {
         return tableview
     }()
     
-    let doneButton: UIBarButtonItem = {
-        let bt = UIBarButtonItem()
-        bt.tintColor = UIColor.B1
-        return bt
-    }()
-    
     let userManager = UserManager.shared
     
     let activityView = UIActivityIndicatorView()
@@ -61,7 +55,7 @@ class MemberListViewController: UIViewController {
     
     override func viewDidLoad() {
         
-        let rightBarButton = UIBarButtonItem(title: "DONE", style: .done, target: self, action: #selector(didTapDoneButton))
+        let doneBarButton = UIBarButtonItem(title: "DONE", style: .done, target: self, action: #selector(didTapDoneBarButton))
         
         super.viewDidLoad()
         
@@ -71,17 +65,17 @@ class MemberListViewController: UIViewController {
         
         self.navigationItem.searchController = searchController
         
-        self.navigationItem.rightBarButtonItem = rightBarButton
+        self.navigationItem.rightBarButtonItem = doneBarButton
         
         self.navigationItem.hidesSearchBarWhenScrolling = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: Notification.Name("searchReload"), object: nil)
         
-        settingTableView()
+        setupTableView()
         
     }
     
-    func settingTableView() {
+    func setupTableView() {
         
         view.addSubview(tableView)
         
@@ -112,7 +106,7 @@ class MemberListViewController: UIViewController {
         
     }
     
-    @objc func didTapDoneButton(sender: UIBarButtonItem) {
+    @objc func didTapDoneBarButton(sender: UIBarButtonItem) {
         
         passLeaderName?(leaderName)
         
@@ -158,7 +152,7 @@ extension MemberListViewController: UITableViewDataSource {
         
         cell.rightButton.setImage(UIImage.asset(.Icons_64px_Check_Normal), for: .normal)
         
-        cell.rightButton.setImage(UIImage.asset(.Icos_62px_Check_Seleted), for: .selected)
+        cell.rightButton.setImage(UIImage.asset(.Icos_62px_Check_Selected), for: .selected)
         
         cell.friendImage.loadImage(datas[indexPath.section][indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
         

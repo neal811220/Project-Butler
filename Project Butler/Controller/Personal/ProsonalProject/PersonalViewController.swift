@@ -138,13 +138,13 @@ class PersonalViewController: UIViewController {
         
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
         
-        settingStackView()
+        setupStackView()
         
-        settingButtonStackView()
+        setupButtonStackView()
         
-        settingSearchBar()
+        setupSearchBar()
         
-        settingTableView()
+        setupTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -223,7 +223,7 @@ class PersonalViewController: UIViewController {
         tableView.reloadData()
     }
     
-    func settingSearchBar() {
+    func setupSearchBar() {
         
         view.addSubview(searchbarStackView)
         
@@ -255,7 +255,7 @@ class PersonalViewController: UIViewController {
         
     }
     
-    func settingTableView() {
+    func setupTableView() {
         
         view.addSubview(tableView)
         tableViewTopConstraint = tableView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20)
@@ -267,7 +267,7 @@ class PersonalViewController: UIViewController {
         ])
     }
     
-    func settingStackView() {
+    func setupStackView() {
         
         guard let navigationbar = navigationController?.navigationBar else { return }
         
@@ -289,7 +289,7 @@ class PersonalViewController: UIViewController {
         ])
     }
     
-    func settingButtonStackView() {
+    func setupButtonStackView() {
         
         view.addSubview(topButtonStackView)
         

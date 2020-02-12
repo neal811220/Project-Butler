@@ -65,10 +65,10 @@ class NewProjectViewController: UIViewController {
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
                 
         // Do any additional setup after loading the view.
-        settingTableView()
+        setupTableView()
     }
     
-    func settingTableView() {
+    func setupTableView() {
         
         view.addSubview(backgroundView)
         
@@ -89,7 +89,7 @@ class NewProjectViewController: UIViewController {
         ])
     }
     
-    func settingLabel(text: String) -> UILabel{
+    func setupLabel(text: String) -> UILabel{
         
         let leaderLabel: UILabel = {
             let lbl = UILabel()
@@ -140,7 +140,7 @@ extension NewProjectViewController: UITableViewDataSource {
 
                 cell.leftImageView?.image = UIImage.asset(.Icons_32px_Leader)
 
-                cell.inputContentView.addSubview(settingLabel(text: leaderName))
+                cell.inputContentView.addSubview(setupLabel(text: leaderName))
                 
                 cell.titleLabel.text = ItemTitle.projectLeader.rawValue
                 
@@ -151,7 +151,7 @@ extension NewProjectViewController: UITableViewDataSource {
                 
                 cell.leftImageView?.image = UIImage.asset(.Icons_32px_Calendar)
                 
-                cell.inputContentView.addSubview(settingLabel(text: "2020/01/01~2020/01/30"))
+                cell.inputContentView.addSubview(setupLabel(text: "2020/01/01~2020/01/30"))
                 
                 cell.titleLabel.text = ItemTitle.date.rawValue
                 
@@ -161,7 +161,7 @@ extension NewProjectViewController: UITableViewDataSource {
             case 3:
                 cell.leftImageView?.image = UIImage.asset(.Icons_32px_Member)
                 
-                cell.inputContentView.addSubview(settingLabel(text: "2020/01/01~2020/01/30"))
+                cell.inputContentView.addSubview(setupLabel(text: "2020/01/01~2020/01/30"))
 
                 cell.titleLabel.text = ItemTitle.member.rawValue
                 
@@ -192,7 +192,10 @@ extension NewProjectViewController: UITableViewDataSource {
 extension NewProjectViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else { return }
+        
+        guard let selectMemeberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "SelectMemeberVC") as? SelectMembersViewController else { return }
         
         if indexPath.section == 0 && indexPath.row == 1 {
             
@@ -202,9 +205,10 @@ extension NewProjectViewController: UITableViewDelegate {
             }
             
             show(memberVC, sender: nil)
+            
         } else if indexPath.section == 0 && indexPath.row == 3{
             
-            show(memberVC, sender: nil)
+            show(selectMemeberVC, sender: nil)
         }
     }
 }

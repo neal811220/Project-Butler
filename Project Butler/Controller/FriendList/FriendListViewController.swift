@@ -89,9 +89,9 @@ class FriendListViewController: UIViewController {
         
         navigationItem.searchController = searchController
         
-        settingTableview()
+        setupTableview()
         
-        settingActivityView()
+        setupActivityView()
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: Notification.Name("searchReload"), object: nil)
         
@@ -116,7 +116,7 @@ class FriendListViewController: UIViewController {
         }
     }
     
-    func settingActivityView() {
+    func setupActivityView() {
         
         view.addSubview(activityView)
         
@@ -128,7 +128,7 @@ class FriendListViewController: UIViewController {
         ])
     }
     
-    func settingTableview() {
+    func setupTableview() {
         
         view.addSubview(tableView)
         

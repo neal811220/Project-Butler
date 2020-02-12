@@ -62,7 +62,7 @@ enum ImageAsset: String {
     //MemberButton
     case Icons_64px_Check_Normal
     
-    case Icos_62px_Check_Seleted
+    case Icos_62px_Check_Selected
 }
 
 extension UIImage {
