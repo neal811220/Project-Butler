@@ -21,7 +21,7 @@ class MemberListViewController: UIViewController {
         return search
     }()
     
-    lazy var memberTableView: UITableView = {
+    lazy var tableView: UITableView = {
         let tableview = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .grouped)
         tableview.translatesAutoresizingMaskIntoConstraints = false
         tableview.rowHeight = UITableView.automaticDimension
@@ -83,16 +83,16 @@ class MemberListViewController: UIViewController {
     
     func settingTableView() {
         
-        view.addSubview(memberTableView)
+        view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
-            memberTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
             
-            memberTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             
-            memberTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             
-            memberTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -106,7 +106,7 @@ class MemberListViewController: UIViewController {
         
         isCancel = false
         
-        memberTableView.reloadData()
+        tableView.reloadData()
         
         activityView.stopAnimating()
         
@@ -224,7 +224,7 @@ extension MemberListViewController: UISearchResultsUpdating {
                 
                 datas.remove(at: 0)
                 isCancel = true
-                memberTableView.reloadData()
+                tableView.reloadData()
             }
             
         }
@@ -238,13 +238,13 @@ extension MemberListViewController: FriendListTableViewCellDelegate {
                 
         if let selected = leaderIndex {
             
-            if let cell = memberTableView.cellForRow(at: selected) as? FriendListTableViewCell {
+            if let cell = tableView.cellForRow(at: selected) as? FriendListTableViewCell {
                 
                 cell.rightButton.isSelected = false
             }
         }
         
-        guard let indexPath = memberTableView.indexPath(for: friendListTableViewCell) else { return }
+        guard let indexPath = tableView.indexPath(for: friendListTableViewCell) else { return }
         
         leaderIndex = indexPath
         

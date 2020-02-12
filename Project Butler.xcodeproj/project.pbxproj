@@ -51,6 +51,10 @@
 		18E32EDB23EF01E20054D592 /* ProcessingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18E32ED923EF01E20054D592 /* ProcessingCollectionViewCell.xib */; };
 		18E32EE023EF023E0054D592 /* CompletedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E32EDE23EF023E0054D592 /* CompletedCollectionViewCell.swift */; };
 		18E32EE123EF023E0054D592 /* CompletedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18E32EDF23EF023E0054D592 /* CompletedCollectionViewCell.xib */; };
+		18F0E37023F38BF800149F8F /* CreateWorkItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F0E36F23F38BF800149F8F /* CreateWorkItemViewController.swift */; };
+		18F0E37323F38C3C00149F8F /* CreateWorkItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F0E37123F38C3C00149F8F /* CreateWorkItemTableViewCell.swift */; };
+		18F0E37423F38C3C00149F8F /* CreateWorkItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18F0E37223F38C3C00149F8F /* CreateWorkItemTableViewCell.xib */; };
+		18F0E37623F3C04700149F8F /* SelectMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F0E37523F3C04700149F8F /* SelectMembersViewController.swift */; };
 		18F8CC3D23ED1993004D8420 /* CurrentUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F8CC3C23ED1993004D8420 /* CurrentUserInfo.swift */; };
 		18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */; };
 		18FFB56523E175E2004B43C0 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 18FFB56423E175E2004B43C0 /* FacebookLogin */; };
@@ -104,6 +108,10 @@
 		18E32ED923EF01E20054D592 /* ProcessingCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProcessingCollectionViewCell.xib; sourceTree = "<group>"; };
 		18E32EDE23EF023E0054D592 /* CompletedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedCollectionViewCell.swift; sourceTree = "<group>"; };
 		18E32EDF23EF023E0054D592 /* CompletedCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CompletedCollectionViewCell.xib; sourceTree = "<group>"; };
+		18F0E36F23F38BF800149F8F /* CreateWorkItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWorkItemViewController.swift; sourceTree = "<group>"; };
+		18F0E37123F38C3C00149F8F /* CreateWorkItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWorkItemTableViewCell.swift; sourceTree = "<group>"; };
+		18F0E37223F38C3C00149F8F /* CreateWorkItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateWorkItemTableViewCell.xib; sourceTree = "<group>"; };
+		18F0E37523F3C04700149F8F /* SelectMembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMembersViewController.swift; sourceTree = "<group>"; };
 		18F8CC3C23ED1993004D8420 /* CurrentUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserInfo.swift; sourceTree = "<group>"; };
 		18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWapper.swift; sourceTree = "<group>"; };
 		31E235C089173A4059097F39 /* Pods-Project Butler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project Butler.debug.xcconfig"; path = "Target Support Files/Pods-Project Butler/Pods-Project Butler.debug.xcconfig"; sourceTree = "<group>"; };
@@ -266,6 +274,8 @@
 		188FE73623E7EFA100DDF30C /* NewProject */ = {
 			isa = PBXGroup;
 			children = (
+				18F0E37123F38C3C00149F8F /* CreateWorkItemTableViewCell.swift */,
+				18F0E37223F38C3C00149F8F /* CreateWorkItemTableViewCell.xib */,
 				188FE73F23E8002200DDF30C /* NewProjectTableViewCell.swift */,
 				188FE73823E7F05700DDF30C /* NewProjectTableViewCell.xib */,
 				188FE74123E8004300DDF30C /* WorkItemTableViewCell.swift */,
@@ -311,6 +321,7 @@
 			isa = PBXGroup;
 			children = (
 				18AA9EBA23E6B05100D390CE /* MemberListViewController.swift */,
+				18F0E37523F3C04700149F8F /* SelectMembersViewController.swift */,
 			);
 			path = Member;
 			sourceTree = "<group>";
@@ -318,6 +329,7 @@
 		18AA9EBF23E6B98700D390CE /* NewProject */ = {
 			isa = PBXGroup;
 			children = (
+				18F0E36F23F38BF800149F8F /* CreateWorkItemViewController.swift */,
 				188FE73323E7EEB300DDF30C /* NewProjectViewController.swift */,
 			);
 			path = NewProject;
@@ -482,6 +494,7 @@
 				18A059C423E3CC95002860B6 /* Profile.storyboard in Resources */,
 				1861E11123D7F71500673640 /* LaunchScreen.storyboard in Resources */,
 				188FE73A23E7F05700DDF30C /* NewProjectTableViewCell.xib in Resources */,
+				18F0E37423F38C3C00149F8F /* CreateWorkItemTableViewCell.xib in Resources */,
 				1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */,
 				18E32EDB23EF01E20054D592 /* ProcessingCollectionViewCell.xib in Resources */,
 				1861E10E23D7F71500673640 /* Assets.xcassets in Resources */,
@@ -559,6 +572,7 @@
 			files = (
 				18F8CC3D23ED1993004D8420 /* CurrentUserInfo.swift in Sources */,
 				18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */,
+				18F0E37623F3C04700149F8F /* SelectMembersViewController.swift in Sources */,
 				18A059CC23E3CDC7002860B6 /* ReportViewController.swift in Sources */,
 				18D93DCA23EEC268005398B7 /* ProcessingTableViewCell.swift in Sources */,
 				18D93DC723EEA225005398B7 /* UIColor+Extension.swift in Sources */,
@@ -566,11 +580,13 @@
 				18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */,
 				182A856523F2A6D400D5394F /* ProjectManager.swift in Sources */,
 				18D2494823EED9C3006528A6 /* CompletedTableViewCell.swift in Sources */,
+				18F0E37023F38BF800149F8F /* CreateWorkItemViewController.swift in Sources */,
 				1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */,
 				1895D75123E3C51F00207016 /* PBTabBarViewController.swift in Sources */,
 				18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */,
 				18AA9EBB23E6B05100D390CE /* MemberListViewController.swift in Sources */,
 				18A059C623E3CCE3002860B6 /* ProfileViewController.swift in Sources */,
+				18F0E37323F38C3C00149F8F /* CreateWorkItemTableViewCell.swift in Sources */,
 				1844082923E57AAB00A879F7 /* FriendInfo.swift in Sources */,
 				18BEF14723E977C200CC401C /* KingFisherWapper.swift in Sources */,
 				18A059D123E3D683002860B6 /* FriendListViewController.swift in Sources */,

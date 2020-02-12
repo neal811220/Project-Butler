@@ -10,7 +10,7 @@ import Firebase
 
 class FriendListViewController: UIViewController {
     
-    lazy var friendListTableView: UITableView = {
+    lazy var tableView: UITableView = {
         
         let tableview = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .grouped)
         
@@ -29,25 +29,25 @@ class FriendListViewController: UIViewController {
         return tableview
     }()
     
-    lazy var friendSearchController: UISearchController = {
+    lazy var searchController: UISearchController = {
         
-        let bar  = UISearchController(searchResultsController: nil)
+        let search  = UISearchController(searchResultsController: nil)
         
-        bar.searchResultsUpdater = self
+        search.searchResultsUpdater = self
         
-        bar.obscuresBackgroundDuringPresentation = false
+        search.obscuresBackgroundDuringPresentation = false
         
-        bar.searchBar.placeholder = PlaceHolder.friendPlaceHolder.rawValue
+        search.searchBar.placeholder = PlaceHolder.friendPlaceHolder.rawValue
         
-        bar.searchBar.sizeToFit()
+        search.searchBar.sizeToFit()
         
-        bar.searchBar.scopeButtonTitles = UserManager.shared.scopeButtons
+        search.searchBar.scopeButtonTitles = UserManager.shared.scopeButtons
         
-        bar.searchBar.searchBarStyle = .prominent
+        search.searchBar.searchBarStyle = .prominent
         
-        bar.searchBar.delegate = self
+        search.searchBar.delegate = self
         
-        return bar
+        return search
     }()
     
     var activityView: UIActivityIndicatorView = {
@@ -71,7 +71,7 @@ class FriendListViewController: UIViewController {
     
     var currentSeletedIndex: Int {
         
-        return friendSearchController.searchBar.selectedScopeButtonIndex
+        return searchController.searchBar.selectedScopeButtonIndex
     }
     
     var userTapStatus = false
@@ -87,7 +87,7 @@ class FriendListViewController: UIViewController {
         
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
         
-        navigationItem.searchController = friendSearchController
+        navigationItem.searchController = searchController
         
         settingTableview()
         
@@ -130,16 +130,16 @@ class FriendListViewController: UIViewController {
     
     func settingTableview() {
         
-        view.addSubview(friendListTableView)
+        view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
-            friendListTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
             
-            friendListTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             
-            friendListTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             
-            friendListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }
@@ -253,7 +253,7 @@ extension FriendListViewController: UITableViewDataSource {
         default: break
         }
         
-        friendListTableView.reloadData()
+        tableView.reloadData()
         
         activityView.stopAnimating()
         
@@ -314,7 +314,7 @@ extension FriendListViewController: FriendListTableViewCellDelegate {
     
     func passIndexPath(_ friendListTableViewCell: FriendListTableViewCell) {
         
-        guard let indexPath = friendListTableView.indexPath(for: friendListTableViewCell) else { return }
+        guard let indexPath = tableView.indexPath(for: friendListTableViewCell) else { return }
         
         currentIndexPath = indexPath
     }
@@ -325,14 +325,14 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         
-        friendListTableView.reloadData()
+        tableView.reloadData()
     }
     
     func updateSearchResults(for searchController: UISearchController) {
         
         datas = []
         
-        friendListTableView.reloadData()
+        tableView.reloadData()
         
         activityView.startAnimating()
         

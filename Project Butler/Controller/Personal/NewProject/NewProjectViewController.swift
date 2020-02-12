@@ -10,7 +10,7 @@ import UIKit
 
 class NewProjectViewController: UIViewController {
 
-    lazy var newProjectTableView: UITableView = {
+    lazy var tableView: UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.dataSource = self
@@ -72,7 +72,7 @@ class NewProjectViewController: UIViewController {
         
         view.addSubview(backgroundView)
         
-        backgroundView.addSubview(newProjectTableView)
+        backgroundView.addSubview(tableView)
         
         
         NSLayoutConstraint.activate([
@@ -82,10 +82,10 @@ class NewProjectViewController: UIViewController {
             backgroundView.rightAnchor.constraint(equalTo: view.rightAnchor),
             backgroundView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 100),
             
-            newProjectTableView.topAnchor.constraint(equalTo: backgroundView.topAnchor),
-            newProjectTableView.leftAnchor.constraint(equalTo: backgroundView.leftAnchor),
-            newProjectTableView.rightAnchor.constraint(equalTo: backgroundView.rightAnchor),
-            newProjectTableView.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -100)
+            tableView.topAnchor.constraint(equalTo: backgroundView.topAnchor),
+            tableView.leftAnchor.constraint(equalTo: backgroundView.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: backgroundView.rightAnchor),
+            tableView.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -100)
         ])
     }
     
@@ -198,7 +198,7 @@ extension NewProjectViewController: UITableViewDelegate {
             
             memberVC.passLeaderName = {
                 self.leaderName = $0
-                self.newProjectTableView.reloadData()
+                self.tableView.reloadData()
             }
             
             show(memberVC, sender: nil)
