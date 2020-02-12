@@ -47,6 +47,8 @@ class SelectMembersViewController: UIViewController {
     
     var allfriends: [FriendDetail] = []
     
+    var datas: [FriendDetail] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -107,6 +109,8 @@ class SelectMembersViewController: UIViewController {
         
         projectManager.friendArray = []
         
+        projectManager.filterArray = []
+        
         activityView.startAnimating()
         
         projectManager.fetchFriends { (result) in
@@ -123,6 +127,39 @@ class SelectMembersViewController: UIViewController {
                 
                 print(error)
             }
+            self.projectManager.isSearching = false
+            
+            self.activityView.stopAnimating()
+        }
+    }
+    
+    func filterFriends(text: String) {
+        
+        allfriends = []
+        
+        projectManager.filterArray = []
+        
+        projectManager.friendArray = []
+        
+        activityView.startAnimating()
+        
+        projectManager.filterSearch(text: text) { (result) in
+            
+            switch result {
+                
+            case .success(let data):
+                
+                self.allfriends = data
+                
+                self.tableView.reloadData()
+                
+            case .failure(let error):
+                
+                print(error)
+                
+            }
+            
+            self.projectManager.lastSearchText = ""
             
             self.activityView.stopAnimating()
         }
@@ -187,6 +224,7 @@ extension SelectMembersViewController: UISearchResultsUpdating {
             
         } else {
             
+            filterFriends(text: searchController.searchBar.text!)
             
         }
     }
