@@ -12,7 +12,7 @@ class CreateWorkItemViewController: UIViewController {
 
     lazy var tableview: UITableView = {
         let tableView = UITableView()
-        tableView.dataSource = self
+//        tableView.dataSource = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()

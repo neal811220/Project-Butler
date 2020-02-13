@@ -57,8 +57,6 @@ class NewProjectViewController: UIViewController {
     
     var membersArray: [FriendDetail] = []
     
-    var members: [String] = ["Please Select Member"]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -68,7 +66,6 @@ class NewProjectViewController: UIViewController {
         
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
         
-        // Do any additional setup after loading the view.
         setupTableView()
     }
     
@@ -117,82 +114,40 @@ extension NewProjectViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 0 {
-            
-            return 5
-            
-        } else {
-            
-            return 3
-            
-        }
-        
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         if indexPath.section == 0 {
+            
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? NewProjectTableViewCell else { return UITableViewCell() }
-            switch indexPath.row {
+            
+            cell.leaderLabel.text = CurrentUserInfo.shared.userName
+            
+            cell.memeberInfo = membersArray
+            
+            
+            cell.transitionToMemberVC = { [weak self] _ in
+             
+                guard let selectMemeberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "SelectMemeberVC") as? SelectMembersViewController else {
+                    return
+                }
+                self?.show(selectMemeberVC, sender: nil)
                 
-            case 0:
-                
-                cell.leftImageView?.image = UIImage.asset(.Icons_32px_ProjectName)
-                
-                cell.inputContentView.addSubview(projectNametextField)
-                
-                cell.titleLabel.text = ItemTitle.projectName.rawValue
-                
-                projectNametextField.frame = cell.inputContentView.frame
-                
-                cell.layoutIfNeeded()
-            case 1:
-                
-                cell.leftImageView?.image = UIImage.asset(.Icons_32px_Leader)
-                
-                cell.inputContentView.addSubview(setupLabel(text: CurrentUserInfo.shared.userName ?? ""))
-                
-                cell.titleLabel.text = ItemTitle.projectLeader.rawValue
-                
-                leaderLabel.frame = cell.inputContentView.frame
-                
-                cell.layoutIfNeeded()
-            case 2:
-                
-                cell.leftImageView?.image = UIImage.asset(.Icons_32px_Calendar)
-                
-                cell.inputContentView.addSubview(setupLabel(text: "2020/01/01~2020/01/30"))
-                
-                cell.titleLabel.text = ItemTitle.date.rawValue
-                
-                leaderLabel.frame = cell.inputContentView.frame
-                
-                cell.layoutIfNeeded()
-                
-            case 3:
-                
-                cell.leftImageView?.image = UIImage.asset(.Icons_32px_Member)
+                selectMemeberVC.passSelectMemeber = {
                     
-                cell.inputContentView.addSubview(setupLabel(text: members[0]))
-                
-                cell.titleLabel.text = ItemTitle.member.rawValue
-                
-                leaderLabel.frame = cell.inputContentView.frame
-                
-                cell.layoutIfNeeded()
-            case 4:
-                cell.leftImageView.image = UIImage.asset(.Icons_32px_WorkItem)
-                
-                cell.titleLabel.text = ItemTitle.workItem.rawValue
-                
-                cell.titleTopConstraint.constant += 10
-                
-            default:
-                break
+                    self?.membersArray = $0
+                    
+                    tableView.reloadData()
+                }
             }
+            
             return cell
+            
         } else {
             
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "workItemCell") as? WorkItemTableViewCell else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "workItemCell", for: indexPath) as? WorkItemTableViewCell else { return UITableViewCell() }
             return cell
         }
         
@@ -203,37 +158,16 @@ extension NewProjectViewController: UITableViewDataSource {
 extension NewProjectViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        guard let selectMemeberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "SelectMemeberVC") as? SelectMembersViewController else { return }
-        
-        if indexPath.section == 0 && indexPath.row == 3 {
-            
-            selectMemeberVC.passSelectMemeber = {
-                
-                self.membersArray = $0
-                
-                if self.membersArray.count != 0 {
-                    self.members.removeAll()
-                    self.members.append(self.membersArray[0].userName)
-                    tableView.reloadData()
-                }
-            }
-            
-            show(selectMemeberVC, sender: nil)
-            
-        }
+       
     }
-}
-
-extension NewProjectViewController: UICollectionViewDelegate {
-    
-    
 }
 
 extension NewProjectViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         return 10
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -242,11 +176,4 @@ extension NewProjectViewController: UICollectionViewDataSource {
         return cell
     }
     
-}
-
-extension NewProjectViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 20, height: 20)
-    }
 }
