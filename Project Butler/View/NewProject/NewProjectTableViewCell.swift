@@ -18,6 +18,18 @@ class NewProjectTableViewCell: UITableViewCell {
     
     @IBOutlet weak var memberCollectionView: UICollectionView!
     
+    @IBOutlet weak var workItemTextField: UITextField!
+    
+    var passInputText: ((String) -> Void)?
+    
+    @IBAction func pressedAddButton(_ sender: UIButton) {
+        
+        guard let inputText = workItemTextField.text else {
+            return
+        }
+        
+        passInputText?(inputText)
+    }
     var memeberInfo: [FriendDetail] = [] {
         
         didSet {
@@ -103,6 +115,5 @@ extension NewProjectTableViewCell: UICollectionViewDelegateFlowLayout {
         
         return CGSize(width: 40, height: 40)
         
-        //        return CGSize(width: collectionView.frame.height, height: collectionView.frame.height)
     }
 }

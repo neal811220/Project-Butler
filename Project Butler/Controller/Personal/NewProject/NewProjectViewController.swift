@@ -34,28 +34,11 @@ class NewProjectViewController: UIViewController {
         return bv
     }()
     
-    let projectNametextField: UITextField = {
-        let tf = UITextField()
-        tf.placeholder = "Enter Your Project Name "
-        tf.isEnabled = true
-        tf.textColor = UIColor.Gray3
-        tf.font = UIFont.boldSystemFont(ofSize: 17)
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
-    }()
-    
-    let leaderLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.textColor = UIColor.Gray2
-        lbl.font = UIFont.boldSystemFont(ofSize: 17)
-        lbl.text = "Hello"
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
-    }()
-    
     var leaderName = ""
     
     var membersArray: [FriendDetail] = []
+    
+    var workItemArray: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,13 +58,12 @@ class NewProjectViewController: UIViewController {
         
         backgroundView.addSubview(tableView)
         
-        
         NSLayoutConstraint.activate([
             
             backgroundView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
             backgroundView.leftAnchor.constraint(equalTo: view.leftAnchor),
             backgroundView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 100),
+            backgroundView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 300),
             
             tableView.topAnchor.constraint(equalTo: backgroundView.topAnchor),
             tableView.leftAnchor.constraint(equalTo: backgroundView.leftAnchor),
@@ -90,31 +72,25 @@ class NewProjectViewController: UIViewController {
         ])
     }
     
-    func setupLabel(text: String) -> UILabel{
-        
-        let leaderLabel: UILabel = {
-            let lbl = UILabel()
-            lbl.textColor = UIColor.Gray3
-            lbl.font = UIFont.boldSystemFont(ofSize: 17)
-            lbl.text = text
-            lbl.translatesAutoresizingMaskIntoConstraints = false
-            return lbl
-        }()
-        
-        return leaderLabel
-    }
-    
 }
 
 extension NewProjectViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        
         return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 1
+        if section == 0 {
+            
+            return 1
+            
+        } else {
+            
+            return workItemArray.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -126,7 +102,6 @@ extension NewProjectViewController: UITableViewDataSource {
             cell.leaderLabel.text = CurrentUserInfo.shared.userName
             
             cell.memeberInfo = membersArray
-            
             
             cell.transitionToMemberVC = { [weak self] _ in
              
@@ -143,11 +118,35 @@ extension NewProjectViewController: UITableViewDataSource {
                 }
             }
             
+            cell.passInputText = {
+                
+                self.workItemArray.insert($0, at: 0)
+                
+                tableView.reloadData()
+                
+            }
+            
             return cell
             
         } else {
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "workItemCell", for: indexPath) as? WorkItemTableViewCell else { return UITableViewCell() }
+            
+            cell.workItemLabel.text = workItemArray[indexPath.row]
+            
+            cell.removeItem = {
+                
+                guard let indexPath = tableView.indexPath(for: $0) else {
+                    return
+                }
+                
+                self.workItemArray.remove(at: indexPath.row)
+                
+                UIView.animate(withDuration: 0.3) {
+                    
+                }
+                tableView.reloadData()
+            }
             return cell
         }
         

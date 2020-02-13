@@ -12,15 +12,23 @@ class WorkItemTableViewCell: UITableViewCell {
 
     @IBOutlet weak var workItemLabel: UILabel!
     
+    @IBOutlet weak var trailingConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
+    
+    var removeItem: ((WorkItemTableViewCell) -> Void)?
+    
     @IBAction func pressedDelete(_ sender: UIButton) {
         
+        removeItem?(self)
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         workItemLabel.layer.borderWidth = 1
         workItemLabel.layer.borderColor = UIColor.lightGray.cgColor
-        workItemLabel.layer.cornerRadius = 10
+        workItemLabel.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        workItemLabel.layer.cornerRadius = 15
         workItemLabel.clipsToBounds = true
         // Initialization code
     }

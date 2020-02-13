@@ -50,9 +50,6 @@
 		18E32EDB23EF01E20054D592 /* ProcessingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18E32ED923EF01E20054D592 /* ProcessingCollectionViewCell.xib */; };
 		18E32EE023EF023E0054D592 /* CompletedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E32EDE23EF023E0054D592 /* CompletedCollectionViewCell.swift */; };
 		18E32EE123EF023E0054D592 /* CompletedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18E32EDF23EF023E0054D592 /* CompletedCollectionViewCell.xib */; };
-		18F0E37023F38BF800149F8F /* CreateWorkItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F0E36F23F38BF800149F8F /* CreateWorkItemViewController.swift */; };
-		18F0E37323F38C3C00149F8F /* CreateWorkItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F0E37123F38C3C00149F8F /* CreateWorkItemTableViewCell.swift */; };
-		18F0E37423F38C3C00149F8F /* CreateWorkItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18F0E37223F38C3C00149F8F /* CreateWorkItemTableViewCell.xib */; };
 		18F0E37623F3C04700149F8F /* SelectMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F0E37523F3C04700149F8F /* SelectMembersViewController.swift */; };
 		18F0E37823F3C79900149F8F /* SearchBarInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F0E37723F3C79900149F8F /* SearchBarInfo.swift */; };
 		18F0E37A23F3C80100149F8F /* LargeTitleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F0E37923F3C80100149F8F /* LargeTitleInfo.swift */; };
@@ -112,9 +109,6 @@
 		18E32ED923EF01E20054D592 /* ProcessingCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProcessingCollectionViewCell.xib; sourceTree = "<group>"; };
 		18E32EDE23EF023E0054D592 /* CompletedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedCollectionViewCell.swift; sourceTree = "<group>"; };
 		18E32EDF23EF023E0054D592 /* CompletedCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CompletedCollectionViewCell.xib; sourceTree = "<group>"; };
-		18F0E36F23F38BF800149F8F /* CreateWorkItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWorkItemViewController.swift; sourceTree = "<group>"; };
-		18F0E37123F38C3C00149F8F /* CreateWorkItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWorkItemTableViewCell.swift; sourceTree = "<group>"; };
-		18F0E37223F38C3C00149F8F /* CreateWorkItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateWorkItemTableViewCell.xib; sourceTree = "<group>"; };
 		18F0E37523F3C04700149F8F /* SelectMembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMembersViewController.swift; sourceTree = "<group>"; };
 		18F0E37723F3C79900149F8F /* SearchBarInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarInfo.swift; sourceTree = "<group>"; };
 		18F0E37923F3C80100149F8F /* LargeTitleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeTitleInfo.swift; sourceTree = "<group>"; };
@@ -288,8 +282,6 @@
 			children = (
 				18F0E37B23F3F2A000149F8F /* SelectMemberTableViewCell.swift */,
 				18F0E37C23F3F2A000149F8F /* SelectMemberTableViewCell.xib */,
-				18F0E37123F38C3C00149F8F /* CreateWorkItemTableViewCell.swift */,
-				18F0E37223F38C3C00149F8F /* CreateWorkItemTableViewCell.xib */,
 				188FE73F23E8002200DDF30C /* NewProjectTableViewCell.swift */,
 				188FE73823E7F05700DDF30C /* NewProjectTableViewCell.xib */,
 				18F0E37F23F46E8500149F8F /* MemberCollectionViewCell.swift */,
@@ -344,7 +336,6 @@
 		18AA9EBF23E6B98700D390CE /* NewProject */ = {
 			isa = PBXGroup;
 			children = (
-				18F0E36F23F38BF800149F8F /* CreateWorkItemViewController.swift */,
 				188FE73323E7EEB300DDF30C /* NewProjectViewController.swift */,
 			);
 			path = NewProject;
@@ -511,7 +502,6 @@
 				18F0E37E23F3F2A000149F8F /* SelectMemberTableViewCell.xib in Resources */,
 				188FE73A23E7F05700DDF30C /* NewProjectTableViewCell.xib in Resources */,
 				18F0E38223F46E8500149F8F /* MemberCollectionViewCell.xib in Resources */,
-				18F0E37423F38C3C00149F8F /* CreateWorkItemTableViewCell.xib in Resources */,
 				1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */,
 				18E32EDB23EF01E20054D592 /* ProcessingCollectionViewCell.xib in Resources */,
 				1861E10E23D7F71500673640 /* Assets.xcassets in Resources */,
@@ -599,13 +589,11 @@
 				18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */,
 				182A856523F2A6D400D5394F /* ProjectManager.swift in Sources */,
 				18D2494823EED9C3006528A6 /* CompletedTableViewCell.swift in Sources */,
-				18F0E37023F38BF800149F8F /* CreateWorkItemViewController.swift in Sources */,
 				1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */,
 				1895D75123E3C51F00207016 /* PBTabBarViewController.swift in Sources */,
 				18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */,
 				18AA9EBB23E6B05100D390CE /* MemberListViewController.swift in Sources */,
 				18A059C623E3CCE3002860B6 /* ProfileViewController.swift in Sources */,
-				18F0E37323F38C3C00149F8F /* CreateWorkItemTableViewCell.swift in Sources */,
 				1844082923E57AAB00A879F7 /* FriendInfo.swift in Sources */,
 				18BEF14723E977C200CC401C /* KingFisherWapper.swift in Sources */,
 				18A059D123E3D683002860B6 /* FriendListViewController.swift in Sources */,
