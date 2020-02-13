@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class NewProjectViewController: UIViewController {
     
@@ -34,14 +35,37 @@ class NewProjectViewController: UIViewController {
         return bv
     }()
     
-    var leaderName = ""
+    let startDatePicker: UIDatePicker = {
+        let startDatePicker = UIDatePicker()
+        startDatePicker.datePickerMode = .date
+        startDatePicker.date = NSDate() as Date
+        return startDatePicker
+    }()
+    
+    let endDatePicker: UIDatePicker = {
+        let endDatePicker = UIDatePicker()
+        endDatePicker.datePickerMode = .date
+        endDatePicker.date = NSDate() as Date
+        return endDatePicker
+    }()
+    
+    let activityView = UIActivityIndicatorView()
+    
+    let dateFormatter = DateFormatter()
     
     var membersArray: [FriendDetail] = []
     
     var workItemArray: [String] = []
     
+    var startText = ""
+    
+    var endText = ""
+    
+    var inputProjectName = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        let saveBarButton = UIBarButtonItem(title: "SAVE", style: .done, target: self, action: #selector(didTapSaveBarButton))
         
         navigationController?.navigationBar.prefersLargeTitles = true
         
@@ -49,7 +73,37 @@ class NewProjectViewController: UIViewController {
         
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
         
+        navigationItem.rightBarButtonItem = saveBarButton
         setupTableView()
+        
+        setupDatePicker()
+        
+        setupActivityView()
+    }
+    
+    func setupDatePicker() {
+                        
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+                        
+        startDatePicker.locale = NSLocale(localeIdentifier: "en-US") as Locale
+        
+        startDatePicker.addTarget(self, action: #selector(datePickerChanged), for: .valueChanged)
+        
+        endDatePicker.locale = NSLocale(localeIdentifier: "en-US") as Locale
+        
+        endDatePicker.addTarget(self, action: #selector(datePickerChanged), for: .valueChanged)
+    }
+    
+    func setupActivityView() {
+        
+        view.addSubview(activityView)
+        
+        NSLayoutConstraint.activate([
+            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityView.heightAnchor.constraint(equalToConstant: view.frame.width / 10),
+            activityView.widthAnchor.constraint(equalToConstant: view.frame.width / 10)
+        ])
     }
     
     func setupTableView() {
@@ -68,8 +122,66 @@ class NewProjectViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: backgroundView.topAnchor),
             tableView.leftAnchor.constraint(equalTo: backgroundView.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: backgroundView.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -100)
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    @objc func datePickerChanged(datePicker: UIDatePicker) {
+        
+        startText = dateFormatter.string(from: startDatePicker.date)
+        
+        endText = dateFormatter.string(from: endDatePicker.date)
+        
+        tableView.reloadData()
+        
+        view.endEditing(true)
+        
+    }
+    
+    @objc func didTapSaveBarButton(sender: UIBarButtonItem) {
+        
+        activityView.startAnimating()
+        
+        createProject()
+        
+        activityView.stopAnimating()
+        
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func createProject() {
+        
+        guard let userName = CurrentUserInfo.shared.userName, let userId = CurrentUserInfo.shared.userID else {
+            return
+        }
+        
+        guard inputProjectName != "", startText != "", endText != "" else {
+            return
+        }
+        
+        var userRefs: [DocumentReference] = []
+        
+        for member in membersArray {
+            
+            let ref = referenceArray(uid: member.userID)
+            
+            userRefs.append(ref)
+        }
+        
+        let newProject = NewProject(projectName: userName,
+                                    projectLeaderID: userId,
+                                    startDate: startText,
+                                    endDate: endText,
+                                    projectMember: userRefs)
+        
+        ProjectManager.shared.createNewProject(newProject: newProject)
+    }
+    
+    func referenceArray(uid: String) -> DocumentReference{
+        
+        let ref = UserManager.shared.db.collection("users").document(uid)
+        
+        return ref
     }
     
 }
@@ -103,6 +215,19 @@ extension NewProjectViewController: UITableViewDataSource {
             
             cell.memeberInfo = membersArray
             
+            cell.startDateTextField.inputView = startDatePicker
+            
+            cell.startDateTextField.text = startText
+            
+            cell.endDateTextField.inputView = endDatePicker
+            
+            cell.endDateTextField.text = endText
+            
+            cell.passProjectName = {
+                
+                self.inputProjectName = $0
+            }
+            
             cell.transitionToMemberVC = { [weak self] _ in
              
                 guard let selectMemeberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "SelectMemeberVC") as? SelectMembersViewController else {
@@ -122,7 +247,7 @@ extension NewProjectViewController: UITableViewDataSource {
                 
                 self.workItemArray.insert($0, at: 0)
                 
-                tableView.reloadData()
+                tableView.insertRows(at: [IndexPath(row: 0, section: 1)], with: .left)
                 
             }
             
@@ -142,10 +267,7 @@ extension NewProjectViewController: UITableViewDataSource {
                 
                 self.workItemArray.remove(at: indexPath.row)
                 
-                UIView.animate(withDuration: 0.3) {
-                    
-                }
-                tableView.reloadData()
+                tableView.deleteRows(at: [indexPath], with: .right)
             }
             return cell
         }

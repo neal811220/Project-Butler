@@ -40,6 +40,7 @@
 		18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */; };
 		18B9590D23EFCDE400C6E8EB /* ProjectColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B9590C23EFCDE400C6E8EB /* ProjectColor.swift */; };
 		18B9591723F0432600C6E8EB /* NewProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B9591623F0432600C6E8EB /* NewProject.swift */; };
+		18BC87D123F5683600D97F74 /* ProjectInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC87D023F5683600D97F74 /* ProjectInfo.swift */; };
 		18BEF14723E977C200CC401C /* KingFisherWapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BEF14623E977C200CC401C /* KingFisherWapper.swift */; };
 		18D2494823EED9C3006528A6 /* CompletedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D2494623EED9C3006528A6 /* CompletedTableViewCell.swift */; };
 		18D2494923EED9C3006528A6 /* CompletedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D2494723EED9C3006528A6 /* CompletedTableViewCell.xib */; };
@@ -99,6 +100,7 @@
 		18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ResetPasswordViewController.swift; path = "/Users/apple/Desktop/Project Butler/Project Butler/Controller/ResetPasswordViewController.swift"; sourceTree = "<absolute>"; };
 		18B9590C23EFCDE400C6E8EB /* ProjectColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectColor.swift; sourceTree = "<group>"; };
 		18B9591623F0432600C6E8EB /* NewProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProject.swift; sourceTree = "<group>"; };
+		18BC87D023F5683600D97F74 /* ProjectInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectInfo.swift; sourceTree = "<group>"; };
 		18BEF14623E977C200CC401C /* KingFisherWapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingFisherWapper.swift; sourceTree = "<group>"; };
 		18D2494623EED9C3006528A6 /* CompletedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedTableViewCell.swift; sourceTree = "<group>"; };
 		18D2494723EED9C3006528A6 /* CompletedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CompletedTableViewCell.xib; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				182A856423F2A6D400D5394F /* ProjectManager.swift */,
+				18BC87D023F5683600D97F74 /* ProjectInfo.swift */,
 			);
 			path = Project;
 			sourceTree = "<group>";
@@ -581,6 +584,7 @@
 				18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */,
 				18F0E37623F3C04700149F8F /* SelectMembersViewController.swift in Sources */,
 				18F0E37A23F3C80100149F8F /* LargeTitleInfo.swift in Sources */,
+				18BC87D123F5683600D97F74 /* ProjectInfo.swift in Sources */,
 				18A059CC23E3CDC7002860B6 /* ReportViewController.swift in Sources */,
 				18F0E37D23F3F2A000149F8F /* SelectMemberTableViewCell.swift in Sources */,
 				18D93DCA23EEC268005398B7 /* ProcessingTableViewCell.swift in Sources */,

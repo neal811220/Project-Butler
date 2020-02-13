@@ -31,6 +31,17 @@ class ProjectManager {
         
     }
     
+    func createNewProject(newProject: NewProject) {
+        
+        do {
+            
+            try db.collection("projects").document().setData(from: newProject)
+            
+        } catch {
+            print("Error: \(error)")
+        }
+    }
+    
     func fetchFriends(completion: @escaping (Result<[FriendDetail], Error>) -> Void) {
         
         guard isSearching == false else { return }

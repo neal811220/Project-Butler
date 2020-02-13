@@ -63,6 +63,8 @@ enum ImageAsset: String {
     case Icons_64px_Check_Normal
     
     case Icos_62px_Check_Selected
+    
+    case Icons_32px_AddMembers
 }
 
 extension UIImage {

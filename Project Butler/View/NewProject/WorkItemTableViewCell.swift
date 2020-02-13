@@ -11,9 +11,8 @@ import UIKit
 class WorkItemTableViewCell: UITableViewCell {
 
     @IBOutlet weak var workItemLabel: UILabel!
-    
+        
     @IBOutlet weak var trailingConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
     
     var removeItem: ((WorkItemTableViewCell) -> Void)?
@@ -21,6 +20,22 @@ class WorkItemTableViewCell: UITableViewCell {
     @IBAction func pressedDelete(_ sender: UIButton) {
         
         removeItem?(self)
+        
+//        let remove = UIViewPropertyAnimator(duration: 1.0, curve: .easeIn) {
+//            
+//            self.leadingConstraint.isActive = false
+//            
+//            self.trailingConstraint.isActive = false
+//            
+//            self.trailingConstraint = self.workItemLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: 400)
+//            
+//            self.leadingConstraint = self.workItemLabel.leadingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: 10)
+//            
+//            self.leadingConstraint.isActive = true
+//            
+//            self.trailingConstraint.isActive = true
+//        }
+//        remove.startAnimation()
     }
     
     override func awakeFromNib() {

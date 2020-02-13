@@ -129,6 +129,8 @@ class PersonalViewController: UIViewController {
     
     let projectBackground: [ProjectColor] = [.BCB1, .BCB2, .BCB3, .BCG1, .BCG2, .BCB3, .BCO1, .BCR1, .BCR2]
     
+    let activityView = UIActivityIndicatorView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -147,6 +149,7 @@ class PersonalViewController: UIViewController {
         setupTableView()
         
         fetchCurrentUserInfo()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -229,6 +232,19 @@ class PersonalViewController: UIViewController {
         
         UserManager.shared.getLoginUserInfo()
     }
+    
+    func setupActivityView() {
+        
+        view.addSubview(activityView)
+        
+        NSLayoutConstraint.activate([
+            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityView.heightAnchor.constraint(equalToConstant: view.frame.width / 10),
+            activityView.widthAnchor.constraint(equalToConstant: view.frame.width / 10)
+        ])
+    }
+
     
     func setupSearchBar() {
         

@@ -44,13 +44,9 @@ class MemberListViewController: UIViewController {
     var seletedLeader: [FriendDetail] = []
     
     var leaderIndex: IndexPath?
-    
-    var leaderName = ""
-    
+        
     var lastSelectedUid = ""
-    
-    var passLeaderName: ((String) -> Void)?
-    
+        
     var isCancel = false
     
     override func viewDidLoad() {
@@ -107,9 +103,7 @@ class MemberListViewController: UIViewController {
     }
     
     @objc func didTapDoneBarButton(sender: UIBarButtonItem) {
-        
-        passLeaderName?(leaderName)
-        
+                
         navigationController?.popViewController(animated: true)
     }
     
@@ -253,8 +247,6 @@ extension MemberListViewController: FriendListTableViewCellDelegate {
                 self.datas.append([data])
                 
                 self.seletedLeader.append(data)
-                
-                self.leaderName = data.userName
                 
                 print(data)
                 
