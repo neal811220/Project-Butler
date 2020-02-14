@@ -31,15 +31,25 @@ class ProjectManager {
         
     }
     
-    func createNewProject(newProject: NewProject) {
+    func createNewProject(newProject: NewProject, completion: @escaping (Result<Void, Error>) -> Void) {
         
         do {
             
             try db.collection("projects").document().setData(from: newProject)
             
         } catch {
+            
             print("Error: \(error)")
+            
+            completion(.failure(error))
         }
+        
+        completion(.success(()))
+    }
+    
+    func fetchUserProject() {
+        
+        db.collection("users").whereField("projectMember", arrayContainsAny: [])
     }
     
     func fetchFriends(completion: @escaping (Result<[FriendDetail], Error>) -> Void) {

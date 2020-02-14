@@ -227,11 +227,13 @@
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="StartDate" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ixh-xg-19r">
                                 <rect key="frame" x="0.0" y="0.0" width="131" height="34"/>
+                                <color key="textColor" red="0.1450881362" green="0.14510491489999999" blue="0.1450741589" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="EndDate" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6vT-vZ-wxk">
                                 <rect key="frame" x="131" y="0.0" width="131" height="34"/>
+                                <color key="textColor" red="0.1450881362" green="0.14510491489999999" blue="0.1450741589" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>

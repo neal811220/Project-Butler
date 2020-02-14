@@ -36,7 +36,7 @@ class ProcessingTableViewCell: UITableViewCell {
         collectionView.delegate = self
         
         collectionView.dataSource = self
-        
+                
         collectionView.register(nib, forCellWithReuseIdentifier: "ProcessingCell")
         // Initialization code
     }
@@ -70,6 +70,6 @@ extension ProcessingTableViewCell: UICollectionViewDataSource {
 extension ProcessingTableViewCell: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.height, height: collectionView.frame.height)
+        return CGSize(width: 30, height: 30)
     }
 }

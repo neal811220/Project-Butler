@@ -20,4 +20,6 @@ struct NewProject: Codable {
     let endDate: String
     
     let projectMember: [DocumentReference]
+    
+    let projectMemberID: [String]
 }

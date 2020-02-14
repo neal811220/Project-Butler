@@ -13,9 +13,7 @@ class MemberCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var memberImage: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        memberImage.layer.cornerRadius = 20
-        
+                
         // Initialization code
     }
 

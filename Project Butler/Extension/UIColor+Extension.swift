@@ -22,6 +22,8 @@ private enum GHColor: String {
     case Gray2
     
     case Gray3
+    
+    case Black1
 }
 extension UIColor {
     
@@ -36,6 +38,8 @@ extension UIColor {
     static let Gray2 = PBColor(.Gray2)
     
     static let Gray3 = PBColor(.Gray3)
+    
+    static let Black1 = PBColor(.Black1)
     
     // swiftlint:enable identifier_name
     private static func PBColor(_ color: GHColor) -> UIColor? {

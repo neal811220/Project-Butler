@@ -61,7 +61,13 @@ class NewProjectViewController: UIViewController {
     
     var endText = ""
     
+    var startDate: Date = Date()
+    
+    var endDate: Date = Date()
+
     var inputProjectName = ""
+    
+    var dateStatus = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -130,6 +136,19 @@ class NewProjectViewController: UIViewController {
         
         startText = dateFormatter.string(from: startDatePicker.date)
         
+        let startDate = startDatePicker.date
+        
+        let endDate = endDatePicker.date
+        
+        if endDate >= startDate {
+            
+            dateStatus = true
+            
+        } else {
+            
+            dateStatus = false
+        }
+        
         endText = dateFormatter.string(from: endDatePicker.date)
         
         tableView.reloadData()
@@ -140,24 +159,26 @@ class NewProjectViewController: UIViewController {
     
     @objc func didTapSaveBarButton(sender: UIBarButtonItem) {
         
-        activityView.startAnimating()
-        
         createProject()
-        
-        activityView.stopAnimating()
-        
-        navigationController?.popViewController(animated: true)
     }
     
     func createProject() {
         
-        guard let userName = CurrentUserInfo.shared.userName, let userId = CurrentUserInfo.shared.userID else {
+        guard let userId = UserDefaults.standard.value(forKey: "userID") as? String else {
             return
         }
         
-        guard inputProjectName != "", startText != "", endText != "" else {
+        guard inputProjectName != "", startText != "", endText != "", membersArray.count != 0, dateStatus == true, workItemArray.count != 0 else {
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                
+                PBProgressHUD.showFailure(text: "Please Check Input", viewController: self)
+            }
+            
             return
         }
+        
+        var memberID : [String] = []
         
         var userRefs: [DocumentReference] = []
         
@@ -165,16 +186,45 @@ class NewProjectViewController: UIViewController {
             
             let ref = referenceArray(uid: member.userID)
             
+            memberID.append(member.userID)
+            
             userRefs.append(ref)
         }
         
-        let newProject = NewProject(projectName: userName,
+        let newProject = NewProject(projectName: inputProjectName,
                                     projectLeaderID: userId,
                                     startDate: startText,
                                     endDate: endText,
-                                    projectMember: userRefs)
+                                    projectMember: userRefs,
+                                    projectMemberID: memberID
+                                    )
+    
+        activityView.startAnimating()
         
-        ProjectManager.shared.createNewProject(newProject: newProject)
+        ProjectManager.shared.createNewProject(newProject: newProject, completion: { result in
+            
+            switch result {
+                
+            case .success:
+                
+                PBProgressHUD.showSuccess(text: "Added Successfully", viewController: self)
+                
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
+                    
+                    self.navigationController?.popViewController(animated: true)
+                    
+                }
+                
+                
+
+                
+            case .failure(let error):
+                
+                print(error)
+            }
+            
+            self.activityView.stopAnimating()
+        })
     }
     
     func referenceArray(uid: String) -> DocumentReference{
@@ -211,7 +261,16 @@ extension NewProjectViewController: UITableViewDataSource {
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? NewProjectTableViewCell else { return UITableViewCell() }
             
-            cell.leaderLabel.text = CurrentUserInfo.shared.userName
+            if dateStatus {
+                
+                cell.endDateTextField.textColor = UIColor.Black1
+                
+            } else {
+                
+                cell.endDateTextField.textColor = UIColor.red
+                
+            }
+            cell.leaderLabel.text = UserDefaults.standard.value(forKey: "userName") as? String
             
             cell.memeberInfo = membersArray
             

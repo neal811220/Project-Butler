@@ -15,7 +15,7 @@ class ProcessingCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        memberImage.layer.cornerRadius = memberImage.frame.width / 2
+        memberImage.layer.cornerRadius = 15
         // Initialization code
     }
 

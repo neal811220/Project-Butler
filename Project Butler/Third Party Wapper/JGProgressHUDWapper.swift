@@ -48,7 +48,7 @@ class PBProgressHUD {
 
         shared.hud.dismiss(afterDelay: 1.5)
     }
-
+    
     static func showFailure(text: String = "Failure", viewController: UIViewController) {
 
            if !Thread.isMainThread {

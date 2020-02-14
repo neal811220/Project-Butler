@@ -123,7 +123,7 @@ extension NewProjectTableViewCell: UICollectionViewDataSource {
             cell.memberImage.loadImage(memeberInfo[indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
             
         }
-        
+                
         return cell
         
     }
@@ -134,7 +134,7 @@ extension NewProjectTableViewCell: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: 40, height: 40)
+        return CGSize(width: 30, height: 30)
         
     }
 }

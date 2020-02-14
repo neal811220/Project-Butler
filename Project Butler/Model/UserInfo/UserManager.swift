@@ -66,10 +66,19 @@ class UserManager {
             if error == nil && snapshot != nil && snapshot?.data()?.count != 0 {
                 do {
                     let data = try snapshot?.data(as: AuthInfo.self, decoder: Firestore.Decoder())
+                    
                     CurrentUserInfo.shared.userName = data?.userName
+                    
                     CurrentUserInfo.shared.userEmail = data?.userEmail
+                    
                     CurrentUserInfo.shared.userID = data?.userID
+                    
                     CurrentUserInfo.shared.userImageUrl = data?.userImageUrl
+                    
+                    UserDefaults.standard.set(data?.userName, forKey: "userName")
+                    
+                    UserDefaults.standard.set(data?.userID, forKey: "userID")
+                    
                     print("Get User Info Successfully")
                 } catch {
                     return
