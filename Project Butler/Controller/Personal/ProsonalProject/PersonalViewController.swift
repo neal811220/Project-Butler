@@ -127,7 +127,7 @@ class PersonalViewController: UIViewController {
     
     var tableViewTopConstraint: NSLayoutConstraint?
     
-    let projectBackground: [ProjectColor] = [.BCB1, .BCB2, .BCB3, .BCG1, .BCG2, .BCB3, .BCO1, .BCR1, .BCR2]
+    var userProjectDetail: [NewProject] = []
     
     let activityView = UIActivityIndicatorView()
     
@@ -154,7 +154,10 @@ class PersonalViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
         titleStackView.isHidden = false
+        
+        fetchUserProjcet()
     }
     
     @objc func didTouchSearchBtn(sender: UIButton) {
@@ -244,8 +247,27 @@ class PersonalViewController: UIViewController {
             activityView.widthAnchor.constraint(equalToConstant: view.frame.width / 10)
         ])
     }
-
     
+    func fetchUserProjcet() {
+    
+        ProjectManager.shared.fetchUserProjects { (result) in
+            
+            switch result {
+                
+            case .success(let data):
+                
+                self.userProjectDetail = data
+                
+                self.tableView.reloadData()
+                
+            case .failure(let error):
+                
+                print(error)
+                
+            }
+        }
+    }
+
     func setupSearchBar() {
         
         view.addSubview(searchbarStackView)
@@ -344,25 +366,36 @@ class PersonalViewController: UIViewController {
 extension PersonalViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        
+        if checkButton == 0 {
+            
+            return userProjectDetail.count
+            
+        } else {
+            
+            return userProjectDetail.count
+            
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let randomImage = projectBackground.randomElement() else { return UITableViewCell() }
+        
         switch checkButton {
+            
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProcessingCell") as? ProcessingTableViewCell else { return UITableViewCell() }
-            cell.titleLabel.text = "Handsome Boy"
-            cell.dateLabel.text = "2020/01/01"
-            cell.hourLabel.text = "720(30Day)"
-            cell.backImage.image = UIImage(named: "\(randomImage)")
+            
+            cell.titleLabel.text = userProjectDetail[indexPath.row].projectName
+            
+            cell.dateLabel.text = "\(userProjectDetail[indexPath.row].startDate) ~ \(userProjectDetail[indexPath.row].endDate)"
+            
+            cell.hourLabel.text = "\(userProjectDetail[indexPath.row].totalHours) (\(userProjectDetail[indexPath.row].totalDays))"
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedCell") as? CompletedTableViewCell else { return UITableViewCell() }
             cell.titleLabel.text = "Handsome Boy"
             cell.dateLabel.text = "2020/01/01"
             cell.hourLabel.text = "720(30Day)"
-            cell.backImage.image = UIImage(named: "\(randomImage)")
             return cell
         default:
             return UITableViewCell()

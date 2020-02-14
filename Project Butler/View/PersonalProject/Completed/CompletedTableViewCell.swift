@@ -37,11 +37,11 @@ class CompletedTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         
-        backImage.layer.shadowOpacity = 0.5
+        backView.layer.shadowOpacity = 0.5
         
-        backImage.layer.shadowOffset = CGSize(width: 0, height: 3)
+        backView.layer.shadowOffset = CGSize(width: 0, height: 3)
         
-        backImage.layer.cornerRadius = 20
+        backView.layer.cornerRadius = 20
         
         collectionView.delegate = self
         

@@ -22,4 +22,27 @@ struct NewProject: Codable {
     let projectMember: [DocumentReference]
     
     let projectMemberID: [String]
+    
+    let totalDays: Int
+    
+    let totalHours: Int
+    
+    let isCompleted: Bool = false
+    
+    let projectID: String
+    
+    let category: [String]
+}
+
+struct workItem: Codable {
+    
+    let itemID: String = ""
+    
+    let itemCategory: String = ""
+    
+    let itemContent: String = ""
+    
+    let userID: String
+    
+    let timeSpent: Int
 }

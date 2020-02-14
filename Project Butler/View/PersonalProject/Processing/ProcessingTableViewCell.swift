@@ -24,14 +24,25 @@ class ProcessingTableViewCell: UITableViewCell {
     
     let nib = UINib(nibName: "ProcessingCollectionViewCell", bundle: nil)
     
+    var members: [NewProject] = [] {
+        
+        didSet {
+            
+            collectionView.reloadData()
+            
+        }
+    }
+    
+    var memberImages: [String] = []
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        backImage.layer.shadowOpacity = 0.5
+        backView.layer.shadowOpacity = 0.5
         
-        backImage.layer.shadowOffset = CGSize(width: 0, height: 3)
+        backView.layer.shadowOffset = CGSize(width: 0, height: 3)
         
-        backImage.layer.cornerRadius = 20
+        backView.layer.cornerRadius = 20
         
         collectionView.delegate = self
         
@@ -56,11 +67,12 @@ extension ProcessingTableViewCell: UICollectionViewDelegate {
 extension ProcessingTableViewCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return members.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProcessingCell", for: indexPath) as? ProcessingCollectionViewCell else { return UICollectionViewCell() }
+        
         return cell
     }
     

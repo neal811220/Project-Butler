@@ -22,6 +22,7 @@ class NewProjectViewController: UIViewController {
         tv.register(topNib, forCellReuseIdentifier: "cell")
         tv.register(workItemNib, forCellReuseIdentifier: "workItemCell")
         tv.backgroundColor = UIColor.Gray1
+        tv.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         tv.layer.cornerRadius = 60
         tv.separatorStyle = .none
         return tv
@@ -29,6 +30,7 @@ class NewProjectViewController: UIViewController {
     
     let backgroundView: UIView = {
         let bv = UIView()
+        bv.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         bv.layer.cornerRadius = 60
         bv.backgroundColor = UIColor.Gray1
         bv.translatesAutoresizingMaskIntoConstraints = false
@@ -60,12 +62,10 @@ class NewProjectViewController: UIViewController {
     var startText = ""
     
     var endText = ""
-    
-    var startDate: Date = Date()
-    
-    var endDate: Date = Date()
 
     var inputProjectName = ""
+    
+    var totalDays = 0
     
     var dateStatus = false
     
@@ -151,6 +151,10 @@ class NewProjectViewController: UIViewController {
         
         endText = dateFormatter.string(from: endDatePicker.date)
         
+        guard let days = Calendar.current.dateComponents([.day], from: startDate, to: endDate).day else { return }
+        
+        totalDays = days
+        
         tableView.reloadData()
         
         view.endEditing(true)
@@ -178,9 +182,15 @@ class NewProjectViewController: UIViewController {
             return
         }
         
+        let currentUserRef = UserManager.shared.db.collection("users").document(userId)
+        
+        let hours = totalDays * 24
+        
         var memberID : [String] = []
         
-        var userRefs: [DocumentReference] = []
+        var userRef: [DocumentReference] = []
+        
+        let projectID = UserManager.shared.db.collection("users").document().documentID
         
         for member in membersArray {
             
@@ -188,20 +198,26 @@ class NewProjectViewController: UIViewController {
             
             memberID.append(member.userID)
             
-            userRefs.append(ref)
+            userRef.append(ref)
         }
+        
+        userRef.append(currentUserRef)
         
         let newProject = NewProject(projectName: inputProjectName,
                                     projectLeaderID: userId,
                                     startDate: startText,
                                     endDate: endText,
-                                    projectMember: userRefs,
-                                    projectMemberID: memberID
+                                    projectMember: userRef,
+                                    projectMemberID: memberID,
+                                    totalDays: totalDays,
+                                    totalHours: hours,
+                                    projectID: projectID,
+                                    category: workItemArray
                                     )
     
         activityView.startAnimating()
         
-        ProjectManager.shared.createNewProject(newProject: newProject, completion: { result in
+        ProjectManager.shared.createNewProject(projectID: projectID, newProject: newProject, completion: { result in
             
             switch result {
                 
@@ -214,10 +230,7 @@ class NewProjectViewController: UIViewController {
                     self.navigationController?.popViewController(animated: true)
                     
                 }
-                
-                
 
-                
             case .failure(let error):
                 
                 print(error)

@@ -171,7 +171,7 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yLS-Ai-9bi">
                         <rect key="frame" x="121" y="61" width="262" height="32"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
                         <color key="textColor" red="0.1450881362" green="0.14510491489999999" blue="0.1450741589" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -181,7 +181,7 @@
                             <constraint firstAttribute="height" constant="34" id="VNP-kI-2O8"/>
                         </constraints>
                         <color key="textColor" red="0.1450881362" green="0.14510491489999999" blue="0.1450741589" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icons_32px_WorkItem" translatesAutoresizingMaskIntoConstraints="NO" id="AMo-Z2-jwv">
@@ -194,7 +194,7 @@
                             <constraint firstAttribute="height" constant="40" id="Q09-LK-JeU"/>
                         </constraints>
                         <color key="textColor" red="0.1450881362" green="0.14510491489999999" blue="0.1450741589" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lav-oC-k4J">
@@ -228,13 +228,13 @@
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="StartDate" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ixh-xg-19r">
                                 <rect key="frame" x="0.0" y="0.0" width="131" height="34"/>
                                 <color key="textColor" red="0.1450881362" green="0.14510491489999999" blue="0.1450741589" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="EndDate" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6vT-vZ-wxk">
                                 <rect key="frame" x="131" y="0.0" width="131" height="34"/>
                                 <color key="textColor" red="0.1450881362" green="0.14510491489999999" blue="0.1450741589" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                         </subviews>

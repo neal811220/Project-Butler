@@ -25,17 +25,24 @@ class ProjectManager {
     
     var isSearching = false
     
+    var userProject: [NewProject] = []
+    
+    var memberRrference: [DocumentReference] = []
+    
+    var members: [FriendDetail] = []
+            
     func clearAll () {
         
         self.friendArray = []
         
     }
     
-    func createNewProject(newProject: NewProject, completion: @escaping (Result<Void, Error>) -> Void) {
+    func createNewProject(projectID: String, newProject: NewProject, completion: @escaping (Result<Void, Error>) -> Void) {
         
         do {
             
-            try db.collection("projects").document().setData(from: newProject)
+            try db.collection("projects").document(projectID).setData(from: newProject)
+            
             
         } catch {
             
@@ -47,9 +54,63 @@ class ProjectManager {
         completion(.success(()))
     }
     
-    func fetchUserProject() {
+    func fetchUser(projectMember: [NewProject], completion: @escaping (Result<[FriendDetail], Error>) -> Void) {
         
-        db.collection("users").whereField("projectMember", arrayContainsAny: [])
+        for member in projectMember {
+            
+            memberRrference = member.projectMember
+            
+            for member in memberRrference {
+                
+                member.getDocument { [weak self] (snapshot, error) in
+                    
+                    guard let snapshot = snapshot, error == nil else { return }
+                    
+                    do {
+                        
+                        guard let data = try snapshot.data(as: FriendDetail.self, decoder: Firestore.Decoder()) else {
+                            return
+                        }
+                        
+                        self?.members.append(data)
+                        
+                    } catch {
+                        
+                        completion(.failure(error))
+                        
+                    }
+                }
+            }
+        }
+        
+        completion(.success(members))
+    }
+    
+    func fetchUserProjects(completion: @escaping (Result<[NewProject], Error>) -> Void) {
+        
+        guard let uid = UserDefaults.standard.value(forKey: "userID") else { return }
+        
+        db.collection("projects").whereField("projectMemberID", arrayContains: uid).getDocuments { (snapshot, error) in
+            
+            guard let snapshot = snapshot, error == nil else { return }
+            
+            for document in snapshot.documents {
+                
+                do {
+                    
+                    guard let data = try document.data(as: NewProject.self, decoder: Firestore.Decoder()) else { return }
+                    
+                    self.userProject.append(data)
+                    
+                } catch {
+                    
+                    completion(.failure(error))
+                }
+                
+            }
+            
+            completion(.success(self.userProject))
+        }
     }
     
     func fetchFriends(completion: @escaping (Result<[FriendDetail], Error>) -> Void) {
