@@ -81,7 +81,7 @@ class PersonalViewController: UIViewController {
         return st
     }()
     
-   lazy var tableView: UITableView = {
+    lazy var tableView: UITableView = {
         let tb = UITableView()
         tb.rowHeight = UITableView.automaticDimension
         tb.translatesAutoresizingMaskIntoConstraints = false
@@ -101,7 +101,7 @@ class PersonalViewController: UIViewController {
         sb.placeholder = PlaceHolder.projectPlaceHolder.rawValue
         
         sb.sizeToFit()
-
+        
         sb.searchBarStyle = .minimal
         
         sb.translatesAutoresizingMaskIntoConstraints = false
@@ -109,10 +109,12 @@ class PersonalViewController: UIViewController {
         return sb
     }()
     
-    let searchImage: UIButton = {
+    let searchLeader: UIButton = {
         let searchImage = UIImage.asset(.Icons_32px_Leader)
+        let selectedImage = UIImage.asset(.Icons_32px_SearhLeader_Selected)
         let bt = UIButton()
         bt.setImage(searchImage, for: .normal)
+        bt.setImage(selectedImage, for: .selected)
         bt.translatesAutoresizingMaskIntoConstraints = false
         return bt
     }()
@@ -177,7 +179,7 @@ class PersonalViewController: UIViewController {
                 
                 self.searchBarStackViewHightConstraint?.isActive = false
                 
-                 self.searchBarStackViewHightConstraint = self.searchbarStackView.heightAnchor.constraint(equalToConstant: 30)
+                self.searchBarStackViewHightConstraint = self.searchbarStackView.heightAnchor.constraint(equalToConstant: 30)
                 
                 self.tableViewTopConstraint = self.tableView.topAnchor.constraint(equalTo: self.searchbarStackView.bottomAnchor, constant: 20)
                 
@@ -196,7 +198,7 @@ class PersonalViewController: UIViewController {
                 
                 self.searchBarStackViewHightConstraint?.isActive = false
                 
-                 self.searchBarStackViewHightConstraint = self.searchbarStackView.heightAnchor.constraint(equalToConstant: 0)
+                self.searchBarStackViewHightConstraint = self.searchbarStackView.heightAnchor.constraint(equalToConstant: 0)
                 
                 self.tableViewTopConstraint = self.tableView.topAnchor.constraint(equalTo: self.indicatorView.bottomAnchor, constant: 20)
                 
@@ -232,15 +234,20 @@ class PersonalViewController: UIViewController {
             
             self.view.layoutIfNeeded()
         }
-                
+        
         switch checkButton {
             
         case 0:
             
-           fetchUserProcessingProjcet()
+            fetchUserProcessingProjcet()
+            
+            filterArray()
+        
         case 1:
             
             fetchUserCompletedProject()
+            
+            filterArray()
             
         default:
             
@@ -341,8 +348,12 @@ class PersonalViewController: UIViewController {
             switch result {
                 
             case.success:
+                
                 self.memberDetail = ProjectManager.shared.members
+                
                 self.tableView.reloadData()
+                
+                ProjectManager.shared.clearAll()
                 
             case .failure(let error):
                 
@@ -354,13 +365,53 @@ class PersonalViewController: UIViewController {
         }
     }
     
+    func filterArray() {
+        
+        guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
+            return
+        }
+                
+        if searchLeader.isSelected {
+            
+            userProjectDetail = userProjectDetail.filter({ return $0.projectLeaderID == uid })
+            
+            fetchMemberDetail()
+            
+        } else {
+            
+            switch checkButton {
+
+            case 0:
+
+                fetchUserProcessingProjcet()
+
+            case 1:
+
+                fetchUserCompletedProject()
+
+            default:
+                break
+            }
+        }
+        
+    }
+    
+    @objc func filterLeaderProject(sender: UIButton) {
+        
+        searchLeader.isSelected.toggle()
+        
+        filterArray()
+    }
+    
     func setupSearchBar() {
         
         view.addSubview(searchbarStackView)
         
         searchbarStackView.addSubview(searchBar)
         
-        searchbarStackView.addSubview(searchImage)
+        searchbarStackView.addSubview(searchLeader)
+        
+        searchLeader.addTarget(self, action: #selector(filterLeaderProject), for: .touchUpInside)
         
         searchBarStackViewHightConstraint = searchbarStackView.heightAnchor.constraint(equalToConstant: 0)
         NSLayoutConstraint.activate([
@@ -378,10 +429,10 @@ class PersonalViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            searchImage.topAnchor.constraint(equalTo: searchbarStackView.topAnchor),
-            searchImage.rightAnchor.constraint(equalTo: searchbarStackView.rightAnchor),
-            searchImage.bottomAnchor.constraint(equalTo: searchbarStackView.bottomAnchor),
-            searchImage.leftAnchor.constraint(equalTo: searchBar.rightAnchor)
+            searchLeader.topAnchor.constraint(equalTo: searchbarStackView.topAnchor),
+            searchLeader.rightAnchor.constraint(equalTo: searchbarStackView.rightAnchor),
+            searchLeader.bottomAnchor.constraint(equalTo: searchbarStackView.bottomAnchor),
+            searchLeader.leftAnchor.constraint(equalTo: searchBar.rightAnchor)
         ])
         
     }
@@ -411,7 +462,7 @@ class PersonalViewController: UIViewController {
         searchButton.addTarget(self, action: #selector(didTouchSearchBtn), for: .touchUpInside)
         
         addButton.addTarget(self, action: #selector(didTouchAddBtn), for: .touchUpInside)
-
+        
         NSLayoutConstraint.activate([
             titleStackView.bottomAnchor.constraint(equalTo: navigationbar.bottomAnchor, constant: -10),
             titleStackView.rightAnchor.constraint(equalTo: navigationbar.rightAnchor, constant: -15),
@@ -464,13 +515,14 @@ extension PersonalViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProcessingCell") as? ProcessingTableViewCell else { return UITableViewCell() }
             
             cell.members = memberDetail[indexPath.row]
-                
+            
             cell.titleLabel.text = userProjectDetail[indexPath.row].projectName
             
             cell.dateLabel.text = "\(userProjectDetail[indexPath.row].startDate) - \(userProjectDetail[indexPath.row].endDate)"
             
             cell.hourLabel.text = "\(userProjectDetail[indexPath.row].totalHours) Hour (\(userProjectDetail[indexPath.row].totalDays) Day)"
             return cell
+            
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedCell") as? CompletedTableViewCell else { return UITableViewCell() }
             

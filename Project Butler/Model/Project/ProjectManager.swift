@@ -41,7 +41,6 @@ class ProjectManager {
             
             try db.collection("projects").document(projectID).setData(from: newProject)
             
-            
         } catch {
             
             print("Error: \(error)")

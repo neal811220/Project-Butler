@@ -76,15 +76,6 @@
                                 <color key="textColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fP6-Z8-5NQ">
-                                <rect key="frame" x="70" y="10" width="294" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="tff-QP-zw6"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="20"/>
-                                <color key="textColor" name="B2"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eor-6T-p2M">
                                 <rect key="frame" x="95" y="97" width="269" height="21"/>
                                 <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
@@ -111,34 +102,41 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fP6-Z8-5NQ">
+                                <rect key="frame" x="65" y="10" width="265" height="32"/>
+                                <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="20"/>
+                                <color key="textColor" name="B1"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" name="G1"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="vnJ-dE-Wzv" secondAttribute="trailing" constant="30" id="1nO-LM-aAo"/>
                             <constraint firstItem="XuF-KF-Sql" firstAttribute="leading" secondItem="OVm-HU-tJ4" secondAttribute="leading" constant="30" id="1q8-6a-8rb"/>
+                            <constraint firstItem="2sM-o9-zRn" firstAttribute="top" secondItem="fP6-Z8-5NQ" secondAttribute="bottom" constant="5" id="34k-Tv-amN"/>
                             <constraint firstItem="o3O-LH-bVE" firstAttribute="leading" secondItem="OVm-HU-tJ4" secondAttribute="leading" constant="30" id="3kZ-mh-hod"/>
                             <constraint firstItem="vnJ-dE-Wzv" firstAttribute="leading" secondItem="XU4-2P-rUh" secondAttribute="trailing" constant="15" id="4hE-JI-QAO"/>
                             <constraint firstItem="vnJ-dE-Wzv" firstAttribute="top" secondItem="Eor-6T-p2M" secondAttribute="bottom" constant="12" id="6bZ-14-a0c"/>
+                            <constraint firstItem="fP6-Z8-5NQ" firstAttribute="top" secondItem="OVm-HU-tJ4" secondAttribute="top" constant="10" id="840-iS-RXR"/>
                             <constraint firstItem="Tsa-lL-GoB" firstAttribute="top" secondItem="2sM-o9-zRn" secondAttribute="bottom" constant="10" id="97J-pA-37G"/>
                             <constraint firstAttribute="trailing" secondItem="b54-7c-sOC" secondAttribute="trailing" constant="8" id="Ew0-f2-COU"/>
-                            <constraint firstItem="fP6-Z8-5NQ" firstAttribute="top" secondItem="OVm-HU-tJ4" secondAttribute="top" constant="10" id="LYf-iB-ZJR"/>
                             <constraint firstItem="Tsa-lL-GoB" firstAttribute="leading" secondItem="XuF-KF-Sql" secondAttribute="trailing" constant="15" id="NqF-Wh-h59"/>
                             <constraint firstAttribute="bottom" secondItem="XU4-2P-rUh" secondAttribute="bottom" constant="15" id="OE2-VG-ToE"/>
                             <constraint firstItem="o3O-LH-bVE" firstAttribute="top" secondItem="XuF-KF-Sql" secondAttribute="bottom" constant="17" id="Qfu-CI-vog"/>
                             <constraint firstItem="2sM-o9-zRn" firstAttribute="leading" secondItem="OVm-HU-tJ4" secondAttribute="leading" constant="30" id="SOD-VF-neA"/>
                             <constraint firstAttribute="bottom" secondItem="vnJ-dE-Wzv" secondAttribute="bottom" constant="11" id="VaR-3j-SCc"/>
                             <constraint firstItem="Eor-6T-p2M" firstAttribute="top" secondItem="Tsa-lL-GoB" secondAttribute="bottom" constant="17" id="WaZ-QI-wOR"/>
+                            <constraint firstItem="fP6-Z8-5NQ" firstAttribute="leading" secondItem="WGE-Eh-LLQ" secondAttribute="trailing" constant="3" id="bPz-tJ-lfk"/>
                             <constraint firstAttribute="trailing" secondItem="Tsa-lL-GoB" secondAttribute="trailing" constant="30" id="ehI-6Q-NuW"/>
                             <constraint firstItem="XU4-2P-rUh" firstAttribute="leading" secondItem="OVm-HU-tJ4" secondAttribute="leading" constant="30" id="f7A-sK-pTz"/>
                             <constraint firstItem="b54-7c-sOC" firstAttribute="top" secondItem="OVm-HU-tJ4" secondAttribute="top" constant="78" id="fON-UB-7Ls"/>
                             <constraint firstAttribute="trailing" secondItem="Eor-6T-p2M" secondAttribute="trailing" constant="30" id="g0G-0G-qPy"/>
                             <constraint firstItem="WGE-Eh-LLQ" firstAttribute="leading" secondItem="OVm-HU-tJ4" secondAttribute="leading" constant="30" id="gVo-Xf-67B"/>
-                            <constraint firstItem="fP6-Z8-5NQ" firstAttribute="leading" secondItem="WGE-Eh-LLQ" secondAttribute="trailing" constant="8" id="h7H-sV-tlW"/>
                             <constraint firstAttribute="trailing" secondItem="2sM-o9-zRn" secondAttribute="trailing" constant="30" id="qQA-pX-rN6"/>
-                            <constraint firstAttribute="trailing" secondItem="fP6-Z8-5NQ" secondAttribute="trailing" constant="30" id="rak-7C-Xm6"/>
                             <constraint firstItem="WGE-Eh-LLQ" firstAttribute="top" secondItem="OVm-HU-tJ4" secondAttribute="top" constant="10" id="upi-fV-erL"/>
                             <constraint firstItem="XuF-KF-Sql" firstAttribute="top" secondItem="2sM-o9-zRn" secondAttribute="bottom" constant="10" id="wBi-Lc-AjF"/>
                             <constraint firstItem="2sM-o9-zRn" firstAttribute="top" secondItem="WGE-Eh-LLQ" secondAttribute="bottom" constant="5" id="xba-lc-6Q9"/>
+                            <constraint firstAttribute="trailing" secondItem="fP6-Z8-5NQ" secondAttribute="trailing" constant="64" id="y3c-AJ-xpK"/>
                             <constraint firstItem="Eor-6T-p2M" firstAttribute="leading" secondItem="o3O-LH-bVE" secondAttribute="trailing" constant="15" id="y6P-NA-OiH"/>
                         </constraints>
                     </view>
@@ -172,8 +170,8 @@
     <resources>
         <image name="Icons_32px_Arrow" width="64" height="64"/>
         <image name="Icons_32px_Leader" width="32" height="32"/>
-        <namedColor name="B2">
-            <color red="0.090196078431372548" green="0.23921568627450981" blue="0.62745098039215685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="B1">
+            <color red="0.30196078431372547" green="0.40392156862745099" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="G1">
             <color red="0.50588235294117645" green="0.80784313725490198" blue="0.61568627450980395" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -59,6 +59,8 @@ enum ImageAsset: String {
     
     case Icons_32px_AddProjectButton
     
+    case Icons_32px_SearhLeader_Selected
+    
     //MemberButton
     case Icons_64px_Check_Normal
     
