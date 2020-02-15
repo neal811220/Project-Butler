@@ -161,8 +161,8 @@ class PersonalViewController: UIViewController {
         
         titleStackView.isHidden = false
         
-        fetchUserProjcet()
-                
+        fetchUserProcessingProjcet()
+        
     }
     
     @objc func didTouchSearchBtn(sender: UIButton) {
@@ -232,13 +232,32 @@ class PersonalViewController: UIViewController {
             
             self.view.layoutIfNeeded()
         }
-        
-        tableView.reloadData()
+                
+        switch checkButton {
+            
+        case 0:
+            
+           fetchUserProcessingProjcet()
+        case 1:
+            
+            fetchUserCompletedProject()
+            
+        default:
+            
+            break
+        }
     }
     
     func fetchCurrentUserInfo() {
         
         UserManager.shared.getLoginUserInfo()
+    }
+    
+    func clearAll() {
+        
+        userProjectDetail = []
+        
+        memberDetail = []
     }
     
     func setupActivityView() {
@@ -253,7 +272,11 @@ class PersonalViewController: UIViewController {
         ])
     }
     
-    func fetchUserProjcet() {
+    func fetchUserProcessingProjcet() {
+        
+        clearAll()
+        
+        tableView.reloadData()
         
         activityView.startAnimating()
         
@@ -278,7 +301,38 @@ class PersonalViewController: UIViewController {
         }
     }
     
+    func fetchUserCompletedProject() {
+        
+        clearAll()
+        
+        tableView.reloadData()
+        
+        activityView.startAnimating()
+        
+        ProjectManager.shared.fetchUserProjects(isCompleted: true) { (result) in
+            
+            switch result {
+                
+            case .success(let data):
+                
+                self.userProjectDetail = data
+                
+                self.fetchMemberDetail()
+                
+            case .failure(let error):
+                
+                print(error)
+                
+                self.activityView.stopAnimating()
+                
+            }
+            
+        }
+    }
+    
     func fetchMemberDetail() {
+        
+        memberDetail = []
         
         activityView.startAnimating()
         
@@ -396,20 +450,12 @@ class PersonalViewController: UIViewController {
 }
 
 extension PersonalViewController: UITableViewDataSource {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if checkButton == 0 {
-            
-            return userProjectDetail.count
-            
-        } else {
-            
-            return userProjectDetail.count
-            
-        }
+        return userProjectDetail.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch checkButton {
@@ -427,9 +473,19 @@ extension PersonalViewController: UITableViewDataSource {
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedCell") as? CompletedTableViewCell else { return UITableViewCell() }
-            cell.titleLabel.text = "Handsome Boy"
-            cell.dateLabel.text = "2020/01/01"
-            cell.hourLabel.text = "720(30Day)"
+            
+            cell.members = memberDetail[indexPath.row]
+            
+            cell.titleLabel.text = userProjectDetail[indexPath.row].projectName
+            
+            cell.dateLabel.text = "\(userProjectDetail[indexPath.row].startDate) - \(userProjectDetail[indexPath.row].endDate)"
+            
+            cell.hourLabel.text = "\(userProjectDetail[indexPath.row].totalHours) Hour (\(userProjectDetail[indexPath.row].totalDays) Day)"
+            
+            cell.completionDateLabel.text = "202022020"
+            
+            cell.completionHourLable.text = "1111"
+            
             return cell
         default:
             return UITableViewCell()

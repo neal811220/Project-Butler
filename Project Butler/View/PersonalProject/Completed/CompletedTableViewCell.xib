@@ -211,8 +211,7 @@
                 <outlet property="backImage" destination="lFe-zM-JPN" id="PFL-lH-TKV"/>
                 <outlet property="backView" destination="xhr-Wf-BqQ" id="Ge3-Mr-6cz"/>
                 <outlet property="collectionView" destination="Hrn-BO-rPe" id="2ck-EJ-U9O"/>
-                <outlet property="completedImage" destination="25T-VO-scr" id="Ule-ir-33V"/>
-                <outlet property="completionDataLabel" destination="3Rq-Vo-jQO" id="qxM-wX-BMM"/>
+                <outlet property="completionDateLabel" destination="3Rq-Vo-jQO" id="qxM-wX-BMM"/>
                 <outlet property="completionHourLable" destination="DKA-60-195" id="00Q-iB-FC0"/>
                 <outlet property="dateLabel" destination="7Uy-oj-h3g" id="m59-Qi-iOX"/>
                 <outlet property="hourLabel" destination="igK-JL-6qt" id="Eb0-on-WfS"/>

@@ -46,3 +46,32 @@ struct workItem: Codable {
     
     let timeSpent: Int
 }
+
+struct CompletedProject {
+    
+    let projectName: String
+    
+    let projectLeaderID: String
+    
+    let startDate: String
+    
+    let endDate: String
+    
+    let projectMember: [DocumentReference]
+    
+    let projectMemberID: [String]
+    
+    let totalDays: Int
+    
+    let totalHours: Int
+    
+    let isCompleted: Bool = false
+    
+    let projectID: String
+    
+    let category: [String]
+    
+    let completedDate: String
+    
+    let completedHour: String
+}

@@ -163,6 +163,7 @@
                 <outlet property="collectionView" destination="vnJ-dE-Wzv" id="zpG-wJ-qdf"/>
                 <outlet property="dateLabel" destination="Tsa-lL-GoB" id="bG0-cn-zR2"/>
                 <outlet property="hourLabel" destination="Eor-6T-p2M" id="T2p-uB-mRW"/>
+                <outlet property="leaderImage" destination="WGE-Eh-LLQ" id="hLw-80-D6T"/>
                 <outlet property="titleLabel" destination="fP6-Z8-5NQ" id="cvP-sK-FST"/>
             </connections>
             <point key="canvasLocation" x="205.79710144927537" y="161.71875"/>

@@ -20,6 +20,7 @@ class ProcessingTableViewCell: UITableViewCell {
     
     @IBOutlet weak var hourLabel: UILabel!
     
+    @IBOutlet weak var leaderImage: UIImageView!
     @IBOutlet weak var collectionView: UICollectionView!
     
     let nib = UINib(nibName: "ProcessingCollectionViewCell", bundle: nil)

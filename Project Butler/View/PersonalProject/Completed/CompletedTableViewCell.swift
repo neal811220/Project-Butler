@@ -17,11 +17,9 @@ class CompletedTableViewCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     
-    @IBOutlet weak var completedImage: UIImageView!
-    
     @IBOutlet weak var dateLabel: UILabel!
     
-    @IBOutlet weak var completionDataLabel: UILabel!
+    @IBOutlet weak var completionDateLabel: UILabel!
     
     @IBOutlet weak var hourLabel: UILabel!
     
@@ -32,6 +30,15 @@ class CompletedTableViewCell: UITableViewCell {
     let nib = UINib(nibName: "CompletedCollectionViewCell", bundle: nil)
     
     var layout = UICollectionViewFlowLayout()
+    
+    var members: [AuthInfo] = [] {
+        
+        didSet {
+            
+            collectionView.reloadData()
+            
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -63,13 +70,17 @@ class CompletedTableViewCell: UITableViewCell {
 extension CompletedTableViewCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CompletedCell", for: indexPath) as? CompletedCollectionViewCell else { return UICollectionViewCell() }
+        
+        cell.memberImage.loadImage(members[indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
+        
         return cell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return members.count
     }
     
 }
