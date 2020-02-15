@@ -24,7 +24,7 @@ class ProcessingTableViewCell: UITableViewCell {
     
     let nib = UINib(nibName: "ProcessingCollectionViewCell", bundle: nil)
     
-    var members: [NewProject] = [] {
+    var members: [AuthInfo] = [] {
         
         didSet {
             
@@ -72,6 +72,8 @@ extension ProcessingTableViewCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProcessingCell", for: indexPath) as? ProcessingCollectionViewCell else { return UICollectionViewCell() }
+        
+        cell.memberImage.loadImage(members[indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
         
         return cell
     }

@@ -129,7 +129,11 @@ class PersonalViewController: UIViewController {
     
     var userProjectDetail: [NewProject] = []
     
+    var memberDetail: [[AuthInfo]] = []
+    
     let activityView = UIActivityIndicatorView()
+    
+    let fetchUserSemaphone = DispatchSemaphore(value: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -158,6 +162,7 @@ class PersonalViewController: UIViewController {
         titleStackView.isHidden = false
         
         fetchUserProjcet()
+                
     }
     
     @objc func didTouchSearchBtn(sender: UIButton) {
@@ -249,8 +254,10 @@ class PersonalViewController: UIViewController {
     }
     
     func fetchUserProjcet() {
-    
-        ProjectManager.shared.fetchUserProjects { (result) in
+        
+        activityView.startAnimating()
+        
+        ProjectManager.shared.fetchUserProjects(isCompleted: false) { (result) in
             
             switch result {
                 
@@ -258,16 +265,41 @@ class PersonalViewController: UIViewController {
                 
                 self.userProjectDetail = data
                 
-                self.tableView.reloadData()
+                self.fetchMemberDetail()
                 
             case .failure(let error):
                 
                 print(error)
                 
+                self.activityView.stopAnimating()
+                
             }
+            
         }
     }
-
+    
+    func fetchMemberDetail() {
+        
+        activityView.startAnimating()
+        
+        ProjectManager.shared.fetchMemberDetail(projectMember: userProjectDetail) { (result) in
+            
+            switch result {
+                
+            case.success:
+                self.memberDetail = ProjectManager.shared.members
+                self.tableView.reloadData()
+                
+            case .failure(let error):
+                
+                print(error)
+            }
+            
+            self.activityView.stopAnimating()
+            
+        }
+    }
+    
     func setupSearchBar() {
         
         view.addSubview(searchbarStackView)
@@ -385,11 +417,13 @@ extension PersonalViewController: UITableViewDataSource {
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProcessingCell") as? ProcessingTableViewCell else { return UITableViewCell() }
             
+            cell.members = memberDetail[indexPath.row]
+                
             cell.titleLabel.text = userProjectDetail[indexPath.row].projectName
             
-            cell.dateLabel.text = "\(userProjectDetail[indexPath.row].startDate) ~ \(userProjectDetail[indexPath.row].endDate)"
+            cell.dateLabel.text = "\(userProjectDetail[indexPath.row].startDate) - \(userProjectDetail[indexPath.row].endDate)"
             
-            cell.hourLabel.text = "\(userProjectDetail[indexPath.row].totalHours) (\(userProjectDetail[indexPath.row].totalDays))"
+            cell.hourLabel.text = "\(userProjectDetail[indexPath.row].totalHours) Hour (\(userProjectDetail[indexPath.row].totalDays) Day)"
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedCell") as? CompletedTableViewCell else { return UITableViewCell() }

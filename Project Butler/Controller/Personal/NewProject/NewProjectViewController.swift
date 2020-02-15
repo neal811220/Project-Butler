@@ -203,6 +203,8 @@ class NewProjectViewController: UIViewController {
         
         userRef.append(currentUserRef)
         
+        memberID.append(userId)
+        
         let newProject = NewProject(projectName: inputProjectName,
                                     projectLeaderID: userId,
                                     startDate: startText,

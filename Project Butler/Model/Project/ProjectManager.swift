@@ -27,10 +27,8 @@ class ProjectManager {
     
     var userProject: [NewProject] = []
     
-    var memberRrference: [DocumentReference] = []
+    var members: [[AuthInfo]] = []
     
-    var members: [FriendDetail] = []
-            
     func clearAll () {
         
         self.friendArray = []
@@ -54,43 +52,52 @@ class ProjectManager {
         completion(.success(()))
     }
     
-    func fetchUser(projectMember: [NewProject], completion: @escaping (Result<[FriendDetail], Error>) -> Void) {
+    func fetchMemberDetail(projectMember: [NewProject], completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        let group = DispatchGroup()
+        
+        members = []
         
         for member in projectMember {
             
-            memberRrference = member.projectMember
+            var authArray = [AuthInfo]()
             
-            for member in memberRrference {
-                
-                member.getDocument { [weak self] (snapshot, error) in
+            for docRef in member.projectMember {
+                group.enter()
+                docRef.getDocument { (snapshot, error) in
                     
                     guard let snapshot = snapshot, error == nil else { return }
                     
                     do {
                         
-                        guard let data = try snapshot.data(as: FriendDetail.self, decoder: Firestore.Decoder()) else {
-                            return
-                        }
+                        guard let data = try snapshot.data(as: AuthInfo.self, decoder: Firestore.Decoder()) else { return }
                         
-                        self?.members.append(data)
+                        authArray.append(data)
+                        
+                        group.leave()
                         
                     } catch {
                         
-                        completion(.failure(error))
+                        group.leave()
                         
+                        completion(.failure(error))
                     }
                 }
             }
+            group.notify(queue: .main) {
+                self.members.append(authArray)
+                completion(.success(()))
+            }
         }
-        
-        completion(.success(members))
     }
     
-    func fetchUserProjects(completion: @escaping (Result<[NewProject], Error>) -> Void) {
+    func fetchUserProjects(isCompleted: Bool, completion: @escaping (Result<[NewProject], Error>) -> Void) {
         
         guard let uid = UserDefaults.standard.value(forKey: "userID") else { return }
         
-        db.collection("projects").whereField("projectMemberID", arrayContains: uid).getDocuments { (snapshot, error) in
+        userProject = []
+        
+        db.collection("projects").whereField("projectMemberID", arrayContains: uid).whereField("isCompleted", isEqualTo: isCompleted).getDocuments { (snapshot, error) in
             
             guard let snapshot = snapshot, error == nil else { return }
             
@@ -150,14 +157,14 @@ class ProjectManager {
     func filterSearch(text: String, completion: @escaping (Result<[FriendDetail], Error>) -> Void) {
         
         guard lastSearchText != text else {
-                        
+            
             return
         }
         
         lastSearchText = text
         
         guard let lastCharacter = text.last else {
-                        
+            
             return
         }
         guard let uid = Auth.auth().currentUser?.uid else { return }
