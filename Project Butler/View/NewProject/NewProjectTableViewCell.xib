@@ -169,10 +169,10 @@
                         <color key="textColor" red="0.59219002720000002" green="0.55694860219999998" blue="0.52547168730000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yLS-Ai-9bi">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="aaa" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yLS-Ai-9bi">
                         <rect key="frame" x="121" y="61" width="262" height="32"/>
                         <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
-                        <color key="textColor" red="0.1450881362" green="0.14510491489999999" blue="0.1450741589" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" red="0.36217084389999998" green="0.3465418294" blue="0.32867365850000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Project Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ada-aN-ubL">
@@ -180,7 +180,7 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="34" id="VNP-kI-2O8"/>
                         </constraints>
-                        <color key="textColor" red="0.1450881362" green="0.14510491489999999" blue="0.1450741589" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" red="0.34033946700000001" green="0.32370891940000002" blue="0.31049545979999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
@@ -193,7 +193,7 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="Q09-LK-JeU"/>
                         </constraints>
-                        <color key="textColor" red="0.1450881362" green="0.14510491489999999" blue="0.1450741589" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="textColor" red="0.34033946700000001" green="0.32370891940000002" blue="0.31049545979999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
@@ -227,20 +227,20 @@
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="StartDate" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ixh-xg-19r">
                                 <rect key="frame" x="0.0" y="0.0" width="131" height="34"/>
-                                <color key="textColor" red="0.1450881362" green="0.14510491489999999" blue="0.1450741589" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.34033946700000001" green="0.32370891940000002" blue="0.31049545979999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="EndDate" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6vT-vZ-wxk">
                                 <rect key="frame" x="131" y="0.0" width="131" height="34"/>
-                                <color key="textColor" red="0.1450881362" green="0.14510491489999999" blue="0.1450741589" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.34033946700000001" green="0.32370891940000002" blue="0.31049545979999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                         </subviews>
                     </stackView>
                 </subviews>
-                <color key="backgroundColor" white="0.94014875856164382" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="backgroundColor" white="0.93999999999999995" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="AoK-ua-I6T" firstAttribute="top" secondItem="OxG-hw-Dku" secondAttribute="bottom" id="14j-BE-v3m"/>
                     <constraint firstItem="k5s-ti-wC4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="1fY-pS-bWF"/>

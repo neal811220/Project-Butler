@@ -82,17 +82,30 @@ class PersonalViewController: UIViewController {
     }()
     
     lazy var tableView: UITableView = {
-        let tb = UITableView()
-        tb.rowHeight = UITableView.automaticDimension
-        tb.translatesAutoresizingMaskIntoConstraints = false
-        tb.dataSource = self
-        tb.delegate = self
-        tb.separatorStyle = .none
+        
+        let tableView = UITableView()
+        
         let processingNib = UINib(nibName: "ProcessingTableViewCell", bundle: nil)
+        
         let completedNib = UINib(nibName: "CompletedTableViewCell", bundle: nil)
-        tb.register(processingNib, forCellReuseIdentifier: "ProcessingCell")
-        tb.register(completedNib, forCellReuseIdentifier: "CompletedCell")
-        return tb
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        tableView.dataSource = self
+        
+        tableView.delegate = self
+        
+        tableView.separatorStyle = .none
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        
+        tableView.register(processingNib, forCellReuseIdentifier: "ProcessingCell")
+        
+        tableView.register(completedNib, forCellReuseIdentifier: "CompletedCell")
+        
+        return tableView
     }()
     
     let searchBar: UISearchBar = {
@@ -146,6 +159,8 @@ class PersonalViewController: UIViewController {
         
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
         
+        setupActivityView()
+        
         setupStackView()
         
         setupButtonStackView()
@@ -163,7 +178,9 @@ class PersonalViewController: UIViewController {
         
         titleStackView.isHidden = false
         
-        fetchUserProcessingProjcet()
+        filterArray()
+        
+        titleStackView.isHidden = false
         
     }
     
@@ -240,15 +257,11 @@ class PersonalViewController: UIViewController {
         case 0:
             
             fetchUserProcessingProjcet()
-            
-            filterArray()
-        
+                    
         case 1:
             
             fetchUserCompletedProject()
-            
-            filterArray()
-            
+                        
         default:
             
             break
@@ -546,6 +559,15 @@ extension PersonalViewController: UITableViewDataSource {
 }
 
 extension PersonalViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let workLogVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "WorkLogVC") as? WorkLogViewController else {
+            return
+        }
+        titleStackView.isHidden = true
+        show(workLogVC, sender: nil)
+    }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         

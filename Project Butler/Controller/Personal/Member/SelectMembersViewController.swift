@@ -11,14 +11,25 @@ import UIKit
 class SelectMembersViewController: UIViewController {
 
     lazy var tableView: UITableView = {
+        
         let tableview = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .grouped)
+        
         tableview.translatesAutoresizingMaskIntoConstraints = false
+        
         tableview.rowHeight = UITableView.automaticDimension
+        
         let nib = UINib(nibName: "SelectMemberTableViewCell", bundle: nil)
+        
         tableview.register(nib, forCellReuseIdentifier: "SelectMemberCell")
+        
         tableview.separatorStyle = .none
+        
         tableview.dataSource = self
+        
         tableview.delegate = self
+        
+        tableview.rowHeight = UITableView.automaticDimension
+        
         return tableview
     }()
 

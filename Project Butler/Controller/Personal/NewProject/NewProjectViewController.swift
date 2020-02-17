@@ -12,20 +12,34 @@ import Firebase
 class NewProjectViewController: UIViewController {
     
     lazy var tableView: UITableView = {
-        let tv = UITableView()
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.dataSource = self
-        tv.delegate = self
-        tv.rowHeight = UITableView.automaticDimension
+        
+        let tableView = UITableView()
+        
         let topNib = UINib(nibName: "NewProjectTableViewCell", bundle: nil)
+        
         let workItemNib = UINib(nibName: "WorkItemTableViewCell", bundle: nil)
-        tv.register(topNib, forCellReuseIdentifier: "cell")
-        tv.register(workItemNib, forCellReuseIdentifier: "workItemCell")
-        tv.backgroundColor = UIColor.Gray1
-        tv.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        tv.layer.cornerRadius = 60
-        tv.separatorStyle = .none
-        return tv
+        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        tableView.dataSource = self
+        
+        tableView.delegate = self
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        
+        tableView.register(topNib, forCellReuseIdentifier: "cell")
+        
+        tableView.register(workItemNib, forCellReuseIdentifier: "workItemCell")
+        
+        tableView.backgroundColor = UIColor.Gray1
+        
+        tableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        
+        tableView.layer.cornerRadius = 60
+        
+        tableView.separatorStyle = .none
+        
+        return tableView
     }()
     
     let backgroundView: UIView = {
@@ -204,7 +218,7 @@ class NewProjectViewController: UIViewController {
         userRef.append(currentUserRef)
         
         memberID.append(userId)
-        
+       
         let newProject = NewProject(projectName: inputProjectName,
                                     projectLeaderID: userId,
                                     startDate: startText,
