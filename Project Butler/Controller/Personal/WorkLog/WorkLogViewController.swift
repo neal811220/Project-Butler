@@ -126,7 +126,7 @@ class WorkLogViewController: UIViewController {
         
         return label
     }()
-    
+        
     var members: [AuthInfo] = []
     
     var projectDetail: NewProject?
@@ -259,12 +259,14 @@ class WorkLogViewController: UIViewController {
             return
         }
         
-        guard let projectID = projectDetail?.projectID else {
+        guard let projectDetail = projectDetail else {
             return
         }
         
-        workLogContentVC.documentID = projectID
+        workLogContentVC.documentID = projectDetail.projectID
         
+        workLogContentVC.workItemArray = projectDetail.workItems
+                
         workLogContentVC.passContentData = {
             
             self.workLogContent.append($0)
@@ -350,7 +352,14 @@ extension WorkLogViewController: UITableViewDataSource {
         
         cell.timeLabel.text = "\(workLogContent[indexPath.row].startTime) - \(workLogContent[indexPath.row].endTime)"
         
-        cell.timeSpentLabel.text = "\(workLogContent[indexPath.row].hour) Hour, \(workLogContent[indexPath.row].minute) Minute"
+        if workLogContent[indexPath.row].hour == 0 {
+            
+            cell.timeSpentLabel.text = "\(workLogContent[indexPath.row].minute) Minute"
+            
+        } else {
+            
+            cell.timeSpentLabel.text = "\(workLogContent[indexPath.row].hour) Hour, \(workLogContent[indexPath.row].minute) Minute"
+        }
         
         cell.workItemLabel.text = workLogContent[indexPath.row].workItem
         

@@ -68,6 +68,14 @@ class ProcessingTableViewCell: UITableViewCell {
 
 extension ProcessingTableViewCell: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let memberListVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberListVC") as? MemberListViewController else {
+            return
+        }
+        
+    }
+    
 }
 
 extension ProcessingTableViewCell: UICollectionViewDataSource {

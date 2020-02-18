@@ -594,7 +594,7 @@ extension PersonalViewController: UITableViewDelegate {
         workLogVC.members = self.memberDetail[indexPath.row]
         
         workLogVC.projectDetail = self.userProjectDetail[indexPath.row]
-        
+                
         titleStackView.isHidden = true
         
         show(workLogVC, sender: nil)

@@ -229,7 +229,7 @@ class NewProjectViewController: UIViewController {
                                     totalDays: totalDays,
                                     totalHours: hours,
                                     projectID: projectID,
-                                    category: workItemArray
+                                    workItems: workItemArray
                                     )
     
         activityView.startAnimating()

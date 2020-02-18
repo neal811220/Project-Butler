@@ -81,7 +81,7 @@ class WorkLogContentViewController: UIViewController {
         return view
     }()
     
-    let workItemArray = ["Hello", "Build", "Snowmen"]
+    var workItemArray: [String] = []
     
     var startText = ""
     
@@ -95,9 +95,9 @@ class WorkLogContentViewController: UIViewController {
     
     var timeStatus = false
     
-    var durationH = 0.0
+    var durationH = 0
     
-    var durationS = 0
+    var durationM = 0
     
     var problem = ""
     
@@ -180,7 +180,7 @@ class WorkLogContentViewController: UIViewController {
             return
         }
         
-        let workLog = WorkLogContent(userID: uid, date: dateText,workItem: workItem, startTime: startText, endTime: endText, problem: problem, workContent: workContent, hour: Int(durationH), minute: durationS)
+        let workLog = WorkLogContent(userID: uid, date: dateText,workItem: workItem, startTime: startText, endTime: endText, problem: problem, workContent: workContent, hour: Int(durationH), minute: durationM)
         
         ProjectManager.shared.uploadUserWorkLog(documentID: documentID, workLogContent: workLog) { (result) in
             
@@ -225,10 +225,12 @@ class WorkLogContentViewController: UIViewController {
         
         let end = endTime.timeIntervalSince1970
         
-        let minute = Calendar.current.dateComponents([.minute], from: startTime, to: endTime).minute
+        durationM = Int((end - start) / 60)
         
-        durationH = (end - start) / 3600
-                
+        durationH = durationM / 60
+        
+        durationM = Int(durationM) % 60
+        
         endText = timeFormatter.string(from: endTimePickerView.date)
         
         tableView.reloadData()

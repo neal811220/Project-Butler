@@ -31,7 +31,7 @@ struct NewProject: Codable {
     
     let projectID: String
     
-    let category: [String]
+    let workItems: [String]
 }
 
 struct workItem: Codable {
