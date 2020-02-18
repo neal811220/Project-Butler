@@ -151,6 +151,8 @@ class PersonalViewController: UIViewController {
     
     var userProjectDetail: [NewProject] = []
     
+    var searchLeaderStaus = false
+    
     var memberDetail: [[AuthInfo]] = []
     
     let activityView = UIActivityIndicatorView()
@@ -393,22 +395,26 @@ class PersonalViewController: UIViewController {
                 
         if searchLeader.isSelected {
             
+            searchLeaderStaus = true
+            
             userProjectDetail = userProjectDetail.filter({ return $0.projectLeaderID == uid })
             
             fetchMemberDetail()
             
         } else {
             
+            searchLeaderStaus = false
+            
             switch checkButton {
-
+                
             case 0:
-
+                
                 fetchUserProcessingProjcet()
-
+                
             case 1:
-
+                
                 fetchUserCompletedProject()
-
+                
             default:
                 break
             }
@@ -534,6 +540,12 @@ extension PersonalViewController: UITableViewDataSource {
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProcessingCell") as? ProcessingTableViewCell else { return UITableViewCell() }
             
+            if searchLeaderStaus {
+                cell.leaderImage.isHidden = false
+            } else {
+                cell.leaderImage.isHidden = true
+            }
+            
             cell.members = memberDetail[indexPath.row]
             
             cell.titleLabel.text = userProjectDetail[indexPath.row].projectName
@@ -545,6 +557,12 @@ extension PersonalViewController: UITableViewDataSource {
             
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedCell") as? CompletedTableViewCell else { return UITableViewCell() }
+            
+            if searchLeaderStaus {
+                cell.leaderImage.isHidden = false
+            } else {
+                cell.leaderImage.isHidden = true
+            }
             
             cell.members = memberDetail[indexPath.row]
             

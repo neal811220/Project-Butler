@@ -74,6 +74,11 @@ class ProjectManager {
         completion(.success(()))
     }
     
+//    func fetchUserProjectWorkLog(projectID: String, completion: @escaping (Result<>)) {
+//        
+//        
+//    }
+    
     func fetchMemberDetail(projectMember: [NewProject], completion: @escaping (Result<Void, Error>) -> Void) {
         
         let group = DispatchGroup()

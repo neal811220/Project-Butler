@@ -14,6 +14,8 @@ class WorkLogContentTableViewCell: UITableViewCell {
     
     @IBOutlet weak var workItemTextField: UITextField!
     
+    @IBOutlet weak var dateTextField: UITextField!
+    
     @IBOutlet weak var startTimeTextField: UITextField!
     
     @IBOutlet weak var endTimeTextField: UITextField!

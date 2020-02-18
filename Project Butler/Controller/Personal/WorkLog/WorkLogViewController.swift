@@ -346,6 +346,8 @@ extension WorkLogViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        cell.dateLabel.text = workLogContent[indexPath.row].date
+        
         cell.timeLabel.text = "\(workLogContent[indexPath.row].startTime) - \(workLogContent[indexPath.row].endTime)"
         
         cell.timeSpentLabel.text = "\(workLogContent[indexPath.row].hour) Hour, \(workLogContent[indexPath.row].minute) Minute"

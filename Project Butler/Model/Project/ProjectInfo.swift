@@ -80,6 +80,8 @@ struct WorkLogContent: Codable {
     
     let userID: String
     
+    let date: String
+    
     let workItem: String
     
     let startTime: String
