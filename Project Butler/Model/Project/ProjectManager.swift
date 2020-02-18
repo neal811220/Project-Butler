@@ -29,6 +29,8 @@ class ProjectManager {
     
     var members: [[AuthInfo]] = []
     
+    var workItemContent: [WorkLogContent] = []
+    
     func clearAll () {
         
         self.friendArray = []
@@ -74,10 +76,40 @@ class ProjectManager {
         completion(.success(()))
     }
     
-//    func fetchUserProjectWorkLog(projectID: String, completion: @escaping (Result<>)) {
-//        
-//        
-//    }
+    func fetchUserProjectWorkLog(projectID: String, completion: @escaping (Result<[WorkLogContent], Error>) -> Void) {
+        
+        workItemContent = []
+        
+        guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
+            return
+        }
+        db.collection("projects").document(projectID).collection("workLogs").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
+            
+            guard let snapshot = snapshot, error == nil else {
+                return
+            }
+            
+            for document in snapshot.documents {
+                
+                do {
+                    
+                    guard let data = try document.data(as: WorkLogContent.self, decoder: Firestore.Decoder()) else {
+                        return
+                    }
+                    
+                    self.workItemContent.append(data)
+                    
+                } catch {
+                    
+                    completion(.failure(error))
+                    
+                }
+                
+                 completion(.success(self.workItemContent))
+            }
+            
+        }
+    }
     
     func fetchMemberDetail(projectMember: [NewProject], completion: @escaping (Result<Void, Error>) -> Void) {
         

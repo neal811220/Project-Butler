@@ -9,7 +9,7 @@
 import UIKit
 
 class WorkLogViewController: UIViewController {
-
+    
     let projectlabel: UILabel = {
         
         let label = UILabel()
@@ -69,7 +69,7 @@ class WorkLogViewController: UIViewController {
         
         let layout = UICollectionViewFlowLayout()
         
-         layout.scrollDirection = .horizontal
+        layout.scrollDirection = .horizontal
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
@@ -126,7 +126,7 @@ class WorkLogViewController: UIViewController {
         
         return label
     }()
-        
+    
     var members: [AuthInfo] = []
     
     var projectDetail: NewProject?
@@ -140,9 +140,13 @@ class WorkLogViewController: UIViewController {
         }
     }
     
+    deinit {
+        print("workLog deinit")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         navigationController?.navigationBar.prefersLargeTitles = true
         
         navigationItem.title = LargeTitle.workLog.rawValue
@@ -156,6 +160,8 @@ class WorkLogViewController: UIViewController {
         setupDufaultStackView()
         
         projectlabel.text = projectDetail?.projectName
+        
+        fetchUserWorkLog(porjectID: projectDetail?.projectID ?? "")
         
         // Do any additional setup after loading the view.
     }
@@ -171,6 +177,7 @@ class WorkLogViewController: UIViewController {
             
             defaultStackView.isHidden = false
         }
+        
     }
     
     func setupProjectTitle() {
@@ -194,7 +201,7 @@ class WorkLogViewController: UIViewController {
             addLogButton.heightAnchor.constraint(equalToConstant: 30),
             addLogButton.widthAnchor.constraint(equalToConstant: 30)
         ])
-
+        
     }
     
     func setupCollectionView() {
@@ -220,6 +227,27 @@ class WorkLogViewController: UIViewController {
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    func fetchUserWorkLog(porjectID: String) {
+        
+        ProjectManager.shared.fetchUserProjectWorkLog(projectID: porjectID) { (result) in
+            
+            switch result {
+                
+            case .success(let data):
+                
+                self.workLogContent = data
+                
+                print(data)
+                
+                self.tableView.reloadData()
+                
+            case .failure(let error):
+                
+                print(error)
+            }
+        }
     }
     
     func setupDufaultStackView() {
@@ -266,7 +294,7 @@ class WorkLogViewController: UIViewController {
         workLogContentVC.documentID = projectDetail.projectID
         
         workLogContentVC.workItemArray = projectDetail.workItems
-                
+        
         workLogContentVC.passContentData = {
             
             self.workLogContent.append($0)
@@ -277,7 +305,7 @@ class WorkLogViewController: UIViewController {
         }
         present(workLogContentVC, animated: true, completion: nil)
     }
-
+    
 }
 
 extension WorkLogViewController: UICollectionViewDataSource {

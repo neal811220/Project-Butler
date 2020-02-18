@@ -34,19 +34,6 @@ struct NewProject: Codable {
     let workItems: [String]
 }
 
-struct workItem: Codable {
-    
-    let itemID: String = ""
-    
-    let itemCategory: String = ""
-    
-    let itemContent: String = ""
-    
-    let userID: String
-    
-    let timeSpent: Int
-}
-
 struct CompletedProject {
     
     let projectName: String
