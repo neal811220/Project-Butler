@@ -52,6 +52,5 @@ class WorkLogTableViewCell: UITableViewCell {
         view.layer.cornerRadius = 10
         
         view.clipsToBounds = true
-    }
-    
+    }    
 }

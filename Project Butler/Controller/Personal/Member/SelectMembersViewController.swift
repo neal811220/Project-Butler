@@ -12,7 +12,7 @@ class SelectMembersViewController: UIViewController {
 
     lazy var tableView: UITableView = {
         
-        let tableview = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .grouped)
+        let tableview = UITableView()
         
         tableview.translatesAutoresizingMaskIntoConstraints = false
         

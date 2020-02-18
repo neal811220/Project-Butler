@@ -72,6 +72,8 @@ enum ImageAsset: String {
     case Icons_32px_Chat
     
     case Icons_32px_AddWorkLog
+    
+    case Icons_32px_LogDefaultImage
 }
 
 extension UIImage {

@@ -75,3 +75,22 @@ struct CompletedProject {
     
     let completedHour: String
 }
+
+struct WorkLogContent: Codable {
+    
+    let userID: String
+    
+    let workItem: String
+    
+    let startTime: String
+    
+    let endTime: String
+    
+    let problem: String
+    
+    let workContent: String
+    
+    let hour: Int
+    
+    let minute: Int
+}

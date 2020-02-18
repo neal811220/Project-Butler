@@ -20,7 +20,7 @@ class WorkLogViewController: UIViewController {
         
         label.textAlignment = .center
         
-        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.font = UIFont(name: "AmericanTypewriter-Bold", size: 25)
         
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -88,6 +88,58 @@ class WorkLogViewController: UIViewController {
         return collectionView
     }()
     
+    let defaultStackView: UIStackView = {
+        
+        let stackView = UIStackView()
+        
+        stackView.axis = NSLayoutConstraint.Axis.vertical
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
+    }()
+    
+    let defaultImage: UIImageView = {
+        
+        let image = UIImage.asset(.Icons_32px_LogDefaultImage)
+        
+        let imageView = UIImageView()
+        
+        imageView.image = image
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
+    
+    let defauLabel: UILabel = {
+        
+        let label = UILabel()
+        
+        label.textColor = UIColor.Gray3
+        
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        
+        label.text = "Add Work Log"
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    var members: [AuthInfo] = []
+    
+    var projectDetail: NewProject?
+    
+    var workLogContent: [WorkLogContent] = [] {
+        
+        didSet {
+            
+            defaultStackView.isHidden = true
+            
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -101,7 +153,24 @@ class WorkLogViewController: UIViewController {
         
         setupTableView()
         
+        setupDufaultStackView()
+        
+        projectlabel.text = projectDetail?.projectName
+        
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        if workLogContent.count != 0 {
+            
+            defaultStackView.isHidden = true
+            
+        } else {
+            
+            defaultStackView.isHidden = false
+        }
     }
     
     func setupProjectTitle() {
@@ -113,14 +182,14 @@ class WorkLogViewController: UIViewController {
         addLogButton.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            projectlabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
+            projectlabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             projectlabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            projectlabel.widthAnchor.constraint(equalToConstant: view.frame.width / 2),
+            projectlabel.widthAnchor.constraint(greaterThanOrEqualToConstant: view.frame.width / 2),
             projectlabel.heightAnchor.constraint(equalToConstant: 25)
         ])
         
         NSLayoutConstraint.activate([
-            addLogButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
+            addLogButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             addLogButton.leftAnchor.constraint(equalTo: projectlabel.rightAnchor, constant: 10),
             addLogButton.heightAnchor.constraint(equalToConstant: 30),
             addLogButton.widthAnchor.constraint(equalToConstant: 30)
@@ -136,7 +205,7 @@ class WorkLogViewController: UIViewController {
             
             collectionView.topAnchor.constraint(equalTo: addLogButton.bottomAnchor, constant: 30),
             collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            collectionView.widthAnchor.constraint(equalToConstant: view.frame.width / 3),
+            collectionView.widthAnchor.constraint(equalToConstant: view.frame.width / 4 + 10),
             collectionView.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
@@ -153,12 +222,57 @@ class WorkLogViewController: UIViewController {
         ])
     }
     
+    func setupDufaultStackView() {
+        
+        view.addSubview(defaultStackView)
+        
+        defaultStackView.addSubview(defaultImage)
+        
+        defaultStackView.addSubview(defauLabel)
+        
+        NSLayoutConstraint.activate([
+            defaultStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            defaultStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            defaultStackView.widthAnchor.constraint(equalToConstant: view.frame.width / 3),
+            defaultStackView.heightAnchor.constraint(equalToConstant: view.frame.width / 3)
+        ])
+        
+        NSLayoutConstraint.activate([
+            defaultImage.topAnchor.constraint(equalTo: defaultStackView.topAnchor),
+            defaultImage.leftAnchor.constraint(equalTo: defaultStackView.leftAnchor),
+            defaultImage.rightAnchor.constraint(equalTo: defaultStackView.rightAnchor),
+            defaultImage.heightAnchor.constraint(equalToConstant: view.frame.width / 4)
+        ])
+        
+        NSLayoutConstraint.activate([
+            defauLabel.bottomAnchor.constraint(equalTo: defaultStackView.bottomAnchor),
+            defauLabel.rightAnchor.constraint(equalTo: defaultStackView.rightAnchor),
+            defauLabel.leftAnchor.constraint(equalTo: defaultStackView.leftAnchor),
+            defauLabel.topAnchor.constraint(equalTo: defaultImage.bottomAnchor)
+        ])
+        
+    }
+    
     @objc func didTapAddButton() {
         
         guard let workLogContentVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "WorkLogContentVC") as? WorkLogContentViewController else {
             return
         }
         
+        guard let projectID = projectDetail?.projectID else {
+            return
+        }
+        
+        workLogContentVC.documentID = projectID
+        
+        workLogContentVC.passContentData = {
+            
+            self.workLogContent.append($0)
+            
+            self.tableView.reloadData()
+            
+            self.collectionView.reloadData()
+        }
         present(workLogContentVC, animated: true, completion: nil)
     }
 
@@ -168,7 +282,15 @@ extension WorkLogViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 3
+        if members.count >= 3 {
+            
+            return 3
+            
+        } else {
+            
+            return members.count
+            
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -178,7 +300,7 @@ extension WorkLogViewController: UICollectionViewDataSource {
             guard let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "NumberCell", for: indexPath) as? NumberCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.numberLabel.text = "+\(1)"
+            cell.numberLabel.text = "+\(members.count - 2)"
             
             return cell
             
@@ -215,7 +337,7 @@ extension WorkLogViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 10
+        return workLogContent.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -223,6 +345,16 @@ extension WorkLogViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "WorkLogCell", for: indexPath) as? WorkLogTableViewCell else {
             return UITableViewCell()
         }
+        
+        cell.timeLabel.text = "\(workLogContent[indexPath.row].startTime) - \(workLogContent[indexPath.row].endTime)"
+        
+        cell.timeSpentLabel.text = "\(workLogContent[indexPath.row].hour) Hour, \(workLogContent[indexPath.row].minute) Minute"
+        
+        cell.workItemLabel.text = workLogContent[indexPath.row].workItem
+        
+        cell.workContentLabel.text = workLogContent[indexPath.row].workContent
+        
+        cell.problemLabel.text = workLogContent[indexPath.row].problem
         
         return cell
     }

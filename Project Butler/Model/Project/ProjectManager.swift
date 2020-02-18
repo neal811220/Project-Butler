@@ -35,6 +35,29 @@ class ProjectManager {
         
     }
     
+    func uploadUserWorkLog(documentID: String, workLogContent: WorkLogContent, completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
+            return
+        }
+        
+        let docID = db.collection("projects").document(uid).collection("workLogs").document().documentID
+        
+        do {
+            
+            try db.collection("projects").document(documentID).collection("workLogs").document(docID).setData(from: workLogContent)
+            
+            completion(.success(()))
+            
+        } catch {
+            
+            print(error)
+            
+            completion(.failure(error))
+        }
+       
+    }
+    
     func createNewProject(projectID: String, newProject: NewProject, completion: @escaping (Result<Void, Error>) -> Void) {
         
         do {

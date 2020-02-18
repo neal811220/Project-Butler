@@ -94,6 +94,7 @@ class NewProjectViewController: UIViewController {
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
         
         navigationItem.rightBarButtonItem = saveBarButton
+        
         setupTableView()
         
         setupDatePicker()
@@ -148,8 +149,6 @@ class NewProjectViewController: UIViewController {
     
     @objc func datePickerChanged(datePicker: UIDatePicker) {
         
-        startText = dateFormatter.string(from: startDatePicker.date)
-        
         let startDate = startDatePicker.date
         
         let endDate = endDatePicker.date
@@ -163,11 +162,13 @@ class NewProjectViewController: UIViewController {
             dateStatus = false
         }
         
-        endText = dateFormatter.string(from: endDatePicker.date)
-        
         guard let days = Calendar.current.dateComponents([.day], from: startDate, to: endDate).day else { return }
-        
+
         totalDays = days
+        
+        startText = dateFormatter.string(from: startDatePicker.date)
+        
+        endText = dateFormatter.string(from: endDatePicker.date)
         
         tableView.reloadData()
         

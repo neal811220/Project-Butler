@@ -31,10 +31,75 @@ class WorkLogContentViewController: UIViewController {
         return tableView
     }()
     
+    lazy var workItemPickerView: UIPickerView = {
+        
+        let pickerView = UIPickerView()
+        
+        pickerView.delegate = self
+        
+        pickerView.dataSource = self
+        
+        return pickerView
+    }()
+    
+    let startTimePickerView: UIDatePicker = {
+        
+        let startDatePicker = UIDatePicker()
+        
+        startDatePicker.datePickerMode = .time
+        
+        startDatePicker.date = NSDate() as Date
+        
+        return startDatePicker
+    }()
+    
+    let endTimePickerView: UIDatePicker = {
+        
+        let endDatePicker = UIDatePicker()
+        
+        endDatePicker.datePickerMode = .time
+        
+        endDatePicker.date = NSDate() as Date
+        
+        return endDatePicker
+    }()
+    
+    var selectedBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        return view
+    }()
+    
+    let workItemArray = ["Hello", "Build", "Snowmen"]
+    
+    var startText = ""
+    
+    var endText = ""
+    
+    var dateFormatter = DateFormatter()
+    
+    var timeStatus = false
+    
+    var durationH = 0.0
+    
+    var durationS = 0
+    
+    var problem = ""
+    
+    var workItem = ""
+    
+    var workContent = ""
+    
+    var documentID = ""
+        
+    var passContentData:((WorkLogContent) -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupTableView()
+        
+        setupDatePicker()
     }
     
     override func viewDidLayoutSubviews() {
@@ -54,11 +119,91 @@ class WorkLogContentViewController: UIViewController {
         ])
     }
     
+    func setupDatePicker() {
+        
+        dateFormatter.dateFormat = "HH:mm"
+        
+        startTimePickerView.locale = NSLocale(localeIdentifier: "en-US") as Locale
+        
+        startTimePickerView.addTarget(self, action: #selector(timePickerChanged), for: .valueChanged)
+        
+        endTimePickerView.locale = NSLocale(localeIdentifier: "en-US") as Locale
+        
+        endTimePickerView.addTarget(self, action: #selector(timePickerChanged), for: .valueChanged)
+    }
+    
     @objc func didTapCancelButton() {
         
         dismiss(animated: true, completion: nil)
     }
+    
+    @objc func didTapSaveButton() {
+        
+        tableView.reloadData()
+        
+        guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
+            return
+        }
+        
+        let workLog = WorkLogContent(userID: uid, workItem: workItem, startTime: startText, endTime: endText, problem: problem, workContent: workContent, hour: Int(durationH), minute: durationS)
+        
+        ProjectManager.shared.uploadUserWorkLog(documentID: documentID, workLogContent: workLog) { (result) in
+            
+            switch result {
+                
+            case .success:
+                
+                print("Success")
+                
+                PBProgressHUD.showSuccess(text: "Success!", viewController: self)
+                
+                self.dismiss(animated: true) {
+                    self.passContentData?(workLog)
+                }
+                
+            case .failure(let error):
+                
+                print(error)
+            }
+        }
+    }
+    
+    @objc func timePickerChanged() {
+        
+        startText = dateFormatter.string(from: startTimePickerView.date)
+        
+        let startTime = startTimePickerView.date
+        
+        let endTime = endTimePickerView.date
+        
+        if endTime >= startTime {
+            
+            timeStatus = true
+            
+        } else {
+            
+            timeStatus = false
+        }
+        
+        let start =  startTime.timeIntervalSince1970
+        
+        let end = endTime.timeIntervalSince1970
+        
+        let minute = Calendar.current.dateComponents([.minute], from: startTime, to: endTime).minute
+        
+        durationH = (end - start) / 3600
+                
+        endText = dateFormatter.string(from: endTimePickerView.date)
+        
+        tableView.reloadData()
+        
+        view.endEditing(true)
+    }
+    
+}
 
+extension WorkLogContentViewController: UITableViewDelegate {
+    
 }
 
 extension WorkLogContentViewController: UITableViewDataSource {
@@ -72,13 +217,82 @@ extension WorkLogContentViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "WorkLogContentCell", for: indexPath) as? WorkLogContentTableViewCell else {
             return UITableViewCell()
         }
+        
+        if timeStatus {
+            
+            cell.endTimeTextField.textColor = UIColor.Black1
+            
+        } else {
+            
+            cell.endTimeTextField.textColor = UIColor.red
+            
+        }
+                
+        workItem = cell.workItemTextField.text ?? ""
+        
+        cell.textViewDidEdit = {
+            
+            self.problem = $0
+            
+            self.workContent = $1
+        }
+        
+        cell.selectedBackgroundView = selectedBackgroundView
+        
+        cell.workItemTextField.inputView = workItemPickerView
+        
+        cell.startTimeTextField.inputView = startTimePickerView
+        
+        cell.endTimeTextField.inputView = endTimePickerView
+        
+        cell.startTimeTextField.text = startText
+        
+        cell.endTimeTextField.text = endText
+                
         cell.cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
+        
+        cell.saveButton.addTarget(self, action: #selector(didTapSaveButton), for: .touchUpInside)
+        
+        cell.didChangeTextViewHeight = {
+            
+            if $0 == true {
+                
+                tableView.reloadData()
+            }
+        }
         return cell
     }
 }
 
-
-extension WorkLogContentViewController: UITableViewDelegate {
+extension WorkLogContentViewController: UIPickerViewDelegate {
     
+    
+}
+
+extension WorkLogContentViewController: UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        
+        return workItemArray.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        
+        return workItemArray[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        let textField = self.view.viewWithTag(10) as? UITextField
+        
+        textField?.text = workItemArray[row]
+        
+        view.endEditing(true)
+    }
     
 }
