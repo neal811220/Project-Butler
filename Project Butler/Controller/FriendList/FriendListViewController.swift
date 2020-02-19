@@ -346,8 +346,6 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
                     
                     print(data)
                     
-                    print("Success")
-                    
                 case .failure(let error):
                     
                     print(error)
@@ -366,7 +364,7 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
                 switch result {
                     
                 case .success(let data):
-                    
+                           
                     print(data)
                     
                 case .failure(let error):

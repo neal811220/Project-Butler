@@ -238,9 +238,7 @@ extension MemberListViewController: FriendListTableViewCellDelegate {
                 self.datas.append([data])
                 
                 self.seletedLeader.append(data)
-                
-                print(data)
-                
+                                
             case .failure(let error):
                 
                 print(error)

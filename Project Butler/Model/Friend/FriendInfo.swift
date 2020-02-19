@@ -124,7 +124,7 @@ struct FriendDetail: Codable, Userable {
             switch result {
                 
             case .success(let data):
-                print(data)
+
                 print("Accept Successfully")
                 
             case .failure(let error):
@@ -144,7 +144,7 @@ struct FriendDetail: Codable, Userable {
             switch result {
                 
             case .success(let data):
-                print(data)
+                
                 print("Refuse Successfully")
                 
             case .failure(let error):

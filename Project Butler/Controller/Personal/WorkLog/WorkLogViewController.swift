@@ -140,10 +140,6 @@ class WorkLogViewController: UIViewController {
         }
     }
     
-    deinit {
-        print("workLog deinit")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
