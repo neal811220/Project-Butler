@@ -34,11 +34,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        ApplicationDelegate.shared.application(app, open: url, options: options)
+        if url.scheme == "fb2907817055943167" {
+
+            ApplicationDelegate.shared.application(app, open: url, options: options)
+
+            return true
+
+        } else {
+
+            return GIDSignIn.sharedInstance().handle(url)
+
+        }
         
-        return GIDSignIn.sharedInstance().handle(url)
+        
     }
     
-
 }
 

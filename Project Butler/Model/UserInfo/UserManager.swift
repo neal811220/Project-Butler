@@ -79,6 +79,8 @@ class UserManager {
                     
                     UserDefaults.standard.set(data?.userID, forKey: "userID")
                     
+                    UserDefaults.standard.set(data?.userEmail, forKey: "userEmail")
+                    
                     print("Get User Info Successfully")
                 } catch {
                     return
