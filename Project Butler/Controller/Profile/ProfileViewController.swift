@@ -47,6 +47,7 @@ class ProfileViewController: UIViewController {
         
     }
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         navigationController?.navigationBar.isHidden = true
@@ -55,7 +56,9 @@ class ProfileViewController: UIViewController {
         
         userEmail.text = UserDefaults.standard.value(forKey: "userEmail") as? String
         
+        userImage.loadImage(CurrentUserInfo.shared.userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
         
+//        userImage.image = UIImage.asset(.Icons_128px_General)
         // Do any additional setup after loading the view.
     }
     
@@ -66,6 +69,10 @@ class ProfileViewController: UIViewController {
         titleBackgroundView.layer.cornerRadius = titleBackgroundView.frame.width / 2
         
         userImage.layer.cornerRadius = userImage.frame.width / 2
+        
+        userImage.layer.borderWidth = 2
+        
+        userImage.layer.borderColor = UIColor.white.cgColor
     }
     
     func updatePasswordAlert() {

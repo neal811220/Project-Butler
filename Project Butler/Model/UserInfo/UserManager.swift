@@ -57,6 +57,14 @@ class UserManager {
         db.collection("users").document(uid).setData(userdetail)
     }
     
+    func addAppleIDLoginUserDate(name: String, email: String, uid: String, imageUrl: String) {
+        
+        let userdata = ["userName": name, "userEmail": email, "userImageUrl": imageUrl, "userID": uid]
+        
+        db.collection("users").document(uid).setData(userdata)
+        
+    }
+    
     func getLoginUserInfo() {
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -191,7 +199,6 @@ class UserManager {
                         completion(.failure(error))
                     }
                     
-                    print(document.data())
                 }
                 
             } else if error == nil && snapshot != nil {
