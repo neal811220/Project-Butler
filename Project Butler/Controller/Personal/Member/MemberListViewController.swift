@@ -12,7 +12,7 @@ class MemberListViewController: UIViewController {
     
     lazy var searchController: UISearchController = {
         let search = UISearchController(searchResultsController: nil)
-        search.searchBar.placeholder = UserManager.shared.friendSearcchPlaceHolder
+        search.searchBar.placeholder = PlaceHolder.friendPlaceHolder.rawValue
         search.obscuresBackgroundDuringPresentation = false
         search.searchBar.sizeToFit()
         search.searchBar.searchBarStyle = .prominent
@@ -21,120 +21,151 @@ class MemberListViewController: UIViewController {
         return search
     }()
     
-    lazy var memberTableView: UITableView = {
-        let tableview = UITableView()
+    lazy var tableView: UITableView = {
+        let tableview = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .grouped)
         tableview.translatesAutoresizingMaskIntoConstraints = false
         tableview.rowHeight = UITableView.automaticDimension
         let nib = UINib(nibName: "FriendListTableViewCell", bundle: nil)
         tableview.register(nib, forCellReuseIdentifier: "FriendListCell")
         tableview.separatorStyle = .none
         tableview.dataSource = self
+        tableview.delegate = self
         return tableview
     }()
     
-    var filterFriendList = [FriendInfo]()
+    let userManager = UserManager.shared
     
-    let friends = FriendInfo.GetAllFriends()
+    let activityView = UIActivityIndicatorView()
     
-    var shouldShowSearchResults = false
+    var datas: [[Userable]] = []
+    
+    var friendsArray: [FriendDetail] = []
+    
+    var seletedLeader: [FriendDetail] = []
+    
+    var leaderIndex: IndexPath?
+        
+    var lastSelectedUid = ""
+        
+    var isCancel = false
     
     override func viewDidLoad() {
+        
+        let doneBarButton = UIBarButtonItem(title: "DONE", style: .done, target: self, action: #selector(didTapDoneBarButton))
         
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         self.navigationItem.title = LargeTitle.memberList.rawValue
-
+        
         self.navigationItem.searchController = searchController
         
-        settingTableView()
+        self.navigationItem.rightBarButtonItem = doneBarButton
+        
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: Notification.Name("searchReload"), object: nil)
+        
+        setupTableView()
+        
     }
     
-    func settingTableView() {
+    func setupTableView() {
         
-        view.addSubview(memberTableView)
+        view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
-            memberTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
             
-            memberTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             
-            memberTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             
-            memberTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
-    func filterContentForSearchText(searchText: String) {
-           filterFriendList = friends.filter({ (friend: FriendInfo) -> Bool in
-            
-               //return true
-               if isSearchBarEmpty() {
-                   return false
-               } else {
-                   return true && friend.title.lowercased().contains(searchText.lowercased())
-               }
-           })
-           memberTableView.reloadData()
-       }
-
-
-       func isSearchBarEmpty() -> Bool {
-           //if text == nil(return true) else (return nil)
-           return searchController.searchBar.text?.isEmpty ?? true
-       }
-
-       func isFiltering() -> Bool {
-           //if scope == 1 or 2 return true
-           return searchController.isActive && (!isSearchBarEmpty())
-       }
+    @objc func reloadData() {
+        
+        datas = []
+        
+        friendsArray = userManager.friendArray
+        
+        datas.append(userManager.friendArray)
+        
+        isCancel = false
+        
+        tableView.reloadData()
+        
+        activityView.stopAnimating()
+        
+    }
+    
+    @objc func didTapDoneBarButton(sender: UIBarButtonItem) {
+                
+        navigationController?.popViewController(animated: true)
+    }
     
 }
 
 extension MemberListViewController: UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        return datas.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if isFiltering() {
+        return datas[section].count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        if section == 0 {
             
-            return filterFriendList.count
+            return "Member"
             
         } else {
-            let friendAll = friends.filter { (friend) -> Bool in
-                return friend.email == ScopeButton.all.rawValue
-            }
-            return friendAll.count
+            
+            return "Friend"
+            
         }
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendListCell") as? FriendListTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendListCell") as?
+            FriendListTableViewCell else { return UITableViewCell() }
         
-        let currentFriend: FriendInfo
-
-        if isFiltering() {
-            
-            currentFriend = filterFriendList[indexPath.row]
-            
-        } else {
-            
-            let friendAll = friends.filter { (friend) -> Bool in
-                
-                return friend.email == ScopeButton.all.rawValue
-            }
-            currentFriend = friendAll[indexPath.row]
-            
-        }
+        cell.delegate = self
         
-        cell.friendEmail.text = currentFriend.email
+        cell.leftButton.isHidden = true
         
-        cell.friendTitle.text = currentFriend.title
+        cell.rightButton.isHidden = false
+        
+        cell.rightButton.setImage(UIImage.asset(.Icons_64px_Check_Normal), for: .normal)
+        
+        cell.rightButton.setImage(UIImage.asset(.Icos_62px_Check_Selected), for: .selected)
+        
+        cell.friendImage.loadImage(datas[indexPath.section][indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
+        
+        cell.friendTitle.text = datas[indexPath.section][indexPath.row].userName
+        
+        cell.friendEmail.text = datas[indexPath.section][indexPath.row].userEmail
         
         return cell
     }
     
+}
+
+extension MemberListViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        leaderIndex = indexPath
+        
+    }
 }
 
 extension MemberListViewController: UISearchBarDelegate {
@@ -143,12 +174,89 @@ extension MemberListViewController: UISearchBarDelegate {
 
 extension MemberListViewController: UISearchResultsUpdating {
     
-    
     func updateSearchResults(for searchController: UISearchController) {
+        
+        userManager.clearAll()
+        
+        activityView.startAnimating()
+        
+        if searchController.searchBar.text != "" {
+            
+            userManager.searchUser(text: searchController.searchBar.text!) { (result) in
                 
-        filterContentForSearchText(searchText: searchController.searchBar.text!)
+                switch result {
+                    
+                case .success(let data):
+                    
+                    print(data)
+                    
+                case .failure(let error):
+                    
+                    print(error)
+                }
+                
+                self.userManager.lastSearchText = ""
+                
+                self.userManager.clearAll()
+                
+                self.activityView.stopAnimating()
+            }
+            
+        } else {
+            
+            guard isCancel != true else { return }
+            
+            self.userManager.lastSearchText = ""
+            
+            if friendsArray.count != 0 &&  seletedLeader.count != 0 {
+                
+                datas.remove(at: 0)
+                isCancel = true
+                tableView.reloadData()
+            }
+            
+        }
     }
     
 }
 
+extension MemberListViewController: FriendListTableViewCellDelegate {
+    
+    func passIndexPath(_ friendListTableViewCell: FriendListTableViewCell) {
+                
+        if let selected = leaderIndex {
+            
+            if let cell = tableView.cellForRow(at: selected) as? FriendListTableViewCell {
+                
+                cell.rightButton.isSelected = false
+            }
+        }
+        
+        guard let indexPath = tableView.indexPath(for: friendListTableViewCell) else { return }
+        
+        leaderIndex = indexPath
+        
+        let uid = datas[indexPath.section][indexPath.row].userID
+
+        userManager.getSeletedLeader(uid: uid) { (result) in
+            
+            switch result {
+                
+            case .success(let data):
+                
+                self.datas.append([data])
+                
+                self.seletedLeader.append(data)
+                
+                print(data)
+                
+            case .failure(let error):
+                
+                print(error)
+                
+            }
+        }
+    }
+    
+}
 

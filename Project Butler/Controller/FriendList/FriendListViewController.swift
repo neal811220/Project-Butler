@@ -6,12 +6,13 @@
 //
 import Foundation
 import UIKit
+import Firebase
 
 class FriendListViewController: UIViewController {
     
-    lazy var friendListTableView: UITableView = {
+    lazy var tableView: UITableView = {
         
-        let tableview = UITableView()
+        let tableview = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .grouped)
         
         tableview.translatesAutoresizingMaskIntoConstraints = false
         
@@ -28,185 +29,294 @@ class FriendListViewController: UIViewController {
         return tableview
     }()
     
-    lazy var friendSearchController: UISearchController = {
+    lazy var searchController: UISearchController = {
         
-        let bar  = UISearchController(searchResultsController: nil)
+        let search  = UISearchController(searchResultsController: nil)
         
-        bar.searchResultsUpdater = self
+        search.searchResultsUpdater = self
         
-        bar.obscuresBackgroundDuringPresentation = false
+        search.obscuresBackgroundDuringPresentation = false
         
-        bar.searchBar.placeholder = UserManager.shared.friendSearcchPlaceHolder
+        search.searchBar.placeholder = PlaceHolder.friendPlaceHolder.rawValue
         
-        bar.searchBar.sizeToFit()
+        search.searchBar.sizeToFit()
         
-        bar.searchBar.scopeButtonTitles = UserManager.shared.scopeButtons
+        search.searchBar.scopeButtonTitles = UserManager.shared.scopeButtons
         
-        bar.searchBar.searchBarStyle = .prominent
+        search.searchBar.searchBarStyle = .prominent
         
-        bar.searchBar.delegate = self
+        search.searchBar.delegate = self
         
-        return bar
+        return search
+    }()
+    
+    var activityView: UIActivityIndicatorView = {
+        let ac = UIActivityIndicatorView()
+        ac.translatesAutoresizingMaskIntoConstraints = false
+        return ac
     }()
     
     //All count
-    let friends = FriendInfo.GetAllFriends()
-        
+    var searchUserArray: [AuthInfo] = []
     //filterCount
-    var filteredFriends = [FriendInfo]()
+    var friendArray: [FriendDetail] = []
     
-    var selectCenterConstraint: NSLayoutConstraint?
+    var accepFriendArray: [FriendDetail] = []
     
-    var buttons = [UIButton]()
+    var confirmFriendArray: [FriendDetail] = []
+    
+    var datas: [[Userable]] = []
+    
+    var currentIndexPath: IndexPath?
+    
+    var currentSeletedIndex: Int {
+        
+        return searchController.searchBar.selectedScopeButtonIndex
+    }
+    
+    var userTapStatus = false
+    
+    var userManager = UserManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = LargeTitle.friendList.rawValue
+        navigationItem.title = LargeTitle.friendList.rawValue
         
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = true
         
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 23/255, green: 61/255, blue: 160/255, alpha: 1.0)]
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
         
-        self.navigationItem.searchController = friendSearchController
+        navigationItem.searchController = searchController
         
-        settingTableview()
-    }
-
-    func filterContentForSearchText(searchText: String, scope: String = ScopeButton.all.rawValue) {
-        filteredFriends = friends.filter({ (country: FriendInfo) -> Bool in
-            let doesCategoryMatch = (scope == ScopeButton.all.rawValue) || (country.email == scope)
-            //return true
-            if isSearchBarEmpty() {
-                return doesCategoryMatch
-            } else {
-                return doesCategoryMatch && country.title.lowercased().contains(searchText.lowercased())
+        setupTableview()
+        
+        setupActivityView()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: Notification.Name("searchReload"), object: nil)
+        
+        activityView.startAnimating()
+        
+        userManager.searchAll { (result) in
+            
+            switch result {
+                
+            case .success:
+                
+                self.reloadData()
+                
+            case .failure(let error):
+                
+                print(error)
+                
             }
-        })
-        friendListTableView.reloadData()
-    }
-
-
-    func isSearchBarEmpty() -> Bool {
-        //if text == nil(return true) else (return nil)
-        return friendSearchController.searchBar.text?.isEmpty ?? true
+            
+            self.activityView.stopAnimating()
+            
+        }
     }
     
-    func isFiltering() -> Bool {
-        //if scope == 1 or 2 return true
-        let searchBarScopeIsFiltering = friendSearchController.searchBar.selectedScopeButtonIndex != 0
-        return friendSearchController.isActive && (!isSearchBarEmpty() || searchBarScopeIsFiltering)
-    }
-    
-    func settingTableview() {
+    func setupActivityView() {
         
-        view.addSubview(friendListTableView)
+        view.addSubview(activityView)
         
         NSLayoutConstraint.activate([
-            friendListTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            activityView.heightAnchor.constraint(equalToConstant: view.frame.size.width / 10),
+            activityView.widthAnchor.constraint(equalToConstant: view.frame.size.width / 10)
+        ])
+    }
+    
+    func setupTableview() {
+        
+        view.addSubview(tableView)
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
             
-            friendListTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             
-            friendListTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             
-            friendListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }
 
 extension FriendListViewController: UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering() {
-            if friendSearchController.searchBar.selectedScopeButtonIndex == 0 {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        return datas.count
+        
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        if currentSeletedIndex == 1 {
+            
+            switch section {
                 
-                let allfriend = filteredFriends.filter { (country) -> Bool in
-                  
-                    return country.email == ScopeButton.all.rawValue
-                }
-                 return allfriend.count
-            } else {
-                return filteredFriends.count
+            case 0:
+                
+                return "Waiting Accept"
+                
+            case 1:
+                
+                return "Accept OR Refuse"
+                
+            default:
+                
+                return ""
             }
-           
+        } else if currentSeletedIndex == 0{
+            
+            return "Friend"
+            
         } else {
-            if friendSearchController.searchBar.selectedScopeButtonIndex == 0 {
-                
-                let allfriend = friends.filter { (country) -> Bool in
-                  
-                    return country.email == ScopeButton.all.rawValue
-                }
-                
-                return allfriend.count
-                
-            } else {
-                return friends.count
-            }
+            
+            return "SearchUser"
         }
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return datas[section].count
+    }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendListCell", for: indexPath) as? FriendListTableViewCell else { return UITableViewCell() }
         
-        let currentFriend: FriendInfo
+        cell.friendTitle.text = datas[indexPath.section][indexPath.row].userName
         
-        if  isFiltering() {
-            if friendSearchController.searchBar.selectedScopeButtonIndex == 0 {
-                
-                let allfriend = filteredFriends.filter { (country) -> Bool in
-                    
-                    return country.email == ScopeButton.all.rawValue
-                }
-                currentFriend = allfriend[indexPath.row]
-            } else {
-                
-                currentFriend = filteredFriends[indexPath.row]
-                
-            }
+        cell.friendEmail.text = datas[indexPath.section][indexPath.row].userEmail
+        
+        cell.friendImage.loadImage(datas[indexPath.section][indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
+        
+        cell.rightButton.addTarget(self, action: #selector(tapButton(sender:)), for: .touchUpInside)
+        
+        cell.leftButton.addTarget(self, action: #selector(tapButton(sender:)), for: .touchUpInside)
+        
+        cell.delegate = self
+        
+        cell.rightButton.isSelected = false
+        
+        switch datas[indexPath.section][indexPath.row].userStatus(flag: userTapStatus) {
             
-        } else {
-            if friendSearchController.searchBar.selectedScopeButtonIndex == 0 {
-                
-                let allfriend = friends.filter { (country) -> Bool in
-                    
-                    return country.email == ScopeButton.all.rawValue
-                }
-                
-                currentFriend = allfriend[indexPath.row]
-            } else{
-                
-                currentFriend = friends[indexPath.row]
-                
-            }
-            
-        }
-        cell.friendTitle.text = currentFriend.title
-        
-        cell.friendEmail.text = currentFriend.email
-        
-        switch currentFriend.email {
-        
-        case ScopeButton.all.rawValue:
-            
+        case FriendStatus.friend.rawValue:
+            cell.leftButton.isHidden = true
             cell.rightButton.isHidden = true
-        
-        case ScopeButton.confirm.rawValue:
             
+        case FriendStatus.accept.rawValue:
+            cell.leftButton.isHidden = false
             cell.rightButton.isHidden = false
-            
-            cell.rightButton.setImage(UIImage.asset(.Icons_32px_Confirm), for: .normal)
-        
-        case ScopeButton.accept.rawValue:
-           
-            cell.rightButton.isHidden = false
-            
             cell.rightButton.setImage(UIImage.asset(.Icons_32px_Accept), for: .normal)
+            cell.leftButton.setImage(UIImage.asset(.Icons_32px_Refuse), for: .normal)
+            
+        case FriendStatus.confirm.rawValue:
+            cell.leftButton.isHidden = true
+            cell.rightButton.isHidden = false
+            cell.rightButton.setImage(UIImage.asset(.Icons_32px_Confirm), for: .normal)
+        default:
+            cell.leftButton.isHidden = true
+            cell.rightButton.setImage(UIImage.asset(.Icons_32px_AddFriend_Normal), for: .normal)
+            cell.rightButton.setImage(UIImage.asset(.Icons_32px_AddFriend_DidTap), for: .selected)
+            cell.rightButton.isHidden = false
+        }
+        
+        return cell
+    }
+    
+    @objc func reloadData() {
+        
+        datas = []
+        
+        switch currentSeletedIndex {
+            
+        case 0:
+            
+            datas.append(userManager.friendArray)
+                        
+        case 1:
+            
+            datas.append(userManager.confirmArray)
+            
+            datas.append(userManager.acceptArray)
+            
+        case 2:
+            
+            datas.append(userManager.searchUserArray)
+            
+        default: break
+        }
+        
+        tableView.reloadData()
+        
+        activityView.stopAnimating()
+        
+        userManager.isSearching = false
+        
+    }
+    
+    @objc func tapButton(sender: UIButton) {
+        
+        guard let indexPath = currentIndexPath else { return }
+        
+        if sender.tag == 0 {
+            userTapStatus = false
+        } else {
+            userTapStatus = true
+        }
+        
+        sender.isSelected = !sender.isSelected
+        
+        switch currentSeletedIndex {
+            
+        case 2:
+            
+            activityView.startAnimating()
+            datas[indexPath.section][indexPath.row].tapAddButton()
+            
+        case 1:
+            
+            if sender.tag == 0 {
+                activityView.startAnimating()
+                datas[indexPath.section][indexPath.row].tapRefuseButton()
+                
+            } else {
+                activityView.startAnimating()
+                datas[indexPath.section][indexPath.row].tapAcceptButton()
+            }
             
         default:
+            
             break
         }
-        return cell
+    }
+    
+}
+
+extension FriendListViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        currentIndexPath = indexPath
+        print(indexPath)
+    }
+    
+    
+}
+
+extension FriendListViewController: FriendListTableViewCellDelegate {
+    
+    func passIndexPath(_ friendListTableViewCell: FriendListTableViewCell) {
+        
+        guard let indexPath = tableView.indexPath(for: friendListTableViewCell) else { return }
+        
+        currentIndexPath = indexPath
     }
     
 }
@@ -214,15 +324,61 @@ extension FriendListViewController: UITableViewDataSource {
 extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating {
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        filterContentForSearchText(searchText: searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
+        
+        tableView.reloadData()
     }
     
     func updateSearchResults(for searchController: UISearchController) {
         
-        let searchBar = searchController.searchBar
+        datas = []
         
-        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
-        filterContentForSearchText(searchText: searchController.searchBar.text!, scope: scope)
+        tableView.reloadData()
+        
+        activityView.startAnimating()
+        
+        if searchController.searchBar.text == "" {
+            
+            UserManager.shared.searchAll { (result) in
+                
+                switch result {
+                    
+                case .success(let data):
+                    
+                    print(data)
+                    
+                    print("Success")
+                    
+                case .failure(let error):
+                    
+                    print(error)
+                    
+                }
+                
+                self.reloadData()
+                
+                self.activityView.stopAnimating()
+            }
+            
+        } else {
+            
+            UserManager.shared.searchUser(text: searchController.searchBar.text!) { (result) in
+                
+                switch result {
+                    
+                case .success(let data):
+                    
+                    print(data)
+                    
+                case .failure(let error):
+                    
+                    print(error)
+                    
+                }
+                
+                self.reloadData()
+                
+                self.activityView.stopAnimating()
+            }
+        }
     }
 }
-

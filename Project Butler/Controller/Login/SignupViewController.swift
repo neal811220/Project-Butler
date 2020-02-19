@@ -45,12 +45,6 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                     
                     PBProgressHUD.showSuccess(text: "Sign up Success!", viewController: self)
                     
-                    guard let userName = Auth.auth().currentUser?.displayName, let userEmail = Auth.auth().currentUser?.email else { return }
-                    
-                    let userImage = "Icons_32px_ Visitors"
-                    
-                    UserManager.shared.addUserData(name: userName, email: userEmail, imageUrl: userImage)
-                    
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                         
                         self.dismiss(animated: true, completion: nil)

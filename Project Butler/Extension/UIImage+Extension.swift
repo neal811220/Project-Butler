@@ -32,12 +32,41 @@ enum ImageAsset: String {
     
     case Icons_32px_Accept
     
-    case Icons_32px_AddFriend
+    case Icons_32px_AddFriend_Normal
     
     case Icons_32px_Remove
     
-    //Visitors
-    case Icons_32px_Visitors
+    case Icons_32px_AddFriend_DidTap
+    
+    case Icons_32px_Refuse
+    
+    //General
+    case Icons_128px_General
+    
+    //NewProject
+    case Icons_32px_ProjectName
+    
+    case Icons_32px_Leader
+    
+    case Icons_32px_Calendar
+    
+    case Icons_32px_Member
+    
+    case Icons_32px_WorkItem
+    
+    //PersonalRightButton
+    case Icons_32px_SearchProjectButton
+    
+    case Icons_32px_AddProjectButton
+    
+    case Icons_32px_SearhLeader_Selected
+    
+    //MemberButton
+    case Icons_64px_Check_Normal
+    
+    case Icos_62px_Check_Selected
+    
+    case Icons_32px_AddMembers
 }
 
 extension UIImage {

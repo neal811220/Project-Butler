@@ -1,78 +1,373 @@
 //
-//  NewProjectViewController.swift
+//  CreateNewProjectViewController.swift
 //  Project Butler
 //
-//  Created by Neal on 2020/1/30.
+//  Created by Neal on 2020/2/3.
 //  Copyright © 2020 neal812220. All rights reserved.
 //
 
 import UIKit
+import Firebase
 
 class NewProjectViewController: UIViewController {
+    
+    lazy var tableView: UITableView = {
+        let tv = UITableView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.dataSource = self
+        tv.delegate = self
+        tv.rowHeight = UITableView.automaticDimension
+        let topNib = UINib(nibName: "NewProjectTableViewCell", bundle: nil)
+        let workItemNib = UINib(nibName: "WorkItemTableViewCell", bundle: nil)
+        tv.register(topNib, forCellReuseIdentifier: "cell")
+        tv.register(workItemNib, forCellReuseIdentifier: "workItemCell")
+        tv.backgroundColor = UIColor.Gray1
+        tv.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        tv.layer.cornerRadius = 60
+        tv.separatorStyle = .none
+        return tv
+    }()
+    
+    let backgroundView: UIView = {
+        let bv = UIView()
+        bv.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        bv.layer.cornerRadius = 60
+        bv.backgroundColor = UIColor.Gray1
+        bv.translatesAutoresizingMaskIntoConstraints = false
+        return bv
+    }()
+    
+    let startDatePicker: UIDatePicker = {
+        let startDatePicker = UIDatePicker()
+        startDatePicker.datePickerMode = .date
+        startDatePicker.date = NSDate() as Date
+        return startDatePicker
+    }()
+    
+    let endDatePicker: UIDatePicker = {
+        let endDatePicker = UIDatePicker()
+        endDatePicker.datePickerMode = .date
+        endDatePicker.date = NSDate() as Date
+        return endDatePicker
+    }()
+    
+    let activityView = UIActivityIndicatorView()
+    
+    let dateFormatter = DateFormatter()
+    
+    var membersArray: [FriendDetail] = []
+    
+    var workItemArray: [String] = []
+    
+    var startText = ""
+    
+    var endText = ""
 
-    @IBOutlet weak var backgroundView: UIView!
+    var inputProjectName = ""
     
-    @IBOutlet weak var projectLeaderfButton: UIButton!
-    @IBOutlet weak var dateButton: UIButton!
+    var totalDays = 0
     
-    @IBOutlet weak var memberButton: UIButton!
-    
-    @IBOutlet weak var workItemButton: UIButton!
-    
-    @IBOutlet weak var workItemTableView: UITableView!
-    
-    let cellBackgroundView = UIView()
+    var dateStatus = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        backgroundView.layer.cornerRadius = 60
+        let saveBarButton = UIBarButtonItem(title: "SAVE", style: .done, target: self, action: #selector(didTapSaveBarButton))
         
-        settingButtonInfo(button: projectLeaderfButton)
+        navigationController?.navigationBar.prefersLargeTitles = true
         
-        settingButtonInfo(button: dateButton)
+        navigationItem.title = LargeTitle.newProject.rawValue
         
-        settingButtonInfo(button: memberButton)
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
         
-        settingButtonInfo(button: workItemButton)
+        navigationItem.rightBarButtonItem = saveBarButton
+        setupTableView()
         
-        workItemTableView.dataSource = self
+        setupDatePicker()
         
-        workItemTableView.rowHeight = UITableView.automaticDimension
+        setupActivityView()
+    }
+    
+    func setupDatePicker() {
+                        
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+                        
+        startDatePicker.locale = NSLocale(localeIdentifier: "en-US") as Locale
         
-        cellBackgroundView.backgroundColor = UIColor.clear
+        startDatePicker.addTarget(self, action: #selector(datePickerChanged), for: .valueChanged)
         
-        self.navigationItem.title = LargeTitle.newProject.rawValue
-
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        endDatePicker.locale = NSLocale(localeIdentifier: "en-US") as Locale
+        
+        endDatePicker.addTarget(self, action: #selector(datePickerChanged), for: .valueChanged)
+    }
+    
+    func setupActivityView() {
+        
+        view.addSubview(activityView)
+        
+        NSLayoutConstraint.activate([
+            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityView.heightAnchor.constraint(equalToConstant: view.frame.width / 10),
+            activityView.widthAnchor.constraint(equalToConstant: view.frame.width / 10)
+        ])
+    }
+    
+    func setupTableView() {
+        
+        view.addSubview(backgroundView)
+        
+        backgroundView.addSubview(tableView)
+        
+        NSLayoutConstraint.activate([
+            
+            backgroundView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
+            backgroundView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            backgroundView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 300),
+            
+            tableView.topAnchor.constraint(equalTo: backgroundView.topAnchor),
+            tableView.leftAnchor.constraint(equalTo: backgroundView.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: backgroundView.rightAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    @objc func datePickerChanged(datePicker: UIDatePicker) {
+        
+        startText = dateFormatter.string(from: startDatePicker.date)
+        
+        let startDate = startDatePicker.date
+        
+        let endDate = endDatePicker.date
+        
+        if endDate >= startDate {
+            
+            dateStatus = true
+            
+        } else {
+            
+            dateStatus = false
+        }
+        
+        endText = dateFormatter.string(from: endDatePicker.date)
+        
+        guard let days = Calendar.current.dateComponents([.day], from: startDate, to: endDate).day else { return }
+        
+        totalDays = days
+        
+        tableView.reloadData()
+        
+        view.endEditing(true)
+        
+    }
+    
+    @objc func didTapSaveBarButton(sender: UIBarButtonItem) {
+        
+        createProject()
+    }
+    
+    func createProject() {
+        
+        guard let userId = UserDefaults.standard.value(forKey: "userID") as? String else {
+            return
+        }
+        
+        guard inputProjectName != "", startText != "", endText != "", membersArray.count != 0, dateStatus == true, workItemArray.count != 0 else {
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                 
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 23/255, green: 61/255, blue: 160/255, alpha: 1.0)]
+                PBProgressHUD.showFailure(text: "Please Check Input", viewController: self)
+            }
+            
+            return
+        }
         
-        // Do any additional setup after loading the view.
+        let currentUserRef = UserManager.shared.db.collection("users").document(userId)
+        
+        let hours = totalDays * 24
+        
+        var memberID : [String] = []
+        
+        var userRef: [DocumentReference] = []
+        
+        let projectID = UserManager.shared.db.collection("users").document().documentID
+        
+        for member in membersArray {
+            
+            let ref = referenceArray(uid: member.userID)
+            
+            memberID.append(member.userID)
+            
+            userRef.append(ref)
+        }
+        
+        userRef.append(currentUserRef)
+        
+        memberID.append(userId)
+        
+        let newProject = NewProject(projectName: inputProjectName,
+                                    projectLeaderID: userId,
+                                    startDate: startText,
+                                    endDate: endText,
+                                    projectMember: userRef,
+                                    projectMemberID: memberID,
+                                    totalDays: totalDays,
+                                    totalHours: hours,
+                                    projectID: projectID,
+                                    category: workItemArray
+                                    )
+    
+        activityView.startAnimating()
+        
+        ProjectManager.shared.createNewProject(projectID: projectID, newProject: newProject, completion: { result in
+            
+            switch result {
+                
+            case .success:
+                
+                PBProgressHUD.showSuccess(text: "Added Successfully", viewController: self)
+                
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
+                    
+                    self.navigationController?.popViewController(animated: true)
+                    
+                }
+
+            case .failure(let error):
+                
+                print(error)
+            }
+            
+            self.activityView.stopAnimating()
+        })
     }
     
-    func settingButtonInfo(button: UIButton) {
+    func referenceArray(uid: String) -> DocumentReference{
         
-        button.layer.borderWidth = 1
+        let ref = UserManager.shared.db.collection("users").document(uid)
         
-        button.layer.borderColor = UIColor.darkGray.cgColor
-        
-        button.layer.cornerRadius = 15
+        return ref
     }
     
-    @IBAction func pressedMember(_ sender: UIButton) {
-        
-    }
 }
 
 extension NewProjectViewController: UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        
+        if section == 0 {
+            
+            return 1
+            
+        } else {
+            
+            return workItemArray.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "workItemCell", for: indexPath) as? WorkItemTableViewCell else { return UITableViewCell()}
-        cell.selectedBackgroundView = cellBackgroundView
+        
+        if indexPath.section == 0 {
+            
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? NewProjectTableViewCell else { return UITableViewCell() }
+            
+            if dateStatus {
+                
+                cell.endDateTextField.textColor = UIColor.Black1
+                
+            } else {
+                
+                cell.endDateTextField.textColor = UIColor.red
+                
+            }
+            cell.leaderLabel.text = UserDefaults.standard.value(forKey: "userName") as? String
+            
+            cell.memeberInfo = membersArray
+            
+            cell.startDateTextField.inputView = startDatePicker
+            
+            cell.startDateTextField.text = startText
+            
+            cell.endDateTextField.inputView = endDatePicker
+            
+            cell.endDateTextField.text = endText
+            
+            cell.passProjectName = {
+                
+                self.inputProjectName = $0
+            }
+            
+            cell.transitionToMemberVC = { [weak self] _ in
+             
+                guard let selectMemeberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "SelectMemeberVC") as? SelectMembersViewController else {
+                    return
+                }
+                self?.show(selectMemeberVC, sender: nil)
+                
+                selectMemeberVC.passSelectMemeber = {
+                    
+                    self?.membersArray = $0
+                    
+                    tableView.reloadData()
+                }
+            }
+            
+            cell.passInputText = {
+                
+                self.workItemArray.insert($0, at: 0)
+                
+                tableView.insertRows(at: [IndexPath(row: 0, section: 1)], with: .left)
+                
+            }
+            
+            return cell
+            
+        } else {
+            
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "workItemCell", for: indexPath) as? WorkItemTableViewCell else { return UITableViewCell() }
+            
+            cell.workItemLabel.text = workItemArray[indexPath.row]
+            
+            cell.removeItem = {
+                
+                guard let indexPath = tableView.indexPath(for: $0) else {
+                    return
+                }
+                
+                self.workItemArray.remove(at: indexPath.row)
+                
+                tableView.deleteRows(at: [indexPath], with: .right)
+            }
+            return cell
+        }
+        
+    }
+    
+}
+
+extension NewProjectViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       
+    }
+}
+
+extension NewProjectViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        return 10
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProcessingCell", for: indexPath) as? ProcessingCollectionViewCell else { return UICollectionViewCell()}
         return cell
     }
     
