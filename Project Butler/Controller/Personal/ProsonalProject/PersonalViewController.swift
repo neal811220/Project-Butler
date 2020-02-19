@@ -12,59 +12,59 @@ class PersonalViewController: UIViewController {
     
     let searchButton: UIButton = {
         let searchImage = UIImage.asset(.Icons_32px_SearchProjectButton)
-        let bt = UIButton()
-        bt.setImage(searchImage, for: .normal)
-        bt.translatesAutoresizingMaskIntoConstraints = false
-        return bt
+        let button = UIButton()
+        button.setImage(searchImage, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     let addButton: UIButton = {
         let addrProjectImage = UIImage.asset(.Icons_32px_AddProjectButton)
-        let bt = UIButton()
-        bt.setImage(addrProjectImage, for: .normal)
-        bt.translatesAutoresizingMaskIntoConstraints = false
-        bt.isEnabled = true
-        return bt
+        let button = UIButton()
+        button.setImage(addrProjectImage, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isEnabled = true
+        return button
     }()
     
     let titleStackView: UIStackView = {
-        let st = UIStackView()
-        st.axis = NSLayoutConstraint.Axis.horizontal
-        st.distribution = UIStackView.Distribution.fillEqually
-        st.translatesAutoresizingMaskIntoConstraints = false
-        return st
+        let stackView = UIStackView()
+        stackView.axis = NSLayoutConstraint.Axis.horizontal
+        stackView.distribution = UIStackView.Distribution.fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
     let topButtonStackView: UIStackView = {
-        let st = UIStackView()
-        st.axis = NSLayoutConstraint.Axis.horizontal
-        st.distribution = UIStackView.Distribution.fillEqually
-        st.translatesAutoresizingMaskIntoConstraints = false
-        return st
+        let stackView = UIStackView()
+        stackView.axis = NSLayoutConstraint.Axis.horizontal
+        stackView.distribution = UIStackView.Distribution.fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
     let processingButton: UIButton = {
-        let bt = UIButton()
-        bt.setTitle("Processing", for: .normal)
-        bt.setTitleColor(UIColor.B1, for: .normal)
-        bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
-        bt.translatesAutoresizingMaskIntoConstraints = false
-        bt.isEnabled = true
-        bt.tag = 0
-        bt.addTarget(self, action: #selector(didTapStatusButton), for: .touchUpInside)
-        return bt
+        let button = UIButton()
+        button.setTitle("Processing", for: .normal)
+        button.setTitleColor(UIColor.B1, for: .normal)
+        button.titleLabel?.font = UIFont(name: "AmericanTypewriter-Bold", size: 25)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isEnabled = true
+        button.tag = 0
+        button.addTarget(self, action: #selector(didTapStatusButton), for: .touchUpInside)
+        return button
     }()
     
     let completedButton: UIButton = {
-        let bt = UIButton()
-        bt.setTitle("Completed", for: .normal)
-        bt.setTitleColor(UIColor.B1, for: .normal)
-        bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
-        bt.translatesAutoresizingMaskIntoConstraints = false
-        bt.isEnabled = true
-        bt.tag = 1
-        bt.addTarget(self, action: #selector(didTapStatusButton), for: .touchUpInside)
-        return bt
+        let button = UIButton()
+        button.setTitle("Completed", for: .normal)
+        button.setTitleColor(UIColor.B1, for: .normal)
+        button.titleLabel?.font = UIFont(name: "AmericanTypewriter-Bold", size: 25)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isEnabled = true
+        button.tag = 1
+        button.addTarget(self, action: #selector(didTapStatusButton), for: .touchUpInside)
+        return button
     }()
     
     let indicatorView: UIView = {
@@ -75,24 +75,37 @@ class PersonalViewController: UIViewController {
     }()
     
     let searchbarStackView: UIStackView = {
-        let st = UIStackView()
-        st.axis = NSLayoutConstraint.Axis.horizontal
-        st.translatesAutoresizingMaskIntoConstraints = false
-        return st
+        let stackView = UIStackView()
+        stackView.axis = NSLayoutConstraint.Axis.horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
     lazy var tableView: UITableView = {
-        let tb = UITableView()
-        tb.rowHeight = UITableView.automaticDimension
-        tb.translatesAutoresizingMaskIntoConstraints = false
-        tb.dataSource = self
-        tb.delegate = self
-        tb.separatorStyle = .none
+        
+        let tableView = UITableView()
+        
         let processingNib = UINib(nibName: "ProcessingTableViewCell", bundle: nil)
+        
         let completedNib = UINib(nibName: "CompletedTableViewCell", bundle: nil)
-        tb.register(processingNib, forCellReuseIdentifier: "ProcessingCell")
-        tb.register(completedNib, forCellReuseIdentifier: "CompletedCell")
-        return tb
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        tableView.dataSource = self
+        
+        tableView.delegate = self
+        
+        tableView.separatorStyle = .none
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        
+        tableView.register(processingNib, forCellReuseIdentifier: "ProcessingCell")
+        
+        tableView.register(completedNib, forCellReuseIdentifier: "CompletedCell")
+        
+        return tableView
     }()
     
     let searchBar: UISearchBar = {
@@ -110,12 +123,19 @@ class PersonalViewController: UIViewController {
     }()
     
     let searchLeader: UIButton = {
+        
         let searchImage = UIImage.asset(.Icons_32px_Leader)
+        
         let selectedImage = UIImage.asset(.Icons_32px_SearhLeader_Selected)
+        
         let bt = UIButton()
+        
         bt.setImage(searchImage, for: .normal)
+        
         bt.setImage(selectedImage, for: .selected)
+        
         bt.translatesAutoresizingMaskIntoConstraints = false
+        
         return bt
     }()
     
@@ -131,6 +151,8 @@ class PersonalViewController: UIViewController {
     
     var userProjectDetail: [NewProject] = []
     
+    var searchLeaderStaus = false
+    
     var memberDetail: [[AuthInfo]] = []
     
     let activityView = UIActivityIndicatorView()
@@ -145,6 +167,8 @@ class PersonalViewController: UIViewController {
         self.navigationItem.title = LargeTitle.personalProject.rawValue
         
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
+        
+        setupActivityView()
         
         setupStackView()
         
@@ -163,7 +187,9 @@ class PersonalViewController: UIViewController {
         
         titleStackView.isHidden = false
         
-        fetchUserProcessingProjcet()
+        filterArray()
+        
+        titleStackView.isHidden = false
         
     }
     
@@ -240,15 +266,11 @@ class PersonalViewController: UIViewController {
         case 0:
             
             fetchUserProcessingProjcet()
-            
-            filterArray()
-        
+                    
         case 1:
             
             fetchUserCompletedProject()
-            
-            filterArray()
-            
+                        
         default:
             
             break
@@ -373,22 +395,26 @@ class PersonalViewController: UIViewController {
                 
         if searchLeader.isSelected {
             
+            searchLeaderStaus = true
+            
             userProjectDetail = userProjectDetail.filter({ return $0.projectLeaderID == uid })
             
             fetchMemberDetail()
             
         } else {
             
+            searchLeaderStaus = false
+            
             switch checkButton {
-
+                
             case 0:
-
+                
                 fetchUserProcessingProjcet()
-
+                
             case 1:
-
+                
                 fetchUserCompletedProject()
-
+                
             default:
                 break
             }
@@ -514,6 +540,12 @@ extension PersonalViewController: UITableViewDataSource {
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProcessingCell") as? ProcessingTableViewCell else { return UITableViewCell() }
             
+            if searchLeaderStaus {
+                cell.leaderImage.isHidden = false
+            } else {
+                cell.leaderImage.isHidden = true
+            }
+            
             cell.members = memberDetail[indexPath.row]
             
             cell.titleLabel.text = userProjectDetail[indexPath.row].projectName
@@ -525,6 +557,12 @@ extension PersonalViewController: UITableViewDataSource {
             
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedCell") as? CompletedTableViewCell else { return UITableViewCell() }
+            
+            if searchLeaderStaus {
+                cell.leaderImage.isHidden = false
+            } else {
+                cell.leaderImage.isHidden = true
+            }
             
             cell.members = memberDetail[indexPath.row]
             
@@ -546,6 +584,21 @@ extension PersonalViewController: UITableViewDataSource {
 }
 
 extension PersonalViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let workLogVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "WorkLogVC") as? WorkLogViewController else {
+            return
+        }
+        
+        workLogVC.members = self.memberDetail[indexPath.row]
+        
+        workLogVC.projectDetail = self.userProjectDetail[indexPath.row]
+                
+        titleStackView.isHidden = true
+        
+        show(workLogVC, sender: nil)
+    }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         

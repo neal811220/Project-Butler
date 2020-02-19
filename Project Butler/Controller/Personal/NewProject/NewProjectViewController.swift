@@ -12,20 +12,34 @@ import Firebase
 class NewProjectViewController: UIViewController {
     
     lazy var tableView: UITableView = {
-        let tv = UITableView()
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.dataSource = self
-        tv.delegate = self
-        tv.rowHeight = UITableView.automaticDimension
+        
+        let tableView = UITableView()
+        
         let topNib = UINib(nibName: "NewProjectTableViewCell", bundle: nil)
+        
         let workItemNib = UINib(nibName: "WorkItemTableViewCell", bundle: nil)
-        tv.register(topNib, forCellReuseIdentifier: "cell")
-        tv.register(workItemNib, forCellReuseIdentifier: "workItemCell")
-        tv.backgroundColor = UIColor.Gray1
-        tv.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        tv.layer.cornerRadius = 60
-        tv.separatorStyle = .none
-        return tv
+        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        tableView.dataSource = self
+        
+        tableView.delegate = self
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        
+        tableView.register(topNib, forCellReuseIdentifier: "cell")
+        
+        tableView.register(workItemNib, forCellReuseIdentifier: "workItemCell")
+        
+        tableView.backgroundColor = UIColor.Gray1
+        
+        tableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        
+        tableView.layer.cornerRadius = 60
+        
+        tableView.separatorStyle = .none
+        
+        return tableView
     }()
     
     let backgroundView: UIView = {
@@ -80,6 +94,7 @@ class NewProjectViewController: UIViewController {
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
         
         navigationItem.rightBarButtonItem = saveBarButton
+        
         setupTableView()
         
         setupDatePicker()
@@ -134,8 +149,6 @@ class NewProjectViewController: UIViewController {
     
     @objc func datePickerChanged(datePicker: UIDatePicker) {
         
-        startText = dateFormatter.string(from: startDatePicker.date)
-        
         let startDate = startDatePicker.date
         
         let endDate = endDatePicker.date
@@ -149,11 +162,13 @@ class NewProjectViewController: UIViewController {
             dateStatus = false
         }
         
-        endText = dateFormatter.string(from: endDatePicker.date)
-        
         guard let days = Calendar.current.dateComponents([.day], from: startDate, to: endDate).day else { return }
-        
+
         totalDays = days
+        
+        startText = dateFormatter.string(from: startDatePicker.date)
+        
+        endText = dateFormatter.string(from: endDatePicker.date)
         
         tableView.reloadData()
         
@@ -204,7 +219,7 @@ class NewProjectViewController: UIViewController {
         userRef.append(currentUserRef)
         
         memberID.append(userId)
-        
+       
         let newProject = NewProject(projectName: inputProjectName,
                                     projectLeaderID: userId,
                                     startDate: startText,
@@ -214,7 +229,7 @@ class NewProjectViewController: UIViewController {
                                     totalDays: totalDays,
                                     totalHours: hours,
                                     projectID: projectID,
-                                    category: workItemArray
+                                    workItems: workItemArray
                                     )
     
         activityView.startAnimating()

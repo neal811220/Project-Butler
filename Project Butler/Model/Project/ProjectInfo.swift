@@ -31,20 +31,7 @@ struct NewProject: Codable {
     
     let projectID: String
     
-    let category: [String]
-}
-
-struct workItem: Codable {
-    
-    let itemID: String = ""
-    
-    let itemCategory: String = ""
-    
-    let itemContent: String = ""
-    
-    let userID: String
-    
-    let timeSpent: Int
+    let workItems: [String]
 }
 
 struct CompletedProject {
@@ -74,4 +61,25 @@ struct CompletedProject {
     let completedDate: String
     
     let completedHour: String
+}
+
+struct WorkLogContent: Codable {
+    
+    let userID: String
+    
+    let date: String
+    
+    let workItem: String
+    
+    let startTime: String
+    
+    let endTime: String
+    
+    let problem: String
+    
+    let workContent: String
+    
+    let hour: Int
+    
+    let minute: Int
 }

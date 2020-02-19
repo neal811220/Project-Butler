@@ -11,25 +11,44 @@ import UIKit
 class MemberListViewController: UIViewController {
     
     lazy var searchController: UISearchController = {
+        
         let search = UISearchController(searchResultsController: nil)
+        
         search.searchBar.placeholder = PlaceHolder.friendPlaceHolder.rawValue
+        
         search.obscuresBackgroundDuringPresentation = false
+        
         search.searchBar.sizeToFit()
+        
         search.searchBar.searchBarStyle = .prominent
+        
         search.searchBar.delegate = self
+        
         search.searchResultsUpdater = self
+        
         return search
     }()
     
     lazy var tableView: UITableView = {
+        
         let tableview = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .grouped)
+        
         tableview.translatesAutoresizingMaskIntoConstraints = false
+        
         tableview.rowHeight = UITableView.automaticDimension
+        
         let nib = UINib(nibName: "FriendListTableViewCell", bundle: nil)
+        
         tableview.register(nib, forCellReuseIdentifier: "FriendListCell")
+        
         tableview.separatorStyle = .none
+        
         tableview.dataSource = self
+        
         tableview.delegate = self
+        
+        tableview.rowHeight = UITableView.automaticDimension
+        
         return tableview
     }()
     
@@ -121,38 +140,10 @@ extension MemberListViewController: UITableViewDataSource {
         return datas[section].count
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        if section == 0 {
-            
-            return "Member"
-            
-        } else {
-            
-            return "Friend"
-            
-        }
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendListCell") as?
-            FriendListTableViewCell else { return UITableViewCell() }
-        
-        cell.delegate = self
-        
-        cell.leftButton.isHidden = true
-        
-        cell.rightButton.isHidden = false
-        
-        cell.rightButton.setImage(UIImage.asset(.Icons_64px_Check_Normal), for: .normal)
-        
-        cell.rightButton.setImage(UIImage.asset(.Icos_62px_Check_Selected), for: .selected)
-        
-        cell.friendImage.loadImage(datas[indexPath.section][indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
-        
-        cell.friendTitle.text = datas[indexPath.section][indexPath.row].userName
-        
-        cell.friendEmail.text = datas[indexPath.section][indexPath.row].userEmail
+            SelectMemberTableViewCell else { return UITableViewCell() }
         
         return cell
     }

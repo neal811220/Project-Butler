@@ -23,6 +23,21 @@
             </objects>
             <point key="canvasLocation" x="1705.7971014492755" y="221.65178571428569"/>
         </scene>
+        <!--Work Log View Controller-->
+        <scene sceneID="diD-2Y-LNm">
+            <objects>
+                <viewController storyboardIdentifier="WorkLogVC" id="Xar-eK-OlK" customClass="WorkLogViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="L1h-0T-Oxl">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="AvP-y9-zal"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DHT-Av-mLw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="119" y="897"/>
+        </scene>
         <!--Member List View Controller-->
         <scene sceneID="wk4-Ih-r9Z">
             <objects>
@@ -53,6 +68,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xxf-LF-aWR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1720.289855072464" y="896.65178571428567"/>
+        </scene>
+        <!--Work Log Content View Controller-->
+        <scene sceneID="cSa-GV-jTY">
+            <objects>
+                <viewController storyboardIdentifier="WorkLogContentVC" id="CfO-hy-FC3" customClass="WorkLogContentViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8a8-YZ-Yd3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="zes-aE-ytn"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zB4-pK-SgS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2562.3188405797105" y="896.65178571428567"/>
         </scene>
         <!--Personal View Controller-->
         <scene sceneID="xOU-YP-2t3">

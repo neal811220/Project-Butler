@@ -29,10 +29,35 @@ class ProjectManager {
     
     var members: [[AuthInfo]] = []
     
+    var workItemContent: [WorkLogContent] = []
+    
     func clearAll () {
         
         self.friendArray = []
         
+    }
+    
+    func uploadUserWorkLog(documentID: String, workLogContent: WorkLogContent, completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
+            return
+        }
+        
+        let docID = db.collection("projects").document(uid).collection("workLogs").document().documentID
+        
+        do {
+            
+            try db.collection("projects").document(documentID).collection("workLogs").document(docID).setData(from: workLogContent)
+            
+            completion(.success(()))
+            
+        } catch {
+            
+            print(error)
+            
+            completion(.failure(error))
+        }
+       
     }
     
     func createNewProject(projectID: String, newProject: NewProject, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -49,6 +74,41 @@ class ProjectManager {
         }
         
         completion(.success(()))
+    }
+    
+    func fetchUserProjectWorkLog(projectID: String, completion: @escaping (Result<[WorkLogContent], Error>) -> Void) {
+        
+        workItemContent = []
+        
+        guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
+            return
+        }
+        db.collection("projects").document(projectID).collection("workLogs").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
+            
+            guard let snapshot = snapshot, error == nil else {
+                return
+            }
+            
+            for document in snapshot.documents {
+                
+                do {
+                    
+                    guard let data = try document.data(as: WorkLogContent.self, decoder: Firestore.Decoder()) else {
+                        return
+                    }
+                    
+                    self.workItemContent.append(data)
+                    
+                } catch {
+                    
+                    completion(.failure(error))
+                    
+                }
+                
+                 completion(.success(self.workItemContent))
+            }
+            
+        }
     }
     
     func fetchMemberDetail(projectMember: [NewProject], completion: @escaping (Result<Void, Error>) -> Void) {
