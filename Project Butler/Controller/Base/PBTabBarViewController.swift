@@ -82,9 +82,10 @@ class PBTabBarViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         viewControllers = tabs.map({ $0.controller() })
         
+        self.tabBar.isTranslucent = false
     }
 
     // MARK: - UITabBarControllerDelegate

@@ -51,7 +51,37 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
     }
     
     @IBAction func pressedLoginButton(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
+        
+        if let email = userEmailTextField.text, let password = passwordTextField.text, email != "", password != ""{
+            
+            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+                
+                guard error == nil else { return PBProgressHUD.showFailure(text:
+                    "\(error!.localizedDescription)", viewController: self)}
+                
+                PBProgressHUD.showSuccess(text: "Sign up Success!", viewController: self)
+                
+                guard let userName = email.split(separator: "@").first else { return }
+                print(userName)
+                
+                let userImage = "Icons_32px_General"
+                
+                UserManager.shared.addGeneralUserData(name: String(userName), email: email, imageUrl: userImage)
+                
+                UserManager.shared.getLoginUserInfo()
+                
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+                    
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+            
+        } else {
+            
+            PBProgressHUD.showFailure(text: "Input Worng!", viewController: self)
+        }
+        
+        
     }
     
     @IBAction func pressedAppleLogin(_ sender: UIButton) {
@@ -80,12 +110,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
                         return
                     }
                     
-                    self.dismiss(animated: true, completion: nil)
+                    UserManager.shared.addSocialUserData()
                     
-                    guard let userName = Auth.auth().currentUser?.displayName, let userEmail = Auth.auth().currentUser?.email, let userImage = Auth.auth().currentUser?.photoURL?.absoluteString else { return }
-
-                    
-                    UserManager.shared.addUserData(name: userName, email: userEmail, imageUrl: userImage)
+                    UserManager.shared.getLoginUserInfo()
                     
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                         
@@ -130,10 +157,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
                if let error = error {
                    print(error.localizedDescription)
                }
-               
-               guard let userName = Auth.auth().currentUser?.displayName, let userEmail = Auth.auth().currentUser?.email, let userImage = Auth.auth().currentUser?.photoURL?.absoluteString else { return }
-               
-               UserManager.shared.addUserData(name: userName, email: userEmail, imageUrl: userImage)
+            
+            UserManager.shared.addSocialUserData()
+            
+            UserManager.shared.getLoginUserInfo()
                
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
                 self.dismiss(animated: true, completion: nil)
