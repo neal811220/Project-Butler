@@ -7,22 +7,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--New Project View Controller-->
-        <scene sceneID="9fd-up-cCa">
-            <objects>
-                <viewController storyboardIdentifier="NewProjectVC" id="byC-mJ-gTj" customClass="NewProjectViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="b7y-5u-VI7">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="2pg-6l-DuD"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="7n5-54-N2R"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SZJ-mb-DXc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1705.7971014492755" y="221.65178571428569"/>
-        </scene>
         <!--Work Log View Controller-->
         <scene sceneID="diD-2Y-LNm">
             <objects>
@@ -54,21 +38,6 @@
             </objects>
             <point key="canvasLocation" x="951" y="896"/>
         </scene>
-        <!--Select Members View Controller-->
-        <scene sceneID="hd4-Fz-D3G">
-            <objects>
-                <viewController storyboardIdentifier="SelectMemeberVC" id="2tk-Td-56N" customClass="SelectMembersViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Yl8-mj-gFG">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="0jD-f1-Jcn"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Xxf-LF-aWR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1720.289855072464" y="896.65178571428567"/>
-        </scene>
         <!--Work Log Content View Controller-->
         <scene sceneID="cSa-GV-jTY">
             <objects>
@@ -82,7 +51,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zB4-pK-SgS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2562.3188405797105" y="896.65178571428567"/>
+            <point key="canvasLocation" x="1804" y="897"/>
         </scene>
         <!--Personal View Controller-->
         <scene sceneID="xOU-YP-2t3">

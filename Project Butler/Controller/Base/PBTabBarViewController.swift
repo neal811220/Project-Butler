@@ -12,11 +12,11 @@ private enum Tab {
 
     case personal
 
-    case report
-
     case friendList
 
     case profile
+    
+    case newProject
 
     func controller() -> UIViewController {
 
@@ -26,11 +26,11 @@ private enum Tab {
 
         case .personal: controller = UIStoryboard.personal.instantiateInitialViewController()!
 
-        case .report: controller = UIStoryboard.report.instantiateInitialViewController()!
-
         case .friendList: controller = UIStoryboard.friendList.instantiateInitialViewController()!
 
         case .profile: controller = UIStoryboard.profile.instantiateInitialViewController()!
+            
+        case .newProject: controller = UIStoryboard.newProject.instantiateInitialViewController()!
 
         }
 
@@ -51,12 +51,12 @@ private enum Tab {
                 image: UIImage.asset(.Icons_32px_List_Normal),
                 selectedImage: UIImage.asset(.Icons_32px_List_Selected)
             )
-
-        case .report:
+            
+        case .newProject:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.asset(.Icons_32px_report_Normal),
-                selectedImage: UIImage.asset(.Icons_32px_report_Selected)
+                image: UIImage.asset(.Icons_32px_Profile_Normal),
+                selectedImage: UIImage.asset(.Icons_32px_Profile_Selected)
             )
 
         case .friendList:
@@ -78,7 +78,7 @@ private enum Tab {
 
 class PBTabBarViewController: UITabBarController {
 
-    private let tabs: [Tab] = [.personal, .report, .friendList, .profile]
+    private let tabs: [Tab] = [.personal, .newProject, .friendList, .profile]
     
     override func viewDidLoad() {
         super.viewDidLoad()

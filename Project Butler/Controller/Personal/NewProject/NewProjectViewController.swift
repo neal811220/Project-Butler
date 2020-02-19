@@ -83,6 +83,8 @@ class NewProjectViewController: UIViewController {
     
     var dateStatus = false
     
+    var didCreate = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let saveBarButton = UIBarButtonItem(title: "SAVE", style: .done, target: self, action: #selector(didTapSaveBarButton))
@@ -182,7 +184,7 @@ class NewProjectViewController: UIViewController {
     }
     
     func createProject() {
-        
+                
         guard let userId = UserDefaults.standard.value(forKey: "userID") as? String else {
             return
         }
@@ -242,12 +244,8 @@ class NewProjectViewController: UIViewController {
                 
                 PBProgressHUD.showSuccess(text: "Added Successfully", viewController: self)
                 
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
-                    
-                    self.navigationController?.popViewController(animated: true)
-                    
-                }
-
+                self.tableView.reloadData()
+                                
             case .failure(let error):
                 
                 print(error)
@@ -287,8 +285,9 @@ extension NewProjectViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        
         if indexPath.section == 0 {
-            
+        
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? NewProjectTableViewCell else { return UITableViewCell() }
             
             if dateStatus {
@@ -319,7 +318,7 @@ extension NewProjectViewController: UITableViewDataSource {
             
             cell.transitionToMemberVC = { [weak self] _ in
              
-                guard let selectMemeberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "SelectMemeberVC") as? SelectMembersViewController else {
+                guard let selectMemeberVC = UIStoryboard.newProject.instantiateViewController(withIdentifier: "SelectMemeberVC") as? SelectMembersViewController else {
                     return
                 }
                 self?.show(selectMemeberVC, sender: nil)

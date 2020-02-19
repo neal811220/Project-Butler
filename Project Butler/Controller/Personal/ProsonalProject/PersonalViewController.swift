@@ -18,15 +18,6 @@ class PersonalViewController: UIViewController {
         return button
     }()
     
-    let addButton: UIButton = {
-        let addrProjectImage = UIImage.asset(.Icons_32px_AddProjectButton)
-        let button = UIButton()
-        button.setImage(addrProjectImage, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.isEnabled = true
-        return button
-    }()
-    
     let titleStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = NSLayoutConstraint.Axis.horizontal
@@ -237,13 +228,6 @@ class PersonalViewController: UIViewController {
             
         }
         
-    }
-    
-    @objc func didTouchAddBtn(sender: UIButton) {
-        
-        guard let newProjectVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "NewProjectVC") as? NewProjectViewController else { return }
-        titleStackView.isHidden = true
-        show(newProjectVC, sender: nil)
     }
     
     @objc func didTapStatusButton(sender: UIButton) {
@@ -482,13 +466,9 @@ class PersonalViewController: UIViewController {
         navigationController?.navigationBar.addSubview(titleStackView)
         
         titleStackView.addArrangedSubview(searchButton)
-        
-        titleStackView.addArrangedSubview(addButton)
-        
+                
         searchButton.addTarget(self, action: #selector(didTouchSearchBtn), for: .touchUpInside)
-        
-        addButton.addTarget(self, action: #selector(didTouchAddBtn), for: .touchUpInside)
-        
+                
         NSLayoutConstraint.activate([
             titleStackView.bottomAnchor.constraint(equalTo: navigationbar.bottomAnchor, constant: -10),
             titleStackView.rightAnchor.constraint(equalTo: navigationbar.rightAnchor, constant: -15),

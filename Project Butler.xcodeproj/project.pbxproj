@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		182A42F023E305D6002D8013 /* Personal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 182A42EF23E305D6002D8013 /* Personal.storyboard */; };
 		182A856523F2A6D400D5394F /* ProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182A856423F2A6D400D5394F /* ProjectManager.swift */; };
+		183BC5AC23FD4D33002A76CF /* NewProject.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 183BC5AB23FD4D33002A76CF /* NewProject.storyboard */; };
 		1844082323E541D000A879F7 /* FriendListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1844082123E541D000A879F7 /* FriendListTableViewCell.swift */; };
 		1844082423E541D000A879F7 /* FriendListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1844082223E541D000A879F7 /* FriendListTableViewCell.xib */; };
 		1844082623E56F4100A879F7 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1844082523E56F4100A879F7 /* UserManager.swift */; };
@@ -78,6 +79,7 @@
 		182A42EF23E305D6002D8013 /* Personal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Personal.storyboard; sourceTree = "<group>"; };
 		182A856423F2A6D400D5394F /* ProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectManager.swift; sourceTree = "<group>"; };
 		183BC5AA23FCF4F2002A76CF /* Project Butler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Project Butler.entitlements"; sourceTree = "<group>"; };
+		183BC5AB23FD4D33002A76CF /* NewProject.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewProject.storyboard; sourceTree = "<group>"; };
 		1844082123E541D000A879F7 /* FriendListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListTableViewCell.swift; sourceTree = "<group>"; };
 		1844082223E541D000A879F7 /* FriendListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendListTableViewCell.xib; sourceTree = "<group>"; };
 		1844082523E56F4100A879F7 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 				18A059D423E3D824002860B6 /* FriendList.storyboard */,
 				18AD1F3A23DB4A3F00C75504 /* Login.storyboard */,
 				18A059C023E3CC66002860B6 /* Report.storyboard */,
+				183BC5AB23FD4D33002A76CF /* NewProject.storyboard */,
 				18A059C323E3CC95002860B6 /* Profile.storyboard */,
 				182A42EF23E305D6002D8013 /* Personal.storyboard */,
 				1861E10F23D7F71500673640 /* LaunchScreen.storyboard */,
@@ -567,6 +570,7 @@
 				1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */,
 				18E32EDB23EF01E20054D592 /* ProcessingCollectionViewCell.xib in Resources */,
 				1861E10E23D7F71500673640 /* Assets.xcassets in Resources */,
+				183BC5AC23FD4D33002A76CF /* NewProject.storyboard in Resources */,
 				18AD1F3B23DB4A3F00C75504 /* Login.storyboard in Resources */,
 				18CE586523F8408B00D47A2D /* WorkLogTableViewCell.xib in Resources */,
 				1861E10C23D7F71400673640 /* Main.storyboard in Resources */,
