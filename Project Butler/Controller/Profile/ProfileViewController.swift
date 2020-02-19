@@ -23,6 +23,15 @@ class ProfileViewController: UIViewController {
         
         updatePasswordAlert()
     }
+    
+    @IBAction func reportButton(_ sender: UIButton) {
+        
+        guard let report = UIStoryboard(name: "Report", bundle: nil).instantiateViewController(withIdentifier: "ReportVC") as? ReportViewController else {
+            return
+        }
+        show(report, sender: nil)
+    }
+    
     @IBAction func login(_ sender: UIButton) {
         
         guard let loginVC = UIStoryboard.login.instantiateViewController(identifier: "LoginPage") as? LoginViewController else { return }

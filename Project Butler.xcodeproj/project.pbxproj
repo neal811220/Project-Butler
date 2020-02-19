@@ -41,6 +41,12 @@
 		18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */; };
 		18B9590D23EFCDE400C6E8EB /* ProjectColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B9590C23EFCDE400C6E8EB /* ProjectColor.swift */; };
 		18B9591723F0432600C6E8EB /* NewProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B9591623F0432600C6E8EB /* NewProject.swift */; };
+		18BA50C123FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BA50BF23FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.swift */; };
+		18BA50C223FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18BA50C023FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.xib */; };
+		18BA50C623FD664600DEE0B3 /* ReportContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BA50C423FD664600DEE0B3 /* ReportContentCollectionViewCell.swift */; };
+		18BA50C723FD664600DEE0B3 /* ReportContentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18BA50C523FD664600DEE0B3 /* ReportContentCollectionViewCell.xib */; };
+		18BA50CA23FD798300DEE0B3 /* ReportContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BA50C823FD798300DEE0B3 /* ReportContentTableViewCell.swift */; };
+		18BA50CB23FD798300DEE0B3 /* ReportContentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18BA50C923FD798300DEE0B3 /* ReportContentTableViewCell.xib */; };
 		18BC87D123F5683600D97F74 /* ProjectInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC87D023F5683600D97F74 /* ProjectInfo.swift */; };
 		18BEF14723E977C200CC401C /* KingFisherWapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BEF14623E977C200CC401C /* KingFisherWapper.swift */; };
 		18CE585A23F7D47600D47A2D /* NumberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CE585923F7D47600D47A2D /* NumberCollectionViewCell.swift */; };
@@ -113,6 +119,12 @@
 		18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ResetPasswordViewController.swift; path = "/Users/apple/Desktop/Project Butler/Project Butler/Controller/ResetPasswordViewController.swift"; sourceTree = "<absolute>"; };
 		18B9590C23EFCDE400C6E8EB /* ProjectColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectColor.swift; sourceTree = "<group>"; };
 		18B9591623F0432600C6E8EB /* NewProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProject.swift; sourceTree = "<group>"; };
+		18BA50BF23FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTitleCollectionViewCell.swift; sourceTree = "<group>"; };
+		18BA50C023FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportTitleCollectionViewCell.xib; sourceTree = "<group>"; };
+		18BA50C423FD664600DEE0B3 /* ReportContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportContentCollectionViewCell.swift; sourceTree = "<group>"; };
+		18BA50C523FD664600DEE0B3 /* ReportContentCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportContentCollectionViewCell.xib; sourceTree = "<group>"; };
+		18BA50C823FD798300DEE0B3 /* ReportContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportContentTableViewCell.swift; sourceTree = "<group>"; };
+		18BA50C923FD798300DEE0B3 /* ReportContentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportContentTableViewCell.xib; sourceTree = "<group>"; };
 		18BC87D023F5683600D97F74 /* ProjectInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectInfo.swift; sourceTree = "<group>"; };
 		18BEF14623E977C200CC401C /* KingFisherWapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingFisherWapper.swift; sourceTree = "<group>"; };
 		18CE585923F7D47600D47A2D /* NumberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -404,6 +416,19 @@
 			path = UserInfo;
 			sourceTree = "<group>";
 		};
+		18BA50C323FD5FD700DEE0B3 /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				18BA50BF23FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.swift */,
+				18BA50C023FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.xib */,
+				18BA50C423FD664600DEE0B3 /* ReportContentCollectionViewCell.swift */,
+				18BA50C523FD664600DEE0B3 /* ReportContentCollectionViewCell.xib */,
+				18BA50C823FD798300DEE0B3 /* ReportContentTableViewCell.swift */,
+				18BA50C923FD798300DEE0B3 /* ReportContentTableViewCell.xib */,
+			);
+			path = Report;
+			sourceTree = "<group>";
+		};
 		18CE586123F83FFB00D47A2D /* WorkLog */ = {
 			isa = PBXGroup;
 			children = (
@@ -438,6 +463,7 @@
 		18D93DCC23EEC272005398B7 /* PersonalProject */ = {
 			isa = PBXGroup;
 			children = (
+				18BA50C323FD5FD700DEE0B3 /* Report */,
 				18CE586623F8409300D47A2D /* WorkLog */,
 				18CE586723F840A600D47A2D /* NumberCell */,
 				18E32EDC23EF01EE0054D592 /* Processing */,
@@ -561,10 +587,13 @@
 				18A059C123E3CC66002860B6 /* Report.storyboard in Resources */,
 				188FE73E23E7F0E800DDF30C /* WorkItemTableViewCell.xib in Resources */,
 				18A059C423E3CC95002860B6 /* Profile.storyboard in Resources */,
+				18BA50CB23FD798300DEE0B3 /* ReportContentTableViewCell.xib in Resources */,
 				1861E11123D7F71500673640 /* LaunchScreen.storyboard in Resources */,
 				18F0E37E23F3F2A000149F8F /* SelectMemberTableViewCell.xib in Resources */,
 				18CE585C23F7D4A800D47A2D /* NumberCollectionViewCell.xib in Resources */,
+				18BA50C723FD664600DEE0B3 /* ReportContentCollectionViewCell.xib in Resources */,
 				188FE73A23E7F05700DDF30C /* NewProjectTableViewCell.xib in Resources */,
+				18BA50C223FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.xib in Resources */,
 				18CE586B23F8412A00D47A2D /* WorkLogCollectionViewCell.xib in Resources */,
 				18F0E38223F46E8500149F8F /* MemberCollectionViewCell.xib in Resources */,
 				1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */,
@@ -654,9 +683,11 @@
 				18D93DCA23EEC268005398B7 /* ProcessingTableViewCell.swift in Sources */,
 				18D93DC723EEA225005398B7 /* UIColor+Extension.swift in Sources */,
 				1844082623E56F4100A879F7 /* UserManager.swift in Sources */,
+				18BA50C623FD664600DEE0B3 /* ReportContentCollectionViewCell.swift in Sources */,
 				18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */,
 				18CE586423F8408B00D47A2D /* WorkLogTableViewCell.swift in Sources */,
 				182A856523F2A6D400D5394F /* ProjectManager.swift in Sources */,
+				18BA50C123FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.swift in Sources */,
 				18D2494823EED9C3006528A6 /* CompletedTableViewCell.swift in Sources */,
 				1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */,
 				1895D75123E3C51F00207016 /* PBTabBarViewController.swift in Sources */,
@@ -680,6 +711,7 @@
 				18E32EE023EF023E0054D592 /* CompletedCollectionViewCell.swift in Sources */,
 				18E32EDA23EF01E20054D592 /* ProcessingCollectionViewCell.swift in Sources */,
 				18AD1F3F23DB4AF600C75504 /* SignupViewController.swift in Sources */,
+				18BA50CA23FD798300DEE0B3 /* ReportContentTableViewCell.swift in Sources */,
 				18B9590D23EFCDE400C6E8EB /* ProjectColor.swift in Sources */,
 				18F0E37823F3C79900149F8F /* SearchBarInfo.swift in Sources */,
 				1844082323E541D000A879F7 /* FriendListTableViewCell.swift in Sources */,
