@@ -30,6 +30,8 @@ class ReportViewController: UIViewController {
         collectionView.dataSource = self
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+    
+        collectionView.backgroundColor = UIColor.orange
         
         return collectionView
     }()
@@ -42,12 +44,14 @@ class ReportViewController: UIViewController {
         
         layout.scrollDirection = .horizontal
         
+        layout.minimumLineSpacing = 0
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         collectionView.isPagingEnabled = true
         
         collectionView.register(nib, forCellWithReuseIdentifier: "ReportContentCell")
-                
+        
         collectionView.backgroundColor = UIColor.clear
         
         collectionView.delegate = self
@@ -56,12 +60,18 @@ class ReportViewController: UIViewController {
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
+        collectionView.backgroundColor = UIColor.blue
+        
         return collectionView
     }()
     
     var chartModel: AAChartModel!
     
     var chartType: AAChartType!
+    
+    var timeArray: [String] = []
+    
+    var contentArray: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,6 +85,14 @@ class ReportViewController: UIViewController {
         setupTitleCollectionView()
         
         setupContentCollectionView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        print(titlecollectionView.frame)
+        
+        print(contentcollectionView.frame)
     }
     
     func setupTitleCollectionView() {
@@ -97,50 +115,40 @@ class ReportViewController: UIViewController {
             contentcollectionView.topAnchor.constraint(equalTo: titlecollectionView.bottomAnchor),
             contentcollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
             contentcollectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            contentcollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            contentcollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
     func setupContentView() -> AAChartView {
         
         let chartView:AAChartView = AAChartView()
-        
-        self.view.addSubview(chartView)
-                
+                    
         chartView.translatesAutoresizingMaskIntoConstraints = false
         
-        chartView.frame = self.view.bounds
-        
-//        NSLayoutConstraint.activate([
-//            chartView.topAnchor.constraint(equalTo: self.view.topAnchor),
-//            chartView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-//            chartView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-//            chartView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-//        ])
+//        chartView.frame = self.view.bounds
         
         chartModel = AAChartModel()
-            .chartType(.pie)//Can be any of the chart types listed under `AAChartType`.
+            .chartType(.spline)//Can be any of the chart types listed under `AAChartType`.
             .animationType(.bounce)
             .title("TITLE")//The chart title
             .subtitle("subtitle")//The chart subtitle
             .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
             .tooltipValueSuffix("USD")//the value suffix of the chart tooltip
-            .categories(["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"])
+            .categories(["Jan", "Feb", "Mar", "Apr", "May", "Jun"])
             .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
             .series([
                 AASeriesElement()
                     .name("Tokyo")
-                    .data([7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]),
+                    .data([7.0, 6.9, 9.5, 14.5, 18.2, 21.5]),
                 AASeriesElement()
                     .name("New York")
-                    .data([0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]),
+                    .data([0.2, 0.8, 5.7, 11.3, 17.0, 22.0]),
                 AASeriesElement()
                     .name("Berlin")
-                    .data([0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]),
+                    .data([0.9, 0.6, 3.5, 8.4, 13.5, 17.0]),
                 AASeriesElement()
                     .name("London")
-                    .data([3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]),
+                    .data([3.9, 4.2, 5.7, 8.5, 11.9, 15.2]),
                     ])
         chartView.aa_drawChartWithChartModel(chartModel!)
         
@@ -182,7 +190,7 @@ extension ReportViewController: UICollectionViewDataSource {
             
             cell.tableView.dataSource = self
             
-            cell.tableView.rowHeight = self.view.frame.height
+            cell.tableView.rowHeight = UITableView.automaticDimension
             
             cell.tableView.register(UINib(nibName: "ReportContentTableViewCell", bundle: nil), forCellReuseIdentifier: "ReportContentCell")
             
@@ -203,7 +211,7 @@ extension ReportViewController: UICollectionViewDelegateFlowLayout {
             
         } else {
             
-            return CGSize(width: view.frame.width, height: view.frame.height)
+            return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
         }
         
     }
@@ -221,14 +229,31 @@ extension ReportViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ReportContentCell", for: indexPath) as? ReportContentTableViewCell else {
             return UITableViewCell()
-            
+
         }
+
+        let chartView = setupContentView()
         
-        cell.chartContentView.addSubview(setupContentView())
+        cell.contentView.addSubview(chartView)
+
+        NSLayoutConstraint.activate([
+            chartView.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+            chartView.leftAnchor.constraint(equalTo: cell.contentView.leftAnchor),
+            chartView.rightAnchor.constraint(equalTo: cell.contentView.rightAnchor),
+            chartView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -100),
+            chartView.heightAnchor.constraint(equalToConstant: contentcollectionView.frame.height)
+        ])
         
         return cell
+        
+//        let cell = UITableViewCell()
+//
+//        cell.backgroundColor = UIColor.red
+//
+//        return cell
     }
     
     

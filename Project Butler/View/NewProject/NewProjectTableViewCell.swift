@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol NewProjectTableViewCellDelegate: AnyObject {
+    
+    func didSaveProject(projectName: String, workItem: String)
+}
+
 class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     @IBOutlet weak var leaderLabel: UILabel!
@@ -21,8 +26,10 @@ class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var startDateTextField: UITextField!
     
     @IBOutlet weak var endDateTextField: UITextField!
-    
+        
     let nib = UINib(nibName: "MemberCollectionViewCell", bundle: nil)
+    
+    weak var delegate: NewProjectTableViewCellDelegate?
     
     var passInputText: ((String) -> Void)?
     
@@ -41,7 +48,14 @@ class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
         
         textField.resignFirstResponder()
         
-        passProjectName?(projectNameTextField.text ?? "")
+        guard let projectName = projectNameTextField.text, let workItem = workItemTextField.text else{
+            return
+        }
+        
+        delegate?.didSaveProject(projectName: projectName, workItem: workItem)
+        
+//        passProjectName?(projectNameTextField.text ?? "")
+        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

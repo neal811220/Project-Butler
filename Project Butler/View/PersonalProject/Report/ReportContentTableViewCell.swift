@@ -10,7 +10,7 @@ import UIKit
 
 class ReportContentTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var chartContentView: UIView!
+//    @IBOutlet weak var chartContentView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

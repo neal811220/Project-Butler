@@ -16,22 +16,19 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="432"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oAM-8W-BxU">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="432"/>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k6n-P2-wDw">
+                        <rect key="frame" x="36" y="380" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="oAM-8W-BxU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Zta-fq-If3"/>
-                    <constraint firstAttribute="trailing" secondItem="oAM-8W-BxU" secondAttribute="trailing" id="bdz-FQ-GRe"/>
-                    <constraint firstItem="oAM-8W-BxU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="g2o-Gh-LG3"/>
-                    <constraint firstAttribute="bottom" secondItem="oAM-8W-BxU" secondAttribute="bottom" id="h4n-x0-ShI"/>
+                    <constraint firstItem="k6n-P2-wDw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="20" id="BIM-OZ-M37"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="k6n-P2-wDw" secondAttribute="bottom" constant="20" id="iLx-HO-rT1"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
-            <connections>
-                <outlet property="chartContentView" destination="oAM-8W-BxU" id="uIJ-xr-UMs"/>
-            </connections>
             <point key="canvasLocation" x="137.68115942028987" y="231.69642857142856"/>
         </tableViewCell>
     </objects>
