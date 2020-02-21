@@ -74,6 +74,9 @@ enum ImageAsset: String {
     case Icons_32px_AddWorkLog
     
     case Icons_32px_LogDefaultImage
+    
+    //ReportButton
+    case Icons_32px_Report
 }
 
 extension UIImage {

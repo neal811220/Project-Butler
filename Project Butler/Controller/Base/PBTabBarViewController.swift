@@ -17,7 +17,7 @@ private enum Tab {
     case profile
     
     case newProject
-
+    
     func controller() -> UIViewController {
 
         var controller: UIViewController
@@ -31,7 +31,7 @@ private enum Tab {
         case .profile: controller = UIStoryboard.profile.instantiateInitialViewController()!
             
         case .newProject: controller = UIStoryboard.newProject.instantiateInitialViewController()!
-
+            
         }
 
         controller.tabBarItem = tabBarItem()

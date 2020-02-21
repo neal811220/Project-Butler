@@ -9,8 +9,8 @@
 import UIKit
 
 class ReportContentTableViewCell: UITableViewCell {
-
-//    @IBOutlet weak var chartContentView: UIView!
+        
+    @IBOutlet weak var totalHour: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

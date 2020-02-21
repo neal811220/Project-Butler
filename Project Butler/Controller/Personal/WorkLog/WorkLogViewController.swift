@@ -40,6 +40,19 @@ class WorkLogViewController: UIViewController {
         return button
     }()
     
+    let reportButton: UIButton = {
+        
+        let button = UIButton()
+        
+        let image = UIImage.asset(.Icons_32px_Report)
+        
+        button.setImage(image, for: .normal)
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }()
+    
     lazy var tableView: UITableView = {
         
         let tableView = UITableView()
@@ -182,7 +195,11 @@ class WorkLogViewController: UIViewController {
         
         view.addSubview(addLogButton)
         
+        view.addSubview(reportButton)
+        
         addLogButton.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
+        
+        reportButton.addTarget(self, action: #selector(didTapReportButton), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             projectlabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -196,6 +213,13 @@ class WorkLogViewController: UIViewController {
             addLogButton.leftAnchor.constraint(equalTo: projectlabel.rightAnchor, constant: 10),
             addLogButton.heightAnchor.constraint(equalToConstant: 30),
             addLogButton.widthAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        NSLayoutConstraint.activate([
+            reportButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            reportButton.leftAnchor.constraint(equalTo: addLogButton.rightAnchor, constant: 10),
+            reportButton.heightAnchor.constraint(equalToConstant: 30),
+            reportButton.widthAnchor.constraint(equalToConstant: 30)
         ])
         
     }
@@ -300,6 +324,35 @@ class WorkLogViewController: UIViewController {
             self.collectionView.reloadData()
         }
         present(workLogContentVC, animated: true, completion: nil)
+    }
+    
+    @objc func didTapReportButton() {
+        
+        guard let reportVC = UIStoryboard.report.instantiateViewController(withIdentifier: "ReportVC") as? ReportViewController else {
+            return
+        }
+        guard let id = projectDetail?.projectID else {
+            return
+        }
+        ProjectManager.shared.fetchTapProjectDetail(projectID: id) { (result) in
+            
+            switch result {
+                
+            case .success(let data):
+                                
+                reportVC.workLogContent = data
+                
+                reportVC.members = self.members
+                
+            case.failure(let error):
+                
+                print(error)
+            }
+            
+            self.show(reportVC, sender: nil)
+            
+        }
+        
     }
     
 }

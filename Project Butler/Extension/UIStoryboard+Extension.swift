@@ -22,6 +22,8 @@ private struct StoryboardCategory {
     
     static let newProject = "NewProject"
     
+    static let report = "Report"
+    
 }
 
 extension UIStoryboard {
@@ -37,6 +39,8 @@ extension UIStoryboard {
     static var login: UIStoryboard { return pbStoryboard(name: StoryboardCategory.login) }
     
     static var newProject: UIStoryboard { return pbStoryboard(name: StoryboardCategory.newProject)}
+    
+    static var report: UIStoryboard { return pbStoryboard(name: StoryboardCategory.report)}
 
     private static func pbStoryboard(name: String) -> UIStoryboard {
 
