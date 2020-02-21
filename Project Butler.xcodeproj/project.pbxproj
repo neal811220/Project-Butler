@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		180727AC23FFA0A400D67EFA /* ReportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180727AB23FFA0A400D67EFA /* ReportManager.swift */; };
 		182A42F023E305D6002D8013 /* Personal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 182A42EF23E305D6002D8013 /* Personal.storyboard */; };
 		182A856523F2A6D400D5394F /* ProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182A856423F2A6D400D5394F /* ProjectManager.swift */; };
 		183BC5AC23FD4D33002A76CF /* NewProject.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 183BC5AB23FD4D33002A76CF /* NewProject.storyboard */; };
@@ -82,6 +83,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		180727AB23FFA0A400D67EFA /* ReportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportManager.swift; sourceTree = "<group>"; };
 		182A42EF23E305D6002D8013 /* Personal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Personal.storyboard; sourceTree = "<group>"; };
 		182A856423F2A6D400D5394F /* ProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectManager.swift; sourceTree = "<group>"; };
 		183BC5AA23FCF4F2002A76CF /* Project Butler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Project Butler.entitlements"; sourceTree = "<group>"; };
@@ -173,6 +175,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		180727AD23FFA0B000D67EFA /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				180727AB23FFA0A400D67EFA /* ReportManager.swift */,
+			);
+			path = Report;
+			sourceTree = "<group>";
+		};
 		182A42F323E307AF002D8013 /* Personal */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,6 +253,7 @@
 			children = (
 				18F0E37723F3C79900149F8F /* SearchBarInfo.swift */,
 				18F0E37923F3C80100149F8F /* LargeTitleInfo.swift */,
+				180727AD23FFA0B000D67EFA /* Report */,
 				182A856623F2A6DE00D5394F /* Project */,
 				18B9591323EFD65500C6E8EB /* UserInfo */,
 				18B9590E23EFCDF500C6E8EB /* Personal */,
@@ -676,6 +687,7 @@
 				18F8CC3D23ED1993004D8420 /* CurrentUserInfo.swift in Sources */,
 				18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */,
 				18F0E37623F3C04700149F8F /* SelectMembersViewController.swift in Sources */,
+				180727AC23FFA0A400D67EFA /* ReportManager.swift in Sources */,
 				18F0E37A23F3C80100149F8F /* LargeTitleInfo.swift in Sources */,
 				18BC87D123F5683600D97F74 /* ProjectInfo.swift in Sources */,
 				18A059CC23E3CDC7002860B6 /* ReportViewController.swift in Sources */,

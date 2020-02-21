@@ -61,12 +61,17 @@ class ReportViewController: UIViewController {
         return collectionView
     }()
     
-    var chartModel: AAChartModel!
-    
-    var chartType: AAChartType!
-    
-    var aaa = ["2020-01-01", "2020-03-02", "2020-02-05", "2020-05-30"]
-    
+    lazy var reportPickerView: UIPickerView = {
+        
+        let pickerView = UIPickerView()
+        
+        pickerView.delegate = self
+        
+        pickerView.dataSource = self
+        
+        return pickerView
+    }()
+        
     var timeArray: [String] = []
     
     var contentArray: [String] = []
@@ -75,18 +80,32 @@ class ReportViewController: UIViewController {
     
     var members: [AuthInfo] = []
     
+    var pickerContent: [String] = []
+    
+//    var chartView:AAChartView = {
+//
+//        let view = AAChartView()
+//
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//
+//        return view
+//    }()
+    
+    let reportManager = ReportManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationController?.navigationBar.prefersLargeTitles = true
-        
+
         navigationItem.title = LargeTitle.report.rawValue
-        
+
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
-        
+                
         setupTitleCollectionView()
         
         setupContentCollectionView()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -121,139 +140,26 @@ class ReportViewController: UIViewController {
         ])
     }
     
-    func setupContentView() -> AAChartView {
+}
+
+extension ReportViewController: UIPickerViewDelegate {
+
+}
+
+extension ReportViewController: UIPickerViewDataSource {
+
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         
-        let chartView:AAChartView = AAChartView()
+        return pickerContent.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
-        var sortArray: [WorkLogContent] = []
-        
-        var dateArray: [String] = []
-        
-        var hourArray: [Int] = []
-        
-        var filterDate: [String] = []
-        
-        var seriesArray: [AASeriesElement] = []
-        
-        var allDate: [String] = []
-        
-        chartView.translatesAutoresizingMaskIntoConstraints = false
-        
-        sortArray = workLogContent.sorted(by: { $0.date < $1.date })
-        
-        for date in sortArray {
-            
-            allDate.append(date.date)
-        }
-        
-        for count1 in 0 ..< allDate.count {
-            
-            var isSame = false
-            
-            for count2 in count1 + 1 ..< allDate.count {
-                
-                if allDate[count1] == allDate[count2] {
-                    
-                    isSame = true
-                    
-                } else { }
-            }
-            if !isSame {
-                
-                filterDate.append(allDate[count1])
-            }
-        }
-        
-        for date in filterDate {
-            
-            let filterdate = date.components(separatedBy: "-")
-            
-            let fulldate = "\(filterdate[1])-\(filterdate[2])"
-            
-            dateArray.append(fulldate)
-            
-        }
-        
-        for count1 in 0 ..< filterDate.count {
-            
-            var counter = 0
-            
-            for count2 in 0 ..< sortArray.count {
-                
-                if filterDate[count1] == sortArray[count2].date {
-                    
-                    counter += sortArray[count2].hour
-                }
-            }
-            hourArray.append(counter)
-        }
-        
-        for count1 in 0 ..< hourArray.count {
-            
-            var isSame = false
-            
-            for count2 in 0 ..< sortArray.count {
-                
-                for count3 in count2 + 1 ..< sortArray.count {
-                    
-                    if sortArray[count2].date == sortArray[count3].date {
-                        
-                        isSame = true
-                        
-                    } else {
-                        
-                        isSame = false
-                        
-                        if isSame == false {
-                            
-                            let series = AASeriesElement() .data([hourArray[count1]])
-                            
-                            seriesArray.append(series)
-                        }
-                    }
-                }
-                
-            }
-        }
-        
-        //         let series = [AASeriesElement() .name("") .data([])]
-        
-        chartModel = AAChartModel()
-//            .chartType(.spline)//Can be any of the chart types listed under `AAChartType`.
-//            .animationType(.bounce)
-//            //            .title("ProjectName")//The chart title
-//            //            .subtitle("subtitle")//The chart subtitle
-//            .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
-//            .tooltipValueSuffix("Hour")//the value suffix of the chart tooltip
-//            .categories(dateArray)
-//            .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
-//            .series(test)
-        
-        .chartType(.spline)//Can be any of the chart types listed under `AAChartType`.
-        .animationType(.bounce)
-        .title("TITLE")//The chart title
-        .subtitle("subtitle")//The chart subtitle
-        .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
-        .tooltipValueSuffix("USD")//the value suffix of the chart tooltip
-        .categories(dateArray)
-        .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
-        .series([
-            AASeriesElement()
-                .name("Tokyo")
-                .data([7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2]),
-            AASeriesElement()
-                .name("New York")
-                .data([0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8]),
-            AASeriesElement()
-                .name("Berlin")
-                .data([0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6]),
-            AASeriesElement()
-                .name("London")
-                .data([3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0]),
-                ])
-        chartView.aa_drawChartWithChartModel(chartModel!)
-        
-        return chartView
+        return pickerContent[row]
     }
     
 }
@@ -267,7 +173,7 @@ extension ReportViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 10
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -284,15 +190,22 @@ extension ReportViewController: UICollectionViewDataSource {
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ReportContentCell", for: indexPath) as? ReportContentCollectionViewCell else {
                 return UICollectionViewCell()
+            }
+            
+            var chartModel = AAChartModel()
+            
+            if indexPath.row == 0 {
+                
+                chartModel = reportManager.dateChartView(workLogContent: workLogContent)
+                
+            } else {
+                
+                chartModel = reportManager.personalChartView(workLogContent: workLogContent)
                 
             }
             
-            cell.tableView.delegate = self
-            
-            cell.tableView.dataSource = self
-            
-            cell.tableView.rowHeight = UITableView.automaticDimension
-            
+            cell.chartModel = chartModel
+                        
             cell.tableView.register(UINib(nibName: "ReportContentTableViewCell", bundle: nil), forCellReuseIdentifier: "ReportContentCell")
             
             return cell
@@ -316,41 +229,4 @@ extension ReportViewController: UICollectionViewDelegateFlowLayout {
         }
         
     }
-}
-
-extension ReportViewController: UITableViewDelegate {
-    
-    
-}
-
-extension ReportViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ReportContentCell", for: indexPath) as? ReportContentTableViewCell else {
-            return UITableViewCell()
-            
-        }
-        
-        let chartView = setupContentView()
-        
-        cell.contentView.addSubview(chartView)
-        
-        NSLayoutConstraint.activate([
-            chartView.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-            chartView.leftAnchor.constraint(equalTo: cell.contentView.leftAnchor),
-            chartView.rightAnchor.constraint(equalTo: cell.contentView.rightAnchor),
-            chartView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -100),
-            chartView.heightAnchor.constraint(equalToConstant: contentcollectionView.frame.height)
-        ])
-        
-        return cell
-        
-    }
-    
-    
 }
