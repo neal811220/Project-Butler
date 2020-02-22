@@ -80,7 +80,7 @@ class ReportManager {
         .title("TITLE")//The chart title
         .subtitle("subtitle")//The chart subtitle
         .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
-        .tooltipValueSuffix("USD")//the value suffix of the chart tooltip
+        .tooltipValueSuffix("Hour")//the value suffix of the chart tooltip
         .categories(Array(category))
         .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
         .series([element])
@@ -151,12 +151,85 @@ class ReportManager {
         let element = AASeriesElement().name("User").data(seriesElement)
         
         chartModel = AAChartModel()
-        .chartType(.spline)//Can be any of the chart types listed under `AAChartType`.
+        .chartType(.areaspline)//Can be any of the chart types listed under `AAChartType`.
         .animationType(.bounce)
         .title("TITLE")//The chart title
         .subtitle("subtitle")//The chart subtitle
         .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
-        .tooltipValueSuffix("USD")//the value suffix of the chart tooltip
+        .tooltipValueSuffix("Hour")//the value suffix of the chart tooltip
+        .categories(Array(beforeSevenDates))
+        .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
+        .series([element])
+        
+        chartView.aa_drawChartWithChartModel(chartModel!)
+        
+        return chartModel
+    }
+    
+    func workItemChartView(workLogContent: [WorkLogContent], workItem: String = "Look") -> AAChartModel {
+        
+        var beforeSevenDates: [String] = []
+        
+        var workItemArray: [WorkLogContent] = []
+        
+        var resultDictionary: [String: [WorkLogContent]] = [:]
+        
+        for i in 1...7 {
+            
+            guard let date = Calendar.current.date(byAdding: .day, value: -i, to: Date()) else {
+                return AAChartModel()
+            }
+            
+            let dateString = formatter.string(from: date)
+            
+            beforeSevenDates.append(dateString)
+            
+        }
+        
+        beforeSevenDates = beforeSevenDates.sorted(by: { $0 < $1 })
+        
+        for item in workLogContent {
+            
+            if item.workItem == workItem {
+                
+                workItemArray.append(item)
+            }
+        }
+        
+        workItemArray = workItemArray.sorted(by: { $0.date < $1.date })
+        
+        for item in workItemArray {
+            
+            if let logContentArray = resultDictionary[item.date] {
+                
+               resultDictionary[item.date] = logContentArray + [item]
+                
+            } else {
+                
+                resultDictionary[item.date] = [item]
+            }
+        }
+        
+        var seriesElement: [Int] = []
+        
+        for item in beforeSevenDates {
+            
+            let workHour = resultDictionary[item]?.map{ $0.hour }.reduce(0, { (sum, num) in
+                return sum + num
+            })
+            
+            seriesElement.append(workHour ?? 0)
+        }
+        
+        let element = AASeriesElement().name("Item").data(seriesElement)
+        
+        chartModel = AAChartModel()
+        .chartType(.bar)//Can be any of the chart types listed under `AAChartType`.
+        .animationType(.bounce)
+        .title("TITLE")//The chart title
+        .subtitle("subtitle")//The chart subtitle
+        .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
+        .tooltipValueSuffix("Hour")//the value suffix of the chart tooltip
         .categories(Array(beforeSevenDates))
         .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
         .series([element])

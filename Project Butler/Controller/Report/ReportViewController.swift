@@ -82,15 +82,6 @@ class ReportViewController: UIViewController {
     
     var pickerContent: [String] = []
     
-//    var chartView:AAChartView = {
-//
-//        let view = AAChartView()
-//
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//
-//        return view
-//    }()
-    
     let reportManager = ReportManager()
     
     override func viewDidLoad() {
@@ -173,7 +164,7 @@ extension ReportViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 2
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -198,10 +189,13 @@ extension ReportViewController: UICollectionViewDataSource {
                 
                 chartModel = reportManager.dateChartView(workLogContent: workLogContent)
                 
-            } else {
+            } else if indexPath.row == 1{
                 
                 chartModel = reportManager.personalChartView(workLogContent: workLogContent)
                 
+            } else {
+                
+                chartModel = reportManager.workItemChartView(workLogContent: workLogContent)
             }
             
             cell.chartModel = chartModel
