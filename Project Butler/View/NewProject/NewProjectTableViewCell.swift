@@ -21,19 +21,32 @@ class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     @IBOutlet weak var memberCollectionView: UICollectionView!
     
+    @IBOutlet weak var colorCollectionView: UICollectionView!
+    
     @IBOutlet weak var workItemTextField: UITextField!
     
     @IBOutlet weak var startDateTextField: UITextField!
     
     @IBOutlet weak var endDateTextField: UITextField!
-        
+    
     let nib = UINib(nibName: "MemberCollectionViewCell", bundle: nil)
+    
+    let colorNib = UINib(nibName: "ColorCollectionViewCell", bundle: nil)
+    
+    let colorCellContainerView: UIView = {
+        
+        let view = UIView()
+        
+        view.backgroundColor = UIColor.red
+        
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
+        
+        return view
+    }()
     
     weak var delegate: NewProjectTableViewCellDelegate?
     
     var passInputText: ((String) -> Void)?
-    
-    var passProjectName: ((String) -> Void)?
     
     var memeberInfo: [FriendDetail] = [] {
         
@@ -41,6 +54,8 @@ class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
             memberCollectionView.reloadData()
         }
     }
+    
+    var colorArray: [String] = []
     
     var transitionToMemberVC: ((NewProjectTableViewCell) -> Void)?
     
@@ -53,8 +68,6 @@ class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
         }
         
         delegate?.didSaveProject(projectName: projectName, workItem: workItem)
-        
-//        passProjectName?(projectNameTextField.text ?? "")
         
     }
     
@@ -81,8 +94,7 @@ class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
         workItemTextField.delegate = self
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    func setupMemberCollectionView() {
         
         memberCollectionView.layer.shadowOpacity = 0.5
         
@@ -90,11 +102,26 @@ class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
         
         memberCollectionView.dataSource = self
         
-        memberCollectionView.delegate = self 
+        memberCollectionView.delegate = self
         
         memberCollectionView.register(nib, forCellWithReuseIdentifier: "MemberCell")
+    }
+    
+    func setupColorCollectionView() {
         
-        // Configure the view for the selected state
+        colorCollectionView.dataSource = self
+        
+        colorCollectionView.delegate = self
+        
+        colorCollectionView.register(colorNib, forCellWithReuseIdentifier: "ColorCell")
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        setupMemberCollectionView()
+        
+        setupColorCollectionView()
     }
     
 }
@@ -103,8 +130,8 @@ extension NewProjectTableViewCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        transitionToMemberVC?(self)
-        
+            transitionToMemberVC?(self)
+
     }
 }
 
@@ -112,33 +139,65 @@ extension NewProjectTableViewCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if memeberInfo.count == 0 {
+        switch collectionView {
+            
+        case memberCollectionView:
+            
+            if memeberInfo.count == 0 {
+                
+                return 1
+                
+            } else {
+                
+                return memeberInfo.count
+                
+            }
+            
+        case colorCollectionView:
             
             return 1
             
-        } else {
+        default:
             
-            return memeberInfo.count
-            
+            return 1
         }
         
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MemberCell", for: indexPath) as? MemberCollectionViewCell else { return UICollectionViewCell() }
-        
-        if memeberInfo.count == 0 {
+        if collectionView == memberCollectionView {
             
-            cell.memberImage.image = UIImage.asset(.Icons_32px_AddMembers)
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MemberCell", for: indexPath) as? MemberCollectionViewCell else { return UICollectionViewCell() }
+            
+            if memeberInfo.count == 0 {
+                
+                cell.memberImage.image = UIImage.asset(.Icons_32px_AddMembers)
+                
+            } else {
+                
+                cell.memberImage.loadImage(memeberInfo[indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
+                
+            }
+            
+            return cell
             
         } else {
             
-            cell.memberImage.loadImage(memeberInfo[indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCell", for: indexPath) as? ColorCollectionViewCell else { return UICollectionViewCell() }
+            
+            if colorArray.count == 0 {
+                
+                cell.colorImage.image = UIImage.asset(.Icons_64px_SelectColor)
+                
+            } else {
+                
+                cell.colorImage.loadImage(colorArray[indexPath.row])
+            }
+            
+            return cell
             
         }
-                
-        return cell
         
     }
     

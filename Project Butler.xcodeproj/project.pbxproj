@@ -21,6 +21,8 @@
 		1861E10E23D7F71500673640 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1861E10D23D7F71500673640 /* Assets.xcassets */; };
 		1861E11123D7F71500673640 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1861E10F23D7F71500673640 /* LaunchScreen.storyboard */; };
 		1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1861E11823D816C700673640 /* GoogleService-Info.plist */; };
+		1861EE642402C6B8009AFE0F /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861EE622402C6B8009AFE0F /* ColorCollectionViewCell.swift */; };
+		1861EE652402C6B8009AFE0F /* ColorCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1861EE632402C6B8009AFE0F /* ColorCollectionViewCell.xib */; };
 		188FE73423E7EEB300DDF30C /* NewProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188FE73323E7EEB300DDF30C /* NewProjectViewController.swift */; };
 		188FE73A23E7F05700DDF30C /* NewProjectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188FE73823E7F05700DDF30C /* NewProjectTableViewCell.xib */; };
 		188FE73E23E7F0E800DDF30C /* WorkItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188FE73C23E7F0E800DDF30C /* WorkItemTableViewCell.xib */; };
@@ -100,6 +102,8 @@
 		1861E11023D7F71500673640 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1861E11223D7F71500673640 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1861E11823D816C700673640 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1861EE622402C6B8009AFE0F /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
+		1861EE632402C6B8009AFE0F /* ColorCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorCollectionViewCell.xib; sourceTree = "<group>"; };
 		188FE73323E7EEB300DDF30C /* NewProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectViewController.swift; sourceTree = "<group>"; };
 		188FE73823E7F05700DDF30C /* NewProjectTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewProjectTableViewCell.xib; sourceTree = "<group>"; };
 		188FE73C23E7F0E800DDF30C /* WorkItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorkItemTableViewCell.xib; sourceTree = "<group>"; };
@@ -332,6 +336,8 @@
 		188FE73623E7EFA100DDF30C /* NewProject */ = {
 			isa = PBXGroup;
 			children = (
+				1861EE622402C6B8009AFE0F /* ColorCollectionViewCell.swift */,
+				1861EE632402C6B8009AFE0F /* ColorCollectionViewCell.xib */,
 				18F0E37B23F3F2A000149F8F /* SelectMemberTableViewCell.swift */,
 				18F0E37C23F3F2A000149F8F /* SelectMemberTableViewCell.xib */,
 				188FE73F23E8002200DDF30C /* NewProjectTableViewCell.swift */,
@@ -608,6 +614,7 @@
 				18CE586B23F8412A00D47A2D /* WorkLogCollectionViewCell.xib in Resources */,
 				18F0E38223F46E8500149F8F /* MemberCollectionViewCell.xib in Resources */,
 				1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */,
+				1861EE652402C6B8009AFE0F /* ColorCollectionViewCell.xib in Resources */,
 				18E32EDB23EF01E20054D592 /* ProcessingCollectionViewCell.xib in Resources */,
 				1861E10E23D7F71500673640 /* Assets.xcassets in Resources */,
 				183BC5AC23FD4D33002A76CF /* NewProject.storyboard in Resources */,
@@ -706,6 +713,7 @@
 				18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */,
 				18AA9EBB23E6B05100D390CE /* MemberListViewController.swift in Sources */,
 				18A059C623E3CCE3002860B6 /* ProfileViewController.swift in Sources */,
+				1861EE642402C6B8009AFE0F /* ColorCollectionViewCell.swift in Sources */,
 				1844082923E57AAB00A879F7 /* FriendInfo.swift in Sources */,
 				18BEF14723E977C200CC401C /* KingFisherWapper.swift in Sources */,
 				18E9F9BA23FA7E4E0078C7FB /* WorkLogContentViewController.swift in Sources */,

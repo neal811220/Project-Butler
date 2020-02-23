@@ -50,9 +50,11 @@ enum ImageAsset: String {
     
     case Icons_32px_Calendar
     
-    case Icons_32px_Member
+    case Icons_32px_Member 
     
     case Icons_32px_WorkItem
+    
+    case Icons_64px_SelectColor
     
     //PersonalRightButton
     case Icons_32px_SearchProjectButton
