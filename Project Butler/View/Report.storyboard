@@ -23,6 +23,21 @@
             </objects>
             <point key="canvasLocation" x="944.92753623188412" y="136.60714285714286"/>
         </scene>
+        <!--Report Content View Controller-->
+        <scene sceneID="xgb-Cz-dS8">
+            <objects>
+                <viewController storyboardIdentifier="ReportContentVC" id="sGt-iy-ZIB" customClass="ReportContentViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="idN-8c-0GF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Puh-2i-NAv"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="avG-2d-lPL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1741" y="137"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="sov-vB-Rga">
             <objects>

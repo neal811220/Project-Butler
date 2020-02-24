@@ -133,6 +133,7 @@ class UserManager {
         db.collection("users").document(id).collection("friends").document(uid).delete()
         
         db.collection("users").document(uid).collection("friends").document(id).delete()
+        
     }
     
     func acceptFrined(uid: String) {

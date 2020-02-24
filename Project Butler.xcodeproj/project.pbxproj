@@ -23,6 +23,13 @@
 		1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1861E11823D816C700673640 /* GoogleService-Info.plist */; };
 		1861EE642402C6B8009AFE0F /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861EE622402C6B8009AFE0F /* ColorCollectionViewCell.swift */; };
 		1861EE652402C6B8009AFE0F /* ColorCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1861EE632402C6B8009AFE0F /* ColorCollectionViewCell.xib */; };
+		1861EE6924039E06009AFE0F /* ReportContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861EE6824039E06009AFE0F /* ReportContentViewController.swift */; };
+		18635CEA2403A6DB00469168 /* ReportChartViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18635CE82403A6DB00469168 /* ReportChartViewTableViewCell.swift */; };
+		18635CEB2403A6DB00469168 /* ReportChartViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18635CE92403A6DB00469168 /* ReportChartViewTableViewCell.xib */; };
+		18635CF12403A84800469168 /* ReportChartPickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18635CEF2403A84800469168 /* ReportChartPickerTableViewCell.swift */; };
+		18635CF22403A84800469168 /* ReportChartPickerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18635CF02403A84800469168 /* ReportChartPickerTableViewCell.xib */; };
+		18635CF52403A87C00469168 /* ReportChartContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18635CF32403A87C00469168 /* ReportChartContentTableViewCell.swift */; };
+		18635CF62403A87C00469168 /* ReportChartContentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18635CF42403A87C00469168 /* ReportChartContentTableViewCell.xib */; };
 		188FE73423E7EEB300DDF30C /* NewProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188FE73323E7EEB300DDF30C /* NewProjectViewController.swift */; };
 		188FE73A23E7F05700DDF30C /* NewProjectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188FE73823E7F05700DDF30C /* NewProjectTableViewCell.xib */; };
 		188FE73E23E7F0E800DDF30C /* WorkItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188FE73C23E7F0E800DDF30C /* WorkItemTableViewCell.xib */; };
@@ -104,6 +111,13 @@
 		1861E11823D816C700673640 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1861EE622402C6B8009AFE0F /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		1861EE632402C6B8009AFE0F /* ColorCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorCollectionViewCell.xib; sourceTree = "<group>"; };
+		1861EE6824039E06009AFE0F /* ReportContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportContentViewController.swift; sourceTree = "<group>"; };
+		18635CE82403A6DB00469168 /* ReportChartViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChartViewTableViewCell.swift; sourceTree = "<group>"; };
+		18635CE92403A6DB00469168 /* ReportChartViewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportChartViewTableViewCell.xib; sourceTree = "<group>"; };
+		18635CEF2403A84800469168 /* ReportChartPickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChartPickerTableViewCell.swift; sourceTree = "<group>"; };
+		18635CF02403A84800469168 /* ReportChartPickerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportChartPickerTableViewCell.xib; sourceTree = "<group>"; };
+		18635CF32403A87C00469168 /* ReportChartContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChartContentTableViewCell.swift; sourceTree = "<group>"; };
+		18635CF42403A87C00469168 /* ReportChartContentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportChartContentTableViewCell.xib; sourceTree = "<group>"; };
 		188FE73323E7EEB300DDF30C /* NewProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectViewController.swift; sourceTree = "<group>"; };
 		188FE73823E7F05700DDF30C /* NewProjectTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewProjectTableViewCell.xib; sourceTree = "<group>"; };
 		188FE73C23E7F0E800DDF30C /* WorkItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorkItemTableViewCell.xib; sourceTree = "<group>"; };
@@ -305,6 +319,39 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		18635CEC2403A6E400469168 /* ChartView */ = {
+			isa = PBXGroup;
+			children = (
+				18635CE82403A6DB00469168 /* ReportChartViewTableViewCell.swift */,
+				18635CE92403A6DB00469168 /* ReportChartViewTableViewCell.xib */,
+				18635CEF2403A84800469168 /* ReportChartPickerTableViewCell.swift */,
+				18635CF02403A84800469168 /* ReportChartPickerTableViewCell.xib */,
+				18635CF32403A87C00469168 /* ReportChartContentTableViewCell.swift */,
+				18635CF42403A87C00469168 /* ReportChartContentTableViewCell.xib */,
+			);
+			path = ChartView;
+			sourceTree = "<group>";
+		};
+		18635CED2403A6F600469168 /* TitleCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				18BA50BF23FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.swift */,
+				18BA50C023FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.xib */,
+			);
+			path = TitleCollectionView;
+			sourceTree = "<group>";
+		};
+		18635CEE2403A70E00469168 /* ReportContent */ = {
+			isa = PBXGroup;
+			children = (
+				18BA50C423FD664600DEE0B3 /* ReportContentCollectionViewCell.swift */,
+				18BA50C523FD664600DEE0B3 /* ReportContentCollectionViewCell.xib */,
+				18BA50C823FD798300DEE0B3 /* ReportContentTableViewCell.swift */,
+				18BA50C923FD798300DEE0B3 /* ReportContentTableViewCell.xib */,
+			);
+			path = ReportContent;
+			sourceTree = "<group>";
+		};
 		1885EE6B23DA9B29005A4835 /* Third Party Wapper */ = {
 			isa = PBXGroup;
 			children = (
@@ -378,6 +425,7 @@
 			isa = PBXGroup;
 			children = (
 				18A059CB23E3CDC7002860B6 /* ReportViewController.swift */,
+				1861EE6824039E06009AFE0F /* ReportContentViewController.swift */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -436,12 +484,9 @@
 		18BA50C323FD5FD700DEE0B3 /* Report */ = {
 			isa = PBXGroup;
 			children = (
-				18BA50BF23FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.swift */,
-				18BA50C023FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.xib */,
-				18BA50C423FD664600DEE0B3 /* ReportContentCollectionViewCell.swift */,
-				18BA50C523FD664600DEE0B3 /* ReportContentCollectionViewCell.xib */,
-				18BA50C823FD798300DEE0B3 /* ReportContentTableViewCell.swift */,
-				18BA50C923FD798300DEE0B3 /* ReportContentTableViewCell.xib */,
+				18635CEC2403A6E400469168 /* ChartView */,
+				18635CED2403A6F600469168 /* TitleCollectionView */,
+				18635CEE2403A70E00469168 /* ReportContent */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -597,6 +642,7 @@
 			files = (
 				182A42F023E305D6002D8013 /* Personal.storyboard in Resources */,
 				18E9F99823FA348F0078C7FB /* WorkLogContentTableViewCell.xib in Resources */,
+				18635CF62403A87C00469168 /* ReportChartContentTableViewCell.xib in Resources */,
 				18A059D523E3D824002860B6 /* FriendList.storyboard in Resources */,
 				18D93DCB23EEC268005398B7 /* ProcessingTableViewCell.xib in Resources */,
 				18D2494923EED9C3006528A6 /* CompletedTableViewCell.xib in Resources */,
@@ -609,6 +655,7 @@
 				18F0E37E23F3F2A000149F8F /* SelectMemberTableViewCell.xib in Resources */,
 				18CE585C23F7D4A800D47A2D /* NumberCollectionViewCell.xib in Resources */,
 				18BA50C723FD664600DEE0B3 /* ReportContentCollectionViewCell.xib in Resources */,
+				18635CEB2403A6DB00469168 /* ReportChartViewTableViewCell.xib in Resources */,
 				188FE73A23E7F05700DDF30C /* NewProjectTableViewCell.xib in Resources */,
 				18BA50C223FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.xib in Resources */,
 				18CE586B23F8412A00D47A2D /* WorkLogCollectionViewCell.xib in Resources */,
@@ -619,6 +666,7 @@
 				1861E10E23D7F71500673640 /* Assets.xcassets in Resources */,
 				183BC5AC23FD4D33002A76CF /* NewProject.storyboard in Resources */,
 				18AD1F3B23DB4A3F00C75504 /* Login.storyboard in Resources */,
+				18635CF22403A84800469168 /* ReportChartPickerTableViewCell.xib in Resources */,
 				18CE586523F8408B00D47A2D /* WorkLogTableViewCell.xib in Resources */,
 				1861E10C23D7F71400673640 /* Main.storyboard in Resources */,
 				1844082423E541D000A879F7 /* FriendListTableViewCell.xib in Resources */,
@@ -697,6 +745,7 @@
 				180727AC23FFA0A400D67EFA /* ReportManager.swift in Sources */,
 				18F0E37A23F3C80100149F8F /* LargeTitleInfo.swift in Sources */,
 				18BC87D123F5683600D97F74 /* ProjectInfo.swift in Sources */,
+				18635CF52403A87C00469168 /* ReportChartContentTableViewCell.swift in Sources */,
 				18A059CC23E3CDC7002860B6 /* ReportViewController.swift in Sources */,
 				18F0E37D23F3F2A000149F8F /* SelectMemberTableViewCell.swift in Sources */,
 				18D93DCA23EEC268005398B7 /* ProcessingTableViewCell.swift in Sources */,
@@ -720,15 +769,18 @@
 				18E9F99723FA348F0078C7FB /* WorkLogContentTableViewCell.swift in Sources */,
 				18A059D123E3D683002860B6 /* FriendListViewController.swift in Sources */,
 				18B9591723F0432600C6E8EB /* NewProject.swift in Sources */,
+				18635CEA2403A6DB00469168 /* ReportChartViewTableViewCell.swift in Sources */,
 				188FE74023E8002200DDF30C /* NewProjectTableViewCell.swift in Sources */,
 				18CE586A23F8412A00D47A2D /* WorkLogCollectionViewCell.swift in Sources */,
 				18F0E38123F46E8500149F8F /* MemberCollectionViewCell.swift in Sources */,
+				1861EE6924039E06009AFE0F /* ReportContentViewController.swift in Sources */,
 				18CE586023F83FF400D47A2D /* WorkLogViewController.swift in Sources */,
 				18CE585A23F7D47600D47A2D /* NumberCollectionViewCell.swift in Sources */,
 				1861E10523D7F71400673640 /* AppDelegate.swift in Sources */,
 				18A059BF23E3C6FB002860B6 /* UIImage+Extension.swift in Sources */,
 				188FE73423E7EEB300DDF30C /* NewProjectViewController.swift in Sources */,
 				18E32EE023EF023E0054D592 /* CompletedCollectionViewCell.swift in Sources */,
+				18635CF12403A84800469168 /* ReportChartPickerTableViewCell.swift in Sources */,
 				18E32EDA23EF01E20054D592 /* ProcessingCollectionViewCell.swift in Sources */,
 				18AD1F3F23DB4AF600C75504 /* SignupViewController.swift in Sources */,
 				18BA50CA23FD798300DEE0B3 /* ReportContentTableViewCell.swift in Sources */,
