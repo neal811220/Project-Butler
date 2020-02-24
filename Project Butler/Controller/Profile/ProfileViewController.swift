@@ -24,12 +24,6 @@ class ProfileViewController: UIViewController {
         updatePasswordAlert()
     }
     
-    @IBAction func login(_ sender: UIButton) {
-        
-        guard let loginVC = UIStoryboard.login.instantiateViewController(identifier: "LoginPage") as? LoginViewController else { return }
-        present(loginVC, animated: true, completion: nil)
-    }
-    
     @IBAction func Logout(_ sender: UIButton) {
         
         do {

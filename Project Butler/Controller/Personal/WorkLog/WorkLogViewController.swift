@@ -433,6 +433,10 @@ extension WorkLogViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        cell.dateLabel.textColor = UIColor(patternImage: UIImage(named: projectDetail!.color)!)
+        
+        cell.timeLabel.textColor = UIColor(patternImage: UIImage(named: projectDetail!.color)!)
+        
         cell.dateLabel.text = workLogContent[indexPath.row].date
         
         cell.timeLabel.text = "\(workLogContent[indexPath.row].startTime) - \(workLogContent[indexPath.row].endTime)"
@@ -451,6 +455,8 @@ extension WorkLogViewController: UITableViewDataSource {
         cell.workContentLabel.text = workLogContent[indexPath.row].workContent
         
         cell.problemLabel.text = workLogContent[indexPath.row].problem
+        
+        cell.leftView.backgroundColor = UIColor(patternImage: UIImage(named: projectDetail!.color)!)
         
         return cell
     }

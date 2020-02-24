@@ -526,6 +526,8 @@ extension PersonalViewController: UITableViewDataSource {
                 cell.leaderImage.isHidden = true
             }
             
+            cell.backImage.image = UIImage(named: userProjectDetail[indexPath.row].color)
+            print(userProjectDetail[0].color)
             cell.members = memberDetail[indexPath.row]
             
             cell.titleLabel.text = userProjectDetail[indexPath.row].projectName
@@ -543,6 +545,8 @@ extension PersonalViewController: UITableViewDataSource {
             } else {
                 cell.leaderImage.isHidden = true
             }
+            
+            cell.backImage.image = UIImage(named: userProjectDetail[indexPath.row].color)
             
             cell.members = memberDetail[indexPath.row]
             
@@ -592,7 +596,7 @@ extension PersonalViewController: UITableViewDelegate {
             cell.transform = .identity
             self.tableView.layoutIfNeeded()
         }
-        animator.startAnimation(afterDelay: 0.3 * Double(indexPath.item))
+        animator.startAnimation(afterDelay: 0.1 * Double(indexPath.item))
     }
     
 }

@@ -424,6 +424,7 @@
 		18A059CD23E3CDCF002860B6 /* Report */ = {
 			isa = PBXGroup;
 			children = (
+				1861EE66240399D8009AFE0F /* ChartContentViewController.swift */,
 				18A059CB23E3CDC7002860B6 /* ReportViewController.swift */,
 				1861EE6824039E06009AFE0F /* ReportContentViewController.swift */,
 			);
@@ -758,6 +759,7 @@
 				18BA50C123FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.swift in Sources */,
 				18D2494823EED9C3006528A6 /* CompletedTableViewCell.swift in Sources */,
 				1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */,
+				1861EE67240399D8009AFE0F /* ChartContentViewController.swift in Sources */,
 				1895D75123E3C51F00207016 /* PBTabBarViewController.swift in Sources */,
 				18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */,
 				18AA9EBB23E6B05100D390CE /* MemberListViewController.swift in Sources */,

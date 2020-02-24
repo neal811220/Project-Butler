@@ -10,6 +10,8 @@ import UIKit
 
 class WorkLogTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var leftView: UIView!
+    
     @IBOutlet weak var dateLabel: UILabel!
     
     @IBOutlet weak var timeLabel: UILabel!
