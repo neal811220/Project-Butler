@@ -14,13 +14,15 @@ private struct StoryboardCategory {
 
     static let personal = "Personal"
 
-    static let report = "Report"
-
     static let friendList = "FriendList"
     
     static let profile = "Profile"
     
     static let login = "Login"
+    
+    static let newProject = "NewProject"
+    
+    static let report = "Report"
     
 }
 
@@ -30,13 +32,15 @@ extension UIStoryboard {
 
     static var personal: UIStoryboard { return pbStoryboard(name: StoryboardCategory.personal) }
 
-    static var report: UIStoryboard { return pbStoryboard(name: StoryboardCategory.report) }
-
     static var friendList: UIStoryboard { return pbStoryboard(name: StoryboardCategory.friendList) }
     
     static var profile: UIStoryboard { return pbStoryboard(name: StoryboardCategory.profile) }
     
     static var login: UIStoryboard { return pbStoryboard(name: StoryboardCategory.login) }
+    
+    static var newProject: UIStoryboard { return pbStoryboard(name: StoryboardCategory.newProject)}
+    
+    static var report: UIStoryboard { return pbStoryboard(name: StoryboardCategory.report)}
 
     private static func pbStoryboard(name: String) -> UIStoryboard {
 

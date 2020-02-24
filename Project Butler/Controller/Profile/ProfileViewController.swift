@@ -23,6 +23,7 @@ class ProfileViewController: UIViewController {
         
         updatePasswordAlert()
     }
+    
     @IBAction func login(_ sender: UIButton) {
         
         guard let loginVC = UIStoryboard.login.instantiateViewController(identifier: "LoginPage") as? LoginViewController else { return }
@@ -30,14 +31,16 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func Logout(_ sender: UIButton) {
+        
         do {
             
             let delegate = UIApplication.shared.delegate as! AppDelegate
             
-            let tabbarVC = UIStoryboard.main.instantiateViewController(identifier: "TabBarVC") as? PBTabBarViewController
+            let loginVC = UIStoryboard.login.instantiateViewController(identifier: "LoginVC") as? LoginViewController
+            
             try Auth.auth().signOut()
             
-            delegate.window?.rootViewController = tabbarVC
+            delegate.window?.rootViewController = loginVC
             
         } catch {
             

@@ -49,10 +49,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
         
     }
     
-    @IBAction func signupButton(_ sender: UIButton) {
-        
-    }
-    
     @IBAction func pressedLoginButton(_ sender: UIButton) {
         
         if let email = userEmailTextField.text, let password = passwordTextField.text, email != "", password != ""{
@@ -72,10 +68,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
                 
                 UserManager.shared.getLoginUserInfo()
                 
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                    
-                    self.dismiss(animated: true, completion: nil)
-                }
+                self.transitionToTabBar()
             }
             
         } else {
@@ -83,10 +76,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
             PBProgressHUD.showFailure(text: "Input Worng!", viewController: self)
         }
         
-        
-    }
-    
-    @IBAction func pressedAppleLogin(_ sender: UIButton) {
     }
     
     @IBAction func pressedFacebookLogin(_ sender: UIButton) {
@@ -116,10 +105,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
                     
                     UserManager.shared.getLoginUserInfo()
                     
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                        
-                        self.dismiss(animated: true, completion: nil)
-                    }
+                   self.transitionToTabBar()
+                    
                     print("FBLogin Success")
                 }
             } else {
@@ -137,6 +124,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    func transitionToTabBar() {
+        
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        
+        guard let tabBarVC = UIStoryboard.main.instantiateViewController(withIdentifier: "TabBarVC") as? PBTabBarViewController else {
+            return
+        }
+        
+        delegate.window?.rootViewController = tabBarVC
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -164,9 +162,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
             
             UserManager.shared.getLoginUserInfo()
             
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
-                self.dismiss(animated: true, completion: nil)
-            }
+            self.transitionToTabBar()
             
             print("Success!!")
         }

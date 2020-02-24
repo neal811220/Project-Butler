@@ -50,9 +50,11 @@ enum ImageAsset: String {
     
     case Icons_32px_Calendar
     
-    case Icons_32px_Member
+    case Icons_32px_Member 
     
     case Icons_32px_WorkItem
+    
+    case Icons_64px_SelectColor
     
     //PersonalRightButton
     case Icons_32px_SearchProjectButton
@@ -74,6 +76,9 @@ enum ImageAsset: String {
     case Icons_32px_AddWorkLog
     
     case Icons_32px_LogDefaultImage
+    
+    //ReportButton
+    case Icons_32px_Report
 }
 
 extension UIImage {

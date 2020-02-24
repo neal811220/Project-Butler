@@ -31,6 +31,8 @@ class ProjectManager {
     
     var workItemContent: [WorkLogContent] = []
     
+    var workLogContent: [WorkLogContent] = []
+        
     func clearAll () {
         
         self.friendArray = []
@@ -74,6 +76,36 @@ class ProjectManager {
         }
         
         completion(.success(()))
+    }
+    
+    func fetchTapProjectDetail(projectID: String, completion: @escaping (Result<[WorkLogContent], Error>) -> Void) {
+        
+        db.collection("projects").document(projectID).collection("workLogs").getDocuments { (snapshot, error) in
+            
+            guard let snapshot = snapshot, error == nil else {
+                return
+            }
+            
+            for document in snapshot.documents {
+                
+                do {
+                    
+                    guard let data = try document.data(as: WorkLogContent.self, decoder: Firestore.Decoder()) else {
+                        return
+                    }
+                    
+                    self.workLogContent.append(data)
+                    
+                } catch {
+                    
+                    completion(.failure(error))
+                    
+                    print(error)
+                }
+            }
+            
+            completion(.success(self.workLogContent))
+        }
     }
     
     func fetchUserProjectWorkLog(projectID: String, completion: @escaping (Result<[WorkLogContent], Error>) -> Void) {

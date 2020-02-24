@@ -79,9 +79,13 @@ class NewProjectViewController: UIViewController {
 
     var inputProjectName = ""
     
+    var workItemText = ""
+    
     var totalDays = 0
     
     var dateStatus = false
+    
+    var didCreate = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -182,20 +186,19 @@ class NewProjectViewController: UIViewController {
     }
     
     func createProject() {
-        
+                
         guard let userId = UserDefaults.standard.value(forKey: "userID") as? String else {
             return
         }
         
         guard inputProjectName != "", startText != "", endText != "", membersArray.count != 0, dateStatus == true, workItemArray.count != 0 else {
             
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-                
-                PBProgressHUD.showFailure(text: "Please Check Input", viewController: self)
-            }
+            PBProgressHUD.showFailure(text: "Please Check Input", viewController: self)
             
             return
         }
+        
+        view.endEditing(true)
         
         let currentUserRef = UserManager.shared.db.collection("users").document(userId)
         
@@ -234,26 +237,40 @@ class NewProjectViewController: UIViewController {
     
         activityView.startAnimating()
         
-        ProjectManager.shared.createNewProject(projectID: projectID, newProject: newProject, completion: { result in
+        ProjectManager.shared.createNewProject(projectID: projectID, newProject: newProject, completion: { [weak self] result in
             
             switch result {
                 
             case .success:
                 
-                PBProgressHUD.showSuccess(text: "Added Successfully", viewController: self)
-                
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
+                guard let self = self else {
                     
-                    self.navigationController?.popViewController(animated: true)
+                    return
                     
                 }
+                
+                PBProgressHUD.showSuccess(text: "Added Successfully", viewController: self)
+                
+                self.inputProjectName = ""
+                
+                self.startText = ""
+                
+                self.endText = ""
+                
+                self.workItemText = ""
+                
+                self.workItemArray = []
+                
+                self.membersArray = []
 
+                self.tableView.reloadData()
+                                
             case .failure(let error):
                 
                 print(error)
             }
             
-            self.activityView.stopAnimating()
+            self?.activityView.stopAnimating()
         })
     }
     
@@ -264,6 +281,17 @@ class NewProjectViewController: UIViewController {
         return ref
     }
     
+}
+
+extension NewProjectViewController: NewProjectTableViewCellDelegate {
+    
+    func didSaveProject(projectName: String, workItem: String) {
+        
+        inputProjectName = projectName
+        
+        workItemText = workItem
+        
+    }
 }
 
 extension NewProjectViewController: UITableViewDataSource {
@@ -287,10 +315,11 @@ extension NewProjectViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        
         if indexPath.section == 0 {
-            
+        
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? NewProjectTableViewCell else { return UITableViewCell() }
-            
+
             if dateStatus {
                 
                 cell.endDateTextField.textColor = UIColor.Black1
@@ -300,6 +329,8 @@ extension NewProjectViewController: UITableViewDataSource {
                 cell.endDateTextField.textColor = UIColor.red
                 
             }
+            cell.delegate = self
+            
             cell.leaderLabel.text = UserDefaults.standard.value(forKey: "userName") as? String
             
             cell.memeberInfo = membersArray
@@ -312,14 +343,13 @@ extension NewProjectViewController: UITableViewDataSource {
             
             cell.endDateTextField.text = endText
             
-            cell.passProjectName = {
-                
-                self.inputProjectName = $0
-            }
+            cell.projectNameTextField.text = inputProjectName
             
+            cell.workItemTextField.text = workItemText
+                        
             cell.transitionToMemberVC = { [weak self] _ in
              
-                guard let selectMemeberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "SelectMemeberVC") as? SelectMembersViewController else {
+                guard let selectMemeberVC = UIStoryboard.newProject.instantiateViewController(withIdentifier: "SelectMemeberVC") as? SelectMembersViewController else {
                     return
                 }
                 self?.show(selectMemeberVC, sender: nil)

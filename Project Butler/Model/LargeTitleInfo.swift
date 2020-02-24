@@ -21,4 +21,6 @@ enum LargeTitle: String {
     case selectMemebers = "Select Members"
     
     case workLog = "WorkLog"
+    
+    case report = "Report"
 }

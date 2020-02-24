@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FacebookCore
 import GoogleSignIn
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -201,7 +202,7 @@
         <!--Login View Controller-->
         <scene sceneID="qOZ-P5-seg">
             <objects>
-                <viewController storyboardIdentifier="LoginPage" id="kix-OS-eXW" customClass="LoginViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginVC" id="kix-OS-eXW" customClass="LoginViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dMA-lR-m8W">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -270,7 +271,6 @@
                                 <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
                                 <state key="normal" title="SIgn up Now!"/>
                                 <connections>
-                                    <action selector="signupButton:" destination="kix-OS-eXW" eventType="touchUpInside" id="5eE-um-DNg"/>
                                     <segue destination="d4N-tP-KVN" kind="show" id="Wgi-Vq-AjK"/>
                                 </connections>
                             </button>
@@ -441,6 +441,50 @@
             </objects>
             <point key="canvasLocation" x="-567" y="171"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="wh5-mP-XgT">
+            <objects>
+                <viewController id="ldO-EW-FEe" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fu2-8B-ZCJ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2uj-v2-aoS">
+                                <rect key="frame" x="0.0" y="638" width="414" height="224"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ovw-Bh-4c9">
+                                        <rect key="frame" x="57" y="115" width="301" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.25816410779953003" green="0.36601746082305908" blue="0.96476012468338013" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <state key="normal" title="Login">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please Login First" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IVe-6d-xhL">
+                                        <rect key="frame" x="129" y="46" width="156" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
+                                        <color key="textColor" name="B2"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="57a-po-1J8" firstAttribute="bottom" secondItem="2uj-v2-aoS" secondAttribute="bottom" id="0kX-px-kHW"/>
+                            <constraint firstItem="2uj-v2-aoS" firstAttribute="leading" secondItem="57a-po-1J8" secondAttribute="leading" id="BRX-X5-LB9"/>
+                            <constraint firstItem="2uj-v2-aoS" firstAttribute="height" secondItem="fu2-8B-ZCJ" secondAttribute="height" multiplier="0.25" id="Sx9-AW-dYi"/>
+                            <constraint firstItem="2uj-v2-aoS" firstAttribute="trailing" secondItem="57a-po-1J8" secondAttribute="trailing" id="wnn-7B-1E5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="57a-po-1J8"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZqN-EJ-vTL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-591.304347826087" y="854.46428571428567"/>
+        </scene>
         <!--Reset Password View Controller-->
         <scene sceneID="tfk-Oi-7zX">
             <objects>
@@ -580,5 +624,8 @@
         <image name="Facebook SIgn in" width="285" height="41"/>
         <image name="Google Sign in" width="282" height="41"/>
         <image name="Icons_32px_title" width="64" height="64"/>
+        <namedColor name="B2">
+            <color red="0.090196078431372548" green="0.23921568627450981" blue="0.62745098039215685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>
