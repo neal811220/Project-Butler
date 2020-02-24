@@ -10,6 +10,8 @@ import UIKit
 
 class ReportChartPickerTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var itemPicker: UITextField!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

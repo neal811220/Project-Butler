@@ -308,7 +308,14 @@ extension WorkLogContentViewController: UITableViewDataSource {
 
 extension WorkLogContentViewController: UIPickerViewDelegate {
     
-    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+           
+           let textField = self.view.viewWithTag(10) as? UITextField
+           
+           textField?.text = workItemArray[row]
+           
+           view.endEditing(true)
+       }
 }
 
 extension WorkLogContentViewController: UIPickerViewDataSource {
@@ -326,15 +333,6 @@ extension WorkLogContentViewController: UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
         return workItemArray[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-        let textField = self.view.viewWithTag(10) as? UITextField
-        
-        textField?.text = workItemArray[row]
-        
-        view.endEditing(true)
     }
     
 }

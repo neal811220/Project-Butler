@@ -259,8 +259,10 @@ class WorkLogViewController: UIViewController {
                 
                 self.workLogContent = data
                 
-                print(data)
-                
+                self.workLogContent = self.workLogContent.sorted(by: {
+                    $0.date < $1.date
+                })
+                                
                 self.tableView.reloadData()
                 
             case .failure(let error):
@@ -349,6 +351,8 @@ class WorkLogViewController: UIViewController {
 //                reportVC.workLogContent = data
                 
                 reportContentVC.workLogContent = data
+                
+                reportContentVC.projectDetail = self.projectDetail
                 
                 reportVC.members = self.members
                 

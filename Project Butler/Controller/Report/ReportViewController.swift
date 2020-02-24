@@ -60,17 +60,6 @@ class ReportViewController: UIViewController {
                 
         return collectionView
     }()
-    
-    lazy var reportPickerView: UIPickerView = {
-        
-        let pickerView = UIPickerView()
-        
-        pickerView.delegate = self
-        
-        pickerView.dataSource = self
-        
-        return pickerView
-    }()
         
     var timeArray: [String] = []
     
@@ -129,28 +118,6 @@ class ReportViewController: UIViewController {
             contentcollectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
             contentcollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-    }
-    
-}
-
-extension ReportViewController: UIPickerViewDelegate {
-
-}
-
-extension ReportViewController: UIPickerViewDataSource {
-
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        
-        return pickerContent.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        
-        return pickerContent[row]
     }
     
 }
