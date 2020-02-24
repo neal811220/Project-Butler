@@ -16,13 +16,13 @@ class ReportManager {
     
     var chartType: AAChartType!
     
-    let date = Date()
+    var filterDateArray: [WorkLogContent] = []
     
-    var chartView:AAChartView = {
-        let view = AAChartView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    var filterPersonalArray: [WorkLogContent] = []
+    
+    var filterWorkItemArray: [WorkLogContent] = []
+    
+    let date = Date()
     
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -33,7 +33,7 @@ class ReportManager {
     func dateChartView(workLogContent: [WorkLogContent]) -> AAChartModel {
         
         let sortArray = workLogContent.sorted(by: { $0.date < $1.date })
-        
+                
         let allDate = Array(Set(sortArray.map{ $0.date })).sorted()
         
         var resultDictionary: [String: [WorkLogContent]] = [:]
@@ -49,7 +49,7 @@ class ReportManager {
                 resultDictionary[item.date] = [item]
             }
         }
-        
+                
         var count: Int
             
         if allDate.count < 8 {
@@ -75,6 +75,7 @@ class ReportManager {
         let element = AASeriesElement().name("Project").data(seriesElement)
         
         chartModel = AAChartModel()
+        chartModel = chartModel.touchEventEnabled(true)
         .chartType(.spline)//Can be any of the chart types listed under `AAChartType`.
         .animationType(.bounce)
         .title("TITLE")//The chart title
@@ -84,7 +85,6 @@ class ReportManager {
         .categories(Array(category))
         .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
         .series([element])
-        chartView.aa_drawChartWithChartModel(chartModel!)
         
         return chartModel
     }
@@ -160,9 +160,7 @@ class ReportManager {
         .categories(Array(beforeSevenDates))
         .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
         .series([element])
-        
-        chartView.aa_drawChartWithChartModel(chartModel!)
-        
+                
         return chartModel
     }
     
@@ -233,8 +231,6 @@ class ReportManager {
         .categories(Array(beforeSevenDates))
         .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
         .series([element])
-        
-        chartView.aa_drawChartWithChartModel(chartModel!)
         
         return chartModel
     }
