@@ -23,6 +23,7 @@
 		1861E11923D816C700673640 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1861E11823D816C700673640 /* GoogleService-Info.plist */; };
 		1861EE642402C6B8009AFE0F /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861EE622402C6B8009AFE0F /* ColorCollectionViewCell.swift */; };
 		1861EE652402C6B8009AFE0F /* ColorCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1861EE632402C6B8009AFE0F /* ColorCollectionViewCell.xib */; };
+<<<<<<< HEAD
 		1861EE6924039E06009AFE0F /* ReportContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861EE6824039E06009AFE0F /* ReportContentViewController.swift */; };
 		18635CEA2403A6DB00469168 /* ReportChartViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18635CE82403A6DB00469168 /* ReportChartViewTableViewCell.swift */; };
 		18635CEB2403A6DB00469168 /* ReportChartViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18635CE92403A6DB00469168 /* ReportChartViewTableViewCell.xib */; };
@@ -30,6 +31,9 @@
 		18635CF22403A84800469168 /* ReportChartPickerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18635CF02403A84800469168 /* ReportChartPickerTableViewCell.xib */; };
 		18635CF52403A87C00469168 /* ReportChartContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18635CF32403A87C00469168 /* ReportChartContentTableViewCell.swift */; };
 		18635CF62403A87C00469168 /* ReportChartContentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18635CF42403A87C00469168 /* ReportChartContentTableViewCell.xib */; };
+=======
+		1861EE67240399D8009AFE0F /* ChartContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1861EE66240399D8009AFE0F /* ChartContentViewController.swift */; };
+>>>>>>> c7cf3703d14b3975f5e40e9e2fb53096b39aac7e
 		188FE73423E7EEB300DDF30C /* NewProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188FE73323E7EEB300DDF30C /* NewProjectViewController.swift */; };
 		188FE73A23E7F05700DDF30C /* NewProjectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188FE73823E7F05700DDF30C /* NewProjectTableViewCell.xib */; };
 		188FE73E23E7F0E800DDF30C /* WorkItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188FE73C23E7F0E800DDF30C /* WorkItemTableViewCell.xib */; };
@@ -111,6 +115,7 @@
 		1861E11823D816C700673640 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1861EE622402C6B8009AFE0F /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		1861EE632402C6B8009AFE0F /* ColorCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorCollectionViewCell.xib; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		1861EE6824039E06009AFE0F /* ReportContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportContentViewController.swift; sourceTree = "<group>"; };
 		18635CE82403A6DB00469168 /* ReportChartViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChartViewTableViewCell.swift; sourceTree = "<group>"; };
 		18635CE92403A6DB00469168 /* ReportChartViewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportChartViewTableViewCell.xib; sourceTree = "<group>"; };
@@ -118,6 +123,9 @@
 		18635CF02403A84800469168 /* ReportChartPickerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportChartPickerTableViewCell.xib; sourceTree = "<group>"; };
 		18635CF32403A87C00469168 /* ReportChartContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChartContentTableViewCell.swift; sourceTree = "<group>"; };
 		18635CF42403A87C00469168 /* ReportChartContentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportChartContentTableViewCell.xib; sourceTree = "<group>"; };
+=======
+		1861EE66240399D8009AFE0F /* ChartContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartContentViewController.swift; sourceTree = "<group>"; };
+>>>>>>> c7cf3703d14b3975f5e40e9e2fb53096b39aac7e
 		188FE73323E7EEB300DDF30C /* NewProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectViewController.swift; sourceTree = "<group>"; };
 		188FE73823E7F05700DDF30C /* NewProjectTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewProjectTableViewCell.xib; sourceTree = "<group>"; };
 		188FE73C23E7F0E800DDF30C /* WorkItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorkItemTableViewCell.xib; sourceTree = "<group>"; };
@@ -424,6 +432,7 @@
 		18A059CD23E3CDCF002860B6 /* Report */ = {
 			isa = PBXGroup;
 			children = (
+				1861EE66240399D8009AFE0F /* ChartContentViewController.swift */,
 				18A059CB23E3CDC7002860B6 /* ReportViewController.swift */,
 				1861EE6824039E06009AFE0F /* ReportContentViewController.swift */,
 			);
@@ -484,9 +493,18 @@
 		18BA50C323FD5FD700DEE0B3 /* Report */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				18635CEC2403A6E400469168 /* ChartView */,
 				18635CED2403A6F600469168 /* TitleCollectionView */,
 				18635CEE2403A70E00469168 /* ReportContent */,
+=======
+				18BA50C023FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.xib */,
+				18BA50BF23FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.swift */,
+				18BA50C423FD664600DEE0B3 /* ReportContentCollectionViewCell.swift */,
+				18BA50C523FD664600DEE0B3 /* ReportContentCollectionViewCell.xib */,
+				18BA50C823FD798300DEE0B3 /* ReportContentTableViewCell.swift */,
+				18BA50C923FD798300DEE0B3 /* ReportContentTableViewCell.xib */,
+>>>>>>> c7cf3703d14b3975f5e40e9e2fb53096b39aac7e
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -758,6 +776,7 @@
 				18BA50C123FD5FC900DEE0B3 /* ReportTitleCollectionViewCell.swift in Sources */,
 				18D2494823EED9C3006528A6 /* CompletedTableViewCell.swift in Sources */,
 				1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */,
+				1861EE67240399D8009AFE0F /* ChartContentViewController.swift in Sources */,
 				1895D75123E3C51F00207016 /* PBTabBarViewController.swift in Sources */,
 				18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */,
 				18AA9EBB23E6B05100D390CE /* MemberListViewController.swift in Sources */,

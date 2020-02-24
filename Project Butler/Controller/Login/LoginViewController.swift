@@ -243,6 +243,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                     // The Apple ID credential is valid. Show Home UI Here
                     
                     UserManager.shared.addAppleIDLoginUserDate(name: givenName, email: email, uid: userIdentifier, imageUrl: "Icons_128px_General")
+                    
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                         
                         self.dismiss(animated: true, completion: nil)

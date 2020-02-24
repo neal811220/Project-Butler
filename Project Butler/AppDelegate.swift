@@ -24,9 +24,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         FirebaseApp.configure()
-       
+        
         GIDSignIn.sharedInstance()?.clientID = FirebaseApp.app()?.options.clientID
         
+        if Auth.auth().currentUser != nil {
+            
+            guard let tabBarVC = UIStoryboard.main.instantiateViewController(withIdentifier: "TabBarVC") as? PBTabBarViewController else {
+                return true
+            }
+            
+            window?.rootViewController = tabBarVC
+            
+        } else {
+            
+            guard let loginVC = UIStoryboard.login.instantiateViewController(withIdentifier: "LoginVC") as? LoginViewController else {
+                return true
+            }
+            
+            window?.rootViewController = loginVC
+            
+        }
         // Override point for customization after application launch.
         return true
     }

@@ -55,8 +55,8 @@ private enum Tab {
         case .newProject:
             return UITabBarItem(
                 title: nil,
-                image: UIImage.asset(.Icons_32px_Profile_Normal),
-                selectedImage: UIImage.asset(.Icons_32px_Profile_Selected)
+                image: UIImage.asset(.Icons_32px_Newproject),
+                selectedImage: UIImage.asset(.Icons_32px_Newproject_Selected)
             )
 
         case .friendList:

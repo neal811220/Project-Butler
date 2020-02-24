@@ -151,6 +151,7 @@
             <connections>
                 <outlet property="chatButton" destination="L7t-iv-7p3" id="eK5-Dg-jxw"/>
                 <outlet property="dateLabel" destination="bG9-z1-Ca5" id="gFk-f8-fSo"/>
+                <outlet property="leftView" destination="AYt-wD-bDQ" id="IpU-dN-4nW"/>
                 <outlet property="problemLabel" destination="BkY-Ed-Xb0" id="iYh-YW-cxP"/>
                 <outlet property="timeLabel" destination="9Ma-2l-ygd" id="c4G-CS-Feb"/>
                 <outlet property="timeSpentLabel" destination="8SL-KX-X3x" id="ilm-M1-M7q"/>
