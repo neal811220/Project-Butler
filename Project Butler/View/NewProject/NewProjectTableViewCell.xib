@@ -280,7 +280,6 @@
                         <color key="backgroundColor" name="Gray1"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="EEg-q0-FvJ"/>
-                            <constraint firstAttribute="width" constant="30" id="k4b-j2-IKL"/>
                         </constraints>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="o3d-ep-a4e">
                             <size key="itemSize" width="50" height="50"/>
@@ -346,6 +345,7 @@
                     <constraint firstAttribute="trailing" secondItem="8OZ-Fx-l6K" secondAttribute="trailing" constant="247" id="biO-Nr-juG"/>
                     <constraint firstItem="6F5-9B-90K" firstAttribute="leading" secondItem="OxG-hw-Dku" secondAttribute="trailing" constant="18" id="cPn-EQ-tKZ"/>
                     <constraint firstItem="xCd-dz-cvT" firstAttribute="leading" secondItem="uxp-ob-NDx" secondAttribute="trailing" constant="18" id="chh-do-vOk"/>
+                    <constraint firstAttribute="trailing" secondItem="z15-rb-GQg" secondAttribute="trailing" constant="262" id="cjP-AZ-FoE"/>
                     <constraint firstItem="AoK-ua-I6T" firstAttribute="leading" secondItem="k5s-ti-wC4" secondAttribute="leading" id="dSP-mf-cqK"/>
                     <constraint firstItem="z15-rb-GQg" firstAttribute="top" secondItem="8OZ-Fx-l6K" secondAttribute="bottom" constant="8" id="dX9-Oq-ENE"/>
                     <constraint firstItem="I1l-iN-dhR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="49" id="eq1-Ey-uVV"/>
@@ -376,6 +376,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="colorCollectionView" destination="z15-rb-GQg" id="fl5-ux-YbY"/>
+                <outlet property="colorTrailingConstraint" destination="cjP-AZ-FoE" id="Ipo-wd-Rui"/>
                 <outlet property="endDateTextField" destination="6vT-vZ-wxk" id="zwW-mF-a1r"/>
                 <outlet property="leaderLabel" destination="yLS-Ai-9bi" id="W2D-1c-Q7B"/>
                 <outlet property="memberCollectionView" destination="qz8-4x-BlH" id="Vtc-tL-pQu"/>

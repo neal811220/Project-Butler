@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-private enum GHColor: String {
+private enum PBColor: String {
     // swiftlint:disable identifier_name
     case G1
     
@@ -24,6 +24,8 @@ private enum GHColor: String {
     case Gray3
     
     case Black1
+    
+    case Black2
 }
 extension UIColor {
     
@@ -41,8 +43,10 @@ extension UIColor {
     
     static let Black1 = PBColor(.Black1)
     
+    static let Black2 = PBColor(.Black2)
+    
     // swiftlint:enable identifier_name
-    private static func PBColor(_ color: GHColor) -> UIColor? {
+    private static func PBColor(_ color: PBColor) -> UIColor? {
         return UIColor(named: color.rawValue)
     }
 }

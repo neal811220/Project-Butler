@@ -81,6 +81,8 @@ class NewProjectViewController: UIViewController {
     
     var workItemText = ""
     
+    var seletedColor = ""
+    
     var totalDays = 0
     
     var dateStatus = false
@@ -225,6 +227,7 @@ class NewProjectViewController: UIViewController {
        
         let newProject = NewProject(projectName: inputProjectName,
                                     projectLeaderID: userId,
+                                    color: seletedColor,
                                     startDate: startText,
                                     endDate: endText,
                                     projectMember: userRef,
@@ -285,6 +288,11 @@ class NewProjectViewController: UIViewController {
 
 extension NewProjectViewController: NewProjectTableViewCellDelegate {
     
+    func passColor(color: String) {
+        
+        seletedColor = color
+    }
+    
     func didSaveProject(projectName: String, workItem: String) {
         
         inputProjectName = projectName
@@ -322,7 +330,7 @@ extension NewProjectViewController: UITableViewDataSource {
 
             if dateStatus {
                 
-                cell.endDateTextField.textColor = UIColor.Black1
+                cell.endDateTextField.textColor = UIColor.Black2
                 
             } else {
                 

@@ -11,9 +11,13 @@ import UIKit
 protocol NewProjectTableViewCellDelegate: AnyObject {
     
     func didSaveProject(projectName: String, workItem: String)
+    
+    func passColor(color: String)
 }
 
 class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
+    
+    @IBOutlet weak var colorTrailingConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var leaderLabel: UILabel!
     
@@ -48,14 +52,34 @@ class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     var passInputText: ((String) -> Void)?
     
+    var selectImage = "" {
+        
+        didSet {
+            
+            delegate?.passColor(color: selectImage)
+            
+        }
+    }
+    
+    var didSelect = false
+    
     var memeberInfo: [FriendDetail] = [] {
         
         didSet {
+            
+            if memeberInfo.count == 0 {
+                
+                selectImage = ""
+                
+            }
+            
+            colorCollectionView.reloadData()
+            
             memberCollectionView.reloadData()
         }
     }
     
-    var colorArray: [String] = []
+    var colorArray: [String] = ["Icons_64px_SelectColor", "BCB2", "BCG3", "BCR1"]
     
     var transitionToMemberVC: ((NewProjectTableViewCell) -> Void)?
     
@@ -74,6 +98,7 @@ class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         textField.resignFirstResponder()
+        
         return true
     }
     
@@ -116,6 +141,27 @@ class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
         colorCollectionView.register(colorNib, forCellWithReuseIdentifier: "ColorCell")
     }
     
+    func setupColorTrailing() {
+        
+        UIView.animate(withDuration: 0.3) {
+            
+            if self.didSelect {
+                
+                self.colorTrailingConstraint.constant = 30
+                
+            } else {
+                
+                self.colorTrailingConstraint.constant = 262
+                
+            }
+            
+            self.layoutIfNeeded()
+            
+            self.colorCollectionView.reloadData()
+        }
+        
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
@@ -130,8 +176,26 @@ extension NewProjectTableViewCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        if collectionView == memberCollectionView {
+            
             transitionToMemberVC?(self)
-
+            
+        } else {
+            
+            didSelect = true
+            
+            if indexPath.row != 0 {
+                
+                selectImage = colorArray[indexPath.row]
+                
+                didSelect = false
+                
+            } else {
+                
+            }
+            
+            setupColorTrailing()
+        }
     }
 }
 
@@ -155,7 +219,14 @@ extension NewProjectTableViewCell: UICollectionViewDataSource {
             
         case colorCollectionView:
             
-            return 1
+            if didSelect {
+                
+                return 4
+                
+            } else {
+                
+                return 1
+            }
             
         default:
             
@@ -186,13 +257,18 @@ extension NewProjectTableViewCell: UICollectionViewDataSource {
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCell", for: indexPath) as? ColorCollectionViewCell else { return UICollectionViewCell() }
             
-            if colorArray.count == 0 {
+            if selectImage == "" && didSelect == false {
                 
                 cell.colorImage.image = UIImage.asset(.Icons_64px_SelectColor)
                 
+            } else if didSelect {
+                
+                cell.colorImage.image = UIImage(named: colorArray[indexPath.row])
+                
             } else {
                 
-                cell.colorImage.loadImage(colorArray[indexPath.row])
+                cell.colorImage.image = UIImage(named: selectImage)
+                
             }
             
             return cell

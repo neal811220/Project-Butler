@@ -15,6 +15,8 @@ struct NewProject: Codable {
     
     let projectLeaderID: String
     
+    let color: String
+    
     let startDate: String
     
     let endDate: String
