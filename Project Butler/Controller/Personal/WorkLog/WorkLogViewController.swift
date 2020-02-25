@@ -348,7 +348,7 @@ class WorkLogViewController: UIViewController {
                 
             case .success(let data):
                                 
-//                reportVC.workLogContent = data
+                reportVC.workLogContent = data
                 
                 reportContentVC.workLogContent = data
                 

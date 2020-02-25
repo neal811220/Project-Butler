@@ -176,7 +176,7 @@ extension FriendListViewController: UITableViewDataSource {
             
         } else {
             
-            return "SearchUser"
+            return "Search User"
         }
     }
     

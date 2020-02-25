@@ -22,7 +22,7 @@ class UserManager {
     
     private init(){ }
     
-    var scopeButtons = ["Friend", "Confirm", "SearchUser"]
+    var scopeButtons = ["Friend", "Confirm", "Search User"]
     
     let db = Firestore.firestore()
     

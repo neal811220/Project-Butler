@@ -55,6 +55,7 @@
 		18ADFE052403B7E1003EAF2B /* ReportContentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18ADFE012403B7E1003EAF2B /* ReportContentCollectionViewCell.xib */; };
 		18ADFE082403B7EE003EAF2B /* ReportTitleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18ADFE062403B7EE003EAF2B /* ReportTitleCollectionViewCell.xib */; };
 		18ADFE092403B7EE003EAF2B /* ReportTitleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18ADFE072403B7EE003EAF2B /* ReportTitleCollectionViewCell.swift */; };
+		18ADFE0E240414A8003EAF2B /* LoginTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18ADFE0C240414A8003EAF2B /* LoginTableViewCell.swift */; };
 		18B9590D23EFCDE400C6E8EB /* ProjectColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B9590C23EFCDE400C6E8EB /* ProjectColor.swift */; };
 		18B9591723F0432600C6E8EB /* NewProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B9591623F0432600C6E8EB /* NewProject.swift */; };
 		18BC87D123F5683600D97F74 /* ProjectInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC87D023F5683600D97F74 /* ProjectInfo.swift */; };
@@ -86,6 +87,8 @@
 		18F0E38123F46E8500149F8F /* MemberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F0E37F23F46E8500149F8F /* MemberCollectionViewCell.swift */; };
 		18F0E38223F46E8500149F8F /* MemberCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18F0E38023F46E8500149F8F /* MemberCollectionViewCell.xib */; };
 		18F8CC3D23ED1993004D8420 /* CurrentUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F8CC3C23ED1993004D8420 /* CurrentUserInfo.swift */; };
+		18FC196F2405191900DF4122 /* SignupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC196E2405191900DF4122 /* SignupTableViewCell.swift */; };
+		18FC19712405193D00DF4122 /* ResetPasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC19702405193D00DF4122 /* ResetPasswordTableViewCell.swift */; };
 		18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */; };
 		18FFB56523E175E2004B43C0 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 18FFB56423E175E2004B43C0 /* FacebookLogin */; };
 		85E28742B6924B98277E4719 /* Pods_Project_Butler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7B481A550B741A992B2F45 /* Pods_Project_Butler.framework */; };
@@ -143,6 +146,7 @@
 		18ADFE012403B7E1003EAF2B /* ReportContentCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportContentCollectionViewCell.xib; sourceTree = "<group>"; };
 		18ADFE062403B7EE003EAF2B /* ReportTitleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportTitleCollectionViewCell.xib; sourceTree = "<group>"; };
 		18ADFE072403B7EE003EAF2B /* ReportTitleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTitleCollectionViewCell.swift; sourceTree = "<group>"; };
+		18ADFE0C240414A8003EAF2B /* LoginTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTableViewCell.swift; sourceTree = "<group>"; };
 		18B9590C23EFCDE400C6E8EB /* ProjectColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectColor.swift; sourceTree = "<group>"; };
 		18B9591623F0432600C6E8EB /* NewProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProject.swift; sourceTree = "<group>"; };
 		18BC87D023F5683600D97F74 /* ProjectInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectInfo.swift; sourceTree = "<group>"; };
@@ -174,6 +178,8 @@
 		18F0E37F23F46E8500149F8F /* MemberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCollectionViewCell.swift; sourceTree = "<group>"; };
 		18F0E38023F46E8500149F8F /* MemberCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MemberCollectionViewCell.xib; sourceTree = "<group>"; };
 		18F8CC3C23ED1993004D8420 /* CurrentUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserInfo.swift; sourceTree = "<group>"; };
+		18FC196E2405191900DF4122 /* SignupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupTableViewCell.swift; sourceTree = "<group>"; };
+		18FC19702405193D00DF4122 /* ResetPasswordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordTableViewCell.swift; sourceTree = "<group>"; };
 		18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWapper.swift; sourceTree = "<group>"; };
 		31E235C089173A4059097F39 /* Pods-Project Butler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project Butler.debug.xcconfig"; path = "Target Support Files/Pods-Project Butler/Pods-Project Butler.debug.xcconfig"; sourceTree = "<group>"; };
 		DB7B481A550B741A992B2F45 /* Pods_Project_Butler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Project_Butler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -296,6 +302,7 @@
 		1861E11C23D82E1500673640 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				18ADFE10240414C2003EAF2B /* Login */,
 				18D93DCC23EEC272005398B7 /* PersonalProject */,
 				188FE73523E7EF8800DDF30C /* FriendList */,
 				188FE73623E7EFA100DDF30C /* NewProject */,
@@ -453,6 +460,16 @@
 				1861E10823D7F71400673640 /* PersonalViewController.swift */,
 			);
 			path = ProsonalProject;
+			sourceTree = "<group>";
+		};
+		18ADFE10240414C2003EAF2B /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				18FC19702405193D00DF4122 /* ResetPasswordTableViewCell.swift */,
+				18ADFE0C240414A8003EAF2B /* LoginTableViewCell.swift */,
+				18FC196E2405191900DF4122 /* SignupTableViewCell.swift */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 		18B9590E23EFCDF500C6E8EB /* Personal */ = {
@@ -756,6 +773,7 @@
 				18CE586423F8408B00D47A2D /* WorkLogTableViewCell.swift in Sources */,
 				182A856523F2A6D400D5394F /* ProjectManager.swift in Sources */,
 				18D2494823EED9C3006528A6 /* CompletedTableViewCell.swift in Sources */,
+				18FC196F2405191900DF4122 /* SignupTableViewCell.swift in Sources */,
 				1861E10923D7F71400673640 /* PersonalViewController.swift in Sources */,
 				1895D75123E3C51F00207016 /* PBTabBarViewController.swift in Sources */,
 				18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */,
@@ -765,6 +783,7 @@
 				1844082923E57AAB00A879F7 /* FriendInfo.swift in Sources */,
 				18BEF14723E977C200CC401C /* KingFisherWapper.swift in Sources */,
 				18E9F9BA23FA7E4E0078C7FB /* WorkLogContentViewController.swift in Sources */,
+				18FC19712405193D00DF4122 /* ResetPasswordTableViewCell.swift in Sources */,
 				18E9F99723FA348F0078C7FB /* WorkLogContentTableViewCell.swift in Sources */,
 				18ADFE092403B7EE003EAF2B /* ReportTitleCollectionViewCell.swift in Sources */,
 				18A059D123E3D683002860B6 /* FriendListViewController.swift in Sources */,
@@ -777,6 +796,7 @@
 				1861EE6924039E06009AFE0F /* ReportContentViewController.swift in Sources */,
 				18CE586023F83FF400D47A2D /* WorkLogViewController.swift in Sources */,
 				18CE585A23F7D47600D47A2D /* NumberCollectionViewCell.swift in Sources */,
+				18ADFE0E240414A8003EAF2B /* LoginTableViewCell.swift in Sources */,
 				1861E10523D7F71400673640 /* AppDelegate.swift in Sources */,
 				18A059BF23E3C6FB002860B6 /* UIImage+Extension.swift in Sources */,
 				188FE73423E7EEB300DDF30C /* NewProjectViewController.swift in Sources */,

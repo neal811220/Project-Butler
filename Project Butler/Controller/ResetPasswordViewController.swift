@@ -9,29 +9,31 @@ import UIKit
 import Firebase
 
 class ResetPasswordViewController: UIViewController, UITextFieldDelegate {
-
-    @IBOutlet weak var resetPasswordEmail: UITextField!
     
-    @IBOutlet weak var resetButton: UIButton!
+    var emailText = ""
+    
+    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        resetButton.layer.cornerRadius = 28
+        tableView.dataSource = self
         
-        resetPasswordEmail.delegate = self
+        tableView.rowHeight = UITableView.automaticDimension
         // Do any additional setup after loading the view.
     }
     
-    @IBAction func pressedreset(_ sender: UIButton) {
+    @objc func pressedreset(_ sender: UIButton) {
         
-        if resetPasswordEmail.text == "" {
+        view.endEditing(true)
+        
+        if emailText == "" {
             
             PBProgressHUD.showFailure(text: "Please enter an email", viewController: self)
             
         } else {
             
-            Auth.auth().sendPasswordReset(withEmail: resetPasswordEmail.text!) { (error) in
+            Auth.auth().sendPasswordReset(withEmail: emailText) { (error) in
                 
                 if error != nil {
                     PBProgressHUD.showFailure(text: "\(error?.localizedDescription ?? "Error")", viewController: self)
@@ -48,14 +50,10 @@ class ResetPasswordViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    @IBAction func skip(_ sender: UIButton) {
+    @objc func skip(_ sender: UIButton) {
+        
         dismiss(animated: true, completion: nil)
     }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-           textField.resignFirstResponder()
-           return true
-       }
        
        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
            
@@ -63,3 +61,34 @@ class ResetPasswordViewController: UIViewController, UITextFieldDelegate {
        }
     
 }
+
+extension ResetPasswordViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ResetCell", for: indexPath) as? ResetPasswordTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        cell.delegate = self
+        
+        cell.resetButton.addTarget(self, action: #selector(pressedreset), for: .touchUpInside)
+        
+        cell.skipButton.addTarget(self, action: #selector(skip), for: .touchUpInside)
+        
+        return cell
+    }
+}
+
+extension ResetPasswordViewController: ResetPasswordTableViewCellDelegate {
+    
+    func passInputText(email: String) {
+        
+        self.emailText = email
+    }
+}
+

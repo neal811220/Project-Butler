@@ -528,6 +528,7 @@ extension PersonalViewController: UITableViewDataSource {
             
             cell.backImage.image = UIImage(named: userProjectDetail[indexPath.row].color)
             print(userProjectDetail[0].color)
+            
             cell.members = memberDetail[indexPath.row]
             
             cell.titleLabel.text = userProjectDetail[indexPath.row].projectName
