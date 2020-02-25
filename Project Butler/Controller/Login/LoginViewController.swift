@@ -12,32 +12,18 @@ import Firebase
 import GoogleSignIn
 import AuthenticationServices
 
-class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDelegate {
+class LoginViewController: UIViewController, GIDSignInDelegate {
     
-    @IBOutlet weak var userEmailTextField: UITextField!
+    @IBOutlet weak var tableView: UITableView!
     
-    @IBOutlet weak var passwordTextField: UITextField!
+    var emailText = ""
     
-    @IBOutlet weak var loginButton: UIButton!
-    
-    @IBOutlet weak var appleIdSigninView: UIView!
-    
-    @IBOutlet weak var facebookButton: UIButton!
-    
-    @IBOutlet weak var googleButton: UIButton!
+    var passwordText = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        loginButton.layer.cornerRadius = 28
-        
-        facebookButton.layer.cornerRadius = 20
-        
-        googleButton.layer.cornerRadius = 20
-        
-        userEmailTextField.delegate = self
-        
-        passwordTextField.delegate = self
+                
+        tableView.dataSource = self
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
         
@@ -49,26 +35,30 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
         
     }
     
-    @IBAction func pressedLoginButton(_ sender: UIButton) {
+     @objc func pressedLoginButton(_ sender: UIButton) {
         
-        if let email = userEmailTextField.text, let password = passwordTextField.text, email != "", password != ""{
+        view.endEditing(true)
+        
+        if emailText != "", passwordText != "" {
             
-            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-                
+            Auth.auth().signIn(withEmail: emailText, password: passwordText) { [weak self] (result, error) in
+                guard let strongSelf = self else {
+                    return
+                }
                 guard error == nil else { return PBProgressHUD.showFailure(text:
-                    "\(error!.localizedDescription)", viewController: self)}
+                    "\(error!.localizedDescription)", viewController: strongSelf)}
                 
-                PBProgressHUD.showSuccess(text: "Sign up Success!", viewController: self)
+                PBProgressHUD.showSuccess(text: "Sign up Success!", viewController: strongSelf)
                 
-                guard let userName = email.split(separator: "@").first else { return }
+                guard let userName = strongSelf.emailText.split(separator: "@").first else { return }
                 
                 let userImage = "Icons_32px_General"
                 
-                UserManager.shared.addGeneralUserData(name: String(userName), email: email, imageUrl: userImage)
+                UserManager.shared.addGeneralUserData(name: String(userName), email: strongSelf.emailText, imageUrl: userImage)
                 
                 UserManager.shared.getLoginUserInfo()
                 
-                self.transitionToTabBar()
+                strongSelf.transitionToTabBar()
             }
             
         } else {
@@ -78,7 +68,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
         
     }
     
-    @IBAction func pressedFacebookLogin(_ sender: UIButton) {
+    @objc func pressedFacebookLogin(_ sender: UIButton) {
         
         let manager = LoginManager()
         
@@ -115,15 +105,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
         }
     }
     
-    @IBAction func pressedGoogleLogin(_ sender: UIButton) {
+    @objc func pressedGoogleLogin(_ sender: UIButton) {
         
         GIDSignIn.sharedInstance().signIn()
         
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
     }
     
     func transitionToTabBar() {
@@ -170,15 +155,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
     
     func setupSignInAppleButton() {
         
-        let authorizationButton = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .whiteOutline)
-        
-        authorizationButton.addTarget(self, action: #selector(handleAppleIdRequest), for: .touchUpInside)
-        
-        authorizationButton.cornerRadius = 20
-        
-        authorizationButton.frame = appleIdSigninView.bounds
-        
-        appleIdSigninView.addSubview(authorizationButton)
+      
         
     }
     
@@ -200,6 +177,54 @@ class LoginViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
         
     }
     
+}
+
+extension LoginViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "LoginCell", for: indexPath) as? LoginTableViewCell else{
+            return UITableViewCell()
+        }
+        
+        cell.delegate = self
+        
+        cell.facebookButton.addTarget(self, action: #selector(pressedFacebookLogin), for: .touchUpInside)
+        
+        cell.googleButton.addTarget(self, action: #selector(pressedGoogleLogin), for: .touchUpInside)
+        
+        cell.loginButton.addTarget(self, action: #selector(pressedLoginButton), for: .touchUpInside)
+        
+        let authorizationButton = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .whiteOutline)
+        
+        authorizationButton.addTarget(self, action: #selector(handleAppleIdRequest), for: .touchUpInside)
+        
+        authorizationButton.cornerRadius = 20
+        
+        authorizationButton.frame = cell.appleLoginView.bounds
+        
+        cell.appleLoginView.addSubview(authorizationButton)
+        
+        return cell
+    }
+    
+    
+}
+
+extension LoginViewController: LoginTableViewCellDelegate {
+    
+    func passInputText(email: String, password: String) {
+        
+        self.emailText = email
+        
+        self.passwordText = password
+        
+    }
+
 }
 
 extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {

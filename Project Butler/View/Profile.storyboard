@@ -122,12 +122,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="med-eK-3zC">
-                                <rect key="frame" x="80" y="516" width="146" height="33"/>
+                                <rect key="frame" x="80" y="516" width="150" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="TKH-SV-0jZ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
-                                <state key="normal" title="ChangePassword">
+                                <state key="normal" title="Change Password">
                                     <color key="titleColor" name="Gray3"/>
                                 </state>
                                 <connections>
@@ -140,7 +140,7 @@
                             <constraint firstItem="fBu-op-cUO" firstAttribute="leading" secondItem="paK-ii-Nya" secondAttribute="leading" constant="80" id="0Vx-HL-3rp"/>
                             <constraint firstItem="dVB-fr-GKH" firstAttribute="top" secondItem="Awy-ZW-gGM" secondAttribute="bottom" constant="45" id="1hp-Yh-2tx"/>
                             <constraint firstItem="dVB-fr-GKH" firstAttribute="leading" secondItem="UBW-fK-4vC" secondAttribute="leading" constant="31" id="54s-7I-C5M"/>
-                            <constraint firstItem="UBW-fK-4vC" firstAttribute="trailing" secondItem="med-eK-3zC" secondAttribute="trailing" constant="188" id="8QC-AM-7hE"/>
+                            <constraint firstItem="UBW-fK-4vC" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="med-eK-3zC" secondAttribute="trailing" constant="188" id="8QC-AM-7hE"/>
                             <constraint firstItem="nDo-0P-Pkw" firstAttribute="top" secondItem="eCC-fS-ZM0" secondAttribute="bottom" constant="103" id="9gn-yL-Uzw"/>
                             <constraint firstItem="4Et-Q5-GJi" firstAttribute="leading" secondItem="UBW-fK-4vC" secondAttribute="leading" constant="141" id="Bgf-bF-qdc"/>
                             <constraint firstItem="nDo-0P-Pkw" firstAttribute="leading" secondItem="Ti0-Ru-A7P" secondAttribute="trailing" constant="19" id="F0V-wI-TCn"/>

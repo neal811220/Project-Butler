@@ -10,35 +10,32 @@ import UIKit
 import Firebase
 
 class SignupViewController: UIViewController, UITextFieldDelegate {
-
-    @IBOutlet weak var signupEmail: UITextField!
     
-    @IBOutlet weak var signupPassword: UITextField!
+    @IBOutlet weak var tableView: UITableView!
+        
+    var emailText = ""
     
-    @IBOutlet weak var signupConfirmPassword: UITextField!
+    var passwordText = ""
     
-    @IBOutlet weak var signupButton: UIButton!
+    var confirmtext = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
+        tableView.dataSource = self
         
-        signupButton.layer.cornerRadius = 28
-        
-        signupEmail.delegate = self
-        
-        signupPassword.delegate = self
-        
-        signupConfirmPassword.delegate = self
-        // Do any additional setup after loading the view.
+        tableView.rowHeight = UITableView.automaticDimension
     }
     
-    @IBAction func pressedSignup(_ sender: UIButton) {
+    @objc func pressedSignup(_ sender: UIButton) {
         
-        if let email = signupEmail.text, let password = signupPassword.text, let confirm = signupConfirmPassword.text, email != "", password != "", confirm != "" {
+        view.endEditing(true)
+        
+        if emailText != "", passwordText != "", confirmtext != "" {
             
-            if password == confirm {
+            if passwordText == confirmtext {
                 
-                Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+                Auth.auth().createUser(withEmail: emailText, password: passwordText) { (result, error) in
                     
                     guard error == nil else { return PBProgressHUD.showFailure(text:
                         "\(error!.localizedDescription)", viewController: self)}
@@ -59,21 +56,49 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             PBProgressHUD.showFailure(text: "Input Worng!", viewController: self)
         }
     }
-    @IBAction func skip(_ sender: UIButton) {
+    
+    @objc func skip(_ sender: UIButton) {
         
         dismiss(animated: true, completion: nil)
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-           textField.resignFirstResponder()
+        self.view.endEditing(true)
+    }
+    
+}
+
+extension SignupViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SignupCell", for: indexPath) as? SignupTableViewCell else{
+            return UITableViewCell()
+        }
         
-           return true
-       }
-       
-       override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-           
-           self.view.endEditing(true)
-       }
+        cell.delegate = self
+        
+        cell.signupButton.addTarget(self, action: #selector(pressedSignup), for: .touchUpInside)
+        
+        cell.skipButton.addTarget(self, action: #selector(skip), for: .touchUpInside)
+        return cell
+    }
+}
+
+
+extension SignupViewController: SignupTableViewCellDelegate {
+    
+    func passInputText(email: String, password: String, confirmPassword: String) {
+        
+        self.emailText = email
+        
+        self.passwordText = password
+        
+        self.confirmtext = confirmPassword
+    }
     
 }
