@@ -193,9 +193,9 @@ class WorkLogViewController: UIViewController {
         
         view.addSubview(projectlabel)
         
-        view.addSubview(addLogButton)
-        
         view.addSubview(reportButton)
+        
+        view.addSubview(addLogButton)
         
         addLogButton.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
         
@@ -209,18 +209,20 @@ class WorkLogViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
+            reportButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            reportButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            reportButton.heightAnchor.constraint(equalToConstant: 30),
+            reportButton.widthAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        NSLayoutConstraint.activate([
             addLogButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            addLogButton.leftAnchor.constraint(equalTo: projectlabel.rightAnchor, constant: 10),
+            addLogButton.rightAnchor.constraint(equalTo: reportButton.leftAnchor, constant: -5),
             addLogButton.heightAnchor.constraint(equalToConstant: 30),
             addLogButton.widthAnchor.constraint(equalToConstant: 30)
         ])
         
-        NSLayoutConstraint.activate([
-            reportButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            reportButton.leftAnchor.constraint(equalTo: addLogButton.rightAnchor, constant: 10),
-            reportButton.heightAnchor.constraint(equalToConstant: 30),
-            reportButton.widthAnchor.constraint(equalToConstant: 30)
-        ])
+        
         
     }
     
@@ -316,6 +318,10 @@ class WorkLogViewController: UIViewController {
         workLogContentVC.documentID = projectDetail.projectID
         
         workLogContentVC.workItemArray = projectDetail.workItems
+        
+        workLogContentVC.startDate = projectDetail.startDate
+        
+        workLogContentVC.endDate = projectDetail.endDate
         
         workLogContentVC.passContentData = {
             

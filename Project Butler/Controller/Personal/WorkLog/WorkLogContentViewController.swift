@@ -83,6 +83,10 @@ class WorkLogContentViewController: UIViewController {
     
     var workItemArray: [String] = []
     
+    var startDate = ""
+    
+    var endDate = ""
+    
     var startText = ""
     
     var endText = ""
@@ -155,11 +159,15 @@ class WorkLogContentViewController: UIViewController {
         
         datePickerView.locale = NSLocale(localeIdentifier: "en-US") as Locale
         
+        let fromStartDate = dateFormatter.date(from: startDate)
+        
+        datePickerView.minimumDate = fromStartDate
+        
         datePickerView.addTarget(self, action: #selector(didTapDatePicker), for: .valueChanged)
     }
     
     @objc func didTapDatePicker() {
-        
+
         dateText = dateFormatter.string(from: datePickerView.date)
         
         tableView.reloadData()
@@ -211,7 +219,7 @@ class WorkLogContentViewController: UIViewController {
         let startTime = startTimePickerView.date
         
         let endTime = endTimePickerView.date
-        
+                
         if endTime >= startTime {
             
             timeStatus = true

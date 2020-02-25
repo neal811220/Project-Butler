@@ -82,26 +82,26 @@ extension ProcessingTableViewCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if members.count <= 5 {
+        if members.count <= 3 {
             
             return members.count
             
         } else {
             
-            return 5
+            return 4
             
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if indexPath.row == 4 {
+        if indexPath.row == 3 {
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NumberCell", for: indexPath) as? NumberCollectionViewCell else {
                 return UICollectionViewCell()
             }
             
-            cell.numberLabel.text = "+\(members.count - 4)"
+            cell.numberLabel.text = "+\(members.count - 3)"
             
             return cell
             

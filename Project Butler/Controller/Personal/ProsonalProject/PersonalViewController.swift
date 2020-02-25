@@ -301,6 +301,8 @@ class PersonalViewController: UIViewController {
                 
                 self.userProjectDetail = data
                 
+                self.userProjectDetail = self.userProjectDetail.sorted(by: { $0.startDate > $1.startDate })
+                
                 self.fetchMemberDetail()
                 
             case .failure(let error):
