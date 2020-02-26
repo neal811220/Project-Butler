@@ -340,37 +340,11 @@ class WorkLogViewController: UIViewController {
             return
         }
         
-        guard let reportContentVC = UIStoryboard.report.instantiateViewController(withIdentifier: "ReportContentVC") as? ReportContentViewController else {
-            return
-        }
+        reportVC.workLogContent = workLogContent
         
-        guard let id = projectDetail?.projectID else {
-            return
-        }
+        reportVC.projectDetail = projectDetail
         
-        ProjectManager.shared.fetchTapProjectDetail(projectID: id) { (result) in
-            
-            switch result {
-                
-            case .success(let data):
-                                
-                reportVC.workLogContent = data
-                
-                reportContentVC.workLogContent = data
-                
-                reportContentVC.projectDetail = self.projectDetail
-                
-                reportVC.members = self.members
-                
-            case.failure(let error):
-                
-                print(error)
-            }
-            
-            self.show(reportContentVC, sender: nil)
-            
-        }
-        
+        self.show(reportVC, sender: nil)
     }
     
 }

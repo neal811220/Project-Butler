@@ -36,8 +36,6 @@ class ReportViewController: UIViewController {
     
     lazy var contentcollectionView: UICollectionView = {
         
-        let nib = UINib(nibName: "ReportContentCollectionViewCell", bundle: nil)
-        
         let layout = UICollectionViewFlowLayout()
         
         layout.scrollDirection = .horizontal
@@ -48,7 +46,7 @@ class ReportViewController: UIViewController {
         
         collectionView.isPagingEnabled = true
         
-        collectionView.register(nib, forCellWithReuseIdentifier: "ReportContentCell")
+        collectionView.register(ContainerCollectionViewCell.self, forCellWithReuseIdentifier: ContainerCollectionViewCell.identifier)
         
         collectionView.backgroundColor = UIColor.clear
         
@@ -60,18 +58,12 @@ class ReportViewController: UIViewController {
                 
         return collectionView
     }()
-        
-    var timeArray: [String] = []
-    
-    var contentArray: [String] = []
     
     var workLogContent: [WorkLogContent] = []
     
-    var members: [AuthInfo] = []
+    var projectDetail: NewProject?
     
-    var pickerContent: [String] = []
-    
-    let reportManager = ReportManager()
+//    let reportManager = ReportManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,34 +138,38 @@ extension ReportViewController: UICollectionViewDataSource {
             
         } else {
             
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ReportContentCell", for: indexPath) as? ReportContentCollectionViewCell else {
-                return UICollectionViewCell()
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContainerCollectionViewCell.identifier, for: indexPath)
+            
+            guard let reportContentVC = UIStoryboard.report.instantiateViewController(withIdentifier: "ReportContentVC") as? ReportContentViewController else {
+                return cell
             }
             
-            var chartModel = AAChartModel()
+            addChild(reportContentVC)
             
-            if indexPath.row == 0 {
-                
-//                chartModel = reportManager.dateChartView(workLogContent: workLogContent, workLogName: )
-                
-            } else if indexPath.row == 1{
-                
-                chartModel = reportManager.personalChartView(workLogContent: workLogContent)
-                
-            } else {
-                
-                chartModel = reportManager.workItemChartView(workLogContent: workLogContent)
-            }
+            reportContentVC.workLogContent = workLogContent
             
-            cell.chartModel = chartModel
-                        
-            cell.tableView.register(UINib(nibName: "ReportContentTableViewCell", bundle: nil), forCellReuseIdentifier: "ReportContentCell")
+            reportContentVC.projectDetail = projectDetail
+            
+            guard let reportView = reportContentVC.view else { return cell }
+            
+            cell.addSubview(reportView)
+            
+            reportView.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                reportView.topAnchor.constraint(equalTo: cell.topAnchor),
+                reportView.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
+                reportView.trailingAnchor.constraint(equalTo: cell.trailingAnchor),
+                reportView.bottomAnchor.constraint(equalTo: cell.bottomAnchor)
+            ])
+            
+            reportContentVC.didMove(toParent: self)
+            
+            cell.backgroundColor = .red
             
             return cell
         }
-        
     }
-    
 }
 
 extension ReportViewController: UICollectionViewDelegateFlowLayout {
@@ -189,5 +185,18 @@ extension ReportViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
         }
         
+    }
+}
+
+class ContainerCollectionViewCell: UICollectionViewCell {
+    
+    
+}
+
+extension UIView {
+    
+    static var identifier: String {
+        
+        return String(describing: self)
     }
 }

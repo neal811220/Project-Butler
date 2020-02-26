@@ -52,7 +52,6 @@
 		18ADFE022403B7E1003EAF2B /* ReportContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18ADFDFE2403B7E0003EAF2B /* ReportContentTableViewCell.swift */; };
 		18ADFE032403B7E1003EAF2B /* ReportContentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18ADFDFF2403B7E0003EAF2B /* ReportContentTableViewCell.xib */; };
 		18ADFE042403B7E1003EAF2B /* ReportContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18ADFE002403B7E1003EAF2B /* ReportContentCollectionViewCell.swift */; };
-		18ADFE052403B7E1003EAF2B /* ReportContentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18ADFE012403B7E1003EAF2B /* ReportContentCollectionViewCell.xib */; };
 		18ADFE082403B7EE003EAF2B /* ReportTitleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18ADFE062403B7EE003EAF2B /* ReportTitleCollectionViewCell.xib */; };
 		18ADFE092403B7EE003EAF2B /* ReportTitleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18ADFE072403B7EE003EAF2B /* ReportTitleCollectionViewCell.swift */; };
 		18ADFE0E240414A8003EAF2B /* LoginTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18ADFE0C240414A8003EAF2B /* LoginTableViewCell.swift */; };
@@ -143,7 +142,6 @@
 		18ADFDFE2403B7E0003EAF2B /* ReportContentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportContentTableViewCell.swift; sourceTree = "<group>"; };
 		18ADFDFF2403B7E0003EAF2B /* ReportContentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportContentTableViewCell.xib; sourceTree = "<group>"; };
 		18ADFE002403B7E1003EAF2B /* ReportContentCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportContentCollectionViewCell.swift; sourceTree = "<group>"; };
-		18ADFE012403B7E1003EAF2B /* ReportContentCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportContentCollectionViewCell.xib; sourceTree = "<group>"; };
 		18ADFE062403B7EE003EAF2B /* ReportTitleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportTitleCollectionViewCell.xib; sourceTree = "<group>"; };
 		18ADFE072403B7EE003EAF2B /* ReportTitleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTitleCollectionViewCell.swift; sourceTree = "<group>"; };
 		18ADFE0C240414A8003EAF2B /* LoginTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTableViewCell.swift; sourceTree = "<group>"; };
@@ -352,7 +350,6 @@
 			isa = PBXGroup;
 			children = (
 				18ADFE002403B7E1003EAF2B /* ReportContentCollectionViewCell.swift */,
-				18ADFE012403B7E1003EAF2B /* ReportContentCollectionViewCell.xib */,
 				18ADFDFE2403B7E0003EAF2B /* ReportContentTableViewCell.swift */,
 				18ADFDFF2403B7E0003EAF2B /* ReportContentTableViewCell.xib */,
 			);
@@ -669,7 +666,6 @@
 				188FE73E23E7F0E800DDF30C /* WorkItemTableViewCell.xib in Resources */,
 				18A059C423E3CC95002860B6 /* Profile.storyboard in Resources */,
 				1861E11123D7F71500673640 /* LaunchScreen.storyboard in Resources */,
-				18ADFE052403B7E1003EAF2B /* ReportContentCollectionViewCell.xib in Resources */,
 				18F0E37E23F3F2A000149F8F /* SelectMemberTableViewCell.xib in Resources */,
 				18CE585C23F7D4A800D47A2D /* NumberCollectionViewCell.xib in Resources */,
 				18635CEB2403A6DB00469168 /* ReportChartViewTableViewCell.xib in Resources */,
