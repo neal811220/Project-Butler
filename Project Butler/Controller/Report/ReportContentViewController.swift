@@ -59,7 +59,7 @@ class ReportContentViewController: UIViewController {
     
     var projectDetail: NewProject?
     
-    let reportManager = ReportManager()
+    var reportManager: ChartProvider?
     
     var chartView: AAChartView!
     
@@ -87,6 +87,8 @@ class ReportContentViewController: UIViewController {
     
     func setupTableHeaderView() {
         
+        guard let reportManager = reportManager else { return }
+        
         chartView = AAChartView()
         
         chartView.delegate = self as AAChartViewDelegate
@@ -95,7 +97,7 @@ class ReportContentViewController: UIViewController {
         
         chartView.translatesAutoresizingMaskIntoConstraints = false
         
-        chartModel = reportManager.dateChartView(workLogContent: workLogContent, workLogName: projectDetail?.projectName ?? "")
+        chartModel = reportManager.chartView(with: workLogContent)
         
         chartView.aa_drawChartWithChartModel(chartModel)
         
@@ -219,8 +221,10 @@ extension ReportContentViewController: UIPickerViewDataSource {
 }
 
 extension ReportContentViewController: AAChartViewDelegate {
+    
     open func aaChartViewDidFinishedLoad(_ aaChartView: AAChartView) {
-       print("🙂🙂🙂, AAChartView Did Finished Load!!!")
+    
+        print("🙂🙂🙂, AAChartView Did Finished Load!!!")
     }
     
     open func aaChartView(_ aaChartView: AAChartView, moveOverEventMessage: AAMoveOverEventMessageModel) {

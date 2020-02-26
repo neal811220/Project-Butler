@@ -14,76 +14,87 @@ class ReportManager {
     
     var chartModel: AAChartModel!
     
-    var chartType: AAChartType!
-    
     let date = Date()
+    
+    var workLogName = ""
     
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
+}
+
+protocol ChartProvider {
     
-    func dateChartView(workLogContent: [WorkLogContent], workLogName: String) -> AAChartModel {
-        
-        let sortArray = workLogContent.sorted(by: { $0.date < $1.date })
+    func chartView(with workLogContent: [WorkLogContent]) -> AAChartModel
+}
+
+class DateReportManager: ReportManager, ChartProvider {
+    
+    func chartView(with workLogContent: [WorkLogContent]) -> AAChartModel {
+            
+            let sortArray = workLogContent.sorted(by: { $0.date < $1.date })
+                    
+            let allDate = Array(Set(sortArray.map{ $0.date })).sorted()
+            
+            var resultDictionary: [String: [WorkLogContent]] = [:]
+            
+            for item in sortArray {
                 
-        let allDate = Array(Set(sortArray.map{ $0.date })).sorted()
-        
-        var resultDictionary: [String: [WorkLogContent]] = [:]
-        
-        for item in sortArray {
-            
-            if let logContentArray = resultDictionary[item.date] {
-            
-                resultDictionary[item.date] = logContentArray + [item]
+                if let logContentArray = resultDictionary[item.date] {
+                
+                    resultDictionary[item.date] = logContentArray + [item]
+                    
+                } else {
+                    
+                    resultDictionary[item.date] = [item]
+                }
+            }
+                    
+            var count: Int
+                
+            if allDate.count < 8 {
+                
+                count = allDate.count
                 
             } else {
                 
-                resultDictionary[item.date] = [item]
+                count = 7
             }
-        }
+            
+            let category = allDate.prefix(count)
+            
+            var seriesElement: [Int] = []
+            
+            for i in 0..<count {
                 
-        var count: Int
+                let workHours = resultDictionary[allDate[i]]!.map({ $0.hour }).reduce(0, { return $0 + $1 })
+                
+                seriesElement.append(workHours)
+            }
             
-        if allDate.count < 8 {
+            let element = AASeriesElement().name("Project").data(seriesElement)
             
-            count = allDate.count
+            chartModel = AAChartModel()
+            chartModel = chartModel.touchEventEnabled(true)
+            .chartType(.spline)//Can be any of the chart types listed under `AAChartType`.
+            .animationType(.bounce)
+            .title(workLogName)//The chart title
+    //        .subtitle("subtitle")//The chart subtitle
+            .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
+            .tooltipValueSuffix("Hour")//the value suffix of the chart tooltip
+            .categories(Array(category))
+            .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
+            .series([element])
             
-        } else {
-            
-            count = 7
+            return chartModel
         }
-        
-        let category = allDate.prefix(count)
-        
-        var seriesElement: [Int] = []
-        
-        for i in 0..<count {
-            
-            let workHours = resultDictionary[allDate[i]]!.map({ $0.hour }).reduce(0, { return $0 + $1 })
-            
-            seriesElement.append(workHours)
-        }
-        
-        let element = AASeriesElement().name("Project").data(seriesElement)
-        
-        chartModel = AAChartModel()
-        chartModel = chartModel.touchEventEnabled(true)
-        .chartType(.spline)//Can be any of the chart types listed under `AAChartType`.
-        .animationType(.bounce)
-        .title(workLogName)//The chart title
-//        .subtitle("subtitle")//The chart subtitle
-        .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
-        .tooltipValueSuffix("Hour")//the value suffix of the chart tooltip
-        .categories(Array(category))
-        .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
-        .series([element])
-        
-        return chartModel
-    }
+}
+
+class PersonalReportManager: ReportManager, ChartProvider {
     
-    func personalChartView(workLogContent: [WorkLogContent]) -> AAChartModel {
+    func chartView(with workLogContent: [WorkLogContent]) -> AAChartModel {
         
         guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
             return AAChartModel()
@@ -157,8 +168,13 @@ class ReportManager {
                 
         return chartModel
     }
+}
+
+class WorkItemReportManager: ReportManager, ChartProvider {
     
-    func workItemChartView(workLogContent: [WorkLogContent], workItem: String = "Look") -> AAChartModel {
+    var workItem = "Look"
+    
+    func chartView(with workLogContent: [WorkLogContent]) -> AAChartModel {
         
         var beforeSevenDates: [String] = []
         
@@ -228,5 +244,4 @@ class ReportManager {
         
         return chartModel
     }
-    
 }

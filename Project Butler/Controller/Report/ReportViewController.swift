@@ -63,6 +63,8 @@ class ReportViewController: UIViewController {
     
     var projectDetail: NewProject?
     
+    let reportManagers: [ChartProvider] = [DateReportManager(), PersonalReportManager(), WorkItemReportManager()]
+    
 //    let reportManager = ReportManager()
     
     override func viewDidLoad() {
@@ -145,6 +147,8 @@ extension ReportViewController: UICollectionViewDataSource {
             }
             
             addChild(reportContentVC)
+            
+            reportContentVC.reportManager = reportManagers[indexPath.row]
             
             reportContentVC.workLogContent = workLogContent
             
