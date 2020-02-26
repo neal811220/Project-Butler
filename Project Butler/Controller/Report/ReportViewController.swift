@@ -154,7 +154,7 @@ extension ReportViewController: UICollectionViewDataSource {
             
             if indexPath.row == 0 {
                 
-                chartModel = reportManager.dateChartView(workLogContent: workLogContent)
+//                chartModel = reportManager.dateChartView(workLogContent: workLogContent, workLogName: )
                 
             } else if indexPath.row == 1{
                 

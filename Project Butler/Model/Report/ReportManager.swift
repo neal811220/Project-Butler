@@ -16,12 +16,6 @@ class ReportManager {
     
     var chartType: AAChartType!
     
-    var filterDateArray: [WorkLogContent] = []
-    
-    var filterPersonalArray: [WorkLogContent] = []
-    
-    var filterWorkItemArray: [WorkLogContent] = []
-    
     let date = Date()
     
     let formatter: DateFormatter = {
@@ -30,7 +24,7 @@ class ReportManager {
         return formatter
     }()
     
-    func dateChartView(workLogContent: [WorkLogContent]) -> AAChartModel {
+    func dateChartView(workLogContent: [WorkLogContent], workLogName: String) -> AAChartModel {
         
         let sortArray = workLogContent.sorted(by: { $0.date < $1.date })
                 
@@ -78,8 +72,8 @@ class ReportManager {
         chartModel = chartModel.touchEventEnabled(true)
         .chartType(.spline)//Can be any of the chart types listed under `AAChartType`.
         .animationType(.bounce)
-        .title("TITLE")//The chart title
-        .subtitle("subtitle")//The chart subtitle
+        .title(workLogName)//The chart title
+//        .subtitle("subtitle")//The chart subtitle
         .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
         .tooltipValueSuffix("Hour")//the value suffix of the chart tooltip
         .categories(Array(category))

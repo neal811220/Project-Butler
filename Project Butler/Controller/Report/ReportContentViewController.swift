@@ -69,6 +69,8 @@ class ReportContentViewController: UIViewController {
         super.viewDidLoad()
         
         setupTableView()
+        
+        setupTableHeaderView()
     }
     
     func setupTableView() {
@@ -83,6 +85,25 @@ class ReportContentViewController: UIViewController {
         ])
     }
     
+    func setupTableHeaderView() {
+        
+        chartView = AAChartView()
+        
+        chartView.delegate = self as AAChartViewDelegate
+               
+        chartModel = chartModel.touchEventEnabled(true)
+        
+        chartView.translatesAutoresizingMaskIntoConstraints = false
+        
+        chartModel = reportManager.dateChartView(workLogContent: workLogContent, workLogName: projectDetail?.projectName ?? "")
+        
+        chartView.aa_drawChartWithChartModel(chartModel)
+        
+        chartView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height / 2)
+        
+        tableView.tableHeaderView = chartView
+    }
+    
 }
 
 extension ReportContentViewController: UITableViewDelegate {
@@ -93,14 +114,15 @@ extension ReportContentViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
-        return 3
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 2 {
+        if section == 1 {
             
             return filterWorkLogContent.count
+            
         } else {
             
             return 1
@@ -113,38 +135,6 @@ extension ReportContentViewController: UITableViewDataSource {
             
         case 0:
             
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ReportChartViewCell", for: indexPath) as? ReportChartViewTableViewCell else {
-                return UITableViewCell()
-            }
-            
-            chartView = AAChartView()
-            
-            chartView.delegate = self as AAChartViewDelegate
-                   
-            chartModel = chartModel.touchEventEnabled(true)
-            
-            chartView.translatesAutoresizingMaskIntoConstraints = false
-            
-            chartModel = reportManager.dateChartView(workLogContent: workLogContent)
-            
-            chartView.aa_drawChartWithChartModel(chartModel)
-            
-            cell.contentView.addSubview(chartView)
-            
-            NSLayoutConstraint.activate([
-                chartView.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-                chartView.leftAnchor.constraint(equalTo: cell.contentView.leftAnchor),
-                chartView.rightAnchor.constraint(equalTo: cell.contentView.rightAnchor),
-                chartView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
-                chartView.heightAnchor.constraint(equalToConstant: 600)
-            ])
-            
-            tableView.rowHeight = UITableView.automaticDimension
-            
-            return cell
-            
-        case 1:
-            
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ReportPickerViewCell", for: indexPath) as? ReportChartPickerTableViewCell else {
                 return UITableViewCell()
             }
@@ -153,11 +143,13 @@ extension ReportContentViewController: UITableViewDataSource {
             
             return cell
             
-        case 2:
+        case 1:
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "WorkLogCell", for: indexPath) as? WorkLogTableViewCell else {
                 return UITableViewCell()
             }
+            
+            filterWorkLogContent = filterWorkLogContent.sorted(by: { return $0.startTime < $1.startTime })
             
             cell.dateLabel.textColor = UIColor(patternImage: UIImage(named: projectDetail!.color)!)
             

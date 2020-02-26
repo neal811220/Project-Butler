@@ -158,7 +158,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
       
         
     }
-    
+        
     @objc func handleAppleIdRequest() {
         
         let appleIDProvider = ASAuthorizationAppleIDProvider()

@@ -56,7 +56,6 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZKG-50-ueE">
                         <rect key="frame" x="110" y="38" width="180" height="30"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="180" id="3j6-Pe-JHH"/>
                             <constraint firstAttribute="height" constant="30" id="ely-wF-oC1"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
@@ -75,6 +74,7 @@
                     <constraint firstAttribute="bottom" secondItem="fNQ-MJ-tJB" secondAttribute="bottom" constant="25" id="ZKo-CN-GKf"/>
                     <constraint firstAttribute="trailing" secondItem="fNQ-MJ-tJB" secondAttribute="trailing" constant="15" id="bXC-4o-2x1"/>
                     <constraint firstItem="fNQ-MJ-tJB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="eDY-5l-XlO"/>
+                    <constraint firstItem="fsG-up-WNx" firstAttribute="leading" relation="lessThanOrEqual" secondItem="ZKG-50-ueE" secondAttribute="trailing" constant="37" id="eal-S4-6PD"/>
                     <constraint firstItem="Ee4-7P-rCB" firstAttribute="leading" secondItem="d2t-5r-9L0" secondAttribute="trailing" constant="30" id="ji5-5Y-u3B"/>
                     <constraint firstAttribute="bottom" secondItem="d2t-5r-9L0" secondAttribute="bottom" constant="10" id="okx-qG-q31"/>
                     <constraint firstItem="d2t-5r-9L0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="tKC-jD-fF4"/>

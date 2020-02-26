@@ -151,6 +151,7 @@ class PersonalViewController: UIViewController {
     let fetchUserSemaphone = DispatchSemaphore(value: 0)
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.prefersLargeTitles = true

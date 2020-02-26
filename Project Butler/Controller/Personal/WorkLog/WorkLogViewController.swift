@@ -233,8 +233,8 @@ class WorkLogViewController: UIViewController {
         NSLayoutConstraint.activate([
             
             collectionView.topAnchor.constraint(equalTo: addLogButton.bottomAnchor, constant: 30),
-            collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            collectionView.widthAnchor.constraint(equalToConstant: view.frame.width / 4 + 10),
+            collectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            collectionView.widthAnchor.constraint(equalToConstant: view.frame.width / 4 + 20),
             collectionView.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
