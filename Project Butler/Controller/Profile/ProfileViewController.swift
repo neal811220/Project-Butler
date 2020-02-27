@@ -52,8 +52,14 @@ class ProfileViewController: UIViewController {
         userName.text = UserDefaults.standard.value(forKey: "userName") as? String
         
         userEmail.text = UserDefaults.standard.value(forKey: "userEmail") as? String
+        if CurrentUserInfo.shared.userImageUrl != nil {
+            
+            userImage.loadImage(CurrentUserInfo.shared.userImageUrl, placeHolder: UIImage(named: "Icons_128px_General"))
+        } else {
+            
+            userImage.image = UIImage(named: "Icons_128px_General")
+        }
         
-        userImage.loadImage(CurrentUserInfo.shared.userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
         
 //        userImage.image = UIImage.asset(.Icons_128px_General)
         // Do any additional setup after loading the view.

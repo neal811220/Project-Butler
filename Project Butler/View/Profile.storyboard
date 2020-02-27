@@ -20,28 +20,27 @@
                                 <rect key="frame" x="-293" y="0.0" width="1000" height="269"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Handsoma Boy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Et-Q5-GJi">
-                                        <rect key="frame" x="434" y="204" width="132" height="24"/>
+                                        <rect key="frame" x="434" y="203" width="132" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="ZWd-IF-E8j"/>
-                                            <constraint firstAttribute="width" constant="132" id="cqS-1C-daY"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
                                         <color key="textColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Luke" translatesAutoresizingMaskIntoConstraints="NO" id="M8s-7i-gxx">
-                                        <rect key="frame" x="450" y="96" width="100" height="100"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="M8s-7i-gxx">
+                                        <rect key="frame" x="460" y="102.5" width="80" height="80"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="M8s-7i-gxx" secondAttribute="height" multiplier="1:1" id="oYZ-go-USt"/>
+                                            <constraint firstAttribute="width" secondItem="M8s-7i-gxx" secondAttribute="height" multiplier="1:1" id="5Wh-A9-euk"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.11259927600622177" green="0.24196910858154297" blue="0.62705594301223755" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="4Et-Q5-GJi" secondAttribute="bottom" constant="41" id="1wJ-OK-6Vl"/>
-                                    <constraint firstItem="M8s-7i-gxx" firstAttribute="top" secondItem="eCC-fS-ZM0" secondAttribute="top" constant="96" id="3kd-As-1Kf"/>
-                                    <constraint firstItem="M8s-7i-gxx" firstAttribute="centerX" secondItem="eCC-fS-ZM0" secondAttribute="centerX" id="98m-4a-smd"/>
+                                    <constraint firstItem="4Et-Q5-GJi" firstAttribute="centerX" secondItem="eCC-fS-ZM0" secondAttribute="centerX" id="3rC-N9-ERa"/>
+                                    <constraint firstItem="4Et-Q5-GJi" firstAttribute="centerY" secondItem="eCC-fS-ZM0" secondAttribute="centerY" multiplier="1.6" id="80R-tT-pFR"/>
                                     <constraint firstAttribute="width" constant="1000" id="RbQ-tc-LGD"/>
+                                    <constraint firstItem="M8s-7i-gxx" firstAttribute="centerX" secondItem="eCC-fS-ZM0" secondAttribute="centerX" id="tPQ-2K-Qdw"/>
                                 </constraints>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icons_32px_Email" translatesAutoresizingMaskIntoConstraints="NO" id="Ti0-Ru-A7P">
@@ -120,10 +119,9 @@
                         <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="fBu-op-cUO" firstAttribute="leading" secondItem="paK-ii-Nya" secondAttribute="leading" constant="80" id="0Vx-HL-3rp"/>
-                            <constraint firstItem="M8s-7i-gxx" firstAttribute="width" secondItem="paK-ii-Nya" secondAttribute="width" multiplier="0.241546" id="2DC-Pp-EQn"/>
+                            <constraint firstItem="4Et-Q5-GJi" firstAttribute="width" secondItem="paK-ii-Nya" secondAttribute="width" multiplier="0.318841" id="5Ns-iJ-LXI"/>
                             <constraint firstItem="nDo-0P-Pkw" firstAttribute="top" secondItem="eCC-fS-ZM0" secondAttribute="bottom" constant="103" id="9gn-yL-Uzw"/>
                             <constraint firstItem="Awy-ZW-gGM" firstAttribute="leading" secondItem="UBW-fK-4vC" secondAttribute="leading" constant="30" id="AMr-lS-Zhv"/>
-                            <constraint firstItem="4Et-Q5-GJi" firstAttribute="leading" secondItem="UBW-fK-4vC" secondAttribute="leading" constant="141" id="Bgf-bF-qdc"/>
                             <constraint firstItem="dVB-fr-GKH" firstAttribute="leading" secondItem="UBW-fK-4vC" secondAttribute="leading" constant="30" id="CqQ-Oy-GvD"/>
                             <constraint firstItem="nDo-0P-Pkw" firstAttribute="leading" secondItem="Ti0-Ru-A7P" secondAttribute="trailing" constant="19" id="F0V-wI-TCn"/>
                             <constraint firstItem="UBW-fK-4vC" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="W9U-Pz-tgF" secondAttribute="trailing" constant="331" id="HG9-sS-hs2"/>
@@ -131,6 +129,7 @@
                             <constraint firstItem="W9U-Pz-tgF" firstAttribute="leading" secondItem="UBW-fK-4vC" secondAttribute="leading" constant="31" id="Kkx-gh-AG0"/>
                             <constraint firstItem="fBu-op-cUO" firstAttribute="top" secondItem="nDo-0P-Pkw" secondAttribute="bottom" constant="3" id="Kqe-ZK-FbM"/>
                             <constraint firstItem="UBW-fK-4vC" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="bbT-Ea-dFz" secondAttribute="trailing" constant="275" id="L0o-v5-TPi"/>
+                            <constraint firstItem="M8s-7i-gxx" firstAttribute="centerY" secondItem="UBW-fK-4vC" secondAttribute="centerY" multiplier="0.3" id="N3f-oc-Ow0"/>
                             <constraint firstItem="W9U-Pz-tgF" firstAttribute="top" secondItem="eCC-fS-ZM0" secondAttribute="bottom" constant="69" id="QHO-sF-FnQ"/>
                             <constraint firstAttribute="trailing" secondItem="fBu-op-cUO" secondAttribute="trailing" constant="31" id="Qjk-lG-vOl"/>
                             <constraint firstItem="dVB-fr-GKH" firstAttribute="top" secondItem="Awy-ZW-gGM" secondAttribute="bottom" constant="35" id="RqF-wE-eQH"/>
@@ -143,8 +142,8 @@
                             <constraint firstItem="UBW-fK-4vC" firstAttribute="trailing" secondItem="nDo-0P-Pkw" secondAttribute="trailing" constant="31" id="vOp-1T-acm"/>
                             <constraint firstItem="Ti0-Ru-A7P" firstAttribute="leading" secondItem="UBW-fK-4vC" secondAttribute="leading" constant="31" id="vmn-E1-ET4"/>
                             <constraint firstItem="UBW-fK-4vC" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="med-eK-3zC" secondAttribute="trailing" constant="184" id="xmv-aw-fbD"/>
+                            <constraint firstItem="M8s-7i-gxx" firstAttribute="width" secondItem="paK-ii-Nya" secondAttribute="width" multiplier="0.193237" id="xzi-Xr-e7o"/>
                             <constraint firstItem="eCC-fS-ZM0" firstAttribute="centerX" secondItem="paK-ii-Nya" secondAttribute="centerX" id="yVC-t7-Spt"/>
-                            <constraint firstItem="UBW-fK-4vC" firstAttribute="trailing" secondItem="4Et-Q5-GJi" secondAttribute="trailing" constant="141" id="yhi-GM-C7R"/>
                             <constraint firstItem="eCC-fS-ZM0" firstAttribute="top" secondItem="paK-ii-Nya" secondAttribute="top" id="zYX-XE-oYe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="UBW-fK-4vC"/>
@@ -184,7 +183,6 @@
         <image name="Icons_32px_Email" width="32" height="32"/>
         <image name="Icons_32px_Logout" width="32" height="32"/>
         <image name="Icons_32px_PassWord" width="32" height="32"/>
-        <image name="Luke" width="192" height="192"/>
         <namedColor name="Gray3">
             <color red="0.36078431372549019" green="0.34509803921568627" blue="0.32941176470588235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

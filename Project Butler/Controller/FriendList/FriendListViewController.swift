@@ -25,7 +25,7 @@ class FriendListViewController: UIViewController {
         tableview.rowHeight = UITableView.automaticDimension
         
         tableview.separatorStyle = .none
-        
+                
         return tableview
     }()
     
@@ -44,7 +44,7 @@ class FriendListViewController: UIViewController {
         search.searchBar.scopeButtonTitles = UserManager.shared.scopeButtons
         
         search.searchBar.searchBarStyle = .prominent
-        
+                
         search.searchBar.delegate = self
         
         return search
@@ -259,6 +259,7 @@ extension FriendListViewController: UITableViewDataSource {
         
         userManager.isSearching = false
         
+        userManager.isSearch = false
     }
     
     @objc func tapButton(sender: UIButton) {

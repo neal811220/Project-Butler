@@ -34,6 +34,8 @@ class UserManager {
     
     var acceptArray = [FriendDetail]()
     
+    var isSearch = false
+    
     var image = UIImage()
     
     let group = DispatchGroup()
@@ -229,7 +231,7 @@ class UserManager {
         
         isSearching = true
         
-        guard let userID = Auth.auth().currentUser?.uid else { return }
+        guard let userID = UserDefaults.standard.value(forKey: "userName") as? String else { return }
         
         clearAll()
         
@@ -369,6 +371,12 @@ class UserManager {
             
             return
         }
+        
+        guard isSearch == false else {
+            return
+        }
+        
+        isSearch = true
         
         let nextASICCode = lastCharacter.asciiValue! + 1
         

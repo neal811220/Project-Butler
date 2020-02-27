@@ -49,17 +49,24 @@ class ReportContentViewController: UIViewController {
         return pickerView
     }()
     
-    var chartModel = AAChartModel()
-    
-    var workLogContent: [WorkLogContent] = []
-    
-    var filterWorkLogContent: [WorkLogContent] = []
-    
     var reportPickerContentArray: [String] = ["test1", "test2", "test3"]
     
     var projectDetail: NewProject?
     
-    var reportManager: ChartProvider?
+    var filterWorkLogContent: [WorkLogContent] = []
+    
+    var reportManager: ChartProvider? {
+        
+        didSet {
+        
+            reportManager?.targetWorkLogContentsDidChangeHandler = { [weak self] datas in
+                
+                self?.filterWorkLogContent = datas
+                
+                self?.tableView.reloadData()
+            }
+        }
+    }
     
     var chartView: AAChartView!
     
@@ -92,14 +99,10 @@ class ReportContentViewController: UIViewController {
         chartView = AAChartView()
         
         chartView.delegate = self as AAChartViewDelegate
-               
-        chartModel = chartModel.touchEventEnabled(true)
         
         chartView.translatesAutoresizingMaskIntoConstraints = false
         
-        chartModel = reportManager.chartView(with: workLogContent)
-        
-        chartView.aa_drawChartWithChartModel(chartModel)
+        chartView.aa_drawChartWithChartModel(reportManager.chartViewModel())
         
         chartView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height / 2)
         
@@ -229,19 +232,8 @@ extension ReportContentViewController: AAChartViewDelegate {
     
     open func aaChartView(_ aaChartView: AAChartView, moveOverEventMessage: AAMoveOverEventMessageModel) {
         
-        filterWorkLogContent = []
+        guard let category = moveOverEventMessage.category else { return }
         
-        print("🔥selected point series element name: \(moveOverEventMessage.category ?? "")")
-        selectDate = moveOverEventMessage.category ?? ""
-        
-        for item in workLogContent {
-            
-            if item.date == selectDate {
-                
-                filterWorkLogContent.append(item)
-            }
-        }
-        
-        tableView.reloadData()
+        reportManager?.chartView(didSelected: category)
     }
 }

@@ -15,9 +15,9 @@ enum ImageAsset: String {
     
     case Icons_32px_List_Selected
     
-    case Icons_32px_Newproject
+    case Icons_32px_CreateProject_Normal
     
-    case Icons_32px_Newproject_Selected
+    case Icons_32px_CreateProject_Selected
     
     case Icons_32px_Friend_Normal
     

@@ -22,20 +22,17 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         tableView.dataSource = self
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
         
         GIDSignIn.sharedInstance()?.delegate = self
         
-        setupSignInAppleButton()
-        
         performExistingAccountSetupFlows()
-        
     }
     
-     @objc func pressedLoginButton(_ sender: UIButton) {
+    @objc func pressedLoginButton(_ sender: UIButton) {
         
         view.endEditing(true)
         
@@ -95,7 +92,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                     
                     UserManager.shared.getLoginUserInfo()
                     
-                   self.transitionToTabBar()
+                    self.transitionToTabBar()
                     
                     print("FBLogin Success")
                 }
@@ -112,14 +109,17 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
     }
     
     func transitionToTabBar() {
-        
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        
-        guard let tabBarVC = UIStoryboard.main.instantiateViewController(withIdentifier: "TabBarVC") as? PBTabBarViewController else {
-            return
+        DispatchQueue.main.async {
+            
+            let delegate = UIApplication.shared.delegate as! AppDelegate
+            
+            guard let tabBarVC = UIStoryboard.main.instantiateViewController(withIdentifier: "TabBarVC") as? PBTabBarViewController else {
+                return
+            }
+            
+            delegate.window?.rootViewController = tabBarVC
         }
         
-        delegate.window?.rootViewController = tabBarVC
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -153,12 +153,6 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         }
     }
     
-    func setupSignInAppleButton() {
-        
-      
-        
-    }
-        
     @objc func handleAppleIdRequest() {
         
         let appleIDProvider = ASAuthorizationAppleIDProvider()
@@ -174,7 +168,6 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         authorizationController.presentationContextProvider = self
         
         authorizationController.performRequests()
-        
     }
     
 }
@@ -224,7 +217,7 @@ extension LoginViewController: LoginTableViewCellDelegate {
         self.passwordText = password
         
     }
-
+    
 }
 
 extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
@@ -264,15 +257,18 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                 switch credentialState {
                     
                 case .authorized:
-                    
+                    print("TEST")
                     // The Apple ID credential is valid. Show Home UI Here
                     
                     UserManager.shared.addAppleIDLoginUserDate(name: givenName, email: email, uid: userIdentifier, imageUrl: "Icons_128px_General")
                     
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                        
-                        self.dismiss(animated: true, completion: nil)
-                    }
+                    UserDefaults.standard.set(givenName, forKey: "userName")
+                    
+                    UserDefaults.standard.set(userIdentifier, forKey: "userID")
+                    
+                    UserDefaults.standard.set(email, forKey: "userEmail")
+                    
+                    self.transitionToTabBar()
                     
                 case .revoked:
                     // The Apple ID credential is revoked. Show SignIn UI Here.
@@ -285,7 +281,15 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                 }
             }
             
+        } else if let passwordCredential = authorization.credential as? ASPasswordCredential {
+            // Sign in using an existing iCloud Keychain credential.
+            let username = passwordCredential.user
+            let password = passwordCredential.password
+            
+            self.transitionToTabBar()
         }
+        
+        
         
         func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
             

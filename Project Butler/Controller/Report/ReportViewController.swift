@@ -63,7 +63,11 @@ class ReportViewController: UIViewController {
     
     var projectDetail: NewProject?
     
-    let reportManagers: [ChartProvider] = [DateReportManager(), PersonalReportManager(), WorkItemReportManager()]
+    lazy var reportManagers: [ChartProvider] = [
+        DateReportManager(workLogContent: workLogContent),
+        PersonalReportManager(workLogContent: workLogContent),
+        WorkItemReportManager(workLogContent: workLogContent)
+    ]
     
 //    let reportManager = ReportManager()
     
@@ -149,8 +153,6 @@ extension ReportViewController: UICollectionViewDataSource {
             addChild(reportContentVC)
             
             reportContentVC.reportManager = reportManagers[indexPath.row]
-            
-            reportContentVC.workLogContent = workLogContent
             
             reportContentVC.projectDetail = projectDetail
             

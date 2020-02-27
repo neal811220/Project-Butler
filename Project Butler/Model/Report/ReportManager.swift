@@ -12,6 +12,13 @@ import AAInfographics
 
 class ReportManager {
     
+    let workLogContent: [WorkLogContent]
+    
+    init(workLogContent: [WorkLogContent]) {
+        
+        self.workLogContent = workLogContent
+    }
+    
     var chartModel: AAChartModel!
     
     let date = Date()
@@ -27,12 +34,33 @@ class ReportManager {
 
 protocol ChartProvider {
     
-    func chartView(with workLogContent: [WorkLogContent]) -> AAChartModel
+    var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)? { get set }
+    
+    func chartViewModel() -> AAChartModel
+    
+    func chartView(didSelected data: String)
 }
 
 class DateReportManager: ReportManager, ChartProvider {
     
-    func chartView(with workLogContent: [WorkLogContent]) -> AAChartModel {
+    func chartView(didSelected data: String) {
+        
+        var filterWorkLogContent: [WorkLogContent] = []
+        
+        for item in workLogContent {
+            
+            if item.date == data {
+                
+                filterWorkLogContent.append(item)
+            }
+        }
+        
+        targetWorkLogContentsDidChangeHandler?(filterWorkLogContent)
+    }
+    
+    var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)?
+    
+    func chartViewModel() -> AAChartModel {
             
             let sortArray = workLogContent.sorted(by: { $0.date < $1.date })
                     
@@ -94,7 +122,24 @@ class DateReportManager: ReportManager, ChartProvider {
 
 class PersonalReportManager: ReportManager, ChartProvider {
     
-    func chartView(with workLogContent: [WorkLogContent]) -> AAChartModel {
+    var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)?
+    
+    func chartView(didSelected data: String) {
+        
+        var filterWorkLogContent: [WorkLogContent] = []
+        
+        for item in workLogContent {
+            
+            if item.date == data {
+                
+                filterWorkLogContent.append(item)
+            }
+        }
+        
+        targetWorkLogContentsDidChangeHandler?(filterWorkLogContent)
+    }
+    
+    func chartViewModel() -> AAChartModel {
         
         guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
             return AAChartModel()
@@ -156,6 +201,7 @@ class PersonalReportManager: ReportManager, ChartProvider {
         let element = AASeriesElement().name("User").data(seriesElement)
         
         chartModel = AAChartModel()
+        chartModel = chartModel.touchEventEnabled(true)
         .chartType(.areaspline)//Can be any of the chart types listed under `AAChartType`.
         .animationType(.bounce)
         .title("TITLE")//The chart title
@@ -174,7 +220,24 @@ class WorkItemReportManager: ReportManager, ChartProvider {
     
     var workItem = "Look"
     
-    func chartView(with workLogContent: [WorkLogContent]) -> AAChartModel {
+    var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)?
+    
+    func chartView(didSelected data: String) {
+        
+        var filterWorkLogContent: [WorkLogContent] = []
+        
+        for item in workLogContent {
+            
+            if item.date == data && item.workItem == workItem {
+                
+                filterWorkLogContent.append(item)
+            }
+        }
+        
+        targetWorkLogContentsDidChangeHandler?(filterWorkLogContent)
+    }
+    
+    func chartViewModel() -> AAChartModel {
         
         var beforeSevenDates: [String] = []
         
@@ -232,7 +295,8 @@ class WorkItemReportManager: ReportManager, ChartProvider {
         let element = AASeriesElement().name("Item").data(seriesElement)
         
         chartModel = AAChartModel()
-        .chartType(.bar)//Can be any of the chart types listed under `AAChartType`.
+        chartModel = chartModel.touchEventEnabled(true)
+        .chartType(.spline)//Can be any of the chart types listed under `AAChartType`.
         .animationType(.bounce)
         .title("TITLE")//The chart title
         .subtitle("subtitle")//The chart subtitle
