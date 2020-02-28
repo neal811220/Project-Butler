@@ -63,14 +63,16 @@ class ReportViewController: UIViewController {
     
     var projectDetail: NewProject?
     
+    var titleCollectionViewArray = ["Project", "User", "Item"]
+    
+    var titleButtonIndexPath: IndexPath?
+    
     lazy var reportManagers: [ChartProvider] = [
         DateReportManager(workLogContent: workLogContent),
         PersonalReportManager(workLogContent: workLogContent),
         WorkItemReportManager(workLogContent: workLogContent)
     ]
-    
-    let reportManager = ReportManager()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -111,26 +113,38 @@ class ReportViewController: UIViewController {
         view.addSubview(contentcollectionView)
         
         NSLayoutConstraint.activate([
-//            contentcollectionView.topAnchor.constraint(equalTo: titlecollectionView.bottomAnchor),
-            contentcollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            contentcollectionView.topAnchor.constraint(equalTo: titlecollectionView.bottomAnchor),
             contentcollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
             contentcollectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
             contentcollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
+    @objc func handleNext(sender: UIButton) {
+        
+        guard let indexPath = titleButtonIndexPath else {
+            
+            return
+        }
+        contentcollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+//        titleButtonIndexPath
+    }
+    
 }
 
 extension ReportViewController: UICollectionViewDelegate {
     
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        titleButtonIndexPath = indexPath
+    }
 }
 
 extension ReportViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 1
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -140,7 +154,21 @@ extension ReportViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ReportTitleCell", for: indexPath) as? ReportTitleCollectionViewCell else {
                 return UICollectionViewCell()
             }
-
+            
+            cell.titleButton.setTitle(titleCollectionViewArray[indexPath.row], for: .normal)
+            
+            cell.titleButton.addTarget(self, action: #selector(handleNext), for: .touchUpInside)
+            
+            cell.titleButtonIndexPath = { [weak self] in
+                
+                guard let strongSelf = self else {
+                    
+                    return
+                }
+                
+                strongSelf.titleButtonIndexPath = indexPath
+            }
+            
             return cell
 
         } else {
@@ -185,7 +213,7 @@ extension ReportViewController: UICollectionViewDelegateFlowLayout {
         
         if collectionView == titlecollectionView {
 
-            return CGSize(width: 50, height: 40)
+            return CGSize(width: view.frame.width / 3, height: 40)
 
         } else {
             

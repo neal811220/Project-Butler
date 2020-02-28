@@ -23,6 +23,9 @@
                         <state key="normal" title="Title">
                             <color key="titleColor" name="Black1"/>
                         </state>
+                        <connections>
+                            <action selector="pressedTitleButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="pCV-rb-wCe"/>
+                        </connections>
                     </button>
                 </subviews>
             </view>
@@ -36,7 +39,7 @@
             <connections>
                 <outlet property="titleButton" destination="AVV-dn-qbN" id="1rA-mm-H3T"/>
             </connections>
-            <point key="canvasLocation" x="139" y="100"/>
+            <point key="canvasLocation" x="137.68115942028987" y="99.776785714285708"/>
         </collectionViewCell>
     </objects>
     <resources>

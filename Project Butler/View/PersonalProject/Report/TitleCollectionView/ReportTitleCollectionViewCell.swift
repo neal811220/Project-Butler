@@ -12,9 +12,16 @@ class ReportTitleCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var titleButton: UIButton!
     
+    var titleButtonIndexPath: (() -> Void)?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
+    @IBAction func pressedTitleButton(_ sender: UIButton) {
+        
+        titleButtonIndexPath?()
+    }
+    
 }
