@@ -16,6 +16,11 @@ typealias FetchUserResult = (Result<[AuthInfo], Error>) -> Void
 
 typealias FetchFriendResult = (Result<[FriendDetail], Error>) -> Void
 
+enum UserLoginError: Error {
+        
+    case noData
+}
+
 class UserManager {
     
     static let shared = UserManager()
@@ -44,36 +49,49 @@ class UserManager {
         
         guard let userName = Auth.auth().currentUser?.displayName,
             let userEmail = Auth.auth().currentUser?.email,
-            let userImage = Auth.auth().currentUser?.photoURL?.absoluteString
+            let userImage = Auth.auth().currentUser?.photoURL?.absoluteString,
+            let uid = Auth.auth().currentUser?.uid
             else { return }
         
-        UserManager.shared.addGeneralUserData(name: userName, email: userEmail, imageUrl: userImage)
+        UserManager.shared.addGeneralUserData(name: userName, email: userEmail, imageUrl: userImage, uid: uid)
+        
     }
     
-    func addGeneralUserData(name: String, email: String, imageUrl: String) {
-        
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+    func addGeneralUserData(name: String, email: String, imageUrl: String, uid: String) {
         
         let userdetail: [String: Any] = ["userName": name, "userEmail": email, "userImageUrl": imageUrl, "userID": uid]
         
         db.collection("users").document(uid).setData(userdetail)
+        
+        getLoginUserDetail()
     }
     
-    func addAppleIDLoginUserDate(name: String, email: String, uid: String, imageUrl: String) {
+    func getLoginUserDetail() {
         
-        let userdata = ["userName": name, "userEmail": email, "userImageUrl": imageUrl, "userID": uid]
+        guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
+            return
+        }
         
-        db.collection("users").document(uid).setData(userdata)
-        
+        getLoginUserInfo(uid: uid) { (result) in
+            
+            switch result {
+                
+            case .success:
+                
+                print("Get User Info Success")
+                
+            case .failure(let error):
+                
+                print(error)
+            }
+        }
     }
     
-    func getLoginUserInfo() {
-        
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
+    func getLoginUserInfo(uid: String, completion: @escaping (Result<Void, Error>) -> Void) {
+                
         db.collection("users").document(uid).getDocument { (snapshot, error) in
             
-            if error == nil && snapshot != nil && snapshot?.data()?.count != 0 {
+            if error == nil && snapshot?.data()?.count != nil {
                 do {
                     let data = try snapshot?.data(as: AuthInfo.self, decoder: Firestore.Decoder())
                     
@@ -85,17 +103,19 @@ class UserManager {
                     
                     CurrentUserInfo.shared.userImageUrl = data?.userImageUrl
                     
-                    UserDefaults.standard.set(data?.userName, forKey: "userName")
-                    
-                    UserDefaults.standard.set(data?.userID, forKey: "userID")
-                    
-                    UserDefaults.standard.set(data?.userEmail, forKey: "userEmail")
+                    print(data?.userName, data?.userEmail, data?.userID, data?.userImageUrl)
                     
                     print("Get User Info Successfully")
+                    
+                    completion(.success(()))
+                    
                 } catch {
-                    return
+                    
+                    completion(.failure(error))
                 }
             }
+            
+            completion(.failure(UserLoginError.noData))
         }
     }
     
@@ -231,7 +251,7 @@ class UserManager {
         
         isSearching = true
         
-        guard let userID = UserDefaults.standard.value(forKey: "userName") as? String else { return }
+        guard let userID = CurrentUserInfo.shared.userID else { return }
         
         clearAll()
         

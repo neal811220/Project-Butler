@@ -25,7 +25,7 @@ class FriendListViewController: UIViewController {
         tableview.rowHeight = UITableView.automaticDimension
         
         tableview.separatorStyle = .none
-                
+        
         return tableview
     }()
     

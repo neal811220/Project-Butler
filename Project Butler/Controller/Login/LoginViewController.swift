@@ -39,23 +39,40 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         if emailText != "", passwordText != "" {
             
             Auth.auth().signIn(withEmail: emailText, password: passwordText) { [weak self] (result, error) in
+                
                 guard let strongSelf = self else {
+                    
                     return
                 }
-                guard error == nil else { return PBProgressHUD.showFailure(text:
-                    "\(error!.localizedDescription)", viewController: strongSelf)}
                 
-                PBProgressHUD.showSuccess(text: "Sign up Success!", viewController: strongSelf)
+                guard let uid = Auth.auth().currentUser?.uid else {
+                    
+                    return PBProgressHUD.showFailure(text:
+                    "\(error!.localizedDescription)", viewController: strongSelf)
+                }
                 
-                guard let userName = strongSelf.emailText.split(separator: "@").first else { return }
+                guard error == nil else {
+                    return PBProgressHUD.showFailure(text:
+                    "\(error!.localizedDescription)", viewController: strongSelf)
+                }
+                                
+                UserDefaults.standard.set(uid, forKey: "userID")
+                                
+                UserManager.shared.getLoginUserInfo(uid: uid, completion: { result in
+                    
+                    switch result {
+                        
+                    case .success:
+                        
+                        strongSelf.transitionToTabBar()
+                        
+                    case .failure(let error):
+                        
+                        print(error)
+                    }
+                })
                 
-                let userImage = "Icons_32px_General"
                 
-                UserManager.shared.addGeneralUserData(name: String(userName), email: strongSelf.emailText, imageUrl: userImage)
-                
-                UserManager.shared.getLoginUserInfo()
-                
-                strongSelf.transitionToTabBar()
             }
             
         } else {
@@ -79,24 +96,40 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                 
                 Auth.auth().signIn(with: credential) { [weak self] (result, error) in
                     
-                    guard let self = self else { return }
+                    guard let strongSelf = self, let uid = Auth.auth().currentUser?.uid else { return }
                     
                     guard error == nil else {
                         
                         print(error!.localizedDescription)
                         
                         return
+                        
                     }
                     
-                    UserManager.shared.addSocialUserData()
+                    UserDefaults.standard.set(uid, forKey: "userID")
                     
-                    UserManager.shared.getLoginUserInfo()
+                    UserManager.shared.getLoginUserInfo(uid: uid, completion: { result in
+                        
+                        switch result {
+                            
+                        case .success:
+                        
+                            print("FbloginSuccess")
+                            
+                        case .failure(let error):
+                            
+                            UserManager.shared.addSocialUserData()
+                            
+                            print(error)
+                        }
+                        
+                        strongSelf.transitionToTabBar()
+                    })
                     
-                    self.transitionToTabBar()
-                    
-                    print("FBLogin Success")
                 }
+                
             } else {
+                
                 print("login fail")
             }
         }
@@ -138,18 +171,39 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
         
-        Auth.auth().signIn(with: credential) { (result, error) in
-            if let error = error {
-                print(error.localizedDescription)
+        Auth.auth().signIn(with: credential) {  [weak self] (result, error) in
+            
+            guard error == nil else {
+                
+                print(error!.localizedDescription)
+                
+                return
             }
             
-            UserManager.shared.addSocialUserData()
+            guard let strongSelf = self, let uid = Auth.auth().currentUser?.uid else {
+                return
+                
+            }
             
-            UserManager.shared.getLoginUserInfo()
+            UserDefaults.standard.set(uid, forKey: "userID")
             
-            self.transitionToTabBar()
-            
-            print("Success!!")
+            UserManager.shared.getLoginUserInfo(uid: uid, completion: { result in
+                
+                switch result {
+                    
+                case .success:
+                    
+                    print("FbloginSuccess")
+                    
+                case .failure(let error):
+                    
+                    UserManager.shared.addSocialUserData()
+                    
+                    print(error)
+                }
+                
+                strongSelf.transitionToTabBar()
+            })
         }
     }
     
@@ -245,30 +299,49 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
             
             let userIdentifier = appleIDCredential.user
             
-            guard let givenName = appleIDCredential.fullName?.givenName, let email = appleIDCredential.email else {
-                return
-            }
+            let firstName = appleIDCredential.fullName?.givenName
             
             let familyName = appleIDCredential.fullName?.familyName
             
+            let email = appleIDCredential.email
+            
             let appleIDProvider = ASAuthorizationAppleIDProvider()
             
-            appleIDProvider.getCredentialState(forUserID: userIdentifier) { (credentialState, error) in
+            appleIDProvider.getCredentialState(forUserID: userIdentifier) { [weak self] (credentialState, error) in
+                
+                guard let strongSelf = self else {
+                    return
+                }
+                
                 switch credentialState {
                     
                 case .authorized:
                     print("TEST")
                     // The Apple ID credential is valid. Show Home UI Here
+                    if firstName == nil || familyName == nil || email == nil {
+                        
+                        UserManager.shared.getLoginUserInfo(uid: userIdentifier, completion: { result in
+                            
+                            switch result {
+                                
+                            case .success:
+                                
+                                print("AppID Login Success")
+                                
+                            case .failure(let error):
+                                
+                                print(error)
+                            }
+                        })
+                        
+                    } else {
+                        
+                        UserManager.shared.addGeneralUserData(name: firstName! + familyName!, email: email!, imageUrl: "Icons_128px_General", uid: userIdentifier)
+                        
+                        UserDefaults.standard.set(userIdentifier, forKey: "userID")
+                    }
                     
-                    UserManager.shared.addAppleIDLoginUserDate(name: givenName, email: email, uid: userIdentifier, imageUrl: "Icons_128px_General")
-                    
-                    UserDefaults.standard.set(givenName, forKey: "userName")
-                    
-                    UserDefaults.standard.set(userIdentifier, forKey: "userID")
-                    
-                    UserDefaults.standard.set(email, forKey: "userEmail")
-                    
-                    self.transitionToTabBar()
+                    strongSelf.transitionToTabBar()
                     
                 case .revoked:
                     // The Apple ID credential is revoked. Show SignIn UI Here.
@@ -281,21 +354,14 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                 }
             }
             
-        } else if let passwordCredential = authorization.credential as? ASPasswordCredential {
-            // Sign in using an existing iCloud Keychain credential.
-            let username = passwordCredential.user
-            let password = passwordCredential.password
-            
-            self.transitionToTabBar()
         }
+ 
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         
-        
-        
-        func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-            
-            print(error)
-            
-        }
+        print(error)
         
     }
+    
 }

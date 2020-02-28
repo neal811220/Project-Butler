@@ -35,16 +35,25 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             
             if passwordText == confirmtext {
                 
-                Auth.auth().createUser(withEmail: emailText, password: passwordText) { (result, error) in
+                Auth.auth().createUser(withEmail: emailText, password: passwordText) { [weak self] (result, error) in
+                    
+                    guard let strongSelf = self, let userName = strongSelf.emailText.split(separator: "@").first, let uid = Auth.auth().currentUser?.uid else {
+                        print(error)
+                        return
+                    }
                     
                     guard error == nil else { return PBProgressHUD.showFailure(text:
-                        "\(error!.localizedDescription)", viewController: self)}
+                        "\(error!.localizedDescription)", viewController: strongSelf)}
                     
-                    PBProgressHUD.showSuccess(text: "Sign up Success!", viewController: self)
+                    let userImage = "Icons_32px_General"
+
+                    UserManager.shared.addGeneralUserData(name: String(userName), email: strongSelf.emailText, imageUrl: userImage, uid: uid)
+                    
+                    PBProgressHUD.showSuccess(text: "Sign up Success!", viewController: strongSelf)
                     
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                         
-                        self.dismiss(animated: true, completion: nil)
+                        strongSelf.dismiss(animated: true, completion: nil)
                     }
                 }
             } else{

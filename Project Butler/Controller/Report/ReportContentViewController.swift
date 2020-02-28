@@ -118,18 +118,18 @@ extension ReportContentViewController: UITableViewDelegate {
 extension ReportContentViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        
+
         return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 1 {
-            
+
             return filterWorkLogContent.count
-            
+
         } else {
-            
+
             return 1
         }
     }
@@ -137,17 +137,17 @@ extension ReportContentViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.section{
-            
+
         case 0:
-            
+
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ReportPickerViewCell", for: indexPath) as? ReportChartPickerTableViewCell else {
                 return UITableViewCell()
             }
-            
+
             cell.itemPicker.inputView = reportPickerView
-            
+
             return cell
-            
+
         case 1:
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "WorkLogCell", for: indexPath) as? WorkLogTableViewCell else {
@@ -182,12 +182,11 @@ extension ReportContentViewController: UITableViewDataSource {
             cell.leftView.backgroundColor = UIColor(patternImage: UIImage(named: projectDetail!.color)!)
             
             return cell
-            
+
         default:
-            
+
             return UITableViewCell()
         }
-        
         
     }
 }

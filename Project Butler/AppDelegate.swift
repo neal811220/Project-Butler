@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GIDSignIn.sharedInstance()?.clientID = FirebaseApp.app()?.options.clientID
         
-        if Auth.auth().currentUser != nil || UserDefaults.standard.value(forKey: "userName") as? String != nil {
+        if Auth.auth().currentUser != nil || UserDefaults.standard.value(forKey: "userID") as? String != nil {
             
             guard let tabBarVC = UIStoryboard.main.instantiateViewController(withIdentifier: "TabBarVC") as? PBTabBarViewController else {
                 return true
