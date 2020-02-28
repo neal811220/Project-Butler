@@ -34,6 +34,10 @@ class ProfileViewController: UIViewController {
             
             try Auth.auth().signOut()
             
+            UserDefaults.standard.removeObject(forKey: "userID")
+            
+            CurrentUserInfo.shared.clearAll()
+            
             delegate.window?.rootViewController = loginVC
             
         } catch {
@@ -49,20 +53,19 @@ class ProfileViewController: UIViewController {
         
         navigationController?.navigationBar.isHidden = true
         
-        userName.text = UserDefaults.standard.value(forKey: "userName") as? String
+        userName.text = CurrentUserInfo.shared.userName
         
-        userEmail.text = UserDefaults.standard.value(forKey: "userEmail") as? String
+        userEmail.text = CurrentUserInfo.shared.userEmail
+        
         if CurrentUserInfo.shared.userImageUrl != nil {
             
             userImage.loadImage(CurrentUserInfo.shared.userImageUrl, placeHolder: UIImage(named: "Icons_128px_General"))
+            
         } else {
             
             userImage.image = UIImage(named: "Icons_128px_General")
         }
         
-        
-//        userImage.image = UIImage.asset(.Icons_128px_General)
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillLayoutSubviews() {

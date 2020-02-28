@@ -339,7 +339,7 @@ extension NewProjectViewController: UITableViewDataSource {
             }
             cell.delegate = self
             
-            cell.leaderLabel.text = UserDefaults.standard.value(forKey: "userName") as? String
+            cell.leaderLabel.text = CurrentUserInfo.shared.userName
             
             cell.memeberInfo = membersArray
             

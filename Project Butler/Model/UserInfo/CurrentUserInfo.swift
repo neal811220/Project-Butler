@@ -21,7 +21,15 @@ class CurrentUserInfo {
     var userID: String?
     
     var userImageUrl: String?
-    
-    var isLogin: Bool?
-    
+        
+    func clearAll() {
+        
+        userName = nil
+        
+        userEmail = nil
+        
+        userID = nil
+        
+        userImageUrl = nil
+    }
 }

@@ -69,7 +69,7 @@ class ReportViewController: UIViewController {
         WorkItemReportManager(workLogContent: workLogContent)
     ]
     
-//    let reportManager = ReportManager()
+    let reportManager = ReportManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,7 +111,8 @@ class ReportViewController: UIViewController {
         view.addSubview(contentcollectionView)
         
         NSLayoutConstraint.activate([
-            contentcollectionView.topAnchor.constraint(equalTo: titlecollectionView.bottomAnchor),
+//            contentcollectionView.topAnchor.constraint(equalTo: titlecollectionView.bottomAnchor),
+            contentcollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             contentcollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
             contentcollectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
             contentcollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -129,19 +130,19 @@ extension ReportViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 3
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if collectionView == titlecollectionView {
-            
+
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ReportTitleCell", for: indexPath) as? ReportTitleCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            
+
             return cell
-            
+
         } else {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContainerCollectionViewCell.identifier, for: indexPath)
@@ -183,9 +184,9 @@ extension ReportViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if collectionView == titlecollectionView {
-            
+
             return CGSize(width: 50, height: 40)
-            
+
         } else {
             
             return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)

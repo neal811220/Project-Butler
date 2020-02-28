@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class PersonalViewController: UIViewController {
     
@@ -263,8 +264,23 @@ class PersonalViewController: UIViewController {
     }
     
     func fetchCurrentUserInfo() {
-        
-        UserManager.shared.getLoginUserInfo()
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        UserManager.shared.getLoginUserInfo(uid: uid, completion: { result in
+            
+            switch result {
+                
+            case .success:
+                
+                print("Get Use Info Success")
+                
+            case .failure(let error):
+                
+                print(error)
+            }
+            
+        })
     }
     
     func clearAll() {
