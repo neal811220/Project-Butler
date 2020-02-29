@@ -30,7 +30,7 @@ class ReportViewController: UIViewController {
         collectionView.dataSource = self
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-                
+        
         return collectionView
     }()
     
@@ -59,9 +59,20 @@ class ReportViewController: UIViewController {
         return collectionView
     }()
     
+    var indicatorView: UIView = {
+
+        let view = UIView()
+
+        view.backgroundColor = UIColor.Black1
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        return view
+    }()
+    
     var workLogContent: [WorkLogContent] = []
     
-    var projectDetail: NewProject?
+    var projectDetail: ProjectDetail?
     
     var titleCollectionViewArray = ["Project", "User", "Item"]
     
@@ -85,6 +96,8 @@ class ReportViewController: UIViewController {
         setupTitleCollectionView()
         
         setupContentCollectionView()
+        
+//        setupIndicatorView()
         
     }
     
@@ -117,6 +130,20 @@ class ReportViewController: UIViewController {
             contentcollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
             contentcollectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
             contentcollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    func setupIndicatorView() {
+
+        titlecollectionView.addSubview(indicatorView)
+
+//        indicatorView.frame = CGRect(x: (view.frame.width / 8), y: 42, width: view.frame.width / 6, height: 2)
+
+        NSLayoutConstraint.activate([
+            indicatorView.bottomAnchor.constraint(equalTo: titlecollectionView.bottomAnchor),
+            indicatorView.leftAnchor.constraint(equalTo: titlecollectionView.leftAnchor),
+            indicatorView.rightAnchor.constraint(equalTo: titlecollectionView.rightAnchor),
+            indicatorView.heightAnchor.constraint(equalToConstant: 3)
         ])
     }
     
@@ -159,8 +186,12 @@ extension ReportViewController: UICollectionViewDataSource {
             
             cell.titleButton.addTarget(self, action: #selector(handleNext), for: .touchUpInside)
             
+            cell.titleButton.setTitleColor(UIColor.Black2, for: .normal)
+            
+            cell.titleButton.setTitleColor(UIColor.Black1, for: .selected)
+                        
             cell.titleButtonIndexPath = { [weak self] in
-                
+            
                 guard let strongSelf = self else {
                     
                     return
@@ -192,16 +223,18 @@ extension ReportViewController: UICollectionViewDataSource {
             reportView.translatesAutoresizingMaskIntoConstraints = false
             
             NSLayoutConstraint.activate([
+                
                 reportView.topAnchor.constraint(equalTo: cell.topAnchor),
+                
                 reportView.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
+                
                 reportView.trailingAnchor.constraint(equalTo: cell.trailingAnchor),
+                
                 reportView.bottomAnchor.constraint(equalTo: cell.bottomAnchor)
             ])
             
             reportContentVC.didMove(toParent: self)
-            
-            cell.backgroundColor = .red
-            
+                        
             return cell
         }
     }
@@ -212,15 +245,40 @@ extension ReportViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if collectionView == titlecollectionView {
-
-            return CGSize(width: view.frame.width / 3, height: 40)
-
+            
+            return CGSize(width: view.frame.width / 6, height: 40)
+            
         } else {
             
             return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
         }
         
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        if collectionView == titlecollectionView {
+            
+            return UIEdgeInsets(top: 0, left: view.frame.width / 8, bottom: 0, right: view.frame.width / 8)
+            
+        } else {
+            
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        
+        if collectionView == titlecollectionView {
+            
+            return CGFloat(view.frame.width / 8)
+            
+        } else {
+            
+            return 0.0
+        }
+    }
+    
 }
 
 class ContainerCollectionViewCell: UICollectionViewCell {

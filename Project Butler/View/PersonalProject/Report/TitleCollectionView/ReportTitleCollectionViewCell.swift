@@ -9,10 +9,10 @@
 import UIKit
 
 class ReportTitleCollectionViewCell: UICollectionViewCell {
-
-    @IBOutlet weak var titleButton: UIButton!
     
     var titleButtonIndexPath: (() -> Void)?
+    
+    @IBOutlet weak var titleButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -20,6 +20,8 @@ class ReportTitleCollectionViewCell: UICollectionViewCell {
     }
     
     @IBAction func pressedTitleButton(_ sender: UIButton) {
+        
+//        sender.isSelected.toggle()
         
         titleButtonIndexPath?()
     }

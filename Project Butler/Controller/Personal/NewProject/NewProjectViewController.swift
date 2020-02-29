@@ -39,6 +39,7 @@ class NewProjectViewController: UIViewController {
         
         tableView.separatorStyle = .none
         
+        
         return tableView
     }()
     
@@ -225,7 +226,7 @@ class NewProjectViewController: UIViewController {
         
         memberID.append(userId)
        
-        let newProject = NewProject(projectName: inputProjectName,
+        let newProject = ProjectDetail(projectName: inputProjectName,
                                     projectLeaderID: userId,
                                     color: seletedColor,
                                     startDate: startText,
@@ -356,26 +357,40 @@ extension NewProjectViewController: UITableViewDataSource {
             cell.workItemTextField.text = workItemText
                         
             cell.transitionToMemberVC = { [weak self] _ in
-             
+                
+                guard let strongSelf = self else {
+                    return
+                }
+                
                 guard let selectMemeberVC = UIStoryboard.newProject.instantiateViewController(withIdentifier: "SelectMemeberVC") as? SelectMembersViewController else {
                     return
                 }
-                self?.show(selectMemeberVC, sender: nil)
+                
+                strongSelf.show(selectMemeberVC, sender: nil)
                 
                 selectMemeberVC.passSelectMemeber = {
                     
-                    self?.membersArray = $0
+                selectMemeberVC.navigationItem.title = LargeTitle.memberList.rawValue
+                    
+                    strongSelf.membersArray = $0
                     
                     tableView.reloadData()
                 }
             }
             
-            cell.passInputText = {
+            cell.passInputText = { [weak self] text in
                 
-                self.workItemArray.insert($0, at: 0)
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.workItemArray.insert(text, at: 0)
                 
                 tableView.insertRows(at: [IndexPath(row: 0, section: 1)], with: .left)
                 
+                let indexPath = IndexPath(row: strongSelf.workItemArray.endIndex - 1, section: 1)
+                
+                tableView.scrollToRow(at: indexPath, at: .none, animated: true)
             }
             
             return cell

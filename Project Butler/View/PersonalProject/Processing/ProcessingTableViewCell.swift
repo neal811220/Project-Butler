@@ -28,6 +28,8 @@ class ProcessingTableViewCell: UITableViewCell {
     
     let numberNib = UINib(nibName: "NumberCollectionViewCell", bundle: nil)
     
+    var transitionToMemberVC: ((ProcessingTableViewCell) -> Void)?
+    
     var members: [AuthInfo] = [] {
         
         didSet {
@@ -70,10 +72,7 @@ extension ProcessingTableViewCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-//        guard let memberListVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberListVC") as? MemberListViewController else {
-//            return
-//        }
-        
+        transitionToMemberVC?(self)
     }
     
 }

@@ -141,7 +141,7 @@ class PersonalViewController: UIViewController {
     
     var tableViewTopConstraint: NSLayoutConstraint?
     
-    var userProjectDetail: [NewProject] = []
+    var userProjectDetail: [ProjectDetail] = []
     
     var searchLeaderStaus = false
     
@@ -543,6 +543,24 @@ extension PersonalViewController: UITableViewDataSource {
                 cell.leaderImage.isHidden = false
             } else {
                 cell.leaderImage.isHidden = true
+            }
+            
+            cell.transitionToMemberVC = { [weak self] _ in
+                
+                guard let strongSelf = self else {
+                    return
+                }
+                guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else{
+                    return
+                }
+                
+                memberVC.memberArray = strongSelf.memberDetail[indexPath.row]
+                
+                memberVC.projectDetail = strongSelf.userProjectDetail[indexPath.row]
+                    
+                strongSelf.titleStackView.isHidden = true
+                
+                strongSelf.show(memberVC, sender: nil)
             }
             
             cell.backImage.image = UIImage(named: userProjectDetail[indexPath.row].color)

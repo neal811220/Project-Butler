@@ -23,4 +23,6 @@ enum LargeTitle: String {
     case workLog = "WorkLog"
     
     case report = "Report"
+    
+    case invateMember = "InvateMember"
 }

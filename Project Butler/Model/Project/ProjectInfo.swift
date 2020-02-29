@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-struct NewProject: Codable {
+struct ProjectDetail: Codable {
     
     let projectName: String
     

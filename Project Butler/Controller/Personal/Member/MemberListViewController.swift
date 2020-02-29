@@ -37,9 +37,9 @@ class MemberListViewController: UIViewController {
         
         tableview.rowHeight = UITableView.automaticDimension
         
-        let nib = UINib(nibName: "FriendListTableViewCell", bundle: nil)
+        let nib = UINib(nibName: "SelectMemberTableViewCell", bundle: nil)
         
-        tableview.register(nib, forCellReuseIdentifier: "FriendListCell")
+        tableview.register(nib, forCellReuseIdentifier: "SelectMemberCell")
         
         tableview.separatorStyle = .none
         
@@ -52,42 +52,67 @@ class MemberListViewController: UIViewController {
         return tableview
     }()
     
+    var memberArray: [AuthInfo] = []
+    
+    var filterMemberArray: [AuthInfo] = []
+    
+    var projectDetail: ProjectDetail?
+    
+    let removeMeberGroup = DispatchGroup()
+    
     let userManager = UserManager.shared
     
     let activityView = UIActivityIndicatorView()
     
-    var datas: [[Userable]] = []
-    
-    var friendsArray: [FriendDetail] = []
-    
-    var seletedLeader: [FriendDetail] = []
-    
-    var leaderIndex: IndexPath?
-        
-    var lastSelectedUid = ""
-        
-    var isCancel = false
-    
     override func viewDidLoad() {
         
-        let doneBarButton = UIBarButtonItem(title: "DONE", style: .done, target: self, action: #selector(didTapDoneBarButton))
+        let doneBarButton = UIBarButtonItem(title: "Invite", style: .done, target: self, action: #selector(didTapDoneBarButton))
         
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = true
         
-        self.navigationItem.title = LargeTitle.memberList.rawValue
+        navigationItem.searchController = searchController
         
-        self.navigationItem.searchController = searchController
+        navigationItem.rightBarButtonItem = doneBarButton
         
-        self.navigationItem.rightBarButtonItem = doneBarButton
-        
-        self.navigationItem.hidesSearchBarWhenScrolling = false
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: Notification.Name("searchReload"), object: nil)
+        navigationItem.hidesSearchBarWhenScrolling = false
         
         setupTableView()
         
+    }
+    
+    deinit {
+        print("MemberDeinit")
+    }
+    
+    func filterContentForSearchText(searchText: String) {
+        
+        filterMemberArray = memberArray.filter({ (member: AuthInfo) -> Bool in
+            
+            if isSearchBarEmpty() {
+                
+                return false
+                
+            } else {
+                
+                return true && member.userName.lowercased().contains(searchText.lowercased())
+                
+            }
+            
+        })
+        
+        tableView.reloadData()
+    }
+    
+    func isSearchBarEmpty() -> Bool{
+        
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func isFiltering() -> Bool {
+        
+        return searchController.isActive && !isSearchBarEmpty()
     }
     
     func setupTableView() {
@@ -95,6 +120,7 @@ class MemberListViewController: UIViewController {
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
+            
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -105,47 +131,118 @@ class MemberListViewController: UIViewController {
         ])
     }
     
-    @objc func reloadData() {
+    func removeMember(documentID: String, removeMemberID: String) {
         
-        datas = []
+        removeMeberGroup.enter()
         
-        friendsArray = userManager.friendArray
-        
-        datas.append(userManager.friendArray)
-        
-        isCancel = false
-        
-        tableView.reloadData()
-        
-        activityView.stopAnimating()
-        
+        ProjectManager.shared.removeMember(documentID: documentID, memberID: removeMemberID) { [weak self] (result) in
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
+            
+            switch result {
+                
+            case .success:
+                
+                print("Success remove member")
+                
+            case .failure(let error):
+                
+                print(error)
+                
+                PBProgressHUD.showFailure(text: "\(error)", viewController: strongSelf)
+            }
+            strongSelf.removeMeberGroup.leave()
+        }
     }
     
-    @objc func didTapDoneBarButton(sender: UIBarButtonItem) {
+    func removeMemberID(documentID: String, removeMemberID: String) {
+        
+        removeMeberGroup.enter()
+        
+        ProjectManager.shared.removeMemberID(documentID: documentID, removeMemberID: removeMemberID) { [weak self] (result) in
+            
+            guard let strongSelf = self else {
                 
-        navigationController?.popViewController(animated: true)
+                return
+            }
+            
+            switch result {
+                
+            case .success:
+                
+                print("Success remove memberID")
+                
+            case .failure(let error):
+                
+                print(error)
+                
+                PBProgressHUD.showFailure(text: "\(error)", viewController: strongSelf)
+            }
+            
+            strongSelf.removeMeberGroup.leave()
+        }
+    }
+    
+    
+    
+    @objc func didTapDoneBarButton(sender: UIBarButtonItem) {
+        
+        guard let seleteMemberVC = UIStoryboard.newProject.instantiateViewController(withIdentifier: "SelectMemeberVC") as? SelectMembersViewController else {
+            return
+        }
+        
+        seleteMemberVC.navigationItem.title = LargeTitle.invateMember.rawValue
+        
+        show(seleteMemberVC, sender: nil)
     }
     
 }
 
 extension MemberListViewController: UITableViewDataSource {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        
-        return datas.count
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering() {
+            
+            return filterMemberArray.count
+            
+        } else {
+            
+            return memberArray.count
+        }
         
-        return datas[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendListCell") as?
-            SelectMemberTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SelectMemberCell") as?
+            SelectMemberTableViewCell else {
+                
+                return UITableViewCell()
+        }
         
-        return cell
+        if isFiltering() {
+            
+            cell.userTitleLabel.text = filterMemberArray[indexPath.row].userName
+            
+            cell.userEmailLabel.text = filterMemberArray[indexPath.row].userEmail
+            
+            cell.userImage.loadImage(filterMemberArray[indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
+            
+            return cell
+            
+        } else {
+            
+            cell.userTitleLabel.text = memberArray[indexPath.row].userName
+            
+            cell.userEmailLabel.text = memberArray[indexPath.row].userEmail
+            
+            cell.userImage.loadImage(memberArray[indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
+            
+            return cell
+        }
     }
     
 }
@@ -154,8 +251,34 @@ extension MemberListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        leaderIndex = indexPath
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
+        if editingStyle == .delete {
+            
+            removeMember(documentID: projectDetail?.projectID ?? "", removeMemberID: memberArray[indexPath.row].userID)
+            
+            removeMemberID(documentID: projectDetail?.projectID ?? "", removeMemberID: memberArray[indexPath.row].userID)
+            
+            removeMeberGroup.notify(queue: DispatchQueue.main) { 
+                
+                self.memberArray.remove(at: indexPath.row)
+                
+                tableView.beginUpdates()
+                
+                tableView.deleteRows(at: [indexPath], with: .right)
+                
+                tableView.endUpdates()
+                
+                PBProgressHUD.showSuccess(text: "Remove Success", viewController: self)
+                
+            }
+        }
     }
 }
 
@@ -167,85 +290,13 @@ extension MemberListViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         
-        userManager.clearAll()
-        
-        activityView.startAnimating()
-        
-        if searchController.searchBar.text != "" {
-            
-            userManager.searchUser(text: searchController.searchBar.text!) { (result) in
-                
-                switch result {
-                    
-                case .success(let data):
-                    
-                    print(data)
-                    
-                case .failure(let error):
-                    
-                    print(error)
-                }
-                
-                self.userManager.lastSearchText = ""
-                
-                self.userManager.clearAll()
-                
-                self.activityView.stopAnimating()
-            }
-            
-        } else {
-            
-            guard isCancel != true else { return }
-            
-            self.userManager.lastSearchText = ""
-            
-            if friendsArray.count != 0 &&  seletedLeader.count != 0 {
-                
-                datas.remove(at: 0)
-                isCancel = true
-                tableView.reloadData()
-            }
-            
+        guard let text = searchController.searchBar.text else{
+            return
         }
+        
+        filterContentForSearchText(searchText: text)
     }
     
 }
 
-extension MemberListViewController: FriendListTableViewCellDelegate {
-    
-    func passIndexPath(_ friendListTableViewCell: FriendListTableViewCell) {
-                
-        if let selected = leaderIndex {
-            
-            if let cell = tableView.cellForRow(at: selected) as? FriendListTableViewCell {
-                
-                cell.rightButton.isSelected = false
-            }
-        }
-        
-        guard let indexPath = tableView.indexPath(for: friendListTableViewCell) else { return }
-        
-        leaderIndex = indexPath
-        
-        let uid = datas[indexPath.section][indexPath.row].userID
-
-        userManager.getSeletedLeader(uid: uid) { (result) in
-            
-            switch result {
-                
-            case .success(let data):
-                
-                self.datas.append([data])
-                
-                self.seletedLeader.append(data)
-                                
-            case .failure(let error):
-                
-                print(error)
-                
-            }
-        }
-    }
-    
-}
 

@@ -51,7 +51,7 @@ class ReportContentViewController: UIViewController {
     
     var reportPickerContentArray: [String] = ["test1", "test2", "test3"]
     
-    var projectDetail: NewProject?
+    var projectDetail: ProjectDetail?
     
     var filterWorkLogContent: [WorkLogContent] = []
     

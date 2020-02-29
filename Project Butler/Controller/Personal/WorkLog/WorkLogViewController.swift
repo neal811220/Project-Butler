@@ -142,7 +142,7 @@ class WorkLogViewController: UIViewController {
     
     var members: [AuthInfo] = []
     
-    var projectDetail: NewProject?
+    var projectDetail: ProjectDetail?
     
     var workLogContent: [WorkLogContent] = [] {
         

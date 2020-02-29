@@ -75,14 +75,14 @@ class WorkLogContentTableViewCell: UITableViewCell {
 extension WorkLogContentTableViewCell: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
-            
-        if textView == workContentTextView {
-            
-        }
         
         let size = CGSize(width: 354, height: .zero)
         
         let estimatedSize = textView.sizeThatFits(size)
+            
+        if textView == workContentTextView {
+            
+        }
         
         problemHeightConstraint.constant = estimatedSize.height
         

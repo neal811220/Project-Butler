@@ -3,7 +3,6 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,40 +10,34 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ReportTitleCell" id="gTV-IL-0wX" customClass="ReportTitleCollectionViewCell" customModule="Project_Butler" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+            <rect key="frame" x="0.0" y="0.0" width="50" height="52"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                <rect key="frame" x="0.0" y="0.0" width="50" height="52"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AVV-dn-qbN">
-                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                        <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
-                        <state key="normal" title="Title">
-                            <color key="titleColor" name="Black1"/>
-                        </state>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B24-xF-Eol">
+                        <rect key="frame" x="0.0" y="0.0" width="50" height="52"/>
+                        <state key="normal" title="Button"/>
                         <connections>
-                            <action selector="pressedTitleButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="pCV-rb-wCe"/>
+                            <action selector="pressedTitleButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="kFE-a6-rgd"/>
                         </connections>
                     </button>
                 </subviews>
             </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="AVV-dn-qbN" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="EuQ-KT-fH0"/>
-                <constraint firstAttribute="bottom" secondItem="AVV-dn-qbN" secondAttribute="bottom" id="qu8-Ul-GMg"/>
-                <constraint firstItem="AVV-dn-qbN" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="sE7-Ce-Ap1"/>
-                <constraint firstAttribute="trailing" secondItem="AVV-dn-qbN" secondAttribute="trailing" id="yyV-U4-H3C"/>
+                <constraint firstAttribute="trailing" secondItem="B24-xF-Eol" secondAttribute="trailing" id="EvB-I5-IxH"/>
+                <constraint firstItem="B24-xF-Eol" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="QVS-cL-cwQ"/>
+                <constraint firstAttribute="bottom" secondItem="B24-xF-Eol" secondAttribute="bottom" id="fdx-Uv-bx6"/>
+                <constraint firstItem="B24-xF-Eol" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="lRE-SI-TlW"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="50" height="64"/>
             <connections>
-                <outlet property="titleButton" destination="AVV-dn-qbN" id="1rA-mm-H3T"/>
+                <outlet property="titleButton" destination="B24-xF-Eol" id="9r0-wJ-32o"/>
             </connections>
-            <point key="canvasLocation" x="137.68115942028987" y="99.776785714285708"/>
+            <point key="canvasLocation" x="137.68115942028987" y="104.46428571428571"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <namedColor name="Black1">
-            <color red="0.14509803921568629" green="0.14509803921568629" blue="0.14509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-    </resources>
 </document>
