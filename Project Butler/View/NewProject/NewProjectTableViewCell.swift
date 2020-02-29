@@ -35,6 +35,8 @@ class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     let nib = UINib(nibName: "MemberCollectionViewCell", bundle: nil)
     
+    let numberNib = UINib(nibName: "NumberCollectionViewCell", bundle: nil)
+    
     let colorNib = UINib(nibName: "ColorCollectionViewCell", bundle: nil)
     
     let colorCellContainerView: UIView = {
@@ -130,6 +132,8 @@ class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
         memberCollectionView.delegate = self
         
         memberCollectionView.register(nib, forCellWithReuseIdentifier: "MemberCell")
+        
+        memberCollectionView.register(numberNib, forCellWithReuseIdentifier: "NumberCell")
     }
     
     func setupColorCollectionView() {
@@ -211,10 +215,13 @@ extension NewProjectTableViewCell: UICollectionViewDataSource {
                 
                 return 1
                 
-            } else {
+            } else if memeberInfo.count <= 3 {
                 
                 return memeberInfo.count
                 
+            } else {
+                
+                return 4
             }
             
         case colorCollectionView:
@@ -239,19 +246,28 @@ extension NewProjectTableViewCell: UICollectionViewDataSource {
         
         if collectionView == memberCollectionView {
             
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MemberCell", for: indexPath) as? MemberCollectionViewCell else { return UICollectionViewCell() }
-            
             if memeberInfo.count == 0 {
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MemberCell", for: indexPath) as? MemberCollectionViewCell else { return UICollectionViewCell() }
                 
                 cell.memberImage.image = UIImage.asset(.Icons_32px_AddMembers)
                 
+                return cell
+                
+            } else if indexPath.row == 3 {
+                
+                 guard let numberCell = collectionView.dequeueReusableCell(withReuseIdentifier: "NumberCell", for: indexPath) as? NumberCollectionViewCell else { return UICollectionViewCell() }
+                
+                numberCell.numberLabel.text = "+\(memeberInfo.count - 3)"
+                
+                return numberCell
+                
             } else {
                 
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MemberCell", for: indexPath) as? MemberCollectionViewCell else { return UICollectionViewCell() }
                 cell.memberImage.loadImage(memeberInfo[indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
                 
+                return cell
             }
-            
-            return cell
             
         } else {
             

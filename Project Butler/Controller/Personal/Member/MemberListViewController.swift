@@ -72,6 +72,8 @@ class MemberListViewController: UIViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        navigationItem.title = LargeTitle.memberList.rawValue
+        
         navigationItem.searchController = searchController
         
         navigationItem.rightBarButtonItem = doneBarButton
@@ -193,9 +195,7 @@ class MemberListViewController: UIViewController {
         guard let seleteMemberVC = UIStoryboard.newProject.instantiateViewController(withIdentifier: "SelectMemeberVC") as? SelectMembersViewController else {
             return
         }
-        
-        seleteMemberVC.navigationItem.title = LargeTitle.invateMember.rawValue
-        
+                
         show(seleteMemberVC, sender: nil)
     }
     

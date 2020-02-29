@@ -9,7 +9,7 @@
 import UIKit
 
 class WorkLogContentTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var workItemTextField: UITextField!
@@ -47,10 +47,10 @@ class WorkLogContentTableViewCell: UITableViewCell {
         
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
@@ -79,22 +79,33 @@ extension WorkLogContentTableViewCell: UITextViewDelegate {
         let size = CGSize(width: 354, height: .zero)
         
         let estimatedSize = textView.sizeThatFits(size)
-            
+
         if textView == workContentTextView {
             
+            workContentHeightConstraint.constant = estimatedSize.height
+            
+            textViewDidEdit?(problemTextView.text, workContentTextView.text)
+            
+            if textView.frame.size.height != estimatedSize.height {
+                
+                didChangeTextViewHeight?(true)
+                
+            }
+            
+        } else {
+            
+            problemHeightConstraint.constant = estimatedSize.height
+            
+            textViewDidEdit?(problemTextView.text, workContentTextView.text)
+            
+            if textView.frame.size.height != estimatedSize.height {
+                
+                didChangeTextViewHeight?(true)
+                
+            }
+            
         }
         
-        problemHeightConstraint.constant = estimatedSize.height
-        
-        workContentHeightConstraint.constant = estimatedSize.height
-        
-        textViewDidEdit?(problemTextView.text, workContentTextView.text)
-        
-        if textView.frame.size.height != estimatedSize.height {
-            
-            didChangeTextViewHeight?(true)
-            
-        }
     }
     
 }

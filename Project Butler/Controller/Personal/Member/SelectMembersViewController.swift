@@ -73,6 +73,8 @@ class SelectMembersViewController: UIViewController {
         
         navigationItem.searchController = searchController
         
+        navigationItem.title = LargeTitle.selectMemebers.rawValue
+        
         navigationItem.hidesSearchBarWhenScrolling = false
         
         navigationController?.navigationBar.prefersLargeTitles = true

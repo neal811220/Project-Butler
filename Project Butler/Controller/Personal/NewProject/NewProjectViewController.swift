@@ -369,9 +369,7 @@ extension NewProjectViewController: UITableViewDataSource {
                 strongSelf.show(selectMemeberVC, sender: nil)
                 
                 selectMemeberVC.passSelectMemeber = {
-                    
-                selectMemeberVC.navigationItem.title = LargeTitle.memberList.rawValue
-                    
+                                        
                     strongSelf.membersArray = $0
                     
                     tableView.reloadData()
@@ -389,6 +387,8 @@ extension NewProjectViewController: UITableViewDataSource {
                 tableView.insertRows(at: [IndexPath(row: 0, section: 1)], with: .left)
                 
                 let indexPath = IndexPath(row: strongSelf.workItemArray.endIndex - 1, section: 1)
+                
+                cell.workItemTextField.text = ""
                 
                 tableView.scrollToRow(at: indexPath, at: .none, animated: true)
             }

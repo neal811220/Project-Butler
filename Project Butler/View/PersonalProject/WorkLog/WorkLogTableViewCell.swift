@@ -29,13 +29,13 @@ class WorkLogTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        setLayer(view: timeSpentLabel)
+        setLayer(label: timeSpentLabel)
         
-        setLayer(view: workItemLabel)
+        setLayer(label: workItemLabel)
         
-        setLayer(view: problemLabel)
+        setLayer(label: problemLabel)
         
-        setLayer(view: workContentLabel)
+        setLayer(label: workContentLabel)
         // Initialization code
     }
 
@@ -45,14 +45,8 @@ class WorkLogTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setLayer(view: UIView) {
+    func setLayer(label: UILabel) {
         
-        view.layer.borderColor = UIColor.lightGray.cgColor
-        
-        view.layer.borderWidth = 1
-        
-        view.layer.cornerRadius = 10
-        
-        view.clipsToBounds = true
+        label.numberOfLines = 0
     }    
 }

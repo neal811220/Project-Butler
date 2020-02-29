@@ -47,9 +47,12 @@ class ProfileViewController: UIViewController {
         }
         
     }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        navigationController?.navigationBar.barStyle = .black
         
         navigationController?.navigationBar.isHidden = true
         
