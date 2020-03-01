@@ -17,7 +17,7 @@ typealias FetchUserResult = (Result<[AuthInfo], Error>) -> Void
 typealias FetchFriendResult = (Result<[FriendDetail], Error>) -> Void
 
 enum UserLoginError: Error {
-        
+    
     case noData
 }
 
@@ -31,6 +31,8 @@ class UserManager {
     
     let db = Firestore.firestore()
     
+    let storage = Storage.storage()
+    
     var searchUserArray = [AuthInfo]()
     
     var friendArray = [FriendDetail]()
@@ -41,19 +43,34 @@ class UserManager {
     
     var isSearch = false
     
-    var image = UIImage()
+    var isSearchingAll = false
+    
+    var imageUrl = ""
     
     let group = DispatchGroup()
+    
+    let addUserGroup = DispatchGroup()
+    
+    func notification() {
+        
+        NotificationCenter.default.post(name: Notification.Name("searchReload"), object: nil, userInfo: nil)
+    }
+    
+    // MARK: - Create Data
     
     func addSocialUserData() {
         
         guard let userName = Auth.auth().currentUser?.displayName,
             let userEmail = Auth.auth().currentUser?.email,
-            let userImage = Auth.auth().currentUser?.photoURL?.absoluteString,
             let uid = Auth.auth().currentUser?.uid
             else { return }
         
-        UserManager.shared.addGeneralUserData(name: userName, email: userEmail, imageUrl: userImage, uid: uid)
+        addUserImage()
+        
+        addUserGroup.notify(queue: DispatchQueue.main) {
+            
+            UserManager.shared.addGeneralUserData(name: userName, email: userEmail, imageUrl: self.imageUrl, uid: uid)
+        }
         
     }
     
@@ -65,6 +82,146 @@ class UserManager {
         
         getLoginUserDetail()
     }
+    
+    func addFriend(uid: String, name: String, email: String, image: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        guard let current = Auth.auth().currentUser else { return }
+        
+        let currentUserId = current.uid
+        
+        let addStatus:[String: Any] = ["accept": false, "confirm": true, "userID": uid, "userName": name, "userEmail": email, "userImageUrl": image]
+        db.collection("users").document(currentUserId).collection("friends").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
+            
+            if error == nil && snapshot != nil && snapshot?.documents.count != 0 {
+                
+                for document in snapshot!.documents {
+                    do {
+                        if let data = try document.data(as: AuthInfo.self, decoder: Firestore.Decoder()) {
+                            print(data)
+                        }
+                    } catch {
+                        
+                        completion(.failure(error))
+                    }
+                    
+                }
+                
+            } else if error == nil && snapshot != nil {
+                
+                self.db.collection("users").document(currentUserId).collection("friends").document(uid).setData(addStatus)
+                
+                self.changeFriendStatus(uid: uid)
+                
+                completion(.success(()))
+                
+            } else {
+                
+                guard let error = error else { return }
+                
+                completion(.failure(error))
+                
+                print(error)
+            }
+        }
+    }
+    
+    func addUserImage() {
+        
+        addUserGroup.enter()
+        
+        guard let userImage = Auth.auth().currentUser?.photoURL?.absoluteString,
+            let uid = Auth.auth().currentUser?.uid else {
+                return
+        }
+        
+        HTTPClient.shared.request(url: userImage) { (result) in
+            
+            switch result {
+                
+            case .success(let data):
+                
+                let image = UIImage(data: data)!
+                
+                guard let imageData = image.jpegData(compressionQuality: 1.0) else {
+                    return
+                }
+                
+                let imageReference = Storage.storage().reference().child("userImages").child(uid)
+                
+                imageReference.putData(imageData, metadata: nil) { [ weak self] (metadata, error) in
+                    
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    
+                    if let error = error {
+                        
+                        print(error)
+                    }
+                    
+                    imageReference.downloadURL { (url, error) in
+                        
+                        guard let url = url, error == nil else {
+                            
+                            strongSelf.addUserGroup.leave()
+                            
+                            return
+                        }
+                        
+                        let urlString = url.absoluteString
+                        
+                        strongSelf.imageUrl = urlString
+                        
+                        strongSelf.addUserGroup.leave()
+                    }
+                }
+            case .failure(let error):
+                
+                print(error)
+            }
+        }
+    }
+    
+    func uploadImage(image: UIImage) {
+        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        guard let imageData = image.jpegData(compressionQuality: 1.0) else {
+            return
+        }
+        
+        let imageReference = Storage.storage().reference().child("userImages").child(uid)
+        
+        imageReference.putData(imageData, metadata: nil) { [ weak self] (metadata, error) in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            if let error = error {
+                
+                print(error)
+            }
+            
+            imageReference.downloadURL { (url, error) in
+                
+                guard let url = url, error == nil else {
+                                        
+                    return
+                }
+                
+                let urlString = url.absoluteString
+                
+                strongSelf.imageUrl = urlString
+                                
+                strongSelf.db.collection("users").document(uid).setData(["userImageUrl": urlString], merge: true)
+            }
+        }
+    }
+    
+    // MARK: - Read Data
     
     func getLoginUserDetail() {
         
@@ -88,7 +245,7 @@ class UserManager {
     }
     
     func getLoginUserInfo(uid: String, completion: @escaping (Result<Void, Error>) -> Void) {
-                
+        
         db.collection("users").document(uid).getDocument { (snapshot, error) in
             
             if error == nil && snapshot?.data()?.count != nil {
@@ -102,8 +259,6 @@ class UserManager {
                     CurrentUserInfo.shared.userID = data?.userID
                     
                     CurrentUserInfo.shared.userImageUrl = data?.userImageUrl
-                    
-                    print(data?.userName, data?.userEmail, data?.userID, data?.userImageUrl)
                     
                     print("Get User Info Successfully")
                     
@@ -142,106 +297,6 @@ class UserManager {
             }
         }
     }
-    
-    func notification() {
-        
-        NotificationCenter.default.post(name: Notification.Name("searchReload"), object: nil, userInfo: nil)
-    }
-    
-    func refuseFriend(uid: String) {
-        
-        guard let id = CurrentUserInfo.shared.userID else { return }
-        
-        db.collection("users").document(id).collection("friends").document(uid).delete()
-        
-        db.collection("users").document(uid).collection("friends").document(id).delete()
-        
-    }
-    
-    func acceptFrined(uid: String) {
-        
-        guard let id = CurrentUserInfo.shared.userID else { return }
-        
-        db.collection("users").document(id).collection("friends").document(uid).setData(["confirm": true], merge: true)
-        
-        db.collection("users").document(uid).collection("friends").document(id).setData(["accept": true], merge: true)
-    }
-    
-    func changeFriendStatus(uid: String) {
-        
-        guard let id = Auth.auth().currentUser?.uid else { return }
-        
-        var name = ""
-        
-        var email = ""
-        
-        var image = ""
-        
-        db.collection("users").document(id).getDocument { (snapshot, error) in
-            
-            guard let snapshot = snapshot, error == nil else { return }
-            
-            do {
-                guard let data = try snapshot.data(as: AuthInfo.self, decoder: Firestore.Decoder()) else { return }
-                
-                name = data.userName
-                
-                email = data.userEmail
-                
-                image = data.userImageUrl
-                
-                let friendStatu:[String: Any] = ["accept": true, "confirm": false, "userID": id, "userName": name, "userEmail": email, "userImageUrl": image]
-                self.db.collection("users").document(uid).collection("friends").document(id).setData(friendStatu)
-                
-            } catch {
-                
-                print(error)
-                
-            }
-        }
-    }
-    
-    func addFriend(uid: String, name: String, email: String, image: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        
-        guard let current = Auth.auth().currentUser else { return }
-        
-        let currentUserId = current.uid
-        
-        let addStatus:[String: Any] = ["accept": false, "confirm": true, "userID": uid, "userName": name, "userEmail": email, "userImageUrl": image]
-        db.collection("users").document(currentUserId).collection("friends").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
-            
-            if error == nil && snapshot != nil && snapshot?.documents.count != 0 {
-                
-                for document in snapshot!.documents {
-                    do {
-                        if let data = try document.data(as: AuthInfo.self, decoder: Firestore.Decoder()) {
-                            print(data)
-                        }
-                    } catch {
-                        
-                        completion(.failure(error))
-                    }
-                    
-                }
-                
-            } else if error == nil && snapshot != nil {
-                self.db.collection("users").document(currentUserId).collection("friends").document(uid).setData(addStatus)
-                self.changeFriendStatus(uid: uid)
-                
-                completion(.success(()))
-                
-            } else {
-                
-                guard let error = error else { return }
-                
-                completion(.failure(error))
-                
-                print(error)
-            }
-        }
-    }
-    
-    var isSearchingAll = false
     
     func searchAll(completion: @escaping (Result<Void, Error>) -> Void) {
         
@@ -443,6 +498,63 @@ class UserManager {
                 }
             }
         }
+        
+    }
+    
+    // MARK: - Read Data
+    
+    func acceptFrined(uid: String) {
+        
+        guard let id = CurrentUserInfo.shared.userID else { return }
+        
+        db.collection("users").document(id).collection("friends").document(uid).setData(["confirm": true], merge: true)
+        
+        db.collection("users").document(uid).collection("friends").document(id).setData(["accept": true], merge: true)
+    }
+    
+    func changeFriendStatus(uid: String) {
+        
+        guard let id = Auth.auth().currentUser?.uid else { return }
+        
+        var name = ""
+        
+        var email = ""
+        
+        var image = ""
+        
+        db.collection("users").document(id).getDocument { (snapshot, error) in
+            
+            guard let snapshot = snapshot, error == nil else { return }
+            
+            do {
+                guard let data = try snapshot.data(as: AuthInfo.self, decoder: Firestore.Decoder()) else { return }
+                
+                name = data.userName
+                
+                email = data.userEmail
+                
+                image = data.userImageUrl
+                
+                let friendStatu:[String: Any] = ["accept": true, "confirm": false, "userID": id, "userName": name, "userEmail": email, "userImageUrl": image]
+                self.db.collection("users").document(uid).collection("friends").document(id).setData(friendStatu)
+                
+            } catch {
+                
+                print(error)
+                
+            }
+        }
+    }
+    
+    // MARK: - Delete Data
+    
+    func refuseFriend(uid: String) {
+        
+        guard let id = CurrentUserInfo.shared.userID else { return }
+        
+        db.collection("users").document(id).collection("friends").document(uid).delete()
+        
+        db.collection("users").document(uid).collection("friends").document(id).delete()
         
     }
     

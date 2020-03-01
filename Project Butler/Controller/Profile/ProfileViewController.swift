@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class ProfileViewController: UIViewController {
-    
+        
     @IBOutlet weak var userName: UILabel!
     
     @IBOutlet weak var titleBackgroundView: UIView!
@@ -19,9 +19,12 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet weak var userEmail: UILabel!
     
+    let imagePickerController = UIImagePickerController()
+        
     @IBAction func changePassword(_ sender: UIButton) {
         
         updatePasswordAlert()
+        
     }
     
     @IBAction func Logout(_ sender: UIButton) {
@@ -60,6 +63,12 @@ class ProfileViewController: UIViewController {
         
         userEmail.text = CurrentUserInfo.shared.userEmail
         
+        imagePickerController.allowsEditing = true
+        
+        imagePickerController.delegate = self
+        
+        setupUserImage()
+        
         if CurrentUserInfo.shared.userImageUrl != nil {
             
             userImage.loadImage(CurrentUserInfo.shared.userImageUrl, placeHolder: UIImage(named: "Icons_128px_General"))
@@ -71,7 +80,7 @@ class ProfileViewController: UIViewController {
         
     }
     
-    override func viewWillLayoutSubviews() {
+    func setupUserImage() {
         
         titleBackgroundView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         
@@ -82,6 +91,53 @@ class ProfileViewController: UIViewController {
         userImage.layer.borderWidth = 2
         
         userImage.layer.borderColor = UIColor.white.cgColor
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentPicker))
+        
+        userImage.addGestureRecognizer(tapGesture)
+               
+        userImage.isUserInteractionEnabled = true
+        
+        userImage.contentMode = .scaleAspectFill
+    }
+    
+    @objc func presentPicker() {
+        
+        let imagePickerAlertController = UIAlertController(title: "上傳圖片", message: "請選擇要上傳的圖片", preferredStyle: .actionSheet)
+        
+        let imageFromLibAction = UIAlertAction(title: "照片圖庫", style: .default) { (_) in
+            
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                
+                self.imagePickerController.sourceType = .photoLibrary
+                
+                self.present(self.imagePickerController, animated: true, completion: nil)
+            }
+        }
+        
+        let imageFromCameraAction = UIAlertAction(title: "相機", style: .default) { (_) in
+            
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                
+                self.imagePickerController.sourceType = .camera
+                
+                self.present(self.imagePickerController, animated: true, completion: nil)
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel) { (_) in
+            
+            imagePickerAlertController.dismiss(animated: true, completion: nil)
+        }
+        
+        imagePickerAlertController.addAction(imageFromLibAction)
+        
+        imagePickerAlertController.addAction(imageFromCameraAction)
+        
+        imagePickerAlertController.addAction(cancelAction)
+        
+        present(imagePickerAlertController, animated: true, completion: nil)
+        
     }
     
     func updatePasswordAlert() {
@@ -160,4 +216,20 @@ class ProfileViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+}
+
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+                
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            
+            
+            userImage.image = pickedImage
+            
+            UserManager.shared.uploadImage(image: pickedImage)
+            
+        }
+        
+        picker.dismiss(animated: true, completion: nil)
+    }
 }

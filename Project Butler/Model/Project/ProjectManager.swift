@@ -298,11 +298,6 @@ class ProjectManager {
            completion(.success(()))
        }
     
-    func inviteMember() {
-        
-        
-    }
-    
     // MARK: - Remove Data
     
     func removeMember(documentID: String, memberID: String, completion: @escaping (Result<Void, Error>) -> Void) {

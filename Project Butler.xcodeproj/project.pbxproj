@@ -85,6 +85,7 @@
 		18F0E37E23F3F2A000149F8F /* SelectMemberTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18F0E37C23F3F2A000149F8F /* SelectMemberTableViewCell.xib */; };
 		18F0E38123F46E8500149F8F /* MemberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F0E37F23F46E8500149F8F /* MemberCollectionViewCell.swift */; };
 		18F0E38223F46E8500149F8F /* MemberCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18F0E38023F46E8500149F8F /* MemberCollectionViewCell.xib */; };
+		18F755C2240ACABF00545FC4 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F755C1240ACABF00545FC4 /* HTTPClient.swift */; };
 		18F8CC3D23ED1993004D8420 /* CurrentUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F8CC3C23ED1993004D8420 /* CurrentUserInfo.swift */; };
 		18FC196F2405191900DF4122 /* SignupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC196E2405191900DF4122 /* SignupTableViewCell.swift */; };
 		18FC19712405193D00DF4122 /* ResetPasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC19702405193D00DF4122 /* ResetPasswordTableViewCell.swift */; };
@@ -175,6 +176,7 @@
 		18F0E37C23F3F2A000149F8F /* SelectMemberTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectMemberTableViewCell.xib; sourceTree = "<group>"; };
 		18F0E37F23F46E8500149F8F /* MemberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCollectionViewCell.swift; sourceTree = "<group>"; };
 		18F0E38023F46E8500149F8F /* MemberCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MemberCollectionViewCell.xib; sourceTree = "<group>"; };
+		18F755C1240ACABF00545FC4 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		18F8CC3C23ED1993004D8420 /* CurrentUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserInfo.swift; sourceTree = "<group>"; };
 		18FC196E2405191900DF4122 /* SignupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupTableViewCell.swift; sourceTree = "<group>"; };
 		18FC19702405193D00DF4122 /* ResetPasswordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordTableViewCell.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 		1861E11A23D82DB900673640 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				18F755C1240ACABF00545FC4 /* HTTPClient.swift */,
 				18F0E37723F3C79900149F8F /* SearchBarInfo.swift */,
 				18F0E37923F3C80100149F8F /* LargeTitleInfo.swift */,
 				180727AD23FFA0B000D67EFA /* Report */,
@@ -784,6 +787,7 @@
 				18ADFE092403B7EE003EAF2B /* ReportTitleCollectionViewCell.swift in Sources */,
 				18A059D123E3D683002860B6 /* FriendListViewController.swift in Sources */,
 				18B9591723F0432600C6E8EB /* NewProject.swift in Sources */,
+				18F755C2240ACABF00545FC4 /* HTTPClient.swift in Sources */,
 				18ADFE042403B7E1003EAF2B /* ReportContentCollectionViewCell.swift in Sources */,
 				18635CEA2403A6DB00469168 /* ReportChartViewTableViewCell.swift in Sources */,
 				188FE74023E8002200DDF30C /* NewProjectTableViewCell.swift in Sources */,
