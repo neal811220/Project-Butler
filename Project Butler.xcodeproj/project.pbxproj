@@ -503,6 +503,7 @@
 			children = (
 				18635CEC2403A6E400469168 /* ChartView */,
 				18635CED2403A6F600469168 /* TitleCollectionView */,
+				18CE586623F8409300D47A2D /* WorkLog */,
 				18635CEE2403A70E00469168 /* ReportContent */,
 			);
 			path = Report;
@@ -543,7 +544,6 @@
 			isa = PBXGroup;
 			children = (
 				18BA50C323FD5FD700DEE0B3 /* Report */,
-				18CE586623F8409300D47A2D /* WorkLog */,
 				18CE586723F840A600D47A2D /* NumberCell */,
 				18E32EDC23EF01EE0054D592 /* Processing */,
 				18E32EDD23EF01F80054D592 /* Completed */,

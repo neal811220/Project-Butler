@@ -143,9 +143,9 @@ extension ReportContentViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ReportPickerViewCell", for: indexPath) as? ReportChartPickerTableViewCell else {
                 return UITableViewCell()
             }
-
+            
             cell.itemPicker.inputView = reportPickerView
-
+            
             return cell
 
         case 1:
