@@ -20,6 +20,14 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
     
     var passwordText = ""
     
+    var allUser: [AuthInfo] = []
+    
+    var activityView = UIActivityIndicatorView()
+    
+    var fbLoginGroup = DispatchGroup()
+    
+    var googleLoginGroup = DispatchGroup()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,6 +38,8 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         GIDSignIn.sharedInstance()?.delegate = self
         
         performExistingAccountSetupFlows()
+        
+        setupActivityView()
     }
     
     @objc func pressedLoginButton(_ sender: UIButton) {
@@ -48,31 +58,23 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                 guard let uid = Auth.auth().currentUser?.uid else {
                     
                     return PBProgressHUD.showFailure(text:
-                    "\(error!.localizedDescription)", viewController: strongSelf)
+                        "\(error!.localizedDescription)", viewController: strongSelf)
                 }
                 
                 guard error == nil else {
                     return PBProgressHUD.showFailure(text:
-                    "\(error!.localizedDescription)", viewController: strongSelf)
+                        "\(error!.localizedDescription)", viewController: strongSelf)
                 }
-                                
+                
                 UserDefaults.standard.set(uid, forKey: "userID")
-                                
-                UserManager.shared.getLoginUserInfo(uid: uid, completion: { result in
-                    
-                    switch result {
-                        
-                    case .success:
-                        
-                        strongSelf.transitionToTabBar()
-                        
-                    case .failure(let error):
-                        
-                        print(error)
-                    }
-                })
                 
+                strongSelf.activityView.startAnimating()
                 
+                UserManager.shared.getLoginUserInfo(uid: uid)
+                
+                strongSelf.activityView.stopAnimating()
+                
+                strongSelf.transitionToTabBar()
             }
             
         } else {
@@ -108,23 +110,48 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                     
                     UserDefaults.standard.set(uid, forKey: "userID")
                     
-                    UserManager.shared.getLoginUserInfo(uid: uid, completion: { result in
+                    strongSelf.fbLoginGroup.enter()
+                    
+                    UserManager.shared.fetchAllUser { [weak self] (result) in
+                        
+                        strongSelf.activityView.startAnimating()
+                        
+                        guard let strongSelf = self else {
+                            return
+                        }
                         
                         switch result {
                             
-                        case .success:
-                        
-                            print("FbloginSuccess")
+                        case .success(let data):
+                            
+                            strongSelf.allUser = data
                             
                         case .failure(let error):
-                            
-                            UserManager.shared.addSocialUserData()
                             
                             print(error)
                         }
                         
+                        strongSelf.fbLoginGroup.leave()
+                    }
+                    
+                    
+                    strongSelf.fbLoginGroup.notify(queue: DispatchQueue.main) {
+                        
+                        let match = strongSelf.allUser.filter({ $0.userID == uid })
+                        
+                        if match.isEmpty {
+                            
+                            UserManager.shared.addSocialUserData()
+                            
+                        } else {
+                            
+                            UserManager.shared.getLoginUserInfo(uid: uid)
+                        }
+                        
+                        strongSelf.activityView.stopAnimating()
+                        
                         strongSelf.transitionToTabBar()
-                    })
+                    }
                     
                 }
                 
@@ -153,6 +180,22 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
             delegate.window?.rootViewController = tabBarVC
         }
         
+    }
+    
+    func setupActivityView() {
+        
+        view.addSubview(activityView)
+        
+        NSLayoutConstraint.activate([
+            
+            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            activityView.heightAnchor.constraint(equalToConstant: view.frame.size.width / 10),
+            
+            activityView.widthAnchor.constraint(equalToConstant: view.frame.size.width / 10)
+        ])
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -187,23 +230,48 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
             
             UserDefaults.standard.set(uid, forKey: "userID")
             
-            UserManager.shared.getLoginUserInfo(uid: uid, completion: { result in
+            strongSelf.googleLoginGroup.enter()
+            
+            UserManager.shared.fetchAllUser { [weak self] (result) in
+                
+                strongSelf.activityView.startAnimating()
+                
+                guard let strongSelf = self else {
+                    return
+                }
                 
                 switch result {
                     
-                case .success:
+                case .success(let data):
                     
-                    print("FbloginSuccess")
+                    strongSelf.allUser = data
                     
                 case .failure(let error):
-                    
-                    UserManager.shared.addSocialUserData()
                     
                     print(error)
                 }
                 
+                strongSelf.googleLoginGroup.leave()
+            }
+            
+            
+            strongSelf.googleLoginGroup.notify(queue: DispatchQueue.main) {
+                
+                let match = strongSelf.allUser.filter({ $0.userID == uid })
+                
+                if match.isEmpty {
+                    
+                    UserManager.shared.addSocialUserData()
+                    
+                } else {
+                    
+                    UserManager.shared.getLoginUserInfo(uid: uid)
+                }
+                
+                strongSelf.activityView.stopAnimating()
+                
                 strongSelf.transitionToTabBar()
-            })
+            }
         }
     }
     
@@ -320,19 +388,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                     // The Apple ID credential is valid. Show Home UI Here
                     if firstName == nil || familyName == nil || email == nil {
                         
-                        UserManager.shared.getLoginUserInfo(uid: userIdentifier, completion: { result in
-                            
-                            switch result {
-                                
-                            case .success:
-                                
-                                print("AppID Login Success")
-                                
-                            case .failure(let error):
-                                
-                                print(error)
-                            }
-                        })
+                        UserManager.shared.getLoginUserInfo(uid: userIdentifier)
                         
                     } else {
                         
@@ -355,7 +411,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
             }
             
         }
- 
+        
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {

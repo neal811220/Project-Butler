@@ -51,6 +51,8 @@ class UserManager {
     
     let addUserGroup = DispatchGroup()
     
+    var allUser: [AuthInfo] = []
+    
     func notification() {
         
         NotificationCenter.default.post(name: Notification.Name("searchReload"), object: nil, userInfo: nil)
@@ -80,7 +82,14 @@ class UserManager {
         
         db.collection("users").document(uid).setData(userdetail)
         
-        getLoginUserDetail()
+        CurrentUserInfo.shared.userName = name
+        
+        CurrentUserInfo.shared.userEmail = email
+        
+        CurrentUserInfo.shared.userID = uid
+        
+        CurrentUserInfo.shared.userImageUrl = imageUrl
+        
     }
     
     func addFriend(uid: String, name: String, email: String, image: String, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -223,28 +232,7 @@ class UserManager {
     
     // MARK: - Read Data
     
-    func getLoginUserDetail() {
-        
-        guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
-            return
-        }
-        
-        getLoginUserInfo(uid: uid) { (result) in
-            
-            switch result {
-                
-            case .success:
-                
-                print("Get User Info Success")
-                
-            case .failure(let error):
-                
-                print(error)
-            }
-        }
-    }
-    
-    func getLoginUserInfo(uid: String, completion: @escaping (Result<Void, Error>) -> Void) {
+    func getLoginUserInfo(uid: String) {
         
         db.collection("users").document(uid).getDocument { (snapshot, error) in
             
@@ -261,16 +249,47 @@ class UserManager {
                     CurrentUserInfo.shared.userImageUrl = data?.userImageUrl
                     
                     print("Get User Info Successfully")
+                                        
+                } catch {
+                   
+                    print(error)
                     
-                    completion(.success(()))
+                }
+            }
+            
+        }
+    }
+    
+    func fetchAllUser(completion: @escaping (Result<[AuthInfo], Error>) -> Void) {
+        
+        db.collection("users").getDocuments { [weak self] (snapshot, error) in
+            
+            guard let snapshot = snapshot, error == nil else {
+                return
+            }
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            for user in snapshot.documents {
+                
+                do {
+                    
+                    guard let data = try user.data(as: AuthInfo.self, decoder: Firestore.Decoder()) else {
+                        return
+                    }
+                    
+                    strongSelf.allUser.append(data)
                     
                 } catch {
                     
                     completion(.failure(error))
+                    
                 }
             }
             
-            completion(.failure(UserLoginError.noData))
+            completion(.success(strongSelf.allUser))
         }
     }
     
