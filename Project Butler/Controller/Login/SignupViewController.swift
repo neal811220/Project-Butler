@@ -42,11 +42,16 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                         return
                     }
                     
-                    guard error == nil else { return PBProgressHUD.showFailure(text:
-                        "\(error!.localizedDescription)", viewController: strongSelf)}
+                    guard error == nil else {
+                        return PBProgressHUD.showFailure(text:
+                        "\(error!.localizedDescription)", viewController: strongSelf)
+                        
+                    }
                     
-                    let userImage = "Icons_32px_General"
-
+                    guard let userImage = UIImage(named: "Icons_128px_General") else {
+                        return
+                    }
+                    
                     UserManager.shared.addGeneralUserData(name: String(userName), email: strongSelf.emailText, imageUrl: userImage, uid: uid)
                     
                     PBProgressHUD.showSuccess(text: "Sign up Success!", viewController: strongSelf)

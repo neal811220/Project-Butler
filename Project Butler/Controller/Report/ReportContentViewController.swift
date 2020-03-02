@@ -58,7 +58,7 @@ class ReportContentViewController: UIViewController {
     var reportManager: ChartProvider? {
         
         didSet {
-        
+            
             reportManager?.targetWorkLogContentsDidChangeHandler = { [weak self] datas in
                 
                 self?.filterWorkLogContent = datas
@@ -219,6 +219,7 @@ extension ReportContentViewController: UIPickerViewDataSource {
         
         return reportPickerContentArray[row]
     }
+    
     
 }
 

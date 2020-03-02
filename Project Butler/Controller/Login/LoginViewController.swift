@@ -392,7 +392,12 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                         
                     } else {
                         
-                        UserManager.shared.addGeneralUserData(name: firstName! + familyName!, email: email!, imageUrl: "Icons_128px_General", uid: userIdentifier)
+                        guard let image = UIImage(named: "Icons_128px_General") else {
+                            
+                            return
+                        }
+                        
+                        UserManager.shared.addGeneralUserData(name: firstName! + familyName!, email: email!, imageUrl: image, uid: userIdentifier)
                         
                         UserDefaults.standard.set(userIdentifier, forKey: "userID")
                     }

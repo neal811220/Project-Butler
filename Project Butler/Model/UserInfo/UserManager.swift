@@ -11,6 +11,7 @@ import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseStorage
+import Kingfisher
 
 typealias FetchUserResult = (Result<[AuthInfo], Error>) -> Void
 
@@ -69,26 +70,56 @@ class UserManager {
         
         addUserImage()
         
-        addUserGroup.notify(queue: DispatchQueue.main) {
+        addUserGroup.notify(queue: DispatchQueue.main) { [weak self] in
             
-            UserManager.shared.addGeneralUserData(name: userName, email: userEmail, imageUrl: self.imageUrl, uid: uid)
+            guard let strongSelf = self else {
+                return
+            }
+            
+            let userdetail: [String: Any] = ["userName": userName, "userEmail": userEmail, "userImageUrl": strongSelf.imageUrl, "userID": uid]
+            
+            strongSelf.db.collection("users").document(uid).setData(userdetail)
+            
+            CurrentUserInfo.shared.userName = userName
+                   
+            CurrentUserInfo.shared.userEmail = userEmail
+                   
+            CurrentUserInfo.shared.userID = uid
+                   
+            CurrentUserInfo.shared.userImageUrl = strongSelf.imageUrl
         }
         
     }
     
-    func addGeneralUserData(name: String, email: String, imageUrl: String, uid: String) {
+    func addGeneralUserData(name: String, email: String, imageUrl: UIImage, uid: String) {
         
-        let userdetail: [String: Any] = ["userName": name, "userEmail": email, "userImageUrl": imageUrl, "userID": uid]
-        
-        db.collection("users").document(uid).setData(userdetail)
-        
-        CurrentUserInfo.shared.userName = name
-        
-        CurrentUserInfo.shared.userEmail = email
-        
-        CurrentUserInfo.shared.userID = uid
-        
-        CurrentUserInfo.shared.userImageUrl = imageUrl
+        uploadImage(image: imageUrl) {[weak self] (result) in
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
+            switch result {
+                
+            case .success:
+                
+                let userdetail: [String: Any] = ["userName": name, "userEmail": email, "userImageUrl": strongSelf.imageUrl, "userID": uid]
+                
+                strongSelf.db.collection("users").document(uid).setData(userdetail)
+                
+                CurrentUserInfo.shared.userName = name
+                
+                CurrentUserInfo.shared.userEmail = email
+                
+                CurrentUserInfo.shared.userID = uid
+                
+                CurrentUserInfo.shared.userImageUrl = strongSelf.imageUrl
+                
+            case.failure(let error):
+                
+                print(error)
+            }
+        }
         
     }
     
@@ -139,6 +170,7 @@ class UserManager {
         addUserGroup.enter()
         
         guard let userImage = Auth.auth().currentUser?.photoURL?.absoluteString,
+            
             let uid = Auth.auth().currentUser?.uid else {
                 return
         }
@@ -155,7 +187,7 @@ class UserManager {
                     return
                 }
                 
-                let imageReference = Storage.storage().reference().child("userImages").child(uid)
+                let imageReference = Storage.storage().reference().child("userImages").child("\(uid).jpg")
                 
                 imageReference.putData(imageData, metadata: nil) { [ weak self] (metadata, error) in
                     
@@ -191,7 +223,7 @@ class UserManager {
         }
     }
     
-    func uploadImage(image: UIImage) {
+    func uploadImage(image: UIImage, completion: @escaping (Result<Void, Error>) -> Void) {
         
         guard let uid = Auth.auth().currentUser?.uid else {
             return
@@ -201,7 +233,7 @@ class UserManager {
             return
         }
         
-        let imageReference = Storage.storage().reference().child("userImages").child(uid)
+        let imageReference = Storage.storage().reference().child("userImages").child("\(uid).jpg")
         
         imageReference.putData(imageData, metadata: nil) { [ weak self] (metadata, error) in
             
@@ -211,9 +243,14 @@ class UserManager {
             
             if let error = error {
                 
+                completion(.failure(error))
                 print(error)
             }
             
+            let cache = ImageCache.default
+            
+            cache.clearMemoryCache()
+            cache.clearDiskCache { print("Done") }
             imageReference.downloadURL { (url, error) in
                 
                 guard let url = url, error == nil else {
@@ -225,7 +262,9 @@ class UserManager {
                 
                 strongSelf.imageUrl = urlString
                                 
-                strongSelf.db.collection("users").document(uid).setData(["userImageUrl": urlString], merge: true)
+//                strongSelf.db.collection("users").document(uid).setData(["userImageUrl": urlString], merge: true)
+                
+                completion(.success(()))
             }
         }
     }

@@ -21,6 +21,12 @@ class ProfileViewController: UIViewController {
     
     let imagePickerController = UIImagePickerController()
         
+    var activityView: UIActivityIndicatorView = {
+        let activityView = UIActivityIndicatorView()
+        activityView.translatesAutoresizingMaskIntoConstraints = false
+        return activityView
+    }()
+    
     @IBAction func changePassword(_ sender: UIButton) {
         
         updatePasswordAlert()
@@ -69,6 +75,8 @@ class ProfileViewController: UIViewController {
         
         setupUserImage()
         
+        setupActivityView()
+        
         if CurrentUserInfo.shared.userImageUrl != nil {
             
             userImage.loadImage(CurrentUserInfo.shared.userImageUrl, placeHolder: UIImage(named: "Icons_128px_General"))
@@ -78,6 +86,22 @@ class ProfileViewController: UIViewController {
             userImage.image = UIImage(named: "Icons_128px_General")
         }
         
+    }
+    
+    func setupActivityView() {
+        
+        view.addSubview(activityView)
+        
+        NSLayoutConstraint.activate([
+            
+            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            activityView.heightAnchor.constraint(equalToConstant: view.frame.size.width / 10),
+            
+            activityView.widthAnchor.constraint(equalToConstant: view.frame.size.width / 10)
+        ])
     }
     
     func setupUserImage() {
@@ -226,7 +250,20 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             
             userImage.image = pickedImage
             
-            UserManager.shared.uploadImage(image: pickedImage)
+            UserManager.shared.uploadImage(image: pickedImage, completion: { (result) in
+                
+                switch result {
+                    
+                case .success:
+                    
+                    print("upload Image Success")
+                    
+                case .failure(let error):
+                    
+                    print(error)
+                    
+                }
+            })
             
         }
         

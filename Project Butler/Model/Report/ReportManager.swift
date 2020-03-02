@@ -12,6 +12,8 @@ import AAInfographics
 
 class ReportManager {
     
+    static var pickerType = 0
+    
     let workLogContent: [WorkLogContent]
     
     init(workLogContent: [WorkLogContent]) {
@@ -21,9 +23,11 @@ class ReportManager {
     
     var chartModel: AAChartModel!
     
-    let date = Date()
+    var reportDate = Date()
     
     var workLogName = ""
+    
+    var dateString = ""
     
     let dayFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -35,20 +39,26 @@ class ReportManager {
            let formatter = DateFormatter()
            formatter.dateFormat = "yyyy-MM"
            return formatter
-       }()
+    }()
+    
+    let yearFormatter: DateFormatter = {
+           let formatter = DateFormatter()
+           formatter.dateFormat = "yyyy"
+           return formatter
+    }()
 }
 
 protocol ChartProvider {
     
     var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)? { get set }
-    
+        
     func chartViewModel() -> AAChartModel
     
     func chartView(didSelected data: String)
 }
 
 class DateReportManager: ReportManager, ChartProvider {
-    
+        
     func chartView(didSelected data: String) {
         
         var filterWorkLogContent: [WorkLogContent] = []
@@ -70,9 +80,33 @@ class DateReportManager: ReportManager, ChartProvider {
         
         var beforeSevenDates: [String] = []
         
-        let sortArray = workLogContent.sorted(by: { $0.date < $1.date })
+        var sortArray = workLogContent.sorted(by: { $0.date < $1.date })
                 
         var resultDictionary: [String: [WorkLogContent]] = [:]
+        
+//        switch ReportManager.pickerType {
+//
+//        case 1:
+//
+//            for date in sortArray {
+//
+//
+//            }
+//
+//        case 2:
+//
+//            beforeSevenDates = sortArray.map { $0.date }
+//
+//            for date in beforeSevenDates {
+//
+//                let monthDate = date.components(separatedBy: "-")
+//
+//                beforeSevenDates.append(monthDate[0])
+//            }
+//
+//        default:
+//            break
+//        }
         
         for item in sortArray {
             
@@ -88,12 +122,28 @@ class DateReportManager: ReportManager, ChartProvider {
         
         for i in 1...7 {
             
-            guard let date = Calendar.current.date(byAdding: .day, value: -i, to: Date()) else {
-                return AAChartModel()
+            switch ReportManager.pickerType {
+                
+            case 1:
+                
+               reportDate = Calendar.current.date(byAdding: .month, value: -i, to: Date()) ?? Date()
+               
+               dateString = monthFormatter.string(from: reportDate)
+                
+            case 2:
+                
+                reportDate = Calendar.current.date(byAdding: .year, value: -i, to: Date()) ?? Date()
+                
+                dateString = yearFormatter.string(from: reportDate)
+                
+            default:
+                
+                reportDate = Calendar.current.date(byAdding: .day, value: -i, to: Date()) ?? Date()
+                
+                dateString = dayFormatter.string(from: reportDate)
+                
             }
-            
-            let dateString = dayFormatter.string(from: date)
-            
+                        
             beforeSevenDates.append(dateString)
             
         }
@@ -116,7 +166,7 @@ class DateReportManager: ReportManager, ChartProvider {
         
         chartModel = AAChartModel()
         chartModel = chartModel.touchEventEnabled(true)
-            .chartType(.spline)//Can be any of the chart types listed under `AAChartType`.
+            .chartType(.line)//Can be any of the chart types listed under `AAChartType`.
             .animationType(.bounce)
             .title(workLogName)//The chart title
             //        .subtitle("subtitle")//The chart subtitle
@@ -125,13 +175,13 @@ class DateReportManager: ReportManager, ChartProvider {
             .categories(Array(beforeSevenDates))
             .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
             .series([element])
-        
+            .markerSymbol(.diamond)
         return chartModel
     }
 }
 
 class PersonalReportManager: ReportManager, ChartProvider {
-    
+        
     var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)?
     
     func chartView(didSelected data: String) {
@@ -221,7 +271,7 @@ class PersonalReportManager: ReportManager, ChartProvider {
         
         chartModel = AAChartModel()
         chartModel = chartModel.touchEventEnabled(true)
-            .chartType(.areaspline)//Can be any of the chart types listed under `AAChartType`.
+            .chartType(.area)//Can be any of the chart types listed under `AAChartType`.
             .animationType(.bounce)
             .title("TITLE")//The chart title
             .subtitle("subtitle")//The chart subtitle
@@ -230,14 +280,14 @@ class PersonalReportManager: ReportManager, ChartProvider {
             .categories(Array(beforeSevenDates))
             .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
             .series([element])
-        
+            .markerSymbolStyle(.innerBlank)
         return chartModel
     }
 }
 
 class WorkItemReportManager: ReportManager, ChartProvider {
     
-    var workItem = "Look"
+    var workItem = "UI Design"
     
     var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)?
     
@@ -324,7 +374,7 @@ class WorkItemReportManager: ReportManager, ChartProvider {
             .categories(Array(beforeSevenDates))
             .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
             .series([element])
-        
+            .markerSymbolStyle(.borderBlank)
         return chartModel
     }
 }

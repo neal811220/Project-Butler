@@ -22,6 +22,8 @@ class SelectMemberTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        userImage.layer.cornerRadius = userImage.frame.width / 2
         // Initialization code
     }
 

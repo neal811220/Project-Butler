@@ -251,6 +251,7 @@ extension FriendListViewController: UITableViewDataSource {
             datas.append(userManager.searchUserArray)
             
         default: break
+            
         }
         
         tableView.reloadData()

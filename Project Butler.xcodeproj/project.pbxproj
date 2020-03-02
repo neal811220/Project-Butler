@@ -87,6 +87,7 @@
 		18F0E38223F46E8500149F8F /* MemberCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18F0E38023F46E8500149F8F /* MemberCollectionViewCell.xib */; };
 		18F755C2240ACABF00545FC4 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F755C1240ACABF00545FC4 /* HTTPClient.swift */; };
 		18F8CC3D23ED1993004D8420 /* CurrentUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F8CC3C23ED1993004D8420 /* CurrentUserInfo.swift */; };
+		18FAC541240CF1F500BF38EE /* NewFriendListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FAC540240CF1F500BF38EE /* NewFriendListViewController.swift */; };
 		18FC196F2405191900DF4122 /* SignupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC196E2405191900DF4122 /* SignupTableViewCell.swift */; };
 		18FC19712405193D00DF4122 /* ResetPasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC19702405193D00DF4122 /* ResetPasswordTableViewCell.swift */; };
 		18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */; };
@@ -178,6 +179,7 @@
 		18F0E38023F46E8500149F8F /* MemberCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MemberCollectionViewCell.xib; sourceTree = "<group>"; };
 		18F755C1240ACABF00545FC4 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		18F8CC3C23ED1993004D8420 /* CurrentUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserInfo.swift; sourceTree = "<group>"; };
+		18FAC540240CF1F500BF38EE /* NewFriendListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFriendListViewController.swift; sourceTree = "<group>"; };
 		18FC196E2405191900DF4122 /* SignupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupTableViewCell.swift; sourceTree = "<group>"; };
 		18FC19702405193D00DF4122 /* ResetPasswordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordTableViewCell.swift; sourceTree = "<group>"; };
 		18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWapper.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				18F755C1240ACABF00545FC4 /* HTTPClient.swift */,
 				18F0E37723F3C79900149F8F /* SearchBarInfo.swift */,
 				18F0E37923F3C80100149F8F /* LargeTitleInfo.swift */,
+				18B9590C23EFCDE400C6E8EB /* ProjectColor.swift */,
 				180727AD23FFA0B000D67EFA /* Report */,
 				182A856623F2A6DE00D5394F /* Project */,
 				18B9591323EFD65500C6E8EB /* UserInfo */,
@@ -424,6 +427,7 @@
 			isa = PBXGroup;
 			children = (
 				18A059D023E3D683002860B6 /* FriendListViewController.swift */,
+				18FAC540240CF1F500BF38EE /* NewFriendListViewController.swift */,
 			);
 			path = FriendList;
 			sourceTree = "<group>";
@@ -475,7 +479,6 @@
 		18B9590E23EFCDF500C6E8EB /* Personal */ = {
 			isa = PBXGroup;
 			children = (
-				18B9590C23EFCDE400C6E8EB /* ProjectColor.swift */,
 				18B9591623F0432600C6E8EB /* NewProject.swift */,
 			);
 			path = Personal;
@@ -808,6 +811,7 @@
 				18F0E37823F3C79900149F8F /* SearchBarInfo.swift in Sources */,
 				1844082323E541D000A879F7 /* FriendListTableViewCell.swift in Sources */,
 				1895D75423E3C5F500207016 /* UIStoryboard+Extension.swift in Sources */,
+				18FAC541240CF1F500BF38EE /* NewFriendListViewController.swift in Sources */,
 				188FE74223E8004300DDF30C /* WorkItemTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -957,7 +961,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9W3FMHPU3X;
 				INFOPLIST_FILE = "Project Butler/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -978,7 +982,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9W3FMHPU3X;
 				INFOPLIST_FILE = "Project Butler/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
