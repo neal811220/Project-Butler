@@ -65,10 +65,6 @@ class ProfileViewController: UIViewController {
         
         navigationController?.navigationBar.isHidden = true
         
-        userName.text = CurrentUserInfo.shared.userName
-        
-        userEmail.text = CurrentUserInfo.shared.userEmail
-        
         imagePickerController.allowsEditing = true
         
         imagePickerController.delegate = self
@@ -77,15 +73,42 @@ class ProfileViewController: UIViewController {
         
         setupActivityView()
         
-        if CurrentUserInfo.shared.userImageUrl != nil {
-            
-            userImage.loadImage(CurrentUserInfo.shared.userImageUrl, placeHolder: UIImage(named: "Icons_128px_General"))
-            
-        } else {
-            
-            userImage.image = UIImage(named: "Icons_128px_General")
+        getUserInfo()
+        
+    }
+    
+    func getUserInfo() {
+        
+        guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
+            return
         }
         
+        activityView.stopAnimating()
+        
+        CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { [weak self] (result) in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            switch result {
+                
+            case .success:
+                
+                print("Success")
+                
+                strongSelf.userImage.loadImage(CurrentUserInfo.shared.userImageUrl, placeHolder: UIImage(named: "Icons_128px_General"))
+                
+                strongSelf.userName.text = CurrentUserInfo.shared.userName
+                
+                strongSelf.userEmail.text = CurrentUserInfo.shared.userEmail
+            case .failure(let error):
+                
+                print(error)
+            }
+            
+            strongSelf.activityView.stopAnimating()
+        }
     }
     
     func setupActivityView() {
@@ -250,7 +273,13 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             
             userImage.image = pickedImage
             
-            UserManager.shared.uploadImage(image: pickedImage, completion: { (result) in
+            activityView.startAnimating()
+            
+            UserManager.shared.uploadImage(image: pickedImage, completion: { [weak self] (result) in
+                
+                guard let strongSelf = self else {
+                    return
+                }
                 
                 switch result {
                     
@@ -263,6 +292,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                     print(error)
                     
                 }
+                
+                strongSelf.activityView.stopAnimating()
             })
             
         }

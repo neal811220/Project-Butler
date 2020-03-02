@@ -70,9 +70,21 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                 
                 strongSelf.activityView.startAnimating()
                 
-                UserManager.shared.getLoginUserInfo(uid: uid)
-                
-                strongSelf.activityView.stopAnimating()
+                CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { (result) in
+                    
+                    switch result {
+                        
+                    case .success:
+                        
+                        print("Success")
+                        
+                    case .failure(let error):
+                        
+                        print(error)
+                    }
+                    
+                    strongSelf.activityView.stopAnimating()
+                }
                 
                 strongSelf.transitionToTabBar()
             }
@@ -145,10 +157,24 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                             
                         } else {
                             
-                            UserManager.shared.getLoginUserInfo(uid: uid)
+                            strongSelf.activityView.startAnimating()
+                            
+                            CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { (result) in
+                                
+                                switch result {
+                                    
+                                case .success:
+                                    
+                                    print("Success")
+                                    
+                                case .failure(let error):
+                                    
+                                    print(error)
+                                }
+                                
+                                strongSelf.activityView.stopAnimating()
+                            }
                         }
-                        
-                        strongSelf.activityView.stopAnimating()
                         
                         strongSelf.transitionToTabBar()
                     }
@@ -265,10 +291,24 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                     
                 } else {
                     
-                    UserManager.shared.getLoginUserInfo(uid: uid)
+                    strongSelf.activityView.startAnimating()
+                    
+                    CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { (result) in
+                        
+                        switch result {
+                            
+                        case .success:
+                            
+                            print("Success")
+                            
+                        case .failure(let error):
+                            
+                            print(error)
+                        }
+                        
+                        strongSelf.activityView.stopAnimating()
+                    }
                 }
-                
-                strongSelf.activityView.stopAnimating()
                 
                 strongSelf.transitionToTabBar()
             }
@@ -388,7 +428,23 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                     // The Apple ID credential is valid. Show Home UI Here
                     if firstName == nil || familyName == nil || email == nil {
                         
-                        UserManager.shared.getLoginUserInfo(uid: userIdentifier)
+                        strongSelf.activityView.startAnimating()
+                        
+                        CurrentUserInfo.shared.getLoginUserInfo(uid: userIdentifier) { (result) in
+                            
+                            switch result {
+                                
+                            case .success:
+                                
+                                print("Success")
+                                
+                            case .failure(let error):
+                                
+                                print(error)
+                            }
+                            
+                            strongSelf.activityView.stopAnimating()
+                        }
                         
                     } else {
                         

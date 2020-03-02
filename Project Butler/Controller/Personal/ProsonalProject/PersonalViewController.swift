@@ -73,6 +73,12 @@ class PersonalViewController: UIViewController {
         return stackView
     }()
     
+    var activityView: UIActivityIndicatorView = {
+        let activityView = UIActivityIndicatorView()
+        activityView.translatesAutoresizingMaskIntoConstraints = false
+        return activityView
+    }()
+    
     lazy var tableView: UITableView = {
         
         let tableView = UITableView()
@@ -146,9 +152,7 @@ class PersonalViewController: UIViewController {
     var searchLeaderStaus = false
     
     var memberDetail: [[AuthInfo]] = []
-    
-    let activityView = UIActivityIndicatorView()
-    
+        
     let fetchUserSemaphone = DispatchSemaphore(value: 0)
     
     override func viewDidLoad() {
@@ -172,7 +176,7 @@ class PersonalViewController: UIViewController {
         setupTableView()
         
         fetchCurrentUserInfo()
-        
+                
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -267,26 +271,47 @@ class PersonalViewController: UIViewController {
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
-        UserManager.shared.getLoginUserInfo(uid: uid)
+        
+        activityView.stopAnimating()
+        
+        CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { [weak self] (result) in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            switch result {
+                
+            case .success:
+                
+                print("Success Get User Info")
+                
+            case .failure(let error):
+                
+                print(error)
+            }
+            
+            strongSelf.activityView.stopAnimating()
+        }
     }
+    
+    func setupActivityView() {
+           
+           view.addSubview(activityView)
+           
+           NSLayoutConstraint.activate([
+               activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+               activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+               activityView.heightAnchor.constraint(equalToConstant: view.frame.size.width / 10),
+               activityView.widthAnchor.constraint(equalToConstant: view.frame.size.width / 10)
+           ])
+       }
     
     func clearAll() {
         
         userProjectDetail = []
         
         memberDetail = []
-    }
-    
-    func setupActivityView() {
-        
-        view.addSubview(activityView)
-        
-        NSLayoutConstraint.activate([
-            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityView.heightAnchor.constraint(equalToConstant: view.frame.width / 10),
-            activityView.widthAnchor.constraint(equalToConstant: view.frame.width / 10)
-        ])
     }
     
     func fetchUserProcessingProjcet() {

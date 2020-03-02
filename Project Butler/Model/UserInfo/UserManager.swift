@@ -271,34 +271,6 @@ class UserManager {
     
     // MARK: - Read Data
     
-    func getLoginUserInfo(uid: String) {
-        
-        db.collection("users").document(uid).getDocument { (snapshot, error) in
-            
-            if error == nil && snapshot?.data()?.count != nil {
-                do {
-                    let data = try snapshot?.data(as: AuthInfo.self, decoder: Firestore.Decoder())
-                    
-                    CurrentUserInfo.shared.userName = data?.userName
-                    
-                    CurrentUserInfo.shared.userEmail = data?.userEmail
-                    
-                    CurrentUserInfo.shared.userID = data?.userID
-                    
-                    CurrentUserInfo.shared.userImageUrl = data?.userImageUrl
-                    
-                    print("Get User Info Successfully")
-                                        
-                } catch {
-                   
-                    print(error)
-                    
-                }
-            }
-            
-        }
-    }
-    
     func fetchAllUser(completion: @escaping (Result<[AuthInfo], Error>) -> Void) {
         
         db.collection("users").getDocuments { [weak self] (snapshot, error) in
