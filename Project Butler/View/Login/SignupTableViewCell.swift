@@ -10,7 +10,7 @@ import UIKit
 
 protocol SignupTableViewCellDelegate: AnyObject {
     
-    func passInputText(email: String, password: String, confirmPassword: String)
+    func passInputText(_ signupTableViewCell: SignupTableViewCell, email: String, password: String, confirmPassword: String)
 }
 
 class SignupTableViewCell: UITableViewCell, UITextFieldDelegate {
@@ -33,7 +33,7 @@ class SignupTableViewCell: UITableViewCell, UITextFieldDelegate {
             return
         }
         
-        delegate?.passInputText(email: email, password: password, confirmPassword: confirm)
+        delegate?.passInputText(self, email: email, password: password, confirmPassword: confirm)
     }
     
     override func awakeFromNib() {

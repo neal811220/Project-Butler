@@ -39,6 +39,23 @@ class ProjectManager {
         
     }
     
+    // MARK: - Create Data
+         func createNewProject(projectID: String, newProject: ProjectDetail, completion: @escaping (Result<Void, Error>) -> Void) {
+             
+             do {
+                 
+                 try db.collection("projects").document(projectID).setData(from: newProject)
+                 
+             } catch {
+                 
+                 print("Error: \(error)")
+                 
+                 completion(.failure(error))
+             }
+             
+             completion(.success(()))
+         }
+    
     // MARK: - Upload Data
     func uploadUserWorkLog(documentID: String, workLogContent: WorkLogContent, completion: @escaping (Result<Void, Error>) -> Void) {
         
@@ -92,6 +109,8 @@ class ProjectManager {
             completion(.success(self.workLogContent))
         }
     }
+    
+    // MARK: - Read Data
     
     func fetchUserProjectWorkLog(projectID: String, completion: @escaping (Result<[WorkLogContent], Error>) -> Void) {
         
@@ -281,24 +300,46 @@ class ProjectManager {
          
      }
     
-   // MARK: - Create Data
-       func createNewProject(projectID: String, newProject: ProjectDetail, completion: @escaping (Result<Void, Error>) -> Void) {
-           
-           do {
-               
-               try db.collection("projects").document(projectID).setData(from: newProject)
-               
-           } catch {
-               
-               print("Error: \(error)")
-               
-               completion(.failure(error))
-           }
-           
-           completion(.success(()))
-       }
+    // MARK: - Update Data
     
-    // MARK: - Remove Data
+    func updateMember(documentID: String, memberID: [String], completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        var memberRef: [DocumentReference] = []
+        
+        for member in memberID {
+            
+            memberRef.append(db.collection("users").document(member))
+        }
+        
+        db.collection("projects").document(documentID).updateData(["projectMember": FieldValue.arrayUnion(memberRef)]) { (error) in
+            
+            if let error = error {
+                
+                completion(.failure(error))
+                
+            } else {
+                
+                completion(.success(()))
+            }
+        }
+    }
+    
+    func updateMemberID(documentID: String, memberID: [String], completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        db.collection("projects").document(documentID).updateData(["projectMemberID": FieldValue.arrayUnion(memberID)]) { (error) in
+            
+            if let error = error {
+                
+                completion(.failure(error))
+                
+            } else {
+                
+                completion(.success(()))
+            }
+        }
+    }
+    
+    // MARK: - Delete Data
     
     func removeMember(documentID: String, memberID: String, completion: @escaping (Result<Void, Error>) -> Void) {
         

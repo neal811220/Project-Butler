@@ -86,9 +86,10 @@ extension ResetPasswordViewController: UITableViewDataSource {
 
 extension ResetPasswordViewController: ResetPasswordTableViewCellDelegate {
     
-    func passInputText(email: String) {
+    func passInputText(_ resetPasswordTableViewCell: ResetPasswordTableViewCell, email: String) {
         
         self.emailText = email
     }
+
 }
 

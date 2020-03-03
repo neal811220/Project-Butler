@@ -36,7 +36,6 @@ protocol Userable: Codable {
     func tapAcceptButton()
     
     func tapRefuseButton()
-    
 }
 
 struct AuthInfo: Codable, Userable {
@@ -48,6 +47,11 @@ struct AuthInfo: Codable, Userable {
     let userImageUrl: String
     
     let userID: String
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        
+        return lhs.userID == rhs.userID
+    }
     
     func tapAcceptButton() { }
     
@@ -114,6 +118,11 @@ struct FriendDetail: Codable, Userable {
     enum CodingKeys: String, CodingKey {
         
         case accept, confirm, userEmail, userID, userImageUrl, userName
+    }
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        
+        return lhs.userID == rhs.userID
     }
     
     func tapAcceptButton() {

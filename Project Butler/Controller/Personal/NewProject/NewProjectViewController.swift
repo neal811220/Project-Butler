@@ -289,18 +289,18 @@ class NewProjectViewController: UIViewController {
 
 extension NewProjectViewController: NewProjectTableViewCellDelegate {
     
-    func passColor(color: String) {
+    func passColor(_ newProjectTableViewCell: NewProjectTableViewCell, color: String) {
         
         seletedColor = color
     }
     
-    func didSaveProject(projectName: String, workItem: String) {
+    func didSaveProject(_ newProjectTableViewCell: NewProjectTableViewCell, projectName: String, workItem: String) {
         
         inputProjectName = projectName
-        
+               
         workItemText = workItem
-        
     }
+    
 }
 
 extension NewProjectViewController: UITableViewDataSource {

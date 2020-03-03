@@ -84,30 +84,6 @@ class DateReportManager: ReportManager, ChartProvider {
                 
         var resultDictionary: [String: [WorkLogContent]] = [:]
         
-//        switch ReportManager.pickerType {
-//
-//        case 1:
-//
-//            for date in sortArray {
-//
-//
-//            }
-//
-//        case 2:
-//
-//            beforeSevenDates = sortArray.map { $0.date }
-//
-//            for date in beforeSevenDates {
-//
-//                let monthDate = date.components(separatedBy: "-")
-//
-//                beforeSevenDates.append(monthDate[0])
-//            }
-//
-//        default:
-//            break
-//        }
-        
         for item in sortArray {
             
             if let logContentArray = resultDictionary[item.date] {

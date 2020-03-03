@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol SelectMembersViewControllerDelegate: AnyObject {
+    
+    func passMember(_ selectMembersViewController: SelectMembersViewController, selectedMemberArray: [FriendDetail])
+}
+
 class SelectMembersViewController: UIViewController {
 
     lazy var tableView: UITableView = {
@@ -64,6 +69,8 @@ class SelectMembersViewController: UIViewController {
     
     var passSelectMemeber: (([FriendDetail]) -> Void)?
     
+    weak var delegate: SelectMembersViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -96,6 +103,8 @@ class SelectMembersViewController: UIViewController {
             seletedArray = allfriends.filter({ $0.isSeleted == true })
             
             passSelectMemeber?(seletedArray)
+            
+            delegate?.passMember(self, selectedMemberArray: seletedArray)
             
             print(seletedArray)
         }

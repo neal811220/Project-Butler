@@ -372,12 +372,11 @@ extension LoginViewController: UITableViewDataSource {
 
 extension LoginViewController: LoginTableViewCellDelegate {
     
-    func passInputText(email: String, password: String) {
+    func passInputText(_ loginTableViewCell: LoginTableViewCell, email: String, password: String) {
         
         self.emailText = email
         
         self.passwordText = password
-        
     }
     
 }

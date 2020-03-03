@@ -10,7 +10,7 @@ import UIKit
 
 protocol LoginTableViewCellDelegate: AnyObject {
     
-    func passInputText(email: String, password: String)
+    func passInputText(_ loginTableViewCell: LoginTableViewCell, email: String, password: String)
 }
 
 class LoginTableViewCell: UITableViewCell, UITextFieldDelegate {
@@ -41,7 +41,7 @@ class LoginTableViewCell: UITableViewCell, UITextFieldDelegate {
             return
         }
         
-        delegate?.passInputText(email: email, password: password)
+        delegate?.passInputText(self, email: email, password: password)
     }
     
     

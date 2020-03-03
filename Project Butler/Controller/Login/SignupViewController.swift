@@ -106,12 +106,12 @@ extension SignupViewController: UITableViewDataSource {
 
 extension SignupViewController: SignupTableViewCellDelegate {
     
-    func passInputText(email: String, password: String, confirmPassword: String) {
+    func passInputText(_ signupTableViewCell: SignupTableViewCell, email: String, password: String, confirmPassword: String) {
         
         self.emailText = email
-        
+               
         self.passwordText = password
-        
+               
         self.confirmtext = confirmPassword
     }
     

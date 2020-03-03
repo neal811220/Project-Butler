@@ -10,9 +10,9 @@ import UIKit
 
 protocol NewProjectTableViewCellDelegate: AnyObject {
     
-    func didSaveProject(projectName: String, workItem: String)
+    func didSaveProject(_ newProjectTableViewCell: NewProjectTableViewCell, projectName: String, workItem: String)
     
-    func passColor(color: String)
+    func passColor(_ newProjectTableViewCell: NewProjectTableViewCell, color: String)
 }
 
 class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
@@ -58,7 +58,7 @@ class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
         
         didSet {
             
-            delegate?.passColor(color: selectImage)
+            delegate?.passColor(self, color: selectImage)
             
         }
     }
@@ -93,7 +93,7 @@ class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
             return
         }
         
-        delegate?.didSaveProject(projectName: projectName, workItem: workItem)
+        delegate?.didSaveProject(self, projectName: projectName, workItem: workItem)
         
     }
     

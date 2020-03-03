@@ -10,7 +10,7 @@ import UIKit
 
 protocol ResetPasswordTableViewCellDelegate: AnyObject {
     
-    func passInputText(email: String)
+    func passInputText(_ resetPasswordTableViewCell: ResetPasswordTableViewCell, email: String)
 }
 
 class ResetPasswordTableViewCell: UITableViewCell, UITextFieldDelegate {
@@ -44,7 +44,7 @@ class ResetPasswordTableViewCell: UITableViewCell, UITextFieldDelegate {
             return
         }
         
-        delegate?.passInputText(email: email)
+        delegate?.passInputText(self, email: email)
     }
     
 }

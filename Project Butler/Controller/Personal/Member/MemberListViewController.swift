@@ -52,9 +52,9 @@ class MemberListViewController: UIViewController {
         return tableview
     }()
     
-    var memberArray: [AuthInfo] = []
+    var memberArray: [Userable] = []
     
-    var filterMemberArray: [AuthInfo] = []
+    var filterMemberArray: [Userable] = []
     
     var projectDetail: ProjectDetail?
     
@@ -90,7 +90,7 @@ class MemberListViewController: UIViewController {
     
     func filterContentForSearchText(searchText: String) {
         
-        filterMemberArray = memberArray.filter({ (member: AuthInfo) -> Bool in
+        filterMemberArray = memberArray.filter({ (member: Userable) -> Bool in
             
             if isSearchBarEmpty() {
                 
@@ -195,8 +195,44 @@ class MemberListViewController: UIViewController {
         guard let seleteMemberVC = UIStoryboard.newProject.instantiateViewController(withIdentifier: "SelectMemeberVC") as? SelectMembersViewController else {
             return
         }
-                
+        
+        seleteMemberVC.delegate = self
+        
         show(seleteMemberVC, sender: nil)
+    }
+    
+}
+
+extension MemberListViewController: SelectMembersViewControllerDelegate {
+    
+    func passMember(_ selectMembersViewController: SelectMembersViewController, selectedMemberArray: [FriendDetail]) {
+                
+        var filteredArray: [Userable] = []
+
+        for member in selectedMemberArray {
+            
+            var isContained = false
+            
+            for index in 0 ..< self.memberArray.count {
+            
+                if member.userID == self.memberArray[index].userID {
+                    
+                    isContained = true
+                    
+                    break
+                }
+            }
+            
+            if !isContained {
+                
+                filteredArray.append(member)
+            }
+        }
+        
+        self.memberArray.append(contentsOf: filteredArray)
+
+        tableView.reloadData()
+        
     }
     
 }
