@@ -152,7 +152,7 @@ class PersonalViewController: UIViewController {
     var searchLeaderStaus = false
     
     var memberDetail: [[AuthInfo]] = []
-        
+    
     let fetchUserSemaphone = DispatchSemaphore(value: 0)
     
     override func viewDidLoad() {
@@ -176,7 +176,7 @@ class PersonalViewController: UIViewController {
         setupTableView()
         
         fetchCurrentUserInfo()
-                
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -256,11 +256,11 @@ class PersonalViewController: UIViewController {
         case 0:
             
             fetchUserProcessingProjcet()
-                    
+            
         case 1:
             
             fetchUserCompletedProject()
-                        
+            
         default:
             
             break
@@ -268,11 +268,12 @@ class PersonalViewController: UIViewController {
     }
     
     func fetchCurrentUserInfo() {
+        
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
         
-        activityView.stopAnimating()
+        activityView.startAnimating()
         
         CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { [weak self] (result) in
             
@@ -296,16 +297,20 @@ class PersonalViewController: UIViewController {
     }
     
     func setupActivityView() {
-           
-           view.addSubview(activityView)
-           
-           NSLayoutConstraint.activate([
-               activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-               activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-               activityView.heightAnchor.constraint(equalToConstant: view.frame.size.width / 10),
-               activityView.widthAnchor.constraint(equalToConstant: view.frame.size.width / 10)
-           ])
-       }
+        
+        view.addSubview(activityView)
+        
+        NSLayoutConstraint.activate([
+            
+            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            activityView.heightAnchor.constraint(equalToConstant: view.frame.size.width / 10),
+            
+            activityView.widthAnchor.constraint(equalToConstant: view.frame.size.width / 10)
+        ])
+    }
     
     func clearAll() {
         
@@ -338,10 +343,9 @@ class PersonalViewController: UIViewController {
                 
                 print(error)
                 
-                self.activityView.stopAnimating()
-                
             }
             
+            self.activityView.stopAnimating()
         }
     }
     
@@ -367,10 +371,9 @@ class PersonalViewController: UIViewController {
                 
                 print(error)
                 
-                self.activityView.stopAnimating()
-                
             }
             
+            self.activityView.stopAnimating()
         }
     }
     
@@ -407,7 +410,7 @@ class PersonalViewController: UIViewController {
         guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
             return
         }
-                
+        
         if searchLeader.isSelected {
             
             searchLeaderStaus = true
@@ -497,9 +500,9 @@ class PersonalViewController: UIViewController {
         navigationController?.navigationBar.addSubview(titleStackView)
         
         titleStackView.addArrangedSubview(searchButton)
-                
+        
         searchButton.addTarget(self, action: #selector(didTouchSearchBtn), for: .touchUpInside)
-                
+        
         NSLayoutConstraint.activate([
             titleStackView.bottomAnchor.constraint(equalTo: navigationbar.bottomAnchor, constant: -10),
             titleStackView.rightAnchor.constraint(equalTo: navigationbar.rightAnchor, constant: -15),
@@ -569,7 +572,7 @@ extension PersonalViewController: UITableViewDataSource {
                 memberVC.memberArray = strongSelf.memberDetail[indexPath.row]
                 
                 memberVC.projectDetail = strongSelf.userProjectDetail[indexPath.row]
-                    
+                
                 strongSelf.titleStackView.isHidden = true
                 
                 strongSelf.show(memberVC, sender: nil)
@@ -628,7 +631,7 @@ extension PersonalViewController: UITableViewDelegate {
         workLogVC.members = self.memberDetail[indexPath.row]
         
         workLogVC.projectDetail = self.userProjectDetail[indexPath.row]
-                
+        
         titleStackView.isHidden = true
         
         show(workLogVC, sender: nil)

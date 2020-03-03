@@ -66,7 +66,11 @@ class NewProjectViewController: UIViewController {
         return endDatePicker
     }()
     
-    let activityView = UIActivityIndicatorView()
+     var activityView: UIActivityIndicatorView = {
+           let view = UIActivityIndicatorView()
+           view.translatesAutoresizingMaskIntoConstraints = false
+           return view
+    }()
     
     let dateFormatter = DateFormatter()
     
@@ -107,6 +111,8 @@ class NewProjectViewController: UIViewController {
         setupDatePicker()
         
         setupActivityView()
+        
+        getUserInfo()
     }
     
     func setupDatePicker() {
@@ -152,6 +158,37 @@ class NewProjectViewController: UIViewController {
             tableView.rightAnchor.constraint(equalTo: backgroundView.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    func getUserInfo() {
+        
+        guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
+            return
+        }
+        
+        activityView.startAnimating()
+        
+        CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { [weak self] (result) in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            switch result {
+                
+            case .success:
+                
+                print("Success")
+                
+                strongSelf.tableView.reloadData()
+                
+            case .failure(let error):
+                
+                print(error)
+            }
+            
+            strongSelf.activityView.stopAnimating()
+        }
     }
     
     @objc func datePickerChanged(datePicker: UIDatePicker) {

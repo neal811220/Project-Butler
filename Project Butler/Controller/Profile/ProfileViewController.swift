@@ -83,7 +83,7 @@ class ProfileViewController: UIViewController {
             return
         }
         
-        activityView.stopAnimating()
+        activityView.startAnimating()
         
         CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { [weak self] (result) in
             

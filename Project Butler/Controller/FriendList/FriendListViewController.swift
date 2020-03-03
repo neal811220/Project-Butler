@@ -51,9 +51,9 @@ class FriendListViewController: UIViewController {
     }()
     
     var activityView: UIActivityIndicatorView = {
-        let ac = UIActivityIndicatorView()
-        ac.translatesAutoresizingMaskIntoConstraints = false
-        return ac
+        let view = UIActivityIndicatorView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     //All count
@@ -78,6 +78,8 @@ class FriendListViewController: UIViewController {
     
     var userManager = UserManager.shared
     
+    var fetchUserInfoGroup = DispatchGroup()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -93,27 +95,12 @@ class FriendListViewController: UIViewController {
         
         setupActivityView()
         
+        getUserInfo()
+        
+        fetchAll()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: Notification.Name("searchReload"), object: nil)
         
-        activityView.startAnimating()
-        
-        userManager.searchAll { (result) in
-            
-            switch result {
-                
-            case .success:
-                
-                self.reloadData()
-                
-            case .failure(let error):
-                
-                print(error)
-                
-            }
-            
-            self.activityView.stopAnimating()
-            
-        }
     }
     
     func setupActivityView() {
@@ -141,6 +128,72 @@ class FriendListViewController: UIViewController {
             
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    func getUserInfo() {
+        
+        guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
+            return
+        }
+        
+        activityView.startAnimating()
+        
+        fetchUserInfoGroup.enter()
+        
+        CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { [weak self] (result) in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            switch result {
+                
+            case .success:
+                
+                print("Success")
+                
+                strongSelf.tableView.reloadData()
+                
+            case .failure(let error):
+                
+                print(error)
+            }
+            
+            strongSelf.activityView.stopAnimating()
+            
+            strongSelf.fetchUserInfoGroup.leave()
+        }
+    }
+    
+    func fetchAll() {
+        
+        fetchUserInfoGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.activityView.startAnimating()
+            
+            strongSelf.userManager.searchAll { (result) in
+                
+                switch result {
+                    
+                case .success:
+                    
+                    strongSelf.reloadData()
+                    
+                case .failure(let error):
+                    
+                    print(error)
+                    
+                }
+                
+                strongSelf.activityView.stopAnimating()
+                
+            }
+        }
+        
     }
 }
 
