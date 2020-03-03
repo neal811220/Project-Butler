@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MemberListViewController: UIViewController {
     
@@ -59,6 +60,8 @@ class MemberListViewController: UIViewController {
     var projectDetail: ProjectDetail?
     
     let removeMeberGroup = DispatchGroup()
+    
+    let updateMemberGroup = DispatchGroup()
     
     let userManager = UserManager.shared
     
@@ -188,8 +191,79 @@ class MemberListViewController: UIViewController {
         }
     }
     
+    func updateMember(documentID: String, updateMembers: [String]) {
+                
+        updateMemberGroup.enter()
+        
+        activityView.startAnimating()
+        
+        ProjectManager.shared.updateMember(documentID: documentID, memberID: updateMembers) { [weak self] (result) in
+
+            guard let strongSelf = self else {
+                
+                return
+            }
+            
+            switch result {
+                
+            case .success:
+                
+                print("update Members Success")
+                
+            case .failure(let error):
+                
+                print(error)
+                
+                PBProgressHUD.showFailure(text: "\(error)", viewController: strongSelf)
+            }
+            
+            strongSelf.updateMemberGroup.leave()
+        }
+    }
     
+    func updateMemberID(documentID: String, updateMembers: [String]) {
+                
+        updateMemberGroup.enter()
+        
+        ProjectManager.shared.updateMemberID(documentID: documentID, memberID: updateMembers) { [weak self] (result) in
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
+            
+            switch result {
+                
+            case .success:
+                
+                print("update Members Success")
+                
+            case .failure(let error):
+                
+                print(error)
+                
+                PBProgressHUD.showFailure(text: "\(error)", viewController: strongSelf)
+            }
+            
+            strongSelf.activityView.stopAnimating()
+            
+            strongSelf.updateMemberGroup.leave()
+        }
+    }
     
+    func updateNotify() {
+        
+        updateMemberGroup.notify(queue: DispatchQueue.main) { [weak self] in
+        
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.tableView.reloadData()
+            
+        }
+    }
+
     @objc func didTapDoneBarButton(sender: UIBarButtonItem) {
         
         guard let seleteMemberVC = UIStoryboard.newProject.instantiateViewController(withIdentifier: "SelectMemeberVC") as? SelectMembersViewController else {
@@ -208,6 +282,8 @@ extension MemberListViewController: SelectMembersViewControllerDelegate {
     func passMember(_ selectMembersViewController: SelectMembersViewController, selectedMemberArray: [FriendDetail]) {
                 
         var filteredArray: [Userable] = []
+        
+        var users: [String] = []
 
         for member in selectedMemberArray {
             
@@ -229,9 +305,18 @@ extension MemberListViewController: SelectMembersViewControllerDelegate {
             }
         }
         
+        for user in filteredArray {
+            
+            users.append(user.userID)
+        }
+        
+        updateMember(documentID: projectDetail?.projectID ?? "", updateMembers: users)
+        
+        updateMemberID(documentID: projectDetail?.projectID ?? "", updateMembers: users)
+        
+        updateNotify()
+        
         self.memberArray.append(contentsOf: filteredArray)
-
-        tableView.reloadData()
         
     }
     
@@ -312,7 +397,6 @@ extension MemberListViewController: UITableViewDelegate {
                 tableView.endUpdates()
                 
                 PBProgressHUD.showSuccess(text: "Remove Success", viewController: self)
-                
             }
         }
     }
