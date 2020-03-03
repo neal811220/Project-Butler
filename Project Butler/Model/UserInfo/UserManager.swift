@@ -48,6 +48,8 @@ class UserManager {
     
     var imageUrl = ""
     
+    var imageFrame = "?width=400&height=400"
+    
     let group = DispatchGroup()
     
     let addUserGroup = DispatchGroup()
@@ -175,7 +177,7 @@ class UserManager {
                 return
         }
         
-        HTTPClient.shared.request(url: userImage) { (result) in
+        HTTPClient.shared.request(url: userImage + imageFrame) { (result) in
             
             switch result {
                 

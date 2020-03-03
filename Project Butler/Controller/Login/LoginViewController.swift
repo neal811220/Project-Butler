@@ -22,11 +22,15 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
     
     var allUser: [AuthInfo] = []
     
-    var activityView = UIActivityIndicatorView()
-    
     var fbLoginGroup = DispatchGroup()
     
     var googleLoginGroup = DispatchGroup()
+    
+    var activityView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()

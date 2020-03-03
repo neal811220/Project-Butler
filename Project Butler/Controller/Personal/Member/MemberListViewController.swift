@@ -66,6 +66,8 @@ class MemberListViewController: UIViewController {
     
     var projectDetail: ProjectDetail?
     
+    var isLeader = false
+    
     let removeMeberGroup = DispatchGroup()
     
     let updateMemberGroup = DispatchGroup()
@@ -100,17 +102,17 @@ class MemberListViewController: UIViewController {
         
         var barButton = UIBarButtonItem()
         
-        let isLeader = projectDetail?.projectLeaderID == CurrentUserInfo.shared.userID
+        isLeader = projectDetail?.projectLeaderID == CurrentUserInfo.shared.userID
         
-            if isLeader == true {
-                
-                barButton = UIBarButtonItem(title: MemberButtonStatus.invite.rawValue, style: .done, target: self, action: #selector(didTapDoneBarButton))
-                
-            } else {
-                
-                barButton = UIBarButtonItem(title: MemberButtonStatus.leaveGroup.rawValue, style: .done, target: self, action: #selector(leaveGroup))
-                barButton.tintColor = UIColor.red
-            }
+        if isLeader == true {
+            
+            barButton = UIBarButtonItem(title: MemberButtonStatus.invite.rawValue, style: .done, target: self, action: #selector(didTapDoneBarButton))
+            
+        } else {
+            
+            barButton = UIBarButtonItem(title: MemberButtonStatus.leaveGroup.rawValue, style: .done, target: self, action: #selector(leaveGroup))
+            barButton.tintColor = UIColor.red
+        }
         
         navigationItem.rightBarButtonItem = barButton
     }
@@ -437,7 +439,16 @@ extension MemberListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        
+        if isLeader && memberArray[indexPath.row].userID != projectDetail?.projectLeaderID {
+            
+            return true
+            
+        } else {
+            
+            return false
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
