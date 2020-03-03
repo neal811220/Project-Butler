@@ -304,6 +304,7 @@ PODS:
     - Kingfisher/Core (= 5.12.0)
   - Kingfisher/Core (5.12.0)
   - leveldb-library (1.22)
+  - MJRefresh (3.3.1)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
@@ -322,6 +323,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - JGProgressHUD
   - Kingfisher
+  - MJRefresh
 
 SPEC REPOS:
   trunk:
@@ -354,6 +356,7 @@ SPEC REPOS:
     - JGProgressHUD
     - Kingfisher
     - leveldb-library
+    - MJRefresh
     - nanopb
     - PromisesObjC
 
@@ -387,9 +390,10 @@ SPEC CHECKSUMS:
   JGProgressHUD: aa403e9a5b45cae98903c4600cccdd98c0c3ec90
   Kingfisher: dc6e0f53bb5b12c3e75bedb0e01bbd7a640eea69
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
+  MJRefresh: eeda70fbf0ad277f3178cef1cd0c3532591d6237
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
 
-PODFILE CHECKSUM: 32f0063a1cb0da7b352aabfc90b44184b09184c8
+PODFILE CHECKSUM: 2a951682d871948ed0a3804b7bbf057b2309f8ff
 
 COCOAPODS: 1.8.4

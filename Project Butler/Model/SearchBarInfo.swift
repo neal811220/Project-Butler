@@ -12,7 +12,8 @@ enum PlaceHolder: String {
     
     case friendPlaceHolder = "Type Email To Search Friend"
     
-    case projectPlaceHolder = "Type Project Name To Search Project"
+    case projectPlaceHolder = "Type Project Name To Search"
+    
 }
 
 enum ScopeButton:String {
