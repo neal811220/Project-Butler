@@ -9,6 +9,13 @@
 import UIKit
 import Firebase
 
+enum MemberButtonStatus: String {
+    
+    case invite = "Invite"
+    
+    case leaveGroup = "Leave"
+}
+
 class MemberListViewController: UIViewController {
     
     lazy var searchController: UISearchController = {
@@ -69,8 +76,6 @@ class MemberListViewController: UIViewController {
     
     override func viewDidLoad() {
         
-        let doneBarButton = UIBarButtonItem(title: "Invite", style: .done, target: self, action: #selector(didTapDoneBarButton))
-        
         super.viewDidLoad()
         
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -79,9 +84,9 @@ class MemberListViewController: UIViewController {
         
         navigationItem.searchController = searchController
         
-        navigationItem.rightBarButtonItem = doneBarButton
-        
         navigationItem.hidesSearchBarWhenScrolling = false
+        
+        setupBarButtonItem()
         
         setupTableView()
         
@@ -89,6 +94,25 @@ class MemberListViewController: UIViewController {
     
     deinit {
         print("MemberDeinit")
+    }
+    
+    func setupBarButtonItem() {
+        
+        var barButton = UIBarButtonItem()
+        
+        let isLeader = projectDetail?.projectLeaderID == CurrentUserInfo.shared.userID
+        
+            if isLeader == true {
+                
+                barButton = UIBarButtonItem(title: MemberButtonStatus.invite.rawValue, style: .done, target: self, action: #selector(didTapDoneBarButton))
+                
+            } else {
+                
+                barButton = UIBarButtonItem(title: MemberButtonStatus.leaveGroup.rawValue, style: .done, target: self, action: #selector(leaveGroup))
+                barButton.tintColor = UIColor.red
+            }
+        
+        navigationItem.rightBarButtonItem = barButton
     }
     
     func filterContentForSearchText(searchText: String) {
@@ -273,6 +297,43 @@ class MemberListViewController: UIViewController {
         seleteMemberVC.delegate = self
         
         show(seleteMemberVC, sender: nil)
+    }
+    
+    @objc func leaveGroup(sender: UIBarButtonItem) {
+        
+        let alertController = UIAlertController(title: "Are you sure you want to leave?", message: "Leave Group", preferredStyle: .actionSheet)
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        alertController.addAction(UIAlertAction(title: "Leave", style: .destructive, handler: { [weak self] (alert) in
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
+            
+            guard let documentID = strongSelf.projectDetail?.projectID, let userID = CurrentUserInfo.shared.userID else {
+                
+                return
+            }
+            
+            strongSelf.removeMember(documentID: documentID, removeMemberID: userID)
+            
+            strongSelf.removeMemberID(documentID: documentID, removeMemberID: userID)
+            
+            strongSelf.removeMeberGroup.notify(queue: DispatchQueue.main) {
+                
+                strongSelf.dismiss(animated: true, completion: {
+                    
+                    strongSelf.navigationController?.popViewController(animated: true)
+                })
+                
+            }
+            
+        }))
+        
+        present(alertController, animated: true, completion: nil)
+        
     }
     
 }

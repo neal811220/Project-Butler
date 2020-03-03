@@ -107,17 +107,18 @@ class PersonalViewController: UIViewController {
     }()
     
     let searchBar: UISearchBar = {
-        let sb = UISearchBar()
         
-        sb.placeholder = PlaceHolder.projectPlaceHolder.rawValue
+        let searchBar = UISearchBar()
         
-        sb.sizeToFit()
+        searchBar.placeholder = PlaceHolder.projectPlaceHolder.rawValue
         
-        sb.searchBarStyle = .minimal
+        searchBar.sizeToFit()
         
-        sb.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.searchBarStyle = .minimal
         
-        return sb
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        
+        return searchBar
     }()
     
     let searchLeader: UIButton = {
@@ -126,15 +127,15 @@ class PersonalViewController: UIViewController {
         
         let selectedImage = UIImage.asset(.Icons_32px_SearhLeader_Selected)
         
-        let bt = UIButton()
+        let button = UIButton()
         
-        bt.setImage(searchImage, for: .normal)
+        button.setImage(searchImage, for: .normal)
         
-        bt.setImage(selectedImage, for: .selected)
+        button.setImage(selectedImage, for: .selected)
         
-        bt.translatesAutoresizingMaskIntoConstraints = false
+        button.translatesAutoresizingMaskIntoConstraints = false
         
-        return bt
+        return button
     }()
     
     var indicatorViewCenterXConstraint: NSLayoutConstraint?
@@ -165,29 +166,29 @@ class PersonalViewController: UIViewController {
         
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
         
-        setupActivityView()
-        
         setupStackView()
-        
+
         setupButtonStackView()
-        
+
         setupSearchBar()
-        
+
         setupTableView()
-        
+
         fetchCurrentUserInfo()
         
+        setupActivityView()
+        
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
+
         titleStackView.isHidden = false
-        
+
         filterArray()
-        
+
         titleStackView.isHidden = false
-        
+
     }
     
     @objc func didTouchSearchBtn(sender: UIButton) {
@@ -653,4 +654,3 @@ extension PersonalViewController: UITableViewDelegate {
     }
     
 }
-
