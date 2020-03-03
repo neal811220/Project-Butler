@@ -63,8 +63,10 @@ class SelectMembersViewController: UIViewController {
     
     var allfriends: [FriendDetail] = []
     
-    var datas: [FriendDetail] = []
+    var filterArray: [FriendDetail] = []
     
+    var datas: [FriendDetail] = []
+        
     var seletedArray: [FriendDetail] = []
     
     var passSelectMemeber: (([FriendDetail]) -> Void)?
@@ -98,9 +100,9 @@ class SelectMembersViewController: UIViewController {
     
     @objc func didTapDoneBarButton(sender: UIBarButtonItem) {
         
-        if allfriends.count != 0 {
+        if datas.count != 0 {
             
-            seletedArray = allfriends.filter({ $0.isSeleted == true })
+            seletedArray = datas.filter({ $0.isSeleted == true })
             
             passSelectMemeber?(seletedArray)
             
@@ -139,66 +141,75 @@ class SelectMembersViewController: UIViewController {
     }
     
     func fetchFriends() {
-        
-        allfriends = []
-        
+                
         projectManager.friendArray = []
-        
-        projectManager.filterArray = []
-        
+                
         activityView.startAnimating()
         
-        projectManager.fetchFriends { (result) in
+        projectManager.fetchFriends { [weak self] (result) in
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
             
             switch result {
                 
             case .success(let data):
                 
-                self.allfriends = data
+                strongSelf.allfriends = data
                 
-                self.tableView.reloadData()
+                strongSelf.datas = strongSelf.allfriends
+                
+                strongSelf.tableView.reloadData()
                 
             case .failure(let error):
                 
                 print(error)
             }
-            self.projectManager.isSearching = false
             
-            self.activityView.stopAnimating()
+            strongSelf.activityView.stopAnimating()
         }
     }
     
-    func filterFriends(text: String) {
+    func filterContentForSearchText(searchText: String) {
         
-        allfriends = []
-        
-        projectManager.filterArray = []
-        
-        projectManager.friendArray = []
-        
-        activityView.startAnimating()
-        
-        projectManager.filterSearch(text: text) { (result) in
+        filterArray = allfriends.filter({ (member: Userable) -> Bool in
             
-            switch result {
+            if isSearchBarEmpty() {
                 
-            case .success(let data):
+                return false
                 
-                self.allfriends = data
+            } else {
                 
-                self.tableView.reloadData()
+                datas = filterArray
                 
-            case .failure(let error):
-                
-                print(error)
-                
+                return true && member.userName.lowercased().contains(searchText.lowercased())
+
             }
+        })
+        
+        if filterArray.count != 0 {
             
-            self.projectManager.lastSearchText = ""
+            datas = filterArray
             
-            self.activityView.stopAnimating()
+        } else {
+            
+            datas = allfriends
         }
+        
+        tableView.reloadData()
     }
+    
+      func isSearchBarEmpty() -> Bool{
+          
+          return searchController.searchBar.text?.isEmpty ?? true
+      }
+      
+      func isFiltering() -> Bool {
+          
+          return searchController.isActive && !isSearchBarEmpty()
+      }
 
 }
 
@@ -206,20 +217,20 @@ extension SelectMembersViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return allfriends.count
+        return datas.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SelectMemberCell", for: indexPath) as? SelectMemberTableViewCell else { return UITableViewCell() }
         
-        cell.userTitleLabel.text = allfriends[indexPath.row].userName
+        cell.userTitleLabel.text = datas[indexPath.row].userName
         
-        cell.userEmailLabel.text = allfriends[indexPath.row].userEmail
+        cell.userEmailLabel.text = datas[indexPath.row].userEmail
         
         cell.rightImage.image = UIImage.asset(.Icons_64px_Check_Normal)
         
-        cell.userImage.loadImage(allfriends[indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
+        cell.userImage.loadImage(datas[indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
         
         return cell
     }
@@ -231,7 +242,7 @@ extension SelectMembersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? SelectMemberTableViewCell else { return }
         
-        allfriends[indexPath.row].isSeleted = !allfriends[indexPath.row].isSeleted
+        datas[indexPath.row].isSeleted = !datas[indexPath.row].isSeleted
         
         switch cell.select {
             
@@ -262,16 +273,11 @@ extension SelectMembersViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         
-        if searchController.searchBar.text == "" {
-            
-            fetchFriends()
-            
-        } else {
-            
-            filterFriends(text: searchController.searchBar.text!)
-            
+        guard let text = searchController.searchBar.text else{
+            return
         }
+        
+        filterContentForSearchText(searchText: text)
     }
-    
     
 }

@@ -325,6 +325,7 @@ extension MemberListViewController: SelectMembersViewControllerDelegate {
 extension MemberListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         if isFiltering() {
             
             return filterMemberArray.count

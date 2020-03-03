@@ -217,11 +217,7 @@ class ProjectManager {
     
     func fetchFriends(completion: @escaping (Result<[FriendDetail], Error>) -> Void) {
         
-        guard isSearching == false else { return }
-        
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        isSearching = true
         
         db.collection("users").document(uid).collection("friends").whereField("accept", isEqualTo: true).whereField("confirm", isEqualTo: true).getDocuments { (snapshot, error) in
             
