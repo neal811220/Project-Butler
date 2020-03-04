@@ -103,9 +103,14 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         tableView.register(completedNib, forCellReuseIdentifier: "CompletedCell")
         
+        tableView.addRefreshHeader {
+            
+            self.refreshLoader()
+        }
+        
         return tableView
     }()
-
+    
     
     lazy var searchProjectTexiField: UITextField = {
         
@@ -117,9 +122,13 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         textField.textColor = UIColor.darkGray
         
-        textField.backgroundColor = UIColor.lightGray
+        textField.backgroundColor = UIColor(red: 227/255, green: 227/255, blue: 232/255, alpha: 1.0)
         
         textField.borderStyle = .roundedRect
+        
+        textField.layer.cornerRadius = 8
+        
+        textField.textAlignment = .center
         
         textField.delegate = self
         
@@ -147,6 +156,10 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     var userCompletedArray: [ProjectDetail] = []
     
+    var userProcessingFilterArray: [ProjectDetail] = []
+    
+    var userCompletedFilterArray: [ProjectDetail] = []
+    
     var indicatorViewCenterXConstraint: NSLayoutConstraint?
     
     var checkButton = 0
@@ -157,13 +170,9 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     var tableViewTopConstraint: NSLayoutConstraint?
     
-    var userProjectDetail: [ProjectDetail] = []
-    
     var searchLeaderStaus = false
     
-    var memberDetail: [[AuthInfo]] = []
-    
-    let fetchUserSemaphone = DispatchSemaphore(value: 0)
+    let refreshGroup = DispatchGroup()
     
     override func viewDidLoad() {
         
@@ -176,25 +185,25 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
         
         setupStackView()
-
+        
         setupButtonStackView()
-
+        
         setupSearchBar()
-
+        
         setupTableView()
-
+        
         fetchCurrentUserInfo()
         
         fetchUserProcessingProjcet()
         
-        fetchUserCompletedProject()
+        //        fetchUserCompletedProject()
         
         setupActivityView()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-
+        
         titleStackView.isHidden = false
     }
     
@@ -248,35 +257,40 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         checkButton = sender.tag
         
-        userProjectDetail = []
-        
         UIView.animate(withDuration: 0.5) {
-
+            
             self.indicatorViewCenterXConstraint?.isActive = false
-
+            
             self.indicatorViewCenterXConstraint = self.indicatorView.centerXAnchor.constraint(equalTo: sender.centerXAnchor)
-
+            
             self.indicatorViewCenterXConstraint?.isActive = true
-
+            
             self.view.layoutIfNeeded()
         }
         
-        switch checkButton {
-
-        case 0:
-
-            userProjectDetail = userProcessingArray
-
-        case 1:
-
-            userProjectDetail = userCompletedArray
-
-        default:
-
-            break
-        }
-        
         tableView.reloadData()
+    }
+    
+    func refreshLoader() {
+        
+        userProcessingArray = []
+        
+        userCompletedArray = []
+        
+        userProcessingFilterArray = []
+        
+        userCompletedFilterArray = []
+        
+        ProjectManager.shared.projectDetailArray = []
+        
+        fetchUserProcessingProjcet()
+        
+        fetchUserCompletedProject()
+        
+        refreshGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            
+            self?.tableView.endHeaderRefreshing()
+        }
     }
     
     func filterContentForSearchText(searchText: String) {
@@ -285,10 +299,12 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
             
         case 0:
             
-            userProjectDetail = userProcessingArray.filter({ (project: ProjectDetail) -> Bool in
+            userProcessingFilterArray = userProcessingArray.filter({ (project: ProjectDetail) -> Bool in
                 
-                if isSearchBarEmpty() {
-
+                if isSearchTextEmpty() {
+                    
+                    userProcessingFilterArray = userProcessingArray
+                    
                     return false
                     
                 } else {
@@ -300,10 +316,12 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
             
         case 1:
             
-            userProjectDetail = userCompletedArray.filter({ (project: ProjectDetail) -> Bool in
+            userCompletedFilterArray = userCompletedArray.filter({ (project: ProjectDetail) -> Bool in
                 
-                if isSearchBarEmpty() {
-
+                if isSearchTextEmpty() {
+                    
+                    userCompletedFilterArray = userCompletedArray
+                    
                     return false
                     
                 } else {
@@ -321,14 +339,14 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         tableView.reloadData()
     }
     
-    func isSearchBarEmpty() -> Bool{
+    func isSearchTextEmpty() -> Bool{
         
         return searchProjectTexiField.text?.isEmpty ?? true
     }
     
     func isFiltering() -> Bool {
         
-        return !isSearchBarEmpty()
+        return !isSearchTextEmpty()
     }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
@@ -349,18 +367,18 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 
             case 0:
                 
-                userProjectDetail = userProcessingArray
+                userProcessingFilterArray = userProcessingArray
                 
             case 1:
                 
-                userProjectDetail = userCompletedArray
+                userCompletedFilterArray = userCompletedArray
                 
             default:
                 
                 break
             }
             
-           return tableView.reloadData()
+            return tableView.reloadData()
         }
     }
     
@@ -413,19 +431,50 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         activityView.startAnimating()
         
-        ProjectManager.shared.fetchUserProjects(isCompleted: false) { (result) in
+        refreshGroup.enter()
+        
+        ProjectManager.shared.fetchUserProjects(isCompleted: false) { [weak self] (result) in
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
             
             switch result {
                 
             case .success(let data):
                 
-                self.userProcessingArray = data
+                strongSelf.userProcessingArray = data
+                                
+                strongSelf.userProcessingArray = strongSelf.userProcessingArray.sorted(by: { $0.startDate > $1.startDate })
                 
-                self.userProcessingArray = self.userProcessingArray.sorted(by: { $0.startDate > $1.startDate })
-                
-                self.userProjectDetail = self.userProcessingArray
-                
-                self.fetchMemberDetail()
+                for (index, item) in strongSelf.userProcessingArray.enumerated() {
+                    
+                    print(index)
+                    
+                    for member in 0 ..< strongSelf.userProcessingArray[index].projectMember.count {
+                        
+                        strongSelf.fetchMemberDetail(documentRef: strongSelf.userProcessingArray[index].projectMember[member], completion: {(result) in
+                            
+                            switch result {
+                                
+                            case .success(let data):
+                                
+                                strongSelf.userProcessingArray[index].members.append(data)
+                                
+                                strongSelf.userProcessingFilterArray = strongSelf.userProcessingArray
+                                
+                                strongSelf.tableView.reloadData()
+                                
+                            case .failure(let error):
+                                
+                                print(error)
+                                
+                            }
+                        })
+                        
+                    }
+                }
                 
             case .failure(let error):
                 
@@ -433,64 +482,106 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 
             }
             
-            self.activityView.stopAnimating()
+            strongSelf.activityView.stopAnimating()
+            
+            strongSelf.refreshGroup.leave()
         }
     }
     
     func fetchUserCompletedProject() {
-        
+
         activityView.startAnimating()
-        
-        ProjectManager.shared.fetchUserProjects(isCompleted: true) { (result) in
-            
-            switch result {
-                
-            case .success(let data):
-                
-                self.userCompletedArray = data
-                
-                self.fetchMemberDetail()
-                
-            case .failure(let error):
-                
-                print(error)
-                
+
+        refreshGroup.enter()
+
+        ProjectManager.shared.fetchUserProjects(isCompleted: true) { [weak self] (result) in
+
+            guard let strongSelf = self else {
+
+                return
             }
-            
-            self.activityView.stopAnimating()
+
+            switch result {
+
+            case .success(let data):
+
+                strongSelf.userCompletedArray = data
+                
+                strongSelf.userCompletedArray = strongSelf.userCompletedArray.sorted(by: { $0.startDate > $1.startDate })
+                
+                for (index, item) in strongSelf.userCompletedArray.enumerated() {
+                    
+                    for member in 0 ..< strongSelf.userCompletedArray[index].projectMember.count {
+                        
+                        strongSelf.fetchMemberDetail(documentRef:
+                            strongSelf.userCompletedArray[index].projectMember[member], completion: {(result) in
+                            
+                            switch result {
+                                
+                            case .success(let data):
+                                
+                                strongSelf.userCompletedArray[index].members.append(data)
+                                
+                                strongSelf.userCompletedFilterArray = strongSelf.userCompletedArray
+                                
+                                strongSelf.tableView.reloadData()
+                                
+                            case .failure(let error):
+                                
+                                print(error)
+                                
+                            }
+                        })
+                    }
+                }
+
+            case .failure(let error):
+
+                print(error)
+
+            }
+
+            strongSelf.activityView.stopAnimating()
+
+            strongSelf.refreshGroup.leave()
+
         }
     }
     
-    func fetchMemberDetail() {
-        
-        memberDetail = []
+    func fetchMemberDetail(documentRef: DocumentReference, completion: @escaping (Result<AuthInfo, Error>) -> Void) {
         
         activityView.startAnimating()
         
-        ProjectManager.shared.fetchMemberDetail(projectMember: userProjectDetail) { (result) in
+        refreshGroup.enter()
+        
+        ProjectManager.shared.fetchMemberDetail(projectMember: documentRef) { [weak self] (result) in
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
             
             switch result {
                 
-            case.success:
+            case.success(let data):
                 
-                self.memberDetail = ProjectManager.shared.members
-                
-                self.tableView.reloadData()
-                
-                ProjectManager.shared.clearAll()
+                completion(.success(data))
                 
             case .failure(let error):
                 
                 print(error)
+                
+                completion(.failure(error))
             }
             
-            self.activityView.stopAnimating()
+            strongSelf.activityView.stopAnimating()
             
+            strongSelf.refreshGroup.leave()
         }
     }
     
     @objc func filterLeaderProject(sender: UIButton) {
-
+        
         searchLeaderButton.isSelected.toggle()
     }
     
@@ -590,8 +681,20 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
 extension PersonalViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return userProjectDetail.count
+        switch checkButton {
+            
+        case 0:
+            
+            return userProcessingFilterArray.count
+            
+        case 1:
+            
+            return userCompletedFilterArray.count
+            
+        default:
+            
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -625,24 +728,24 @@ extension PersonalViewController: UITableViewDataSource {
                     return
                 }
                 
-                memberVC.memberArray = strongSelf.memberDetail[indexPath.row]
+                memberVC.memberArray = strongSelf.userProcessingFilterArray[indexPath.row].members
                 
-                memberVC.projectDetail = strongSelf.userProjectDetail[indexPath.row]
+                memberVC.projectDetail = strongSelf.userProcessingFilterArray[indexPath.row]
                 
                 strongSelf.titleStackView.isHidden = true
                 
                 strongSelf.show(memberVC, sender: nil)
             }
             
-            cell.backImage.image = UIImage(named: userProjectDetail[indexPath.row].color)
+            cell.backImage.image = UIImage(named: userProcessingFilterArray[indexPath.row].color)
             
-            cell.members = memberDetail[indexPath.row]
+            cell.members = userProcessingFilterArray[indexPath.row].members
             
-            cell.titleLabel.text = userProjectDetail[indexPath.row].projectName
+            cell.titleLabel.text = userProcessingFilterArray[indexPath.row].projectName
             
-            cell.dateLabel.text = "\(userProjectDetail[indexPath.row].startDate) - \(userProjectDetail[indexPath.row].endDate)"
+            cell.dateLabel.text = "\(userProcessingFilterArray[indexPath.row].startDate) - \(userProcessingFilterArray[indexPath.row].endDate)"
             
-            cell.hourLabel.text = "\(userProjectDetail[indexPath.row].totalHours) Hour (\(userProjectDetail[indexPath.row].totalDays) Day)"
+            cell.hourLabel.text = "\(userProcessingFilterArray[indexPath.row].totalHours) Hour (\(userProcessingFilterArray[indexPath.row].totalDays) Day)"
             return cell
             
         case 1:
@@ -655,15 +758,15 @@ extension PersonalViewController: UITableViewDataSource {
                 cell.leaderImage.isHidden = true
             }
             
-            cell.backImage.image = UIImage(named: userProjectDetail[indexPath.row].color)
+            cell.backImage.image = UIImage(named: userCompletedFilterArray[indexPath.row].color)
             
-            cell.members = memberDetail[indexPath.row]
+            cell.members = userCompletedFilterArray[indexPath.row].members
             
-            cell.titleLabel.text = userProjectDetail[indexPath.row].projectName
+            cell.titleLabel.text = userCompletedFilterArray[indexPath.row].projectName
             
-            cell.dateLabel.text = "\(userProjectDetail[indexPath.row].startDate) - \(userProjectDetail[indexPath.row].endDate)"
+            cell.dateLabel.text = "\(userCompletedFilterArray[indexPath.row].startDate) - \(userCompletedFilterArray[indexPath.row].endDate)"
             
-            cell.hourLabel.text = "\(userProjectDetail[indexPath.row].totalHours) Hour (\(userProjectDetail[indexPath.row].totalDays) Day)"
+            cell.hourLabel.text = "\(userCompletedFilterArray[indexPath.row].totalHours) Hour (\(userCompletedFilterArray[indexPath.row].totalDays) Day)"
             
             cell.completionDateLabel.text = "202022020"
             
@@ -684,10 +787,22 @@ extension PersonalViewController: UITableViewDelegate {
         guard let workLogVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "WorkLogVC") as? WorkLogViewController else {
             return
         }
+        switch checkButton {
+            
+        case 0:
+            
+            workLogVC.projectDetail = self.userProcessingArray[indexPath.row]
+            
+        case 1:
+            
+            workLogVC.projectDetail = self.userCompletedArray[indexPath.row]
+            
+        default:
+            
+            break
+        }
         
-        workLogVC.members = self.memberDetail[indexPath.row]
-        
-        workLogVC.projectDetail = self.userProjectDetail[indexPath.row]
+        workLogVC.members = self.userCompletedArray[indexPath.row].members
         
         titleStackView.isHidden = true
         

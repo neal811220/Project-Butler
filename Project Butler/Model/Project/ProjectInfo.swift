@@ -34,6 +34,8 @@ struct ProjectDetail: Codable {
     let projectID: String
     
     let workItems: [String]
+    
+    var members: [AuthInfo] = []
 }
 
 struct CompletedProject {

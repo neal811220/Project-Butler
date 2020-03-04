@@ -9,6 +9,11 @@
 import Foundation
 import Firebase
 
+enum FetchUserProjectError: Error {
+    
+    case noProject
+}
+
 class ProjectManager {
     
     static let shared = ProjectManager()
@@ -21,13 +26,15 @@ class ProjectManager {
     
     var filterArray: [FriendDetail] = []
     
+    var projectDetailArray: [ProjectDetail] = []
+        
     var lastSearchText: String? = nil
     
     var isSearching = false
     
     var userProject: [ProjectDetail] = []
     
-    var members: [[AuthInfo]] = []
+    var members: [AuthInfo] = []
     
     var workItemContent: [WorkLogContent] = []
     
@@ -147,71 +154,65 @@ class ProjectManager {
         }
     }
     
-    func fetchMemberDetail(projectMember: [ProjectDetail], completion: @escaping (Result<Void, Error>) -> Void) {
+    func fetchMemberDetail(projectMember: DocumentReference, completion: @escaping (Result<AuthInfo, Error>) -> Void) {
         
-        let group = DispatchGroup()
-        
-        members = []
-        
-        for member in projectMember {
+        projectMember.getDocument { (snapshot, error) in
             
-            var authArray = [AuthInfo]()
+            guard let snapshot = snapshot, error == nil else {
+                
+                return
+            }
             
-            for docRef in member.projectMember {
-                group.enter()
-                docRef.getDocument { (snapshot, error) in
+            do {
+                
+                guard let data = try snapshot.data(as: AuthInfo.self, decoder: Firestore.Decoder()) else {
                     
-                    guard let snapshot = snapshot, error == nil else { return }
-                    
-                    do {
-                        
-                        guard let data = try snapshot.data(as: AuthInfo.self, decoder: Firestore.Decoder()) else { return }
-                        
-                        authArray.append(data)
-                        
-                        group.leave()
-                        
-                    } catch {
-                        
-                        group.leave()
-                        
-                        completion(.failure(error))
-                    }
+                    return
                 }
+                
+                completion(.success(data))
+                
+            } catch {
+                
+                completion(.failure(error))
+                
             }
-            group.notify(queue: .main) {
-                self.members.append(authArray)
-                completion(.success(()))
-            }
+            
         }
     }
     
     func fetchUserProjects(isCompleted: Bool, completion: @escaping (Result<[ProjectDetail], Error>) -> Void) {
         
         guard let uid = UserDefaults.standard.value(forKey: "userID") else { return }
-        
-        userProject = []
-        
-        db.collection("projects").whereField("projectMemberID", arrayContains: uid).whereField("isCompleted", isEqualTo: isCompleted).getDocuments { (snapshot, error) in
+                
+        db.collection("projects").whereField("projectMemberID", arrayContains: uid).whereField("isCompleted", isEqualTo: isCompleted).getDocuments { [weak self] (snapshot, error) in
             
-            guard let snapshot = snapshot, error == nil else { return }
+            guard let snapshot = snapshot, error == nil else {
+                
+                return
+            }
             
+            guard let strongSelf = self else {
+                
+                return
+            }
             for document in snapshot.documents {
                 
                 do {
                     
                     guard let data = try document.data(as: ProjectDetail.self, decoder: Firestore.Decoder()) else { return }
                     
-                    self.userProject.append(data)
+                    strongSelf.projectDetailArray.append(data)
                     
                 } catch {
                     
                     completion(.failure(error))
                 }
-                
             }
             
-            completion(.success(self.userProject))
+            completion(.success(strongSelf.projectDetailArray))
+            
+//            completion(.failure(FetchUserProjectError.noProject))
         }
     }
     

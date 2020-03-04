@@ -489,7 +489,4 @@ extension MemberListViewController: UISearchResultsUpdating {
         
         filterContentForSearchText(searchText: text)
     }
-    
 }
-
-
