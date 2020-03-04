@@ -250,6 +250,8 @@ class NewProjectViewController: UIViewController {
         
         let projectID = UserManager.shared.db.collection("users").document().documentID
         
+        var memberUrl: [String] = []
+        
         for member in membersArray {
             
             let ref = referenceArray(uid: member.userID)
@@ -257,6 +259,8 @@ class NewProjectViewController: UIViewController {
             memberID.append(member.userID)
             
             userRef.append(ref)
+            
+            memberUrl.append(member.userImageUrl)
         }
         
         userRef.append(currentUserRef)
@@ -273,7 +277,8 @@ class NewProjectViewController: UIViewController {
                                     totalDays: totalDays,
                                     totalHours: hours,
                                     projectID: projectID,
-                                    workItems: workItemArray
+                                    workItems: workItemArray,
+                                    memberImages: memberUrl
                                     )
     
         activityView.startAnimating()

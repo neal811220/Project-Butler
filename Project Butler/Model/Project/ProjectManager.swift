@@ -26,7 +26,9 @@ class ProjectManager {
     
     var filterArray: [FriendDetail] = []
     
-    var projectDetailArray: [ProjectDetail] = []
+    var processingProjectsArray: [ProjectDetail] = []
+    
+    var completedProjectsArray: [ProjectDetail] = []
         
     var lastSearchText: String? = nil
     
@@ -34,7 +36,7 @@ class ProjectManager {
     
     var userProject: [ProjectDetail] = []
     
-    var members: [AuthInfo] = []
+    var projectMembers: [AuthInfo] = []
     
     var workItemContent: [WorkLogContent] = []
     
@@ -154,38 +156,54 @@ class ProjectManager {
         }
     }
     
-    func fetchMemberDetail(projectMember: DocumentReference, completion: @escaping (Result<AuthInfo, Error>) -> Void) {
+    func fetchMemberDetail(projectMember: [DocumentReference], completion: @escaping (Result<[AuthInfo], Error>) -> Void) {
         
-        projectMember.getDocument { (snapshot, error) in
+        for member in projectMember {
             
-            guard let snapshot = snapshot, error == nil else {
+            member.getDocument { [weak self] (snapshot, error) in
                 
-                return
-            }
-            
-            do {
-                
-                guard let data = try snapshot.data(as: AuthInfo.self, decoder: Firestore.Decoder()) else {
+                guard let strongSelf = self else {
                     
                     return
                 }
                 
-                completion(.success(data))
+                guard let snapshot = snapshot, error == nil else {
+                    
+                    return
+                }
                 
-            } catch {
-                
-                completion(.failure(error))
-                
+                do {
+                    
+                    guard let data = try snapshot.data(as: AuthInfo.self, decoder: Firestore.Decoder()) else {
+                        
+                        return
+                    }
+                    
+                    strongSelf.projectMembers.append(data)
+                    
+                    
+                    if strongSelf.projectMembers.count == projectMember.count {
+                        
+                        completion(.success(strongSelf.projectMembers))
+                        
+                    }
+                    
+                } catch {
+                    
+                    completion(.failure(error))
+                    
+                }
             }
-            
         }
+        
+        
     }
     
-    func fetchUserProjects(isCompleted: Bool, completion: @escaping (Result<[ProjectDetail], Error>) -> Void) {
+    func fetchUserProcessingProjects(completion: @escaping (Result<[ProjectDetail], Error>) -> Void) {
         
         guard let uid = UserDefaults.standard.value(forKey: "userID") else { return }
                 
-        db.collection("projects").whereField("projectMemberID", arrayContains: uid).whereField("isCompleted", isEqualTo: isCompleted).getDocuments { [weak self] (snapshot, error) in
+        db.collection("projects").whereField("projectMemberID", arrayContains: uid).whereField("isCompleted", isEqualTo: false).getDocuments { [weak self] (snapshot, error) in
             
             guard let snapshot = snapshot, error == nil else {
                 
@@ -202,7 +220,7 @@ class ProjectManager {
                     
                     guard let data = try document.data(as: ProjectDetail.self, decoder: Firestore.Decoder()) else { return }
                     
-                    strongSelf.projectDetailArray.append(data)
+                    strongSelf.processingProjectsArray.append(data)
                     
                 } catch {
                     
@@ -210,7 +228,41 @@ class ProjectManager {
                 }
             }
             
-            completion(.success(strongSelf.projectDetailArray))
+            completion(.success(strongSelf.processingProjectsArray))
+            
+        }
+    }
+    
+    func fetchUserCompletedProjects(completion: @escaping (Result<[ProjectDetail], Error>) -> Void) {
+        
+        guard let uid = UserDefaults.standard.value(forKey: "userID") else { return }
+                
+        db.collection("projects").whereField("projectMemberID", arrayContains: uid).whereField("isCompleted", isEqualTo: true).getDocuments { [weak self] (snapshot, error) in
+            
+            guard let snapshot = snapshot, error == nil else {
+                
+                return
+            }
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
+            for document in snapshot.documents {
+                
+                do {
+                    
+                    guard let data = try document.data(as: ProjectDetail.self, decoder: Firestore.Decoder()) else { return }
+                    
+                    strongSelf.completedProjectsArray.append(data)
+                    
+                } catch {
+                    
+                    completion(.failure(error))
+                }
+            }
+            
+            completion(.success(strongSelf.completedProjectsArray))
             
         }
     }

@@ -33,7 +33,7 @@ class CompletedTableViewCell: UITableViewCell {
     
     var layout = UICollectionViewFlowLayout()
     
-    var members: [AuthInfo] = [] {
+    var members: [String] = [] {
         
         didSet {
             
@@ -104,7 +104,7 @@ extension CompletedTableViewCell: UICollectionViewDataSource {
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CompletedCell", for: indexPath) as? CompletedCollectionViewCell else { return UICollectionViewCell() }
             
-            cell.memberImage.loadImage(members[indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
+            cell.memberImage.loadImage(members[indexPath.row], placeHolder: UIImage.asset(.Icons_128px_General))
             
             return cell
         }

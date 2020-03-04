@@ -30,7 +30,7 @@ class ProcessingTableViewCell: UITableViewCell {
     
     var transitionToMemberVC: ((ProcessingTableViewCell) -> Void)?
     
-    var members: [AuthInfo] = [] {
+    var members: [String] = [] {
         
         didSet {
             
@@ -108,7 +108,7 @@ extension ProcessingTableViewCell: UICollectionViewDataSource {
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProcessingCell", for: indexPath) as? ProcessingCollectionViewCell else { return UICollectionViewCell() }
             
-            cell.memberImage.loadImage(members[indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
+            cell.memberImage.loadImage(members[indexPath.row], placeHolder: UIImage.asset(.Icons_128px_General))
             
             return cell
         }

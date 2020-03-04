@@ -35,6 +35,8 @@ struct ProjectDetail: Codable {
     
     let workItems: [String]
     
+    let memberImages: [String]
+    
     var members: [AuthInfo] = []
 }
 
