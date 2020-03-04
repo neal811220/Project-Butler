@@ -51,6 +51,10 @@ class ReportManager {
 protocol ChartProvider {
     
     var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)? { get set }
+    
+    var pickerContent: [String] { get set }
+    
+    func didSelectedPickerContent(content: String)
         
     func chartViewModel() -> AAChartModel
     
@@ -59,6 +63,13 @@ protocol ChartProvider {
 
 class DateReportManager: ReportManager, ChartProvider {
         
+    var pickerContent: [String] = ["10/10", "10/11"]
+    
+    func didSelectedPickerContent(content: String) {
+        
+        
+    }
+    
     func chartView(didSelected data: String) {
         
         var filterWorkLogContent: [WorkLogContent] = []
@@ -158,6 +169,13 @@ class DateReportManager: ReportManager, ChartProvider {
 
 class PersonalReportManager: ReportManager, ChartProvider {
         
+    var pickerContent: [String] = ["Sick", "Lady"]
+    
+    func didSelectedPickerContent(content: String) {
+        
+        
+    }
+    
     var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)?
     
     func chartView(didSelected data: String) {
@@ -262,6 +280,13 @@ class PersonalReportManager: ReportManager, ChartProvider {
 }
 
 class WorkItemReportManager: ReportManager, ChartProvider {
+    
+    var pickerContent: [String] = ["Yo", "Hi"]
+    
+    func didSelectedPickerContent(content: String) {
+        
+        
+    }
     
     var workItem = "UI Design"
     

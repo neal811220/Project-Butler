@@ -212,7 +212,6 @@ class ProjectManager {
             
             completion(.success(strongSelf.projectDetailArray))
             
-//            completion(.failure(FetchUserProjectError.noProject))
         }
     }
     

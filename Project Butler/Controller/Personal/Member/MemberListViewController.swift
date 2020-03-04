@@ -142,7 +142,7 @@ class MemberListViewController: UIViewController {
     }
     
     func isFiltering() -> Bool {
-        
+
         return searchController.isActive && !isSearchBarEmpty()
     }
     

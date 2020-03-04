@@ -212,12 +212,16 @@ extension ReportContentViewController: UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         
-        return reportPickerContentArray.count
+        guard let manager = reportManager else { return 0 }
+        
+        return manager.pickerContent.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
-        return reportPickerContentArray[row]
+        guard let manager = reportManager else { return nil }
+        
+        return manager.pickerContent[row]
     }
     
     

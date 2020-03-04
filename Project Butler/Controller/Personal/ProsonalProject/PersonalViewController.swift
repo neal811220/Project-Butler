@@ -196,7 +196,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         fetchUserProcessingProjcet()
         
-        //        fetchUserCompletedProject()
+        fetchUserCompletedProject()
         
         setupActivityView()
     }
@@ -288,7 +288,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         fetchUserCompletedProject()
         
         refreshGroup.notify(queue: DispatchQueue.main) { [weak self] in
-            
+                        
             self?.tableView.endHeaderRefreshing()
         }
     }
@@ -310,7 +310,6 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 } else {
                     
                     return true && project.projectName.lowercased().contains(searchText.lowercased())
-                    
                 }
             })
             
@@ -448,7 +447,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                                 
                 strongSelf.userProcessingArray = strongSelf.userProcessingArray.sorted(by: { $0.startDate > $1.startDate })
                 
-                for (index, item) in strongSelf.userProcessingArray.enumerated() {
+                for index in 0 ..< strongSelf.userProcessingArray.count {
                     
                     print(index)
                     
@@ -509,7 +508,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 
                 strongSelf.userCompletedArray = strongSelf.userCompletedArray.sorted(by: { $0.startDate > $1.startDate })
                 
-                for (index, item) in strongSelf.userCompletedArray.enumerated() {
+                for index in 0 ..< strongSelf.userCompletedArray.count {
                     
                     for member in 0 ..< strongSelf.userCompletedArray[index].projectMember.count {
                         
@@ -681,6 +680,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
 extension PersonalViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         switch checkButton {
             
         case 0:
@@ -793,16 +793,18 @@ extension PersonalViewController: UITableViewDelegate {
             
             workLogVC.projectDetail = self.userProcessingArray[indexPath.row]
             
+            workLogVC.members = self.userProcessingArray[indexPath.row].members
+            
         case 1:
             
             workLogVC.projectDetail = self.userCompletedArray[indexPath.row]
+            
+            workLogVC.members = self.userCompletedArray[indexPath.row].members
             
         default:
             
             break
         }
-        
-        workLogVC.members = self.userCompletedArray[indexPath.row].members
         
         titleStackView.isHidden = true
         
