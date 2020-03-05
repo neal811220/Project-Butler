@@ -93,7 +93,7 @@
                         <color key="textColor" name="Gray2"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8SL-KX-X3x">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8SL-KX-X3x">
                         <rect key="frame" x="167" y="57" width="172" height="20"/>
                         <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
                         <color key="textColor" name="Gray2"/>
@@ -137,8 +137,9 @@
                 <constraints>
                     <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="tLu-bJ-6NW" secondAttribute="trailing" constant="75" id="0LT-3y-mJW"/>
                     <constraint firstAttribute="trailing" secondItem="ZoB-WD-1Sg" secondAttribute="trailing" constant="75" id="1jN-yZ-f0C"/>
-                    <constraint firstItem="Bt8-tU-NRT" firstAttribute="top" secondItem="6P1-Az-aiN" secondAttribute="bottom" constant="25" id="2Tx-J4-WQv"/>
+                    <constraint firstItem="Bt8-tU-NRT" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6P1-Az-aiN" secondAttribute="bottom" constant="25" id="2Tx-J4-WQv"/>
                     <constraint firstItem="bG9-z1-Ca5" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="2Uw-7L-5qs"/>
+                    <constraint firstItem="OT2-e7-TN5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="167" id="2VU-as-tNA"/>
                     <constraint firstItem="8SL-KX-X3x" firstAttribute="leading" secondItem="6P1-Az-aiN" secondAttribute="trailing" constant="3" id="2W9-Lq-LdR"/>
                     <constraint firstItem="L7t-iv-7p3" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.0724638" id="4SF-99-eXf"/>
                     <constraint firstItem="9Ma-2l-ygd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="4ww-qA-SM2"/>
@@ -186,6 +187,7 @@
                     <constraint firstItem="OT2-e7-TN5" firstAttribute="width" secondItem="ZoB-WD-1Sg" secondAttribute="width" id="tcz-va-WNh"/>
                     <constraint firstItem="Npf-9r-yhg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="167" id="vAm-I4-e7U"/>
                     <constraint firstItem="2sX-K0-60D" firstAttribute="top" secondItem="efJ-sx-mzs" secondAttribute="bottom" constant="6" id="wk8-qV-K5v"/>
+                    <constraint firstItem="ZoB-WD-1Sg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="167" id="xja-fZ-H3G"/>
                     <constraint firstItem="6P1-Az-aiN" firstAttribute="leading" secondItem="AYt-wD-bDQ" secondAttribute="trailing" constant="11" id="xro-4O-STB"/>
                     <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="BkY-Ed-Xb0" secondAttribute="trailing" constant="75" id="z3F-U0-rre"/>
                 </constraints>

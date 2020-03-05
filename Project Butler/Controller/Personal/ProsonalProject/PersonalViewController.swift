@@ -9,73 +9,117 @@
 import UIKit
 import Firebase
 
-class PersonalViewController: UIViewController {
+class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     let searchButton: UIButton = {
+        
         let searchImage = UIImage.asset(.Icons_32px_SearchProjectButton)
+        
         let button = UIButton()
+        
         button.setImage(searchImage, for: .normal)
+        
         button.translatesAutoresizingMaskIntoConstraints = false
+        
         return button
     }()
     
     let titleStackView: UIStackView = {
+        
         let stackView = UIStackView()
+        
         stackView.axis = NSLayoutConstraint.Axis.horizontal
+        
         stackView.distribution = UIStackView.Distribution.fillEqually
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
     
     let topButtonStackView: UIStackView = {
+        
         let stackView = UIStackView()
+        
         stackView.axis = NSLayoutConstraint.Axis.horizontal
+        
         stackView.distribution = UIStackView.Distribution.fillEqually
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
     
     let processingButton: UIButton = {
+       
         let button = UIButton()
+        
         button.setTitle("Processing", for: .normal)
+        
         button.setTitleColor(UIColor.B1, for: .normal)
+        
         button.titleLabel?.font = UIFont(name: "AmericanTypewriter-Bold", size: 25)
+        
         button.translatesAutoresizingMaskIntoConstraints = false
+        
         button.isEnabled = true
+        
         button.tag = 0
+        
         button.addTarget(self, action: #selector(didTapStatusButton), for: .touchUpInside)
+        
         return button
     }()
     
     let completedButton: UIButton = {
+       
         let button = UIButton()
+        
         button.setTitle("Completed", for: .normal)
+        
         button.setTitleColor(UIColor.B1, for: .normal)
+        
         button.titleLabel?.font = UIFont(name: "AmericanTypewriter-Bold", size: 25)
+        
         button.translatesAutoresizingMaskIntoConstraints = false
+        
         button.isEnabled = true
+        
         button.tag = 1
+        
         button.addTarget(self, action: #selector(didTapStatusButton), for: .touchUpInside)
+        
         return button
     }()
     
     let indicatorView: UIView = {
+        
         let view = UIView()
+        
         view.backgroundColor = UIColor.B2
+        
         view.translatesAutoresizingMaskIntoConstraints = false
+        
         return view
     }()
     
     let searchbarStackView: UIStackView = {
+       
         let stackView = UIStackView()
+        
         stackView.axis = NSLayoutConstraint.Axis.horizontal
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
     
     var activityView: UIActivityIndicatorView = {
+       
         let activityView = UIActivityIndicatorView()
+        
         activityView.translatesAutoresizingMaskIntoConstraints = false
+        
         return activityView
     }()
     
@@ -103,25 +147,39 @@ class PersonalViewController: UIViewController {
         
         tableView.register(completedNib, forCellReuseIdentifier: "CompletedCell")
         
+        tableView.addRefreshHeader {
+            
+            self.refreshLoader()
+        }
+        
         return tableView
     }()
     
-    let searchBar: UISearchBar = {
+    
+    lazy var searchProjectTexiField: UITextField = {
         
-        let searchBar = UISearchBar()
+        let textField = UITextField()
         
-        searchBar.placeholder = PlaceHolder.projectPlaceHolder.rawValue
+        textField.translatesAutoresizingMaskIntoConstraints = false
         
-        searchBar.sizeToFit()
+        textField.placeholder = PlaceHolder.projectPlaceHolder.rawValue
         
-        searchBar.searchBarStyle = .minimal
+        textField.textColor = UIColor.darkGray
         
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        textField.backgroundColor = UIColor(red: 227/255, green: 227/255, blue: 232/255, alpha: 1.0)
         
-        return searchBar
+        textField.borderStyle = .roundedRect
+        
+        textField.layer.cornerRadius = 8
+        
+        textField.textAlignment = .center
+        
+        textField.delegate = self
+        
+        return textField
     }()
     
-    let searchLeader: UIButton = {
+    let searchLeaderButton: UIButton = {
         
         let searchImage = UIImage.asset(.Icons_32px_Leader)
         
@@ -138,6 +196,14 @@ class PersonalViewController: UIViewController {
         return button
     }()
     
+    var userProcessingArray: [ProjectDetail] = []
+    
+    var userCompletedArray: [ProjectDetail] = []
+    
+    var userProcessingFilterArray: [ProjectDetail] = []
+    
+    var userCompletedFilterArray: [ProjectDetail] = []
+        
     var indicatorViewCenterXConstraint: NSLayoutConstraint?
     
     var checkButton = 0
@@ -148,13 +214,9 @@ class PersonalViewController: UIViewController {
     
     var tableViewTopConstraint: NSLayoutConstraint?
     
-    var userProjectDetail: [ProjectDetail] = []
-    
     var searchLeaderStaus = false
     
-    var memberDetail: [[AuthInfo]] = []
-    
-    let fetchUserSemaphone = DispatchSemaphore(value: 0)
+    let refreshGroup = DispatchGroup()
     
     override func viewDidLoad() {
         
@@ -167,28 +229,24 @@ class PersonalViewController: UIViewController {
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
         
         setupStackView()
-
+        
         setupButtonStackView()
-
+        
         setupSearchBar()
-
+        
         setupTableView()
-
+        
         fetchCurrentUserInfo()
         
-        setupActivityView()
+        refreshLoader()
         
+        setupActivityView()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-
+        
         titleStackView.isHidden = false
-
-        filterArray()
-
-        titleStackView.isHidden = false
-
     }
     
     @objc func didTouchSearchBtn(sender: UIButton) {
@@ -252,19 +310,125 @@ class PersonalViewController: UIViewController {
             self.view.layoutIfNeeded()
         }
         
+        tableView.reloadData()
+    }
+    
+    func clearAllArray() {
+        
+        userProcessingArray = []
+        
+        userCompletedArray = []
+        
+        userProcessingFilterArray = []
+        
+        userCompletedFilterArray = []
+        
+        ProjectManager.shared.completedProjectsArray = []
+        
+        ProjectManager.shared.processingProjectsArray = []
+    }
+    
+    func refreshLoader() {
+        
+        clearAllArray()
+        
+        fetchUserProcessingProjcet()
+        
+        fetchUserCompletedProject()
+        
+        refreshGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            
+            self?.tableView.reloadData()
+            
+            self?.tableView.endHeaderRefreshing()
+        }
+    }
+    
+    func filterContentForSearchText(searchText: String) {
+        
         switch checkButton {
             
         case 0:
             
-            fetchUserProcessingProjcet()
+            userProcessingFilterArray = userProcessingArray.filter({ (project: ProjectDetail) -> Bool in
+                
+                if isSearchTextEmpty() {
+                    
+                    userProcessingFilterArray = userProcessingArray
+                    
+                    return false
+                    
+                } else {
+                    
+                    return true && project.projectName.lowercased().contains(searchText.lowercased())
+                }
+            })
             
         case 1:
             
-            fetchUserCompletedProject()
+            userCompletedFilterArray = userCompletedArray.filter({ (project: ProjectDetail) -> Bool in
+                
+                if isSearchTextEmpty() {
+                    
+                    userCompletedFilterArray = userCompletedArray
+                    
+                    return false
+                    
+                } else {
+                    
+                    return true && project.projectName.lowercased().contains(searchText.lowercased())
+                    
+                }
+            })
             
         default:
             
             break
+        }
+        
+        tableView.reloadData()
+    }
+    
+    func isSearchTextEmpty() -> Bool{
+        
+        return searchProjectTexiField.text?.isEmpty ?? true
+    }
+    
+    func isFiltering() -> Bool {
+        
+        return !isSearchTextEmpty()
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        
+        guard let text = searchProjectTexiField.text else {
+            
+            return
+        }
+        
+        filterContentForSearchText(searchText: text)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        guard searchProjectTexiField.text != "" else {
+            
+            switch checkButton {
+                
+            case 0:
+                
+                userProcessingFilterArray = userProcessingArray
+                
+            case 1:
+                
+                userCompletedFilterArray = userCompletedArray
+                
+            default:
+                
+                break
+            }
+            
+            return tableView.reloadData()
         }
     }
     
@@ -313,32 +477,28 @@ class PersonalViewController: UIViewController {
         ])
     }
     
-    func clearAll() {
-        
-        userProjectDetail = []
-        
-        memberDetail = []
-    }
-    
     func fetchUserProcessingProjcet() {
-        
-        clearAll()
-        
-        tableView.reloadData()
         
         activityView.startAnimating()
         
-        ProjectManager.shared.fetchUserProjects(isCompleted: false) { (result) in
+        refreshGroup.enter()
+        
+        ProjectManager.shared.fetchUserProcessingProjects { [weak self] (result) in
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
             
             switch result {
                 
             case .success(let data):
                 
-                self.userProjectDetail = data
+                strongSelf.userProcessingArray = data
+                                
+                strongSelf.userProcessingArray = strongSelf.userProcessingArray.sorted(by: { $0.startDate > $1.startDate })
                 
-                self.userProjectDetail = self.userProjectDetail.sorted(by: { $0.startDate > $1.startDate })
-                
-                self.fetchMemberDetail()
+                strongSelf.userProcessingFilterArray = strongSelf.userProcessingArray
                 
             case .failure(let error):
                 
@@ -346,138 +506,130 @@ class PersonalViewController: UIViewController {
                 
             }
             
-            self.activityView.stopAnimating()
+            strongSelf.activityView.stopAnimating()
+            
+            strongSelf.refreshGroup.leave()
         }
     }
     
     func fetchUserCompletedProject() {
-        
-        clearAll()
-        
-        tableView.reloadData()
-        
+
         activityView.startAnimating()
-        
-        ProjectManager.shared.fetchUserProjects(isCompleted: true) { (result) in
-            
+
+        refreshGroup.enter()
+
+        ProjectManager.shared.fetchUserCompletedProjects { [weak self] (result) in
+
+            guard let strongSelf = self else {
+
+                return
+            }
+
             switch result {
-                
+
             case .success(let data):
+
+                strongSelf.userCompletedArray = data
                 
-                self.userProjectDetail = data
+                strongSelf.userCompletedArray = strongSelf.userCompletedArray.sorted(by: { $0.startDate > $1.startDate })
                 
-                self.fetchMemberDetail()
+                strongSelf.userCompletedFilterArray = strongSelf.userCompletedArray
                 
             case .failure(let error):
-                
+
                 print(error)
-                
+
             }
-            
-            self.activityView.stopAnimating()
+
+            strongSelf.activityView.stopAnimating()
+
+            strongSelf.refreshGroup.leave()
+
         }
     }
     
-    func fetchMemberDetail() {
-        
-        memberDetail = []
+    
+    
+    func fetchMemberDetail(documentRef: [DocumentReference], completion: @escaping (Result<[AuthInfo], Error>) -> Void) {
         
         activityView.startAnimating()
         
-        ProjectManager.shared.fetchMemberDetail(projectMember: userProjectDetail) { (result) in
+        ProjectManager.shared.projectMembers = []
+        
+        ProjectManager.shared.fetchMemberDetail(projectMember: documentRef) { [weak self] (result) in
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
             
             switch result {
                 
-            case.success:
-                
-                self.memberDetail = ProjectManager.shared.members
-                
-                self.tableView.reloadData()
-                
-                ProjectManager.shared.clearAll()
-                
+            case.success(let data):
+                                    
+                completion(.success(data))
+
             case .failure(let error):
                 
                 print(error)
+                
+                completion(.failure(error))
             }
             
-            self.activityView.stopAnimating()
+            strongSelf.activityView.stopAnimating()
             
-        }
-    }
-    
-    func filterArray() {
-        
-        guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
-            return
-        }
-        
-        if searchLeader.isSelected {
-            
-            searchLeaderStaus = true
-            
-            userProjectDetail = userProjectDetail.filter({ return $0.projectLeaderID == uid })
-            
-            fetchMemberDetail()
-            
-        } else {
-            
-            searchLeaderStaus = false
-            
-            switch checkButton {
-                
-            case 0:
-                
-                fetchUserProcessingProjcet()
-                
-            case 1:
-                
-                fetchUserCompletedProject()
-                
-            default:
-                break
-            }
         }
         
     }
     
     @objc func filterLeaderProject(sender: UIButton) {
         
-        searchLeader.isSelected.toggle()
+        searchLeaderButton.isSelected.toggle()
         
-        filterArray()
     }
     
     func setupSearchBar() {
         
         view.addSubview(searchbarStackView)
         
-        searchbarStackView.addSubview(searchBar)
+        searchbarStackView.addSubview(searchProjectTexiField)
         
-        searchbarStackView.addSubview(searchLeader)
+        searchbarStackView.addSubview(searchLeaderButton)
         
-        searchLeader.addTarget(self, action: #selector(filterLeaderProject), for: .touchUpInside)
+        searchLeaderButton.addTarget(self, action: #selector(filterLeaderProject), for: .touchUpInside)
         
         searchBarStackViewHightConstraint = searchbarStackView.heightAnchor.constraint(equalToConstant: 0)
         NSLayoutConstraint.activate([
+           
             searchbarStackView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20),
+            
             searchbarStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            
             searchbarStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            
             searchBarStackViewHightConstraint!
         ])
         
         NSLayoutConstraint.activate([
-            searchBar.topAnchor.constraint(equalTo: searchbarStackView.topAnchor),
-            searchBar.leftAnchor.constraint(equalTo: searchbarStackView.leftAnchor),
-            searchBar.bottomAnchor.constraint(equalTo: searchbarStackView.bottomAnchor),
-            searchBar.widthAnchor.constraint(equalToConstant: view.frame.width - 80)
+            
+            searchProjectTexiField.topAnchor.constraint(equalTo: searchbarStackView.topAnchor),
+            
+            searchProjectTexiField.leftAnchor.constraint(equalTo: searchbarStackView.leftAnchor),
+            
+            searchProjectTexiField.bottomAnchor.constraint(equalTo: searchbarStackView.bottomAnchor),
+            
+            searchProjectTexiField.widthAnchor.constraint(equalToConstant: view.frame.width - 80)
         ])
         
         NSLayoutConstraint.activate([
-            searchLeader.topAnchor.constraint(equalTo: searchbarStackView.topAnchor),
-            searchLeader.rightAnchor.constraint(equalTo: searchbarStackView.rightAnchor),
-            searchLeader.bottomAnchor.constraint(equalTo: searchbarStackView.bottomAnchor),
-            searchLeader.leftAnchor.constraint(equalTo: searchBar.rightAnchor)
+            
+            searchLeaderButton.topAnchor.constraint(equalTo: searchbarStackView.topAnchor),
+            
+            searchLeaderButton.rightAnchor.constraint(equalTo: searchbarStackView.rightAnchor),
+            
+            searchLeaderButton.bottomAnchor.constraint(equalTo: searchbarStackView.bottomAnchor),
+            
+            searchLeaderButton.leftAnchor.constraint(equalTo: searchProjectTexiField.rightAnchor)
         ])
         
     }
@@ -485,11 +637,17 @@ class PersonalViewController: UIViewController {
     func setupTableView() {
         
         view.addSubview(tableView)
+        
+        
         tableViewTopConstraint = tableView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20)
         NSLayoutConstraint.activate([
+            
             tableViewTopConstraint!,
+            
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
+            
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
@@ -505,9 +663,13 @@ class PersonalViewController: UIViewController {
         searchButton.addTarget(self, action: #selector(didTouchSearchBtn), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
+            
             titleStackView.bottomAnchor.constraint(equalTo: navigationbar.bottomAnchor, constant: -10),
+            
             titleStackView.rightAnchor.constraint(equalTo: navigationbar.rightAnchor, constant: -15),
+            
             titleStackView.widthAnchor.constraint(equalToConstant: navigationbar.frame.width / 5),
+            
             titleStackView.heightAnchor.constraint(equalToConstant: navigationbar.frame.height / 3)
         ])
     }
@@ -523,18 +685,26 @@ class PersonalViewController: UIViewController {
         topButtonStackView.addArrangedSubview(completedButton)
         
         NSLayoutConstraint.activate([
+            
             topButtonStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            
             topButtonStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            
             topButtonStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            
             topButtonStackView.heightAnchor.constraint(equalToConstant: 40)
         ])
         
         indicatorViewCenterXConstraint = indicatorView.centerXAnchor.constraint(equalTo: processingButton.centerXAnchor)
         
         NSLayoutConstraint.activate([
+            
             indicatorView.topAnchor.constraint(equalTo: topButtonStackView.bottomAnchor, constant: 20),
+            
             indicatorView.heightAnchor.constraint(equalToConstant: 3),
+            
             indicatorView.widthAnchor.constraint(equalToConstant: (view.frame.width / 3) ),
+           
             indicatorViewCenterXConstraint!
         ])
     }
@@ -545,7 +715,20 @@ extension PersonalViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return userProjectDetail.count
+        switch checkButton {
+            
+        case 0:
+            
+            return userProcessingFilterArray.count
+            
+        case 1:
+            
+            return userCompletedFilterArray.count
+            
+        default:
+            
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -553,7 +736,78 @@ extension PersonalViewController: UITableViewDataSource {
         switch checkButton {
             
         case 0:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProcessingCell") as? ProcessingTableViewCell else { return UITableViewCell() }
+            
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProcessingCell") as? ProcessingTableViewCell else {
+                
+                return UITableViewCell()
+            }
+            
+            cell.selectionStyle = .none
+            
+            if searchLeaderStaus {
+                
+                cell.leaderImage.isHidden = false
+                
+            } else {
+                
+                cell.leaderImage.isHidden = true
+                
+            }
+            
+            cell.transitionToMemberVC = { [weak self] _ in
+                
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else{
+                    return
+                }
+                
+                strongSelf.activityView.startAnimating()
+                
+                strongSelf.fetchMemberDetail(documentRef: strongSelf.userProcessingFilterArray[indexPath.row].projectMember) { (result) in
+                    
+                    switch result {
+                        
+                    case .success(let data):
+                        
+                        memberVC.memberArray = data
+                        
+                    case .failure(let error):
+                        
+                        print(error)
+                    }
+                    
+                    memberVC.projectDetail = strongSelf.userProcessingFilterArray[indexPath.row]
+                    
+                    strongSelf.titleStackView.isHidden = true
+                    
+                    strongSelf.show(memberVC, sender: nil)
+                }
+                
+            }
+            
+            cell.backImage.image = UIImage(named: userProcessingFilterArray[indexPath.row].color)
+            
+            cell.members = userProcessingFilterArray[indexPath.row].memberImages
+            
+            cell.titleLabel.text = userProcessingFilterArray[indexPath.row].projectName
+            
+            cell.dateLabel.text = "\(userProcessingFilterArray[indexPath.row].startDate) - \(userProcessingFilterArray[indexPath.row].endDate)"
+            
+            cell.hourLabel.text = "\(userProcessingFilterArray[indexPath.row].totalHours) Hour (\(userProcessingFilterArray[indexPath.row].totalDays) Day)"
+            return cell
+            
+        case 1:
+            
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedCell") as? CompletedTableViewCell else {
+                
+                return UITableViewCell()
+                
+            }
+            
+            cell.selectionStyle = .none
             
             if searchLeaderStaus {
                 cell.leaderImage.isHidden = false
@@ -566,55 +820,52 @@ extension PersonalViewController: UITableViewDataSource {
                 guard let strongSelf = self else {
                     return
                 }
+                
                 guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else{
                     return
                 }
                 
-                memberVC.memberArray = strongSelf.memberDetail[indexPath.row]
+                strongSelf.activityView.startAnimating()
                 
-                memberVC.projectDetail = strongSelf.userProjectDetail[indexPath.row]
-                
-                strongSelf.titleStackView.isHidden = true
-                
-                strongSelf.show(memberVC, sender: nil)
+                strongSelf.fetchMemberDetail(documentRef: strongSelf.userCompletedFilterArray[indexPath.row].projectMember) { (result) in
+                    
+                    switch result {
+                        
+                    case .success(let data):
+                        
+                        memberVC.memberArray = data
+                        
+                    case .failure(let error):
+                        
+                        print(error)
+                    }
+                    
+                    memberVC.isCompletedProject = true
+                    
+                    memberVC.projectDetail = strongSelf.userCompletedFilterArray[indexPath.row]
+                    
+                    strongSelf.titleStackView.isHidden = true
+                    
+                    strongSelf.show(memberVC, sender: nil)
+                }
             }
             
-            cell.backImage.image = UIImage(named: userProjectDetail[indexPath.row].color)
-            print(userProjectDetail[0].color)
+            cell.backImage.image = UIImage(named: userCompletedFilterArray[indexPath.row].color)
             
-            cell.members = memberDetail[indexPath.row]
+            cell.members = userCompletedFilterArray[indexPath.row].memberImages
             
-            cell.titleLabel.text = userProjectDetail[indexPath.row].projectName
+            cell.titleLabel.text = userCompletedFilterArray[indexPath.row].projectName
             
-            cell.dateLabel.text = "\(userProjectDetail[indexPath.row].startDate) - \(userProjectDetail[indexPath.row].endDate)"
+            cell.dateLabel.text = "\(userCompletedFilterArray[indexPath.row].startDate) - \(userCompletedFilterArray[indexPath.row].endDate)"
             
-            cell.hourLabel.text = "\(userProjectDetail[indexPath.row].totalHours) Hour (\(userProjectDetail[indexPath.row].totalDays) Day)"
-            return cell
-            
-        case 1:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedCell") as? CompletedTableViewCell else { return UITableViewCell() }
-            
-            if searchLeaderStaus {
-                cell.leaderImage.isHidden = false
-            } else {
-                cell.leaderImage.isHidden = true
-            }
-            
-            cell.backImage.image = UIImage(named: userProjectDetail[indexPath.row].color)
-            
-            cell.members = memberDetail[indexPath.row]
-            
-            cell.titleLabel.text = userProjectDetail[indexPath.row].projectName
-            
-            cell.dateLabel.text = "\(userProjectDetail[indexPath.row].startDate) - \(userProjectDetail[indexPath.row].endDate)"
-            
-            cell.hourLabel.text = "\(userProjectDetail[indexPath.row].totalHours) Hour (\(userProjectDetail[indexPath.row].totalDays) Day)"
+            cell.hourLabel.text = "\(userCompletedFilterArray[indexPath.row].totalHours) Hour (\(userCompletedFilterArray[indexPath.row].totalDays) Day)"
             
             cell.completionDateLabel.text = "202022020"
             
             cell.completionHourLable.text = "1111"
             
             return cell
+            
         default:
             return UITableViewCell()
         }
@@ -629,13 +880,74 @@ extension PersonalViewController: UITableViewDelegate {
             return
         }
         
-        workLogVC.members = self.memberDetail[indexPath.row]
-        
-        workLogVC.projectDetail = self.userProjectDetail[indexPath.row]
-        
-        titleStackView.isHidden = true
-        
-        show(workLogVC, sender: nil)
+        switch checkButton {
+            
+        case 0:
+            
+            workLogVC.projectDetail = self.userProcessingFilterArray[indexPath.row]
+            
+            activityView.startAnimating()
+            
+            fetchMemberDetail(documentRef: userProcessingFilterArray[indexPath.row].projectMember) { [weak self] (result) in
+                
+                guard let strongSelf = self else {
+                    
+                    return
+                }
+                
+                switch result {
+                    
+                case .success(let data):
+                    
+                    workLogVC.members = data
+                    
+                case .failure(let error):
+                    
+                    print(error)
+                }
+                
+                strongSelf.activityView.stopAnimating()
+                
+                strongSelf.titleStackView.isHidden = true
+                
+                strongSelf.show(workLogVC, sender: nil)
+            }
+                        
+        case 1:
+            
+            workLogVC.projectDetail = self.userCompletedArray[indexPath.row]
+            
+            activityView.startAnimating()
+            
+            fetchMemberDetail(documentRef: userCompletedFilterArray[indexPath.row].projectMember) { [weak self] (result) in
+                
+                guard let strongSelf = self else {
+                    
+                    return
+                }
+                
+                switch result {
+                    
+                case .success(let data):
+                    
+                    workLogVC.members = data
+                    
+                case .failure(let error):
+                    
+                    print(error)
+                }
+                
+                strongSelf.activityView.stopAnimating()
+                
+                strongSelf.titleStackView.isHidden = true
+                
+                strongSelf.show(workLogVC, sender: nil)
+            }
+            
+        default:
+            
+            break
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -643,13 +955,20 @@ extension PersonalViewController: UITableViewDelegate {
         let spring = UISpringTimingParameters(dampingRatio: 0.5, initialVelocity: CGVector(dx: 1.0, dy: 0.2))
         
         let animator = UIViewPropertyAnimator(duration: 1.0, timingParameters: spring)
+        
         cell.alpha = 0
+        
         cell.transform = CGAffineTransform(translationX: 0, y: 100 * 0.6)
+        
         animator.addAnimations {
+            
             cell.alpha = 1
+            
             cell.transform = .identity
+            
             self.tableView.layoutIfNeeded()
         }
+        
         animator.startAnimation(afterDelay: 0.1 * Double(indexPath.item))
     }
     

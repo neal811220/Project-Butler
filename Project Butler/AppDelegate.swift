@@ -32,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if Auth.auth().currentUser != nil || UserDefaults.standard.value(forKey: "userID") as? String != nil {
             
             guard let tabBarVC = UIStoryboard.main.instantiateViewController(withIdentifier: "TabBarVC") as? PBTabBarViewController else {
+                
                 return true
             }
             
@@ -40,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             
             guard let loginVC = UIStoryboard.login.instantiateViewController(withIdentifier: "LoginVC") as? LoginViewController else {
+                
                 return true
             }
             

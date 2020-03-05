@@ -41,7 +41,9 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         
         GIDSignIn.sharedInstance()?.delegate = self
         
-        performExistingAccountSetupFlows()
+        if #available(iOS 13.0, *) {
+            performExistingAccountSetupFlows()
+        }
         
         setupActivityView()
     }
@@ -103,6 +105,8 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
     @objc func pressedFacebookLogin(_ sender: UIButton) {
         
         let manager = LoginManager()
+        
+        manager.logOut()
         
         manager.logIn(permissions: [.email], viewController: self) { (result) in
             
@@ -319,6 +323,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         }
     }
     
+    @available(iOS 13.0, *)
     @objc func handleAppleIdRequest() {
         
         let appleIDProvider = ASAuthorizationAppleIDProvider()
@@ -358,16 +363,18 @@ extension LoginViewController: UITableViewDataSource {
         
         cell.loginButton.addTarget(self, action: #selector(pressedLoginButton), for: .touchUpInside)
         
-        let authorizationButton = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .whiteOutline)
-        
-        authorizationButton.addTarget(self, action: #selector(handleAppleIdRequest), for: .touchUpInside)
-        
-        authorizationButton.cornerRadius = 20
-        
-        authorizationButton.frame = cell.appleLoginView.bounds
-        
-        cell.appleLoginView.addSubview(authorizationButton)
-        
+        if #available(iOS 13, *) {
+            
+            let authorizationButton = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .whiteOutline)
+            
+            authorizationButton.addTarget(self, action: #selector(handleAppleIdRequest), for: .touchUpInside)
+            
+            authorizationButton.cornerRadius = 20
+            
+            authorizationButton.frame = cell.appleLoginView.bounds
+            
+            cell.appleLoginView.addSubview(authorizationButton)
+        }
         return cell
     }
     
@@ -385,6 +392,7 @@ extension LoginViewController: LoginTableViewCellDelegate {
     
 }
 
+@available(iOS 13.0, *)
 extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {

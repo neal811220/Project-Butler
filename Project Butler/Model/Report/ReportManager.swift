@@ -11,10 +11,8 @@ import UIKit
 import AAInfographics
 
 class ReportManager {
-    
-    static var pickerType = 0
-    
-    let workLogContent: [WorkLogContent]
+        
+    var workLogContent: [WorkLogContent]
     
     init(workLogContent: [WorkLogContent]) {
         
@@ -29,28 +27,55 @@ class ReportManager {
     
     var dateString = ""
     
+    var dayFormatterArray: [WorkLogContent] = []
+    
+    var monthFormatterArray: [WorkLogContent] = []
+    
+    var yearFormatterArray: [WorkLogContent] = []
+    
+    lazy var contentArray: [[WorkLogContent]] = [dayFormatterArray, monthFormatterArray, yearFormatterArray]
+        
     let dayFormatter: DateFormatter = {
+        
         let formatter = DateFormatter()
+        
         formatter.dateFormat = "yyyy-MM-dd"
+        
         return formatter
     }()
     
     let monthFormatter: DateFormatter = {
-           let formatter = DateFormatter()
-           formatter.dateFormat = "yyyy-MM"
-           return formatter
+        
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "yyyy-MM"
+        
+        return formatter
     }()
     
     let yearFormatter: DateFormatter = {
-           let formatter = DateFormatter()
-           formatter.dateFormat = "yyyy"
-           return formatter
+        
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "yyyy"
+        
+        return formatter
     }()
 }
 
 protocol ChartProvider {
     
     var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)? { get set }
+    
+    var filterDidChangerHandler: ((String) -> Void)? { get set }
+    
+    var didChangechartModel: ((AAChartModel) -> Void)? { get set }
+    
+    var currentPickerContent: String { get }
+    
+    var pickerContent: [String] { get set }
+    
+    func didSelectedPickerContent(at index: Int)
         
     func chartViewModel() -> AAChartModel
     
@@ -59,11 +84,46 @@ protocol ChartProvider {
 
 class DateReportManager: ReportManager, ChartProvider {
         
+    var didChangechartModel: ((AAChartModel) -> Void)?
+    
+    var pickerContent: [String] = ["Day", "Month", "Year"]
+    
+    var filterDidChangerHandler: ((String) -> Void)?
+    
+    var selectedIndex: Int?
+    
+    var filterWorkLogContent: [WorkLogContent] = []
+    
+    var currentPickerContent: String {
+        
+        guard let index = selectedIndex else {
+            
+            return ""
+        }
+        
+        return pickerContent[index]
+    }
+    
+    func didSelectedPickerContent(at index: Int) {
+        
+        let filter = pickerContent[index]
+        
+        selectedIndex = index
+        
+        didChangechartModel?(chartViewModel())
+        
+        // work log content
+        
+        targetWorkLogContentsDidChangeHandler?(workLogContent)
+            
+        filterDidChangerHandler?(filter)
+    }
+    
     func chartView(didSelected data: String) {
         
-        var filterWorkLogContent: [WorkLogContent] = []
+        filterWorkLogContent = []
         
-        for item in workLogContent {
+        for item in contentArray[selectedIndex ?? 0] {
             
             if item.date == data {
                 
@@ -80,11 +140,47 @@ class DateReportManager: ReportManager, ChartProvider {
         
         var beforeSevenDates: [String] = []
         
-        var sortArray = workLogContent.sorted(by: { $0.date < $1.date })
-                
+        let workContentArray = workLogContent
+        
+        var filterWorkContentarray = workLogContent.sorted(by: { $0.date < $1.date })
+        
         var resultDictionary: [String: [WorkLogContent]] = [:]
         
-        for item in sortArray {
+        for index in 0 ..< workContentArray.count {
+            
+            switch selectedIndex {
+                
+            case 1:
+                
+                if let monthDate = dayFormatter.date(from: workContentArray[index].date) {
+                    
+                    let monthString = monthFormatter.string(from: monthDate)
+                    
+                    filterWorkContentarray[index].date = monthString
+                    
+                    
+                }
+                
+            case 2:
+                
+                if let monthDate = dayFormatter.date(from: workContentArray[index].date) {
+                    
+                    let monthString = yearFormatter.string(from: monthDate)
+                    
+                    filterWorkContentarray[index].date = monthString
+                    
+                    yearFormatterArray = filterWorkContentarray
+                }
+                
+            default:
+                
+                dayFormatterArray = workContentArray
+            }
+        }
+        
+        contentArray[selectedIndex ?? 0] = filterWorkContentarray
+        
+        for item in filterWorkContentarray {
             
             if let logContentArray = resultDictionary[item.date] {
                 
@@ -98,7 +194,7 @@ class DateReportManager: ReportManager, ChartProvider {
         
         for i in 1...7 {
             
-            switch ReportManager.pickerType {
+            switch selectedIndex {
                 
             case 1:
                 
@@ -157,9 +253,36 @@ class DateReportManager: ReportManager, ChartProvider {
 }
 
 class PersonalReportManager: ReportManager, ChartProvider {
-        
-    var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)?
     
+    var didChangechartModel: ((AAChartModel) -> Void)?
+    
+    var pickerContent: [String] = ["Sick", "Lady"]
+    
+    var filterDidChangerHandler: ((String) -> Void)?
+    
+    var selectedIndex: Int?
+    
+    var currentPickerContent: String {
+           
+           guard let index = selectedIndex else {
+               
+               return ""
+           }
+           
+           return pickerContent[index]
+    }
+    
+    func didSelectedPickerContent(at index: Int) {
+        
+        let filter = pickerContent[index]
+        
+        selectedIndex = index
+        
+        filterDidChangerHandler?(filter)
+    }
+    
+    var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)?
+
     func chartView(didSelected data: String) {
         
         var filterWorkLogContent: [WorkLogContent] = []
@@ -263,10 +386,37 @@ class PersonalReportManager: ReportManager, ChartProvider {
 
 class WorkItemReportManager: ReportManager, ChartProvider {
     
+    var didChangechartModel: ((AAChartModel) -> Void)?
+    
+    var pickerContent: [String] = ["Yo", "Hi"]
+    
+    var filterDidChangerHandler: ((String) -> Void)?
+    
+    var selectedIndex: Int?
+    
+    var currentPickerContent: String {
+           
+           guard let index = selectedIndex else {
+               
+               return ""
+           }
+           
+           return pickerContent[index]
+    }
+    
+    func didSelectedPickerContent(at index: Int) {
+        
+        let filter = pickerContent[index]
+        
+        selectedIndex = index
+        
+        filterDidChangerHandler?(filter)
+    }
+    
     var workItem = "UI Design"
     
     var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)?
-    
+
     func chartView(didSelected data: String) {
         
         var filterWorkLogContent: [WorkLogContent] = []

@@ -30,6 +30,7 @@
 		18635CF22403A84800469168 /* ReportChartPickerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18635CF02403A84800469168 /* ReportChartPickerTableViewCell.xib */; };
 		18635CF52403A87C00469168 /* ReportChartContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18635CF32403A87C00469168 /* ReportChartContentTableViewCell.swift */; };
 		18635CF62403A87C00469168 /* ReportChartContentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18635CF42403A87C00469168 /* ReportChartContentTableViewCell.xib */; };
+		1886B639240EBDC80046F2A6 /* MJRefreshWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1886B638240EBDC80046F2A6 /* MJRefreshWrapper.swift */; };
 		188FE73423E7EEB300DDF30C /* NewProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188FE73323E7EEB300DDF30C /* NewProjectViewController.swift */; };
 		188FE73A23E7F05700DDF30C /* NewProjectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188FE73823E7F05700DDF30C /* NewProjectTableViewCell.xib */; };
 		188FE73E23E7F0E800DDF30C /* WorkItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188FE73C23E7F0E800DDF30C /* WorkItemTableViewCell.xib */; };
@@ -122,6 +123,7 @@
 		18635CF02403A84800469168 /* ReportChartPickerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportChartPickerTableViewCell.xib; sourceTree = "<group>"; };
 		18635CF32403A87C00469168 /* ReportChartContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChartContentTableViewCell.swift; sourceTree = "<group>"; };
 		18635CF42403A87C00469168 /* ReportChartContentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportChartContentTableViewCell.xib; sourceTree = "<group>"; };
+		1886B638240EBDC80046F2A6 /* MJRefreshWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MJRefreshWrapper.swift; sourceTree = "<group>"; };
 		188FE73323E7EEB300DDF30C /* NewProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectViewController.swift; sourceTree = "<group>"; };
 		188FE73823E7F05700DDF30C /* NewProjectTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewProjectTableViewCell.xib; sourceTree = "<group>"; };
 		188FE73C23E7F0E800DDF30C /* WorkItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorkItemTableViewCell.xib; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 			children = (
 				18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */,
 				18BEF14623E977C200CC401C /* KingFisherWapper.swift */,
+				1886B638240EBDC80046F2A6 /* MJRefreshWrapper.swift */,
 			);
 			path = "Third Party Wapper";
 			sourceTree = "<group>";
@@ -758,6 +761,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1886B639240EBDC80046F2A6 /* MJRefreshWrapper.swift in Sources */,
 				18F8CC3D23ED1993004D8420 /* CurrentUserInfo.swift in Sources */,
 				18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */,
 				18F0E37623F3C04700149F8F /* SelectMembersViewController.swift in Sources */,
@@ -959,13 +963,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Project Butler/Project Butler.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 9W3FMHPU3X;
 				INFOPLIST_FILE = "Project Butler/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.neal811220.Project-Butler";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -980,13 +986,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Project Butler/Project Butler.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 9W3FMHPU3X;
 				INFOPLIST_FILE = "Project Butler/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.neal811220.Project-Butler";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
