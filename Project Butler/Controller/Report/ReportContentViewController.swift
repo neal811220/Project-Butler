@@ -59,7 +59,7 @@ class ReportContentViewController: UIViewController {
         
         didSet {
             
-            reportManager?.targetWorkLogContentsDidChangeHandler = { [weak self] datas in
+            reportManager?.targetWorkLogContentsDidChangeHandler = { [weak self] (datas) in
                 
                 self?.filterWorkLogContent = datas
                 
@@ -68,9 +68,14 @@ class ReportContentViewController: UIViewController {
             
             reportManager?.filterDidChangerHandler = { text in
                 
-                let textField = self.view.viewWithTag(20) as? UITextField
+                let textField = self.view.viewWithTag(40) as? UITextField
                 
                 textField?.text = text
+            }
+            
+            reportManager?.didChangechartModel = { [weak self] (chartModel) in
+                
+               self?.chartView.aa_drawChartWithChartModel(chartModel)
             }
         }
     }
@@ -154,6 +159,8 @@ extension ReportContentViewController: UITableViewDataSource {
             }
             
             cell.itemPicker.inputView = reportPickerView
+            
+            cell.itemPicker.text = reportManager?.currentPickerContent
             
             return cell
 

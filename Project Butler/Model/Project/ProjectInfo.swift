@@ -73,7 +73,7 @@ struct WorkLogContent: Codable {
     
     let userID: String
     
-    let date: String
+    var date: String
     
     let workItem: String
     
