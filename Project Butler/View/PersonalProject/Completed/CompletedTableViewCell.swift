@@ -31,6 +31,8 @@ class CompletedTableViewCell: UITableViewCell {
     
     let numberNib = UINib(nibName: "NumberCollectionViewCell", bundle: nil)
     
+    var transitionToMemberVC: ((CompletedTableViewCell) -> Void)?
+    
     var layout = UICollectionViewFlowLayout()
     
     var members: [String] = [] {
@@ -115,6 +117,10 @@ extension CompletedTableViewCell: UICollectionViewDataSource {
 
 extension CompletedTableViewCell: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        transitionToMemberVC?(self)
+    }
 }
 
 extension CompletedTableViewCell: UICollectionViewDelegateFlowLayout {

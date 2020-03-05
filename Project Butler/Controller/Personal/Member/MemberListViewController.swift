@@ -68,6 +68,8 @@ class MemberListViewController: UIViewController {
     
     var isLeader = false
     
+    var isCompletedProject = false
+    
     let removeMeberGroup = DispatchGroup()
     
     let updateMemberGroup = DispatchGroup()
@@ -75,6 +77,8 @@ class MemberListViewController: UIViewController {
     let userManager = UserManager.shared
     
     let activityView = UIActivityIndicatorView()
+    
+    var barButton = UIBarButtonItem()
     
     override func viewDidLoad() {
         
@@ -100,21 +104,28 @@ class MemberListViewController: UIViewController {
     
     func setupBarButtonItem() {
         
-        var barButton = UIBarButtonItem()
-        
-        isLeader = projectDetail?.projectLeaderID == CurrentUserInfo.shared.userID
-        
-        if isLeader == true {
+        if isCompletedProject {
             
-            barButton = UIBarButtonItem(title: MemberButtonStatus.invite.rawValue, style: .done, target: self, action: #selector(didTapDoneBarButton))
+            return
             
         } else {
             
-            barButton = UIBarButtonItem(title: MemberButtonStatus.leaveGroup.rawValue, style: .done, target: self, action: #selector(leaveGroup))
-            barButton.tintColor = UIColor.red
+            isLeader = projectDetail?.projectLeaderID == CurrentUserInfo.shared.userID
+            
+            if isLeader == true {
+                
+                barButton = UIBarButtonItem(title: MemberButtonStatus.invite.rawValue, style: .done, target: self, action: #selector(didTapDoneBarButton))
+                
+            } else {
+                
+                barButton = UIBarButtonItem(title: MemberButtonStatus.leaveGroup.rawValue, style: .done, target: self, action: #selector(leaveGroup))
+               
+                barButton.tintColor = UIColor.red
+            }
+            
+            navigationItem.rightBarButtonItem = barButton
         }
         
-        navigationItem.rightBarButtonItem = barButton
     }
     
     func filterContentForSearchText(searchText: String) {

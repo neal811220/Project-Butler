@@ -33,7 +33,7 @@ class NewProjectViewController: UIViewController {
         
         tableView.backgroundColor = UIColor.Gray1
         
-        tableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+//        tableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
         tableView.layer.cornerRadius = 60
         
@@ -148,10 +148,10 @@ class NewProjectViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             
-            backgroundView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
+            backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
             backgroundView.leftAnchor.constraint(equalTo: view.leftAnchor),
             backgroundView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 300),
+            backgroundView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             tableView.topAnchor.constraint(equalTo: backgroundView.topAnchor),
             tableView.leftAnchor.constraint(equalTo: backgroundView.leftAnchor),

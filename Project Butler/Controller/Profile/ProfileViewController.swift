@@ -39,7 +39,7 @@ class ProfileViewController: UIViewController {
             
             let delegate = UIApplication.shared.delegate as! AppDelegate
             
-            let loginVC = UIStoryboard.login.instantiateViewController(identifier: "LoginVC") as? LoginViewController
+            let loginVC = UIStoryboard.login.instantiateViewController(withIdentifier: "LoginVC") as? LoginViewController
             
             try Auth.auth().signOut()
             

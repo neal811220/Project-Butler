@@ -12,70 +12,114 @@ import Firebase
 class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     let searchButton: UIButton = {
+        
         let searchImage = UIImage.asset(.Icons_32px_SearchProjectButton)
+        
         let button = UIButton()
+        
         button.setImage(searchImage, for: .normal)
+        
         button.translatesAutoresizingMaskIntoConstraints = false
+        
         return button
     }()
     
     let titleStackView: UIStackView = {
+        
         let stackView = UIStackView()
+        
         stackView.axis = NSLayoutConstraint.Axis.horizontal
+        
         stackView.distribution = UIStackView.Distribution.fillEqually
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
     
     let topButtonStackView: UIStackView = {
+        
         let stackView = UIStackView()
+        
         stackView.axis = NSLayoutConstraint.Axis.horizontal
+        
         stackView.distribution = UIStackView.Distribution.fillEqually
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
     
     let processingButton: UIButton = {
+       
         let button = UIButton()
+        
         button.setTitle("Processing", for: .normal)
+        
         button.setTitleColor(UIColor.B1, for: .normal)
+        
         button.titleLabel?.font = UIFont(name: "AmericanTypewriter-Bold", size: 25)
+        
         button.translatesAutoresizingMaskIntoConstraints = false
+        
         button.isEnabled = true
+        
         button.tag = 0
+        
         button.addTarget(self, action: #selector(didTapStatusButton), for: .touchUpInside)
+        
         return button
     }()
     
     let completedButton: UIButton = {
+       
         let button = UIButton()
+        
         button.setTitle("Completed", for: .normal)
+        
         button.setTitleColor(UIColor.B1, for: .normal)
+        
         button.titleLabel?.font = UIFont(name: "AmericanTypewriter-Bold", size: 25)
+        
         button.translatesAutoresizingMaskIntoConstraints = false
+        
         button.isEnabled = true
+        
         button.tag = 1
+        
         button.addTarget(self, action: #selector(didTapStatusButton), for: .touchUpInside)
+        
         return button
     }()
     
     let indicatorView: UIView = {
+        
         let view = UIView()
+        
         view.backgroundColor = UIColor.B2
+        
         view.translatesAutoresizingMaskIntoConstraints = false
+        
         return view
     }()
     
     let searchbarStackView: UIStackView = {
+       
         let stackView = UIStackView()
+        
         stackView.axis = NSLayoutConstraint.Axis.horizontal
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
     
     var activityView: UIActivityIndicatorView = {
+       
         let activityView = UIActivityIndicatorView()
+        
         activityView.translatesAutoresizingMaskIntoConstraints = false
+        
         return activityView
     }()
     
@@ -555,23 +599,35 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         searchBarStackViewHightConstraint = searchbarStackView.heightAnchor.constraint(equalToConstant: 0)
         NSLayoutConstraint.activate([
+           
             searchbarStackView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20),
+            
             searchbarStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            
             searchbarStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            
             searchBarStackViewHightConstraint!
         ])
         
         NSLayoutConstraint.activate([
+            
             searchProjectTexiField.topAnchor.constraint(equalTo: searchbarStackView.topAnchor),
+            
             searchProjectTexiField.leftAnchor.constraint(equalTo: searchbarStackView.leftAnchor),
+            
             searchProjectTexiField.bottomAnchor.constraint(equalTo: searchbarStackView.bottomAnchor),
+            
             searchProjectTexiField.widthAnchor.constraint(equalToConstant: view.frame.width - 80)
         ])
         
         NSLayoutConstraint.activate([
+            
             searchLeaderButton.topAnchor.constraint(equalTo: searchbarStackView.topAnchor),
+            
             searchLeaderButton.rightAnchor.constraint(equalTo: searchbarStackView.rightAnchor),
+            
             searchLeaderButton.bottomAnchor.constraint(equalTo: searchbarStackView.bottomAnchor),
+            
             searchLeaderButton.leftAnchor.constraint(equalTo: searchProjectTexiField.rightAnchor)
         ])
         
@@ -580,11 +636,17 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     func setupTableView() {
         
         view.addSubview(tableView)
+        
+        
         tableViewTopConstraint = tableView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20)
         NSLayoutConstraint.activate([
+            
             tableViewTopConstraint!,
+            
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
+            
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
@@ -600,9 +662,13 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         searchButton.addTarget(self, action: #selector(didTouchSearchBtn), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
+            
             titleStackView.bottomAnchor.constraint(equalTo: navigationbar.bottomAnchor, constant: -10),
+            
             titleStackView.rightAnchor.constraint(equalTo: navigationbar.rightAnchor, constant: -15),
+            
             titleStackView.widthAnchor.constraint(equalToConstant: navigationbar.frame.width / 5),
+            
             titleStackView.heightAnchor.constraint(equalToConstant: navigationbar.frame.height / 3)
         ])
     }
@@ -618,18 +684,26 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         topButtonStackView.addArrangedSubview(completedButton)
         
         NSLayoutConstraint.activate([
+            
             topButtonStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            
             topButtonStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            
             topButtonStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            
             topButtonStackView.heightAnchor.constraint(equalToConstant: 40)
         ])
         
         indicatorViewCenterXConstraint = indicatorView.centerXAnchor.constraint(equalTo: processingButton.centerXAnchor)
         
         NSLayoutConstraint.activate([
+            
             indicatorView.topAnchor.constraint(equalTo: topButtonStackView.bottomAnchor, constant: 20),
+            
             indicatorView.heightAnchor.constraint(equalToConstant: 3),
+            
             indicatorView.widthAnchor.constraint(equalToConstant: (view.frame.width / 3) ),
+           
             indicatorViewCenterXConstraint!
         ])
     }
@@ -666,6 +740,8 @@ extension PersonalViewController: UITableViewDataSource {
                 
                 return UITableViewCell()
             }
+            
+            cell.selectionStyle = .none
             
             if searchLeaderStaus {
                 
@@ -724,12 +800,53 @@ extension PersonalViewController: UITableViewDataSource {
             
         case 1:
             
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedCell") as? CompletedTableViewCell else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedCell") as? CompletedTableViewCell else {
+                
+                return UITableViewCell()
+                
+            }
+            
+            cell.selectionStyle = .none
             
             if searchLeaderStaus {
                 cell.leaderImage.isHidden = false
             } else {
                 cell.leaderImage.isHidden = true
+            }
+            
+            cell.transitionToMemberVC = { [weak self] _ in
+                
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else{
+                    return
+                }
+                
+                strongSelf.activityView.startAnimating()
+                
+                strongSelf.fetchMemberDetail(documentRef: strongSelf.userCompletedFilterArray[indexPath.row].projectMember) { (result) in
+                    
+                    switch result {
+                        
+                    case .success(let data):
+                        
+                        memberVC.memberArray = data
+                        
+                    case .failure(let error):
+                        
+                        print(error)
+                    }
+                    
+                    memberVC.isCompletedProject = true
+                    
+                    memberVC.projectDetail = strongSelf.userCompletedFilterArray[indexPath.row]
+                    
+                    strongSelf.titleStackView.isHidden = true
+                    
+                    strongSelf.show(memberVC, sender: nil)
+                }
             }
             
             cell.backImage.image = UIImage(named: userCompletedFilterArray[indexPath.row].color)
