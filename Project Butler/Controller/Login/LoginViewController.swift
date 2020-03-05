@@ -106,6 +106,8 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         
         let manager = LoginManager()
         
+        manager.logOut()
+        
         manager.logIn(permissions: [.email], viewController: self) { (result) in
             
             if case LoginResult.success(granted: _, declined: _, token: _) = result {

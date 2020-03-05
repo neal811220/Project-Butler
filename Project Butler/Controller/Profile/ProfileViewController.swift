@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FacebookLogin
 
 class ProfileViewController: UIViewController {
         
@@ -37,11 +38,15 @@ class ProfileViewController: UIViewController {
         
         do {
             
+            let manager = LoginManager()
+            
             let delegate = UIApplication.shared.delegate as! AppDelegate
             
             let loginVC = UIStoryboard.login.instantiateViewController(withIdentifier: "LoginVC") as? LoginViewController
             
             try Auth.auth().signOut()
+            
+            manager.logOut()
             
             UserDefaults.standard.removeObject(forKey: "userID")
             

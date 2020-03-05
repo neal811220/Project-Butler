@@ -313,7 +313,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         tableView.reloadData()
     }
     
-    func clearAll() {
+    func clearAllArray() {
         
         userProcessingArray = []
         
@@ -330,7 +330,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     func refreshLoader() {
         
-        clearAll()
+        clearAllArray()
         
         fetchUserProcessingProjcet()
         
@@ -585,6 +585,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     @objc func filterLeaderProject(sender: UIButton) {
         
         searchLeaderButton.isSelected.toggle()
+        
     }
     
     func setupSearchBar() {

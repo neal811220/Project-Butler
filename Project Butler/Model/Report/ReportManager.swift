@@ -52,9 +52,11 @@ protocol ChartProvider {
     
     var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)? { get set }
     
+    var filterDidChangerHandler: ((String) -> Void)? { get set }
+    
     var pickerContent: [String] { get set }
     
-    func didSelectedPickerContent(content: String)
+    func didSelectedPickerContent(at index: Int)
         
     func chartViewModel() -> AAChartModel
     
@@ -65,9 +67,19 @@ class DateReportManager: ReportManager, ChartProvider {
         
     var pickerContent: [String] = ["10/10", "10/11"]
     
-    func didSelectedPickerContent(content: String) {
+    var filterDidChangerHandler: ((String) -> Void)?
+    
+    func didSelectedPickerContent(at index: Int) {
         
+        let filter = pickerContent[index]
         
+        // work log content
+        
+        // call targetWorkLogContentsDidChangeHandler
+        
+        // call filterDidChangerHandler
+    
+        filterDidChangerHandler?(filter)
     }
     
     func chartView(didSelected data: String) {
@@ -171,7 +183,9 @@ class PersonalReportManager: ReportManager, ChartProvider {
         
     var pickerContent: [String] = ["Sick", "Lady"]
     
-    func didSelectedPickerContent(content: String) {
+    var filterDidChangerHandler: ((String) -> Void)?
+    
+    func didSelectedPickerContent(at index: Int) {
         
         
     }
@@ -283,7 +297,9 @@ class WorkItemReportManager: ReportManager, ChartProvider {
     
     var pickerContent: [String] = ["Yo", "Hi"]
     
-    func didSelectedPickerContent(content: String) {
+    var filterDidChangerHandler: ((String) -> Void)?
+    
+    func didSelectedPickerContent(at index: Int) {
         
         
     }

@@ -65,6 +65,13 @@ class ReportContentViewController: UIViewController {
                 
                 self?.tableView.reloadData()
             }
+            
+            reportManager?.filterDidChangerHandler = { text in
+                
+                let textField = self.view.viewWithTag(20) as? UITextField
+                
+                textField?.text = text
+            }
         }
     }
     
@@ -78,6 +85,8 @@ class ReportContentViewController: UIViewController {
         setupTableView()
         
         setupTableHeaderView()
+    
+        reportManager?.didSelectedPickerContent(at: 0)
     }
     
     func setupTableView() {
@@ -187,7 +196,7 @@ extension ReportContentViewController: UITableViewDataSource {
 
             return UITableViewCell()
         }
-        
+         
     }
 }
 
@@ -195,9 +204,11 @@ extension ReportContentViewController: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        let textField = self.view.viewWithTag(20) as? UITextField
+//        let textField = self.view.viewWithTag(20) as? UITextField
         
-        textField?.text = reportPickerContentArray[row]
+//        textField?.text = reportPickerContentArray[row]
+        
+        reportManager?.didSelectedPickerContent(at: row)
         
         view.endEditing(true)
     }
