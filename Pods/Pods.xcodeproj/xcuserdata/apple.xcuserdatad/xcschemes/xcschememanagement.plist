@@ -133,6 +133,11 @@
 			<key>orderHint</key>
 			<integer>28</integer>
 		</dict>
+		<key>MJRefresh.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>33</integer>
+		</dict>
 		<key>Pods-Project Butler.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
