@@ -59,11 +59,23 @@ class ReportContentViewController: UIViewController {
         
         didSet {
             
-            reportManager?.targetWorkLogContentsDidChangeHandler = { [weak self] datas in
+            reportManager?.targetWorkLogContentsDidChangeHandler = { [weak self] (datas) in
                 
                 self?.filterWorkLogContent = datas
                 
                 self?.tableView.reloadData()
+            }
+            
+            reportManager?.filterDidChangerHandler = { text in
+                
+                let textField = self.view.viewWithTag(40) as? UITextField
+                
+                textField?.text = text
+            }
+            
+            reportManager?.didChangechartModel = { [weak self] (chartModel) in
+                
+               self?.chartView.aa_drawChartWithChartModel(chartModel)
             }
         }
     }
@@ -78,6 +90,8 @@ class ReportContentViewController: UIViewController {
         setupTableView()
         
         setupTableHeaderView()
+    
+        reportManager?.didSelectedPickerContent(at: 0)
     }
     
     func setupTableView() {
@@ -146,6 +160,8 @@ extension ReportContentViewController: UITableViewDataSource {
             
             cell.itemPicker.inputView = reportPickerView
             
+            cell.itemPicker.text = reportManager?.currentPickerContent
+            
             return cell
 
         case 1:
@@ -187,7 +203,7 @@ extension ReportContentViewController: UITableViewDataSource {
 
             return UITableViewCell()
         }
-        
+         
     }
 }
 
@@ -195,9 +211,11 @@ extension ReportContentViewController: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        let textField = self.view.viewWithTag(20) as? UITextField
+//        let textField = self.view.viewWithTag(20) as? UITextField
         
-        textField?.text = reportPickerContentArray[row]
+//        textField?.text = reportPickerContentArray[row]
+        
+        reportManager?.didSelectedPickerContent(at: row)
         
         view.endEditing(true)
     }
@@ -212,12 +230,16 @@ extension ReportContentViewController: UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         
-        return reportPickerContentArray.count
+        guard let manager = reportManager else { return 0 }
+        
+        return manager.pickerContent.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
-        return reportPickerContentArray[row]
+        guard let manager = reportManager else { return nil }
+        
+        return manager.pickerContent[row]
     }
     
     

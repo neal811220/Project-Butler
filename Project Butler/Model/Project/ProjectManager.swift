@@ -9,6 +9,11 @@
 import Foundation
 import Firebase
 
+enum FetchUserProjectError: Error {
+    
+    case noProject
+}
+
 class ProjectManager {
     
     static let shared = ProjectManager()
@@ -21,13 +26,17 @@ class ProjectManager {
     
     var filterArray: [FriendDetail] = []
     
+    var processingProjectsArray: [ProjectDetail] = []
+    
+    var completedProjectsArray: [ProjectDetail] = []
+        
     var lastSearchText: String? = nil
     
     var isSearching = false
     
     var userProject: [ProjectDetail] = []
     
-    var members: [[AuthInfo]] = []
+    var projectMembers: [AuthInfo] = []
     
     var workItemContent: [WorkLogContent] = []
     
@@ -147,71 +156,114 @@ class ProjectManager {
         }
     }
     
-    func fetchMemberDetail(projectMember: [ProjectDetail], completion: @escaping (Result<Void, Error>) -> Void) {
-        
-        let group = DispatchGroup()
-        
-        members = []
+    func fetchMemberDetail(projectMember: [DocumentReference], completion: @escaping (Result<[AuthInfo], Error>) -> Void) {
         
         for member in projectMember {
             
-            var authArray = [AuthInfo]()
-            
-            for docRef in member.projectMember {
-                group.enter()
-                docRef.getDocument { (snapshot, error) in
+            member.getDocument { [weak self] (snapshot, error) in
+                
+                guard let strongSelf = self else {
                     
-                    guard let snapshot = snapshot, error == nil else { return }
+                    return
+                }
+                
+                guard let snapshot = snapshot, error == nil else {
                     
-                    do {
+                    return
+                }
+                
+                do {
+                    
+                    guard let data = try snapshot.data(as: AuthInfo.self, decoder: Firestore.Decoder()) else {
                         
-                        guard let data = try snapshot.data(as: AuthInfo.self, decoder: Firestore.Decoder()) else { return }
-                        
-                        authArray.append(data)
-                        
-                        group.leave()
-                        
-                    } catch {
-                        
-                        group.leave()
-                        
-                        completion(.failure(error))
+                        return
                     }
+                    
+                    strongSelf.projectMembers.append(data)
+                    
+                    
+                    if strongSelf.projectMembers.count == projectMember.count {
+                        
+                        completion(.success(strongSelf.projectMembers))
+                        
+                    }
+                    
+                } catch {
+                    
+                    completion(.failure(error))
+                    
                 }
             }
-            group.notify(queue: .main) {
-                self.members.append(authArray)
-                completion(.success(()))
-            }
         }
+        
+        
     }
     
-    func fetchUserProjects(isCompleted: Bool, completion: @escaping (Result<[ProjectDetail], Error>) -> Void) {
+    func fetchUserProcessingProjects(completion: @escaping (Result<[ProjectDetail], Error>) -> Void) {
         
         guard let uid = UserDefaults.standard.value(forKey: "userID") else { return }
-        
-        userProject = []
-        
-        db.collection("projects").whereField("projectMemberID", arrayContains: uid).whereField("isCompleted", isEqualTo: isCompleted).getDocuments { (snapshot, error) in
+                
+        db.collection("projects").whereField("projectMemberID", arrayContains: uid).whereField("isCompleted", isEqualTo: false).getDocuments { [weak self] (snapshot, error) in
             
-            guard let snapshot = snapshot, error == nil else { return }
+            guard let snapshot = snapshot, error == nil else {
+                
+                return
+            }
             
+            guard let strongSelf = self else {
+                
+                return
+            }
             for document in snapshot.documents {
                 
                 do {
                     
                     guard let data = try document.data(as: ProjectDetail.self, decoder: Firestore.Decoder()) else { return }
                     
-                    self.userProject.append(data)
+                    strongSelf.processingProjectsArray.append(data)
                     
                 } catch {
                     
                     completion(.failure(error))
                 }
-                
             }
             
-            completion(.success(self.userProject))
+            completion(.success(strongSelf.processingProjectsArray))
+            
+        }
+    }
+    
+    func fetchUserCompletedProjects(completion: @escaping (Result<[ProjectDetail], Error>) -> Void) {
+        
+        guard let uid = UserDefaults.standard.value(forKey: "userID") else { return }
+                
+        db.collection("projects").whereField("projectMemberID", arrayContains: uid).whereField("isCompleted", isEqualTo: true).getDocuments { [weak self] (snapshot, error) in
+            
+            guard let snapshot = snapshot, error == nil else {
+                
+                return
+            }
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
+            for document in snapshot.documents {
+                
+                do {
+                    
+                    guard let data = try document.data(as: ProjectDetail.self, decoder: Firestore.Decoder()) else { return }
+                    
+                    strongSelf.completedProjectsArray.append(data)
+                    
+                } catch {
+                    
+                    completion(.failure(error))
+                }
+            }
+            
+            completion(.success(strongSelf.completedProjectsArray))
+            
         }
     }
     

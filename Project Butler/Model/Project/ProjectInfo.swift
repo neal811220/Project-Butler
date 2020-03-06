@@ -34,6 +34,10 @@ struct ProjectDetail: Codable {
     let projectID: String
     
     let workItems: [String]
+    
+    let memberImages: [String]
+    
+    var members: [AuthInfo] = []
 }
 
 struct CompletedProject {
@@ -69,7 +73,7 @@ struct WorkLogContent: Codable {
     
     let userID: String
     
-    let date: String
+    var date: String
     
     let workItem: String
     
