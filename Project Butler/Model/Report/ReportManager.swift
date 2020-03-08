@@ -11,7 +11,7 @@ import UIKit
 import AAInfographics
 
 class ReportManager {
-        
+    
     var workLogContent: [WorkLogContent]
     
     var projectMembers: [AuthInfo]
@@ -41,7 +41,7 @@ class ReportManager {
     var yearFormatterArray: [WorkLogContent] = []
     
     lazy var contentArray: [[WorkLogContent]] = [dayFormatterArray, monthFormatterArray, yearFormatterArray]
-        
+    
     let dayFormatter: DateFormatter = {
         
         let formatter = DateFormatter()
@@ -83,14 +83,14 @@ protocol ChartProvider {
     var pickerContent: [String] { get set }
     
     func didSelectedPickerContent(at index: Int)
-        
+    
     func chartViewModel() -> AAChartModel
     
     func chartView(didSelected data: String)
 }
 
 class DateReportManager: ReportManager, ChartProvider {
-        
+    
     var didChangechartModel: ((AAChartModel) -> Void)?
     
     var pickerContent: [String] = ["Day", "Month", "Year"]
@@ -118,9 +118,9 @@ class DateReportManager: ReportManager, ChartProvider {
         selectedIndex = index
         
         didChangechartModel?(chartViewModel())
-                
+        
         targetWorkLogContentsDidChangeHandler?(contentArray[selectedIndex ?? 0])
-            
+        
         filterDidChangerHandler?(filter)
     }
     
@@ -203,9 +203,9 @@ class DateReportManager: ReportManager, ChartProvider {
                 
             case 1:
                 
-               reportDate = Calendar.current.date(byAdding: .month, value: -i, to: Date()) ?? Date()
-               
-               dateString = monthFormatter.string(from: reportDate)
+                reportDate = Calendar.current.date(byAdding: .month, value: -i, to: Date()) ?? Date()
+                
+                dateString = monthFormatter.string(from: reportDate)
                 
             case 2:
                 
@@ -220,7 +220,7 @@ class DateReportManager: ReportManager, ChartProvider {
                 dateString = dayFormatter.string(from: reportDate)
                 
             }
-                        
+            
             beforeSevenDates.append(dateString)
             
         }
@@ -262,7 +262,7 @@ class MemberReportManager: ReportManager, ChartProvider {
     var didChangechartModel: ((AAChartModel) -> Void)?
     
     var pickerContent: [String] = ["Day", "Month", "Year"]
-        
+    
     var filterDidChangerHandler: ((String) -> Void)?
     
     var selectedIndex: Int?
@@ -272,13 +272,13 @@ class MemberReportManager: ReportManager, ChartProvider {
     var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)?
     
     var currentPickerContent: String {
-           
-           guard let index = selectedIndex else {
-               
-               return ""
-           }
-           
-           return pickerContent[index]
+        
+        guard let index = selectedIndex else {
+            
+            return ""
+        }
+        
+        return pickerContent[index]
     }
     
     func didSelectedPickerContent(at index: Int) {
@@ -288,9 +288,9 @@ class MemberReportManager: ReportManager, ChartProvider {
         selectedIndex = index
         
         didChangechartModel?(chartViewModel())
-                
+        
         targetWorkLogContentsDidChangeHandler?(contentArray[selectedIndex ?? 0])
-            
+        
         filterDidChangerHandler?(filter)
     }
     
@@ -312,26 +312,12 @@ class MemberReportManager: ReportManager, ChartProvider {
     func chartViewModel() -> AAChartModel {
         
         var beforeSevenDates: [String] = []
-                
+        
         let workContentArray = workLogContent
         
         var filterWorkContentarray = workLogContent.sorted(by: { $0.date < $1.date })
         
-        var filterMemberArray: [AuthInfo] = []
-        
         var resultDictionary: [String: [WorkLogContent]] = [:]
-        
-        for user in workContentArray {
-            
-            for member in projectMembers {
-                
-                if user.userID == member.userID {
-                    
-                    filterMemberArray.append(member)
-                }
-            }
-            
-        }
         
         for index in 0 ..< workContentArray.count {
             
@@ -363,7 +349,7 @@ class MemberReportManager: ReportManager, ChartProvider {
                 dayFormatterArray = filterWorkContentarray
             }
         }
-
+        
         contentArray[selectedIndex ?? 0] = filterWorkContentarray
         
         for i in 1...7 {
@@ -372,9 +358,9 @@ class MemberReportManager: ReportManager, ChartProvider {
                 
             case 1:
                 
-               reportDate = Calendar.current.date(byAdding: .month, value: -i, to: Date()) ?? Date()
-               
-               dateString = monthFormatter.string(from: reportDate)
+                reportDate = Calendar.current.date(byAdding: .month, value: -i, to: Date()) ?? Date()
+                
+                dateString = monthFormatter.string(from: reportDate)
                 
             case 2:
                 
@@ -389,7 +375,7 @@ class MemberReportManager: ReportManager, ChartProvider {
                 dateString = dayFormatter.string(from: reportDate)
                 
             }
-                        
+            
             beforeSevenDates.append(dateString)
             
         }
@@ -427,19 +413,19 @@ class MemberReportManager: ReportManager, ChartProvider {
             
             print(member.userName)
             
-            for item in beforeSevenDates {
+            for date in beforeSevenDates {
                 
                 let workHour = resultDictionary[member.userID]?.map{
-                    if $0.date == item { return $0.hour } else { return 0} }.reduce(0, { (sum, num ) in
-                    
-                    return sum + num
-                })
-                                
+                    if $0.date == date { return $0.hour } else { return 0} }.reduce(0, { (sum, num ) in
+                        
+                        return sum + num
+                    })
+                
                 seriesElement.append(workHour ?? 0)
             }
             
             seriesElements.append(seriesElement)
-           
+            
         }
         
         seriesElements.remove(at: 0)
@@ -448,7 +434,7 @@ class MemberReportManager: ReportManager, ChartProvider {
             
             elements.append(AASeriesElement().name(usersName[index]).data(seriesElements[index]))
         }
-
+        
         chartModel = AAChartModel()
         chartModel = chartModel.touchEventEnabled(true)
             .chartType(.area)//Can be any of the chart types listed under `AAChartType`.
@@ -474,14 +460,18 @@ class WorkItemReportManager: ReportManager, ChartProvider {
     
     var selectedIndex: Int?
     
+    var filterWorkLogContent: [WorkLogContent] = []
+    
+    var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)?
+    
     var currentPickerContent: String {
-           
-           guard let index = selectedIndex else {
-               
-               return ""
-           }
-           
-           return pickerContent[index]
+        
+        guard let index = selectedIndex else {
+            
+            return ""
+        }
+        
+        return pickerContent[index]
     }
     
     func didSelectedPickerContent(at index: Int) {
@@ -490,20 +480,20 @@ class WorkItemReportManager: ReportManager, ChartProvider {
         
         selectedIndex = index
         
+        didChangechartModel?(chartViewModel())
+        
+        targetWorkLogContentsDidChangeHandler?(contentArray[selectedIndex ?? 0])
+        
         filterDidChangerHandler?(filter)
     }
     
-    var workItem = "UI Design"
-    
-    var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)?
-
     func chartView(didSelected data: String) {
         
-        var filterWorkLogContent: [WorkLogContent] = []
+        filterWorkLogContent = []
         
-        for item in workLogContent {
+        for item in contentArray[selectedIndex ?? 0] {
             
-            if item.date == data && item.workItem == workItem {
+            if item.date == data {
                 
                 filterWorkLogContent.append(item)
             }
@@ -516,58 +506,119 @@ class WorkItemReportManager: ReportManager, ChartProvider {
         
         var beforeSevenDates: [String] = []
         
-        var workItemArray: [WorkLogContent] = []
+        let workContentArray = workLogContent
+        
+        var filterWorkContentarray = workLogContent.sorted(by: { $0.date < $1.date })
         
         var resultDictionary: [String: [WorkLogContent]] = [:]
         
+        for index in 0 ..< workContentArray.count {
+            
+            switch selectedIndex {
+                
+            case 1:
+                
+                if let monthDate = dayFormatter.date(from: filterWorkContentarray[index].date) {
+                    
+                    let monthString = monthFormatter.string(from: monthDate)
+                    
+                    filterWorkContentarray[index].date = monthString
+                    
+                }
+                
+            case 2:
+                
+                if let monthDate = dayFormatter.date(from: filterWorkContentarray[index].date) {
+                    
+                    let monthString = yearFormatter.string(from: monthDate)
+                    
+                    filterWorkContentarray[index].date = monthString
+                    
+                    yearFormatterArray = filterWorkContentarray
+                }
+                
+            default:
+                
+                dayFormatterArray = filterWorkContentarray
+            }
+        }
+        
+        contentArray[selectedIndex ?? 0] = filterWorkContentarray
+        
         for i in 1...7 {
             
-            guard let date = Calendar.current.date(byAdding: .day, value: -i, to: Date()) else {
-                return AAChartModel()
+            switch selectedIndex {
+                
+            case 1:
+                
+                reportDate = Calendar.current.date(byAdding: .month, value: -i, to: Date()) ?? Date()
+                
+                dateString = monthFormatter.string(from: reportDate)
+                
+            case 2:
+                
+                reportDate = Calendar.current.date(byAdding: .year, value: -i, to: Date()) ?? Date()
+                
+                dateString = yearFormatter.string(from: reportDate)
+                
+            default:
+                
+                reportDate = Calendar.current.date(byAdding: .day, value: -i, to: Date()) ?? Date()
+                
+                dateString = dayFormatter.string(from: reportDate)
+                
             }
-            
-            let dateString = dayFormatter.string(from: date)
             
             beforeSevenDates.append(dateString)
             
         }
-                
+        
         beforeSevenDates = beforeSevenDates.sorted(by: { $0 < $1 })
         
-        for item in workLogContent {
+        for item in filterWorkContentarray {
             
-            if item.workItem == workItem {
+            if let logContentArray = resultDictionary[item.workItem] {
                 
-                workItemArray.append(item)
-            }
-        }
-        
-        workItemArray = workItemArray.sorted(by: { $0.date < $1.date })
-        
-        for item in workItemArray {
-            
-            if let logContentArray = resultDictionary[item.date] {
-                
-                resultDictionary[item.date] = logContentArray + [item]
+                resultDictionary[item.workItem] = logContentArray + [item]
                 
             } else {
                 
-                resultDictionary[item.date] = [item]
+                resultDictionary[item.workItem] = [item]
             }
         }
         
         var seriesElement: [Int] = []
         
-        for item in beforeSevenDates {
+        var seriesElements: [[Int]] = [[]]
+        
+        var elements: [AASeriesElement] = []
+        
+        for item in projectDetail.workItems {
             
-            let workHour = resultDictionary[item]?.map{ $0.hour }.reduce(0, { (sum, num) in
-                return sum + num
-            })
+            seriesElement = []
+                        
+            for date in beforeSevenDates {
+                
+                let workHour = resultDictionary[item]?.map{
+                    
+                    if $0.date == date { return $0.hour } else { return 0} }.reduce(0, { (sum, num ) in
+                        
+                        return sum + num
+                    })
+                
+                seriesElement.append(workHour ?? 0)
+            }
             
-            seriesElement.append(workHour ?? 0)
+            seriesElements.append(seriesElement)
+            
         }
         
-        let element = AASeriesElement().name("Item").data(seriesElement)
+        seriesElements.remove(at: 0)
+        
+        for index in 0 ..< seriesElements.count {
+            
+            elements.append(AASeriesElement().name(projectDetail.workItems[index]).data(seriesElements[index]))
+        }
         
         chartModel = AAChartModel()
         chartModel = chartModel.touchEventEnabled(true)
@@ -579,7 +630,7 @@ class WorkItemReportManager: ReportManager, ChartProvider {
             .tooltipValueSuffix("Hour")//the value suffix of the chart tooltip
             .categories(Array(beforeSevenDates))
             .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
-            .series([element])
+            .series(elements)
             .markerSymbolStyle(.borderBlank)
         return chartModel
     }
