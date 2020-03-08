@@ -883,8 +883,8 @@ extension PersonalViewController: UITableViewDelegate {
         switch checkButton {
             
         case 0:
-            
-            workLogVC.projectDetail = self.userProcessingFilterArray[indexPath.row]
+
+            workLogVC.projectDetail = userProcessingFilterArray[indexPath.row]
             
             activityView.startAnimating()
             
@@ -915,7 +915,7 @@ extension PersonalViewController: UITableViewDelegate {
                         
         case 1:
             
-            workLogVC.projectDetail = self.userCompletedArray[indexPath.row]
+            workLogVC.projectDetail = userCompletedArray[indexPath.row]
             
             activityView.startAnimating()
             

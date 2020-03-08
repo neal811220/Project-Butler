@@ -337,12 +337,19 @@ class WorkLogViewController: UIViewController {
     @objc func didTapReportButton() {
         
         guard let reportVC = UIStoryboard.report.instantiateViewController(withIdentifier: "ReportVC") as? ReportViewController else {
+            
+            return
+        }
+        
+        guard let projectDetail = projectDetail else {
             return
         }
         
         reportVC.workLogContent = workLogContent
         
         reportVC.projectDetail = projectDetail
+
+        reportVC.projectMembers = members
         
         self.show(reportVC, sender: nil)
     }

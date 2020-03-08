@@ -185,10 +185,16 @@ class WorkLogContentViewController: UIViewController {
         tableView.reloadData()
         
         guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
+            
             return
         }
         
-        let workLog = WorkLogContent(userID: uid, date: dateText,workItem: workItem, startTime: startText, endTime: endText, problem: problem, workContent: workContent, hour: Int(durationH), minute: durationM)
+        guard let userName = CurrentUserInfo.shared.userName else {
+            
+            return
+        }
+        
+        let workLog = WorkLogContent(userID: uid, userName: userName, date: dateText,workItem: workItem, startTime: startText, endTime: endText, problem: problem, workContent: workContent, hour: Int(durationH), minute: durationM)
         
         ProjectManager.shared.uploadUserWorkLog(documentID: documentID, workLogContent: workLog) { (result) in
             

@@ -52,6 +52,8 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                         return
                     }
                     
+                    UserDefaults.standard.set(uid, forKey: "userID")
+                    
                     UserManager.shared.addGeneralUserData(name: String(userName), email: strongSelf.emailText, imageUrl: userImage, uid: uid)
                     
                     PBProgressHUD.showSuccess(text: "Sign up Success!", viewController: strongSelf)

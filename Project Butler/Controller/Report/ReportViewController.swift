@@ -59,29 +59,23 @@ class ReportViewController: UIViewController {
         return collectionView
     }()
     
-    var indicatorView: UIView = {
-
-        let view = UIView()
-
-        view.backgroundColor = UIColor.Black1
-
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        return view
-    }()
-    
     var workLogContent: [WorkLogContent] = []
+        
+    var projectDetail: ProjectDetail!
     
-    var projectDetail: ProjectDetail?
+    var projectMembers: [AuthInfo] = []
     
     var titleCollectionViewArray = ["Project", "User", "Item"]
     
     var titleButtonIndexPath: IndexPath?
     
     lazy var reportManagers: [ChartProvider] = [
-        DateReportManager(workLogContent: workLogContent),
-        PersonalReportManager(workLogContent: workLogContent),
-        WorkItemReportManager(workLogContent: workLogContent)
+        
+        DateReportManager(workLogContent: workLogContent, projectMembers: projectMembers, projectDetail: projectDetail),
+        
+        PersonalReportManager(workLogContent: workLogContent, projectMembers: projectMembers, projectDetail: projectDetail),
+        
+        WorkItemReportManager(workLogContent: workLogContent, projectMembers: projectMembers, projectDetail: projectDetail),
     ]
         
     override func viewDidLoad() {
@@ -96,9 +90,7 @@ class ReportViewController: UIViewController {
         setupTitleCollectionView()
         
         setupContentCollectionView()
-        
-//        setupIndicatorView()
-        
+                
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -133,20 +125,6 @@ class ReportViewController: UIViewController {
         ])
     }
     
-    func setupIndicatorView() {
-
-        titlecollectionView.addSubview(indicatorView)
-
-//        indicatorView.frame = CGRect(x: (view.frame.width / 8), y: 42, width: view.frame.width / 6, height: 2)
-
-        NSLayoutConstraint.activate([
-            indicatorView.bottomAnchor.constraint(equalTo: titlecollectionView.bottomAnchor),
-            indicatorView.leftAnchor.constraint(equalTo: titlecollectionView.leftAnchor),
-            indicatorView.rightAnchor.constraint(equalTo: titlecollectionView.rightAnchor),
-            indicatorView.heightAnchor.constraint(equalToConstant: 3)
-        ])
-    }
-    
     @objc func handleNext(sender: UIButton) {
         
         guard let indexPath = titleButtonIndexPath else {
@@ -154,7 +132,7 @@ class ReportViewController: UIViewController {
             return
         }
         contentcollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-//        titleButtonIndexPath
+        
     }
     
 }
@@ -213,8 +191,10 @@ extension ReportViewController: UICollectionViewDataSource {
             addChild(reportContentVC)
             
             reportContentVC.reportManager = reportManagers[indexPath.row]
-            
+                        
             reportContentVC.projectDetail = projectDetail
+            
+            reportContentVC.projectMembers = projectMembers
             
             guard let reportView = reportContentVC.view else { return cell }
             

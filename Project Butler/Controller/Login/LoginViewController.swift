@@ -439,22 +439,25 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                     // The Apple ID credential is valid. Show Home UI Here
                     if firstName == nil || familyName == nil || email == nil {
                         
-                        strongSelf.activityView.startAnimating()
-                        
-                        CurrentUserInfo.shared.getLoginUserInfo(uid: userIdentifier) { (result) in
+                        DispatchQueue.main.async {
                             
-                            switch result {
+                            strongSelf.activityView.startAnimating()
+                            
+                            CurrentUserInfo.shared.getLoginUserInfo(uid: userIdentifier) { (result) in
                                 
-                            case .success:
+                                switch result {
+                                    
+                                case .success:
+                                    
+                                    print("Success")
+                                    
+                                case .failure(let error):
+                                    
+                                    print(error)
+                                }
                                 
-                                print("Success")
-                                
-                            case .failure(let error):
-                                
-                                print(error)
+                                strongSelf.activityView.stopAnimating()
                             }
-                            
-                            strongSelf.activityView.stopAnimating()
                         }
                         
                     } else {
@@ -464,9 +467,10 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                             return
                         }
                         
-                        UserManager.shared.addGeneralUserData(name: firstName! + familyName!, email: email!, imageUrl: image, uid: userIdentifier)
-                        
                         UserDefaults.standard.set(userIdentifier, forKey: "userID")
+                        
+                        UserManager.shared.addGeneralUserData(name: familyName! + firstName!, email: email!, imageUrl: image, uid: userIdentifier)
+                        
                     }
                     
                     strongSelf.transitionToTabBar()

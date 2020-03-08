@@ -227,7 +227,7 @@ class UserManager {
     
     func uploadImage(image: UIImage, completion: @escaping (Result<Void, Error>) -> Void) {
         
-        guard let uid = Auth.auth().currentUser?.uid else {
+        guard let uid = UserDefaults.standard.value(forKey: "userID") else {
             return
         }
         

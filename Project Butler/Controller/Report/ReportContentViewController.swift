@@ -53,6 +53,8 @@ class ReportContentViewController: UIViewController {
     
     var projectDetail: ProjectDetail?
     
+    var projectMembers: [AuthInfo] = []
+    
     var filterWorkLogContent: [WorkLogContent] = []
     
     var reportManager: ChartProvider? {
@@ -111,6 +113,8 @@ class ReportContentViewController: UIViewController {
         guard let reportManager = reportManager else { return }
         
         chartView = AAChartView()
+        
+        chartView.scrollEnabled = true
         
         chartView.delegate = self as AAChartViewDelegate
         
