@@ -101,7 +101,7 @@ class WorkLogViewController: UIViewController {
         return collectionView
     }()
     
-    let defaultStackView: UIStackView = {
+    let placeholderStackView: UIStackView = {
         
         let stackView = UIStackView()
         
@@ -112,7 +112,7 @@ class WorkLogViewController: UIViewController {
         return stackView
     }()
     
-    let defaultImage: UIImageView = {
+    let placeholderImage: UIImageView = {
         
         let image = UIImage.asset(.Icons_32px_LogDefaultImage)
         
@@ -125,7 +125,7 @@ class WorkLogViewController: UIViewController {
         return imageView
     }()
     
-    let defauLabel: UILabel = {
+    let placeholderLabel: UILabel = {
         
         let label = UILabel()
         
@@ -144,14 +144,16 @@ class WorkLogViewController: UIViewController {
     
     var projectDetail: ProjectDetail?
     
-    var workLogContent: [WorkLogContent] = [] {
+    var personalWorkLogContent: [WorkLogContent] = [] {
         
         didSet {
             
-            defaultStackView.isHidden = true
+            placeholderStackView.isHidden = true
             
         }
     }
+
+    var projectWorkLogContent: [WorkLogContent] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -170,7 +172,7 @@ class WorkLogViewController: UIViewController {
         
         projectlabel.text = projectDetail?.projectName
         
-        fetchUserWorkLog(porjectID: projectDetail?.projectID ?? "")
+        fetchPersonalWorkLog(porjectID: projectDetail?.projectID ?? "")
         
         // Do any additional setup after loading the view.
     }
@@ -178,13 +180,13 @@ class WorkLogViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        if workLogContent.count != 0 {
+        if personalWorkLogContent.count != 0 {
             
-            defaultStackView.isHidden = true
+            placeholderStackView.isHidden = true
             
         } else {
             
-            defaultStackView.isHidden = false
+            placeholderStackView.isHidden = false
         }
         
     }
@@ -251,17 +253,48 @@ class WorkLogViewController: UIViewController {
         ])
     }
     
-    func fetchUserWorkLog(porjectID: String) {
+    func setupDufaultStackView() {
         
-        ProjectManager.shared.fetchUserProjectWorkLog(projectID: porjectID) { (result) in
+        view.addSubview(placeholderStackView)
+        
+        placeholderStackView.addSubview(placeholderImage)
+        
+        placeholderStackView.addSubview(placeholderLabel)
+        
+        NSLayoutConstraint.activate([
+            placeholderStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            placeholderStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            placeholderStackView.widthAnchor.constraint(equalToConstant: view.frame.width / 3),
+            placeholderStackView.heightAnchor.constraint(equalToConstant: view.frame.width / 3)
+        ])
+        
+        NSLayoutConstraint.activate([
+            placeholderImage.topAnchor.constraint(equalTo: placeholderStackView.topAnchor),
+            placeholderImage.leftAnchor.constraint(equalTo: placeholderStackView.leftAnchor),
+            placeholderImage.rightAnchor.constraint(equalTo: placeholderStackView.rightAnchor),
+            placeholderImage.heightAnchor.constraint(equalToConstant: view.frame.width / 4)
+        ])
+        
+        NSLayoutConstraint.activate([
+            placeholderLabel.bottomAnchor.constraint(equalTo: placeholderStackView.bottomAnchor),
+            placeholderLabel.rightAnchor.constraint(equalTo: placeholderStackView.rightAnchor),
+            placeholderLabel.leftAnchor.constraint(equalTo: placeholderStackView.leftAnchor),
+            placeholderLabel.topAnchor.constraint(equalTo: placeholderImage.bottomAnchor)
+        ])
+        
+    }
+    
+    func fetchPersonalWorkLog(porjectID: String) {
+        
+        ProjectManager.shared.fetchPersonalProjectWorkLog(projectID: porjectID) { (result) in
             
             switch result {
                 
             case .success(let data):
                 
-                self.workLogContent = data
+                self.personalWorkLogContent = data
                 
-                self.workLogContent = self.workLogContent.sorted(by: {
+                self.personalWorkLogContent = self.personalWorkLogContent.sorted(by: {
                     $0.date < $1.date
                 })
                                 
@@ -274,35 +307,29 @@ class WorkLogViewController: UIViewController {
         }
     }
     
-    func setupDufaultStackView() {
+    func fetchProjectWorkLog(projectID: String, completion: @escaping (Result<Void, Error>) -> Void ) {
         
-        view.addSubview(defaultStackView)
-        
-        defaultStackView.addSubview(defaultImage)
-        
-        defaultStackView.addSubview(defauLabel)
-        
-        NSLayoutConstraint.activate([
-            defaultStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            defaultStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            defaultStackView.widthAnchor.constraint(equalToConstant: view.frame.width / 3),
-            defaultStackView.heightAnchor.constraint(equalToConstant: view.frame.width / 3)
-        ])
-        
-        NSLayoutConstraint.activate([
-            defaultImage.topAnchor.constraint(equalTo: defaultStackView.topAnchor),
-            defaultImage.leftAnchor.constraint(equalTo: defaultStackView.leftAnchor),
-            defaultImage.rightAnchor.constraint(equalTo: defaultStackView.rightAnchor),
-            defaultImage.heightAnchor.constraint(equalToConstant: view.frame.width / 4)
-        ])
-        
-        NSLayoutConstraint.activate([
-            defauLabel.bottomAnchor.constraint(equalTo: defaultStackView.bottomAnchor),
-            defauLabel.rightAnchor.constraint(equalTo: defaultStackView.rightAnchor),
-            defauLabel.leftAnchor.constraint(equalTo: defaultStackView.leftAnchor),
-            defauLabel.topAnchor.constraint(equalTo: defaultImage.bottomAnchor)
-        ])
-        
+        ProjectManager.shared.fetchProjectWorkLog(projectID: projectID) { [weak self] (result) in
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
+            switch result {
+                
+            case .success(let data):
+                
+                strongSelf.projectWorkLogContent = data
+                
+                completion(.success(()))
+                
+            case .failure(let error):
+                
+                print(error)
+                
+                completion(.failure(error))
+            }
+        }
     }
     
     @objc func didTapAddButton() {
@@ -325,7 +352,7 @@ class WorkLogViewController: UIViewController {
         
         workLogContentVC.passContentData = {
             
-            self.workLogContent.append($0)
+            self.personalWorkLogContent.append($0)
             
             self.tableView.reloadData()
             
@@ -345,15 +372,31 @@ class WorkLogViewController: UIViewController {
             return
         }
         
-        reportVC.workLogContent = workLogContent
-        
-        reportVC.projectDetail = projectDetail
+        fetchProjectWorkLog(projectID: projectDetail.projectID) { [weak self] (result) in
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
+            
+            switch result {
+                
+            case .success:
+                                
+                reportVC.workLogContent = strongSelf.projectWorkLogContent
+                
+                reportVC.projectDetail = projectDetail
 
-        reportVC.projectMembers = members
-        
-        self.show(reportVC, sender: nil)
+                reportVC.projectMembers = strongSelf.members
+                
+                strongSelf.show(reportVC, sender: nil)
+                
+            case .failure(let error):
+                
+                print(error)
+            }
+        }
     }
-    
 }
 
 extension WorkLogViewController: UICollectionViewDataSource {
@@ -415,7 +458,7 @@ extension WorkLogViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return workLogContent.count
+        return personalWorkLogContent.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -428,24 +471,24 @@ extension WorkLogViewController: UITableViewDataSource {
         
         cell.timeLabel.textColor = UIColor(patternImage: UIImage(named: projectDetail!.color)!)
         
-        cell.dateLabel.text = workLogContent[indexPath.row].date
+        cell.dateLabel.text = personalWorkLogContent[indexPath.row].date
         
-        cell.timeLabel.text = "\(workLogContent[indexPath.row].startTime) - \(workLogContent[indexPath.row].endTime)"
+        cell.timeLabel.text = "\(personalWorkLogContent[indexPath.row].startTime) - \(personalWorkLogContent[indexPath.row].endTime)"
         
-        if workLogContent[indexPath.row].hour == 0 {
+        if personalWorkLogContent[indexPath.row].hour == 0 {
             
-            cell.timeSpentLabel.text = "\(workLogContent[indexPath.row].minute) Minute"
+            cell.timeSpentLabel.text = "\(personalWorkLogContent[indexPath.row].minute) Minute"
             
         } else {
             
-            cell.timeSpentLabel.text = "\(workLogContent[indexPath.row].hour) Hour, \(workLogContent[indexPath.row].minute) Minute"
+            cell.timeSpentLabel.text = "\(personalWorkLogContent[indexPath.row].hour) Hour, \(personalWorkLogContent[indexPath.row].minute) Minute"
         }
         
-        cell.workItemLabel.text = workLogContent[indexPath.row].workItem
+        cell.workItemLabel.text = personalWorkLogContent[indexPath.row].workItem
         
-        cell.workContentLabel.text = workLogContent[indexPath.row].workContent
+        cell.workContentLabel.text = personalWorkLogContent[indexPath.row].workContent
         
-        cell.problemLabel.text = workLogContent[indexPath.row].problem
+        cell.problemLabel.text = personalWorkLogContent[indexPath.row].problem
         
         cell.leftView.backgroundColor = UIColor(patternImage: UIImage(named: projectDetail!.color)!)
         

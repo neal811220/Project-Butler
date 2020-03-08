@@ -119,7 +119,7 @@ class DateReportManager: ReportManager, ChartProvider {
         
         didChangechartModel?(chartViewModel())
                 
-        targetWorkLogContentsDidChangeHandler?(workLogContent)
+        targetWorkLogContentsDidChangeHandler?(contentArray[selectedIndex ?? 0])
             
         filterDidChangerHandler?(filter)
     }
@@ -157,16 +157,18 @@ class DateReportManager: ReportManager, ChartProvider {
                 
             case 1:
                 
-                if let monthDate = dayFormatter.date(from: workContentArray[index].date) {
+                if let monthDate = dayFormatter.date(from: filterWorkContentarray[index].date) {
                     
+                    print(filterWorkContentarray[index].date)
                     let monthString = monthFormatter.string(from: monthDate)
                     
                     filterWorkContentarray[index].date = monthString
+                    print(filterWorkContentarray[index].date)
                 }
                 
             case 2:
                 
-                if let monthDate = dayFormatter.date(from: workContentArray[index].date) {
+                if let monthDate = dayFormatter.date(from: filterWorkContentarray[index].date) {
                     
                     let monthString = yearFormatter.string(from: monthDate)
                     
@@ -177,7 +179,7 @@ class DateReportManager: ReportManager, ChartProvider {
                 
             default:
                 
-                dayFormatterArray = workContentArray
+                dayFormatterArray = filterWorkContentarray
             }
         }
         
@@ -255,7 +257,7 @@ class DateReportManager: ReportManager, ChartProvider {
     }
 }
 
-class PersonalReportManager: ReportManager, ChartProvider {
+class MemberReportManager: ReportManager, ChartProvider {
     
     var didChangechartModel: ((AAChartModel) -> Void)?
     
@@ -264,6 +266,10 @@ class PersonalReportManager: ReportManager, ChartProvider {
     var filterDidChangerHandler: ((String) -> Void)?
     
     var selectedIndex: Int?
+    
+    var filterWorkLogContent: [WorkLogContent] = []
+    
+    var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)?
     
     var currentPickerContent: String {
            
@@ -276,25 +282,23 @@ class PersonalReportManager: ReportManager, ChartProvider {
     }
     
     func didSelectedPickerContent(at index: Int) {
-           
-           let filter = pickerContent[index]
-           
-           selectedIndex = index
-           
-           didChangechartModel?(chartViewModel())
-                   
-           targetWorkLogContentsDidChangeHandler?(workLogContent)
-               
-           filterDidChangerHandler?(filter)
-       }
+        
+        let filter = pickerContent[index]
+        
+        selectedIndex = index
+        
+        didChangechartModel?(chartViewModel())
+                
+        targetWorkLogContentsDidChangeHandler?(contentArray[selectedIndex ?? 0])
+            
+        filterDidChangerHandler?(filter)
+    }
     
-    var targetWorkLogContentsDidChangeHandler: (([WorkLogContent]) -> Void)?
-
     func chartView(didSelected data: String) {
         
-        var filterWorkLogContent: [WorkLogContent] = []
+        filterWorkLogContent = []
         
-        for item in workLogContent {
+        for item in contentArray[selectedIndex ?? 0] {
             
             if item.date == data {
                 
@@ -335,7 +339,7 @@ class PersonalReportManager: ReportManager, ChartProvider {
                 
             case 1:
                 
-                if let monthDate = dayFormatter.date(from: workContentArray[index].date) {
+                if let monthDate = dayFormatter.date(from: filterWorkContentarray[index].date) {
                     
                     let monthString = monthFormatter.string(from: monthDate)
                     
@@ -345,7 +349,7 @@ class PersonalReportManager: ReportManager, ChartProvider {
                 
             case 2:
                 
-                if let monthDate = dayFormatter.date(from: workContentArray[index].date) {
+                if let monthDate = dayFormatter.date(from: filterWorkContentarray[index].date) {
                     
                     let monthString = yearFormatter.string(from: monthDate)
                     
@@ -356,7 +360,7 @@ class PersonalReportManager: ReportManager, ChartProvider {
                 
             default:
                 
-                dayFormatterArray = workContentArray
+                dayFormatterArray = filterWorkContentarray
             }
         }
 
@@ -444,16 +448,12 @@ class PersonalReportManager: ReportManager, ChartProvider {
             
             elements.append(AASeriesElement().name(usersName[index]).data(seriesElements[index]))
         }
-        
-//        let element = [AASeriesElement().name("蕭璨曜").data(seriesElement),
-//                      ]
-        
+
         chartModel = AAChartModel()
         chartModel = chartModel.touchEventEnabled(true)
             .chartType(.area)//Can be any of the chart types listed under `AAChartType`.
             .animationType(.bounce)
-//            .title("TITLE")//The chart title
-//            .subtitle("subtitle")//The chart subtitle
+            .title("")//The chart title
             .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
             .tooltipValueSuffix("Hour")//the value suffix of the chart tooltip
             .categories(Array(beforeSevenDates))

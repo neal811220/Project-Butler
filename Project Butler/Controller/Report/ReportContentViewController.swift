@@ -173,9 +173,7 @@ extension ReportContentViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "WorkLogCell", for: indexPath) as? WorkLogTableViewCell else {
                 return UITableViewCell()
             }
-            
-            filterWorkLogContent = filterWorkLogContent.sorted(by: { return $0.startTime < $1.startTime })
-            
+                        
             cell.dateLabel.textColor = UIColor(patternImage: UIImage(named: projectDetail!.color)!)
             
             cell.timeLabel.textColor = UIColor(patternImage: UIImage(named: projectDetail!.color)!)

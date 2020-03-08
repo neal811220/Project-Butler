@@ -73,7 +73,7 @@ class ReportViewController: UIViewController {
         
         DateReportManager(workLogContent: workLogContent, projectMembers: projectMembers, projectDetail: projectDetail),
         
-        PersonalReportManager(workLogContent: workLogContent, projectMembers: projectMembers, projectDetail: projectDetail),
+        MemberReportManager(workLogContent: workLogContent, projectMembers: projectMembers, projectDetail: projectDetail),
         
         WorkItemReportManager(workLogContent: workLogContent, projectMembers: projectMembers, projectDetail: projectDetail),
     ]

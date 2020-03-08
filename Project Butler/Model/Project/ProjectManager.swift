@@ -37,9 +37,7 @@ class ProjectManager {
     var userProject: [ProjectDetail] = []
     
     var projectMembers: [AuthInfo] = []
-    
-    var workItemContent: [WorkLogContent] = []
-    
+        
     var workLogContent: [WorkLogContent] = []
     
     func clearAll () {
@@ -89,11 +87,21 @@ class ProjectManager {
         
     }
     
-    func fetchTapProjectDetail(projectID: String, completion: @escaping (Result<[WorkLogContent], Error>) -> Void) {
+    // MARK: - Read Data
+    
+    func fetchProjectWorkLog(projectID: String, completion: @escaping (Result<[WorkLogContent], Error>) -> Void) {
         
-        db.collection("projects").document(projectID).collection("workLogs").getDocuments { (snapshot, error) in
+        workLogContent = []
+        
+        db.collection("projects").document(projectID).collection("workLogs").getDocuments { [weak self] (snapshot, error) in
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
             
             guard let snapshot = snapshot, error == nil else {
+                
                 return
             }
             
@@ -102,33 +110,36 @@ class ProjectManager {
                 do {
                     
                     guard let data = try document.data(as: WorkLogContent.self, decoder: Firestore.Decoder()) else {
+                        
                         return
                     }
                     
-                    self.workLogContent.append(data)
+                    strongSelf.workLogContent.append(data)
                     
                 } catch {
                     
                     completion(.failure(error))
                     
-                    print(error)
                 }
             }
             
-            completion(.success(self.workLogContent))
+            completion(.success(strongSelf.workLogContent))
         }
     }
     
-    // MARK: - Read Data
-    
-    func fetchUserProjectWorkLog(projectID: String, completion: @escaping (Result<[WorkLogContent], Error>) -> Void) {
+    func fetchPersonalProjectWorkLog(projectID: String, completion: @escaping (Result<[WorkLogContent], Error>) -> Void) {
         
-        workItemContent = []
+        workLogContent = []
         
         guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
             return
         }
-        db.collection("projects").document(projectID).collection("workLogs").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
+        db.collection("projects").document(projectID).collection("workLogs").whereField("userID", isEqualTo: uid).getDocuments { [weak self] (snapshot, error) in
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
             
             guard let snapshot = snapshot, error == nil else {
                 return
@@ -142,7 +153,7 @@ class ProjectManager {
                         return
                     }
                     
-                    self.workItemContent.append(data)
+                    strongSelf.workLogContent.append(data)
                     
                 } catch {
                     
@@ -150,7 +161,7 @@ class ProjectManager {
                     
                 }
                 
-                completion(.success(self.workItemContent))
+                completion(.success(strongSelf.workLogContent))
             }
             
         }
@@ -319,8 +330,13 @@ class ProjectManager {
          
          clearAll()
          
-         db.collection("users").document(uid).collection("friends").whereField("userEmail", isGreaterThanOrEqualTo: text).whereField("userEmail", isLessThan: nextWord).getDocuments { (snapshot, error) in
+         db.collection("users").document(uid).collection("friends").whereField("userEmail", isGreaterThanOrEqualTo: text).whereField("userEmail", isLessThan: nextWord).getDocuments { [weak self] (snapshot, error) in
              
+            guard let strongSelf = self else {
+                
+                return
+            }
+            
              guard let snapshot = snapshot, error == nil else {
                  
                  completion(.failure(error!))
@@ -333,7 +349,7 @@ class ProjectManager {
                      
                      guard let data = try document.data(as: FriendDetail.self, decoder: Firestore.Decoder()) else { return }
                      
-                     self.filterArray.append(data)
+                     strongSelf.filterArray.append(data)
                      
                  } catch {
                      
@@ -342,7 +358,7 @@ class ProjectManager {
                  }
              }
              
-             completion(.success(self.filterArray))
+             completion(.success(strongSelf.filterArray))
              
          }
          
