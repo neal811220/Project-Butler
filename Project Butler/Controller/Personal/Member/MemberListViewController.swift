@@ -115,6 +115,7 @@ class MemberListViewController: UIViewController {
             if isLeader == true {
                 
                 barButton = UIBarButtonItem(title: MemberButtonStatus.invite.rawValue, style: .done, target: self, action: #selector(didTapDoneBarButton))
+                barButton.tintColor = UIColor.B2
                 
             } else {
                 

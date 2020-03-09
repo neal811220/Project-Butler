@@ -91,6 +91,7 @@
 		18FAC541240CF1F500BF38EE /* NewFriendListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FAC540240CF1F500BF38EE /* NewFriendListViewController.swift */; };
 		18FC196F2405191900DF4122 /* SignupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC196E2405191900DF4122 /* SignupTableViewCell.swift */; };
 		18FC19712405193D00DF4122 /* ResetPasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC19702405193D00DF4122 /* ResetPasswordTableViewCell.swift */; };
+		18FE8C3B24166F44000CE162 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FE8C3A24166F44000CE162 /* UIView+Extension.swift */; };
 		18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */; };
 		18FFB56523E175E2004B43C0 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 18FFB56423E175E2004B43C0 /* FacebookLogin */; };
 		85E28742B6924B98277E4719 /* Pods_Project_Butler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7B481A550B741A992B2F45 /* Pods_Project_Butler.framework */; };
@@ -184,6 +185,7 @@
 		18FAC540240CF1F500BF38EE /* NewFriendListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFriendListViewController.swift; sourceTree = "<group>"; };
 		18FC196E2405191900DF4122 /* SignupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupTableViewCell.swift; sourceTree = "<group>"; };
 		18FC19702405193D00DF4122 /* ResetPasswordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordTableViewCell.swift; sourceTree = "<group>"; };
+		18FE8C3A24166F44000CE162 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWapper.swift; sourceTree = "<group>"; };
 		31E235C089173A4059097F39 /* Pods-Project Butler.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project Butler.debug.xcconfig"; path = "Target Support Files/Pods-Project Butler/Pods-Project Butler.debug.xcconfig"; sourceTree = "<group>"; };
 		DB7B481A550B741A992B2F45 /* Pods_Project_Butler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Project_Butler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -378,6 +380,7 @@
 			isa = PBXGroup;
 			children = (
 				18D93DC623EEA225005398B7 /* UIColor+Extension.swift */,
+				18FE8C3A24166F44000CE162 /* UIView+Extension.swift */,
 				1895D75323E3C5F500207016 /* UIStoryboard+Extension.swift */,
 				18A059BE23E3C6FB002860B6 /* UIImage+Extension.swift */,
 			);
@@ -773,6 +776,7 @@
 				18A059CC23E3CDC7002860B6 /* ReportViewController.swift in Sources */,
 				18F0E37D23F3F2A000149F8F /* SelectMemberTableViewCell.swift in Sources */,
 				18D93DCA23EEC268005398B7 /* ProcessingTableViewCell.swift in Sources */,
+				18FE8C3B24166F44000CE162 /* UIView+Extension.swift in Sources */,
 				18D93DC723EEA225005398B7 /* UIColor+Extension.swift in Sources */,
 				1844082623E56F4100A879F7 /* UserManager.swift in Sources */,
 				18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */,

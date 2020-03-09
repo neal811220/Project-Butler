@@ -51,7 +51,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     }()
     
     let processingButton: UIButton = {
-       
+        
         let button = UIButton()
         
         button.setTitle("Processing", for: .normal)
@@ -72,7 +72,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     }()
     
     let completedButton: UIButton = {
-       
+        
         let button = UIButton()
         
         button.setTitle("Completed", for: .normal)
@@ -104,7 +104,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     }()
     
     let searchbarStackView: UIStackView = {
-       
+        
         let stackView = UIStackView()
         
         stackView.axis = NSLayoutConstraint.Axis.horizontal
@@ -115,7 +115,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     }()
     
     var activityView: UIActivityIndicatorView = {
-       
+        
         let activityView = UIActivityIndicatorView()
         
         activityView.translatesAutoresizingMaskIntoConstraints = false
@@ -203,7 +203,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     var userProcessingFilterArray: [ProjectDetail] = []
     
     var userCompletedFilterArray: [ProjectDetail] = []
-        
+    
     var indicatorViewCenterXConstraint: NSLayoutConstraint?
     
     var checkButton = 0
@@ -227,6 +227,8 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         self.navigationItem.title = LargeTitle.personalProject.rawValue
         
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
+        
+        navigationController?.navigationBar.tintColor = UIColor.B2
         
         setupStackView()
         
@@ -329,6 +331,11 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     }
     
     func refreshLoader() {
+        
+        if searchLeaderButton.isSelected {
+                        
+            searchLeaderButton.isSelected = false
+        }
         
         clearAllArray()
         
@@ -495,7 +502,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
             case .success(let data):
                 
                 strongSelf.userProcessingArray = data
-                                
+                
                 strongSelf.userProcessingArray = strongSelf.userProcessingArray.sorted(by: { $0.startDate > $1.startDate })
                 
                 strongSelf.userProcessingFilterArray = strongSelf.userProcessingArray
@@ -513,22 +520,22 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     }
     
     func fetchUserCompletedProject() {
-
+        
         activityView.startAnimating()
-
+        
         refreshGroup.enter()
-
+        
         ProjectManager.shared.fetchUserCompletedProjects { [weak self] (result) in
-
+            
             guard let strongSelf = self else {
-
+                
                 return
             }
-
+            
             switch result {
-
+                
             case .success(let data):
-
+                
                 strongSelf.userCompletedArray = data
                 
                 strongSelf.userCompletedArray = strongSelf.userCompletedArray.sorted(by: { $0.startDate > $1.startDate })
@@ -536,15 +543,15 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 strongSelf.userCompletedFilterArray = strongSelf.userCompletedArray
                 
             case .failure(let error):
-
+                
                 print(error)
-
+                
             }
-
+            
             strongSelf.activityView.stopAnimating()
-
+            
             strongSelf.refreshGroup.leave()
-
+            
         }
     }
     
@@ -566,9 +573,9 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
             switch result {
                 
             case.success(let data):
-                                    
+                
                 completion(.success(data))
-
+                
             case .failure(let error):
                 
                 print(error)
@@ -586,6 +593,42 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         searchLeaderButton.isSelected.toggle()
         
+        switch checkButton {
+            
+        case 0:
+            
+            if searchLeaderButton.isSelected == true {
+                
+                userProcessingFilterArray = userProcessingFilterArray.filter({ return $0.projectLeaderID == CurrentUserInfo.shared.userID})
+                
+            } else {
+                
+                userProcessingFilterArray = userProcessingArray
+            }
+            
+        case 1:
+            
+            if searchLeaderButton.isSelected == true {
+                
+                
+                userCompletedFilterArray = userCompletedFilterArray.filter({
+                    
+                    return $0.projectLeaderID == CurrentUserInfo.shared.userID
+                })
+                
+            } else {
+                
+                userCompletedFilterArray = userCompletedArray
+                
+            }
+            
+        default:
+            
+            break
+        }
+        
+        tableView.reloadData()
+        
     }
     
     func setupSearchBar() {
@@ -600,7 +643,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         searchBarStackViewHightConstraint = searchbarStackView.heightAnchor.constraint(equalToConstant: 0)
         NSLayoutConstraint.activate([
-           
+            
             searchbarStackView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20),
             
             searchbarStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
@@ -707,7 +750,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
             indicatorView.heightAnchor.constraint(equalToConstant: 3),
             
             indicatorView.widthAnchor.constraint(equalToConstant: (view.frame.width / 3) ),
-           
+            
             indicatorViewCenterXConstraint!
         ])
     }
@@ -747,7 +790,7 @@ extension PersonalViewController: UITableViewDataSource {
             
             cell.selectionStyle = .none
             
-            if searchLeaderStaus {
+            if searchLeaderButton.isSelected {
                 
                 cell.leaderImage.isHidden = false
                 
@@ -812,10 +855,14 @@ extension PersonalViewController: UITableViewDataSource {
             
             cell.selectionStyle = .none
             
-            if searchLeaderStaus {
+            if searchLeaderButton.isSelected {
+                
                 cell.leaderImage.isHidden = false
+                
             } else {
+                
                 cell.leaderImage.isHidden = true
+                
             }
             
             cell.transitionToMemberVC = { [weak self] _ in
@@ -886,7 +933,7 @@ extension PersonalViewController: UITableViewDelegate {
         switch checkButton {
             
         case 0:
-
+            
             workLogVC.projectDetail = userProcessingFilterArray[indexPath.row]
             
             activityView.startAnimating()
@@ -915,7 +962,7 @@ extension PersonalViewController: UITableViewDelegate {
                 
                 strongSelf.show(workLogVC, sender: nil)
             }
-                        
+            
         case 1:
             
             workLogVC.projectDetail = userCompletedFilterArray[indexPath.row]

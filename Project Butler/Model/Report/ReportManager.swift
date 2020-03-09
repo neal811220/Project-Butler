@@ -19,6 +19,7 @@ class ReportManager {
     var projectDetail: ProjectDetail
     
     init(workLogContent: [WorkLogContent], projectMembers: [AuthInfo], projectDetail: ProjectDetail) {
+        
         self.workLogContent = workLogContent
         
         self.projectMembers = projectMembers
@@ -240,16 +241,26 @@ class DateReportManager: ReportManager, ChartProvider {
         let element = AASeriesElement().name("Project").data(seriesElement)
         
         chartModel = AAChartModel()
+        
         chartModel = chartModel.touchEventEnabled(true)
+            
             .chartType(.line)//Can be any of the chart types listed under `AAChartType`.
+            
             .animationType(.bounce)
+            
             .title(workLogName)//The chart title
             //        .subtitle("subtitle")//The chart subtitle
+            
             .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
+            
             .tooltipValueSuffix("Hour")//the value suffix of the chart tooltip
+            
             .categories(Array(beforeSevenDates))
+            
             .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
+            
             .series([element])
+            
             .markerSymbol(.diamond)
         return chartModel
     }

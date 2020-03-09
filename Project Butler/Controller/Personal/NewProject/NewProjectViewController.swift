@@ -96,6 +96,8 @@ class NewProjectViewController: UIViewController {
         super.viewDidLoad()
         let saveBarButton = UIBarButtonItem(title: "SAVE", style: .done, target: self, action: #selector(didTapSaveBarButton))
         
+        saveBarButton.tintColor = UIColor.B2
+        
         navigationController?.navigationBar.prefersLargeTitles = true
         
         navigationItem.title = LargeTitle.newProject.rawValue
@@ -103,6 +105,8 @@ class NewProjectViewController: UIViewController {
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
         
         navigationItem.rightBarButtonItem = saveBarButton
+        
+        navigationController?.navigationBar.tintColor = UIColor.B2
         
         setupTableView()
         
@@ -131,9 +135,13 @@ class NewProjectViewController: UIViewController {
         view.addSubview(activityView)
         
         NSLayoutConstraint.activate([
+           
             activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
             activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
             activityView.heightAnchor.constraint(equalToConstant: view.frame.width / 10),
+            
             activityView.widthAnchor.constraint(equalToConstant: view.frame.width / 10)
         ])
     }
@@ -147,13 +155,19 @@ class NewProjectViewController: UIViewController {
         NSLayoutConstraint.activate([
             
             backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+           
             backgroundView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            
             backgroundView.rightAnchor.constraint(equalTo: view.rightAnchor),
+           
             backgroundView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             tableView.topAnchor.constraint(equalTo: backgroundView.topAnchor),
+            
             tableView.leftAnchor.constraint(equalTo: backgroundView.leftAnchor),
+            
             tableView.rightAnchor.constraint(equalTo: backgroundView.rightAnchor),
+            
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
