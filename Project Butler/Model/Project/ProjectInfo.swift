@@ -36,35 +36,12 @@ struct ProjectDetail: Codable {
     let workItems: [String]
     
     let memberImages: [String]
-}
-
-struct CompletedProject {
-    
-    let projectName: String
-    
-    let projectLeaderID: String
-    
-    let startDate: String
-    
-    let endDate: String
-    
-    let projectMember: [DocumentReference]
-    
-    let projectMemberID: [String]
-    
-    let totalDays: Int
-    
-    let totalHours: Int
-    
-    let isCompleted: Bool = false
-    
-    let projectID: String
-    
-    let category: [String]
     
     let completedDate: String
     
-    let completedHour: String
+    let completedHour: Int
+    
+    let completedDays: Int
 }
 
 struct WorkLogContent: Codable {

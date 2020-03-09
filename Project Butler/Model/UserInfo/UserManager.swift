@@ -263,8 +263,6 @@ class UserManager {
                 let urlString = url.absoluteString
                 
                 strongSelf.imageUrl = urlString
-                                
-//                strongSelf.db.collection("users").document(uid).setData(["userImageUrl": urlString], merge: true)
                 
                 completion(.success(()))
             }

@@ -32,9 +32,7 @@ class NewProjectViewController: UIViewController {
         tableView.register(workItemNib, forCellReuseIdentifier: "workItemCell")
         
         tableView.backgroundColor = UIColor.Gray1
-        
-//        tableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        
+                
         tableView.layer.cornerRadius = 60
         
         tableView.separatorStyle = .none
@@ -278,7 +276,10 @@ class NewProjectViewController: UIViewController {
                                     totalHours: hours,
                                     projectID: projectID,
                                     workItems: workItemArray,
-                                    memberImages: memberUrl
+                                    memberImages: memberUrl,
+                                    completedDate: startText,
+                                    completedHour: hours,
+                                    completedDays: totalDays
                                     )
     
         activityView.startAnimating()

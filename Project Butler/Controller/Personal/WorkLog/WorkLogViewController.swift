@@ -140,6 +140,35 @@ class WorkLogViewController: UIViewController {
         return label
     }()
     
+    var completeProjectButton: UIButton = {
+        let button = UIButton(type: .custom)
+        
+        button.setTitle("Complete", for: .normal)
+        
+        button.setTitleColor(UIColor.white, for: .normal)
+        
+        button.backgroundColor = UIColor.B2
+        
+        button.titleLabel?.font = UIFont(name: "AmericanTypewriter-Bold", size: 17)
+        
+        button.layer.borderWidth = 1
+        
+        button.layer.cornerRadius = 10
+        
+        button.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width / 4, height: 34)
+        
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        
+        button.layer.borderColor = UIColor.darkGray.cgColor
+        
+        button.isEnabled = true
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+        
+    }()
+    
     var members: [AuthInfo] = []
     
     var projectDetail: ProjectDetail?
@@ -161,7 +190,7 @@ class WorkLogViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         
         navigationItem.title = LargeTitle.workLog.rawValue
-        
+
         setupProjectTitle()
         
         setupCollectionView()
@@ -174,7 +203,6 @@ class WorkLogViewController: UIViewController {
         
         fetchPersonalWorkLog(porjectID: projectDetail?.projectID ?? "")
         
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -189,6 +217,44 @@ class WorkLogViewController: UIViewController {
             placeholderStackView.isHidden = false
         }
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        setupCompleteProjectButton()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        completeProjectButton.isHidden = true
+    }
+    
+    func setupCompleteProjectButton() {
+        
+        guard let navigationbar = navigationController?.navigationBar else {
+            
+            return
+        }
+        
+        navigationController?.navigationBar.addSubview(completeProjectButton)
+                
+        completeProjectButton.addTarget(self, action: #selector(didTapCompletedProjectButton), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            
+            completeProjectButton.bottomAnchor.constraint(equalTo: navigationbar.bottomAnchor, constant: -10),
+            
+            completeProjectButton.rightAnchor.constraint(equalTo: navigationbar.rightAnchor, constant: -15),
+            
+            completeProjectButton.widthAnchor.constraint(equalToConstant: navigationbar.frame.width / 4),
+            
+            completeProjectButton.heightAnchor.constraint(equalToConstant: navigationbar.frame.height / 3)
+        ])
+        
+        completeProjectButton.addTarget(self, action: #selector(didTapCompletedProjectButton), for:
+            .touchUpInside)
     }
     
     func setupProjectTitle() {
@@ -332,6 +398,22 @@ class WorkLogViewController: UIViewController {
         }
     }
     
+    @objc func didTapCompletedProjectButton() {
+        
+        let completeProjectAlert = UIAlertController(title: "Complete Project", message: "Are you sure you want to change the project status to completed?", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        let submit = UIAlertAction(title: "Submit", style: .default) { (alert) in
+            
+        }
+        
+        completeProjectAlert.addAction(cancel)
+        
+        completeProjectAlert.addAction(submit)
+        
+        present(completeProjectAlert, animated: true, completion: nil)
+    }
+    
     @objc func didTapAddButton() {
         
         guard let workLogContentVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "WorkLogContentVC") as? WorkLogContentViewController else {
@@ -430,6 +512,8 @@ extension WorkLogViewController: UICollectionViewDataSource {
             guard let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "WorkLogCell", for: indexPath) as? WorkLogCollectionViewCell else {
                 return UICollectionViewCell()
             }
+            
+            cell.memberImage.loadImage(members[indexPath.row].userImageUrl)
             
             return cell
         }

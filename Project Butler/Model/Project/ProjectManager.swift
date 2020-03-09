@@ -403,6 +403,23 @@ class ProjectManager {
         }
     }
     
+    func completeProject(projectID: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        db.collection("projects").document(projectID).setData(["isCompleted": true], merge: true) { (error) in
+            
+            if let error = error {
+                
+                print(error)
+                
+                completion(.failure(error))
+                
+            } else {
+                
+                completion(.success(()))
+            }
+        }
+    }
+    
     // MARK: - Delete Data
     
     func removeMember(documentID: String, memberID: String, completion: @escaping (Result<Void, Error>) -> Void) {

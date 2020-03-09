@@ -654,7 +654,10 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     func setupStackView() {
         
-        guard let navigationbar = navigationController?.navigationBar else { return }
+        guard let navigationbar = navigationController?.navigationBar else {
+            
+            return
+        }
         
         navigationController?.navigationBar.addSubview(titleStackView)
         
