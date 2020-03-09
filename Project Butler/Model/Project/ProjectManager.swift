@@ -29,7 +29,7 @@ class ProjectManager {
     var processingProjectsArray: [ProjectDetail] = []
     
     var completedProjectsArray: [ProjectDetail] = []
-        
+    
     var lastSearchText: String? = nil
     
     var isSearching = false
@@ -37,8 +37,21 @@ class ProjectManager {
     var userProject: [ProjectDetail] = []
     
     var projectMembers: [AuthInfo] = []
-        
+    
     var workLogContent: [WorkLogContent] = []
+    
+    var completedHour = 0
+    
+    var completedMinute = 0
+    
+    var dayFormatter: DateFormatter = {
+        
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        return formatter
+    }()
     
     func clearAll () {
         
@@ -47,21 +60,21 @@ class ProjectManager {
     }
     
     // MARK: - Create Data
-         func createNewProject(projectID: String, newProject: ProjectDetail, completion: @escaping (Result<Void, Error>) -> Void) {
-             
-             do {
-                 
-                 try db.collection("projects").document(projectID).setData(from: newProject)
-                 
-             } catch {
-                 
-                 print("Error: \(error)")
-                 
-                 completion(.failure(error))
-             }
-             
-             completion(.success(()))
-         }
+    func createNewProject(projectID: String, newProject: ProjectDetail, completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        do {
+            
+            try db.collection("projects").document(projectID).setData(from: newProject)
+            
+        } catch {
+            
+            print("Error: \(error)")
+            
+            completion(.failure(error))
+        }
+        
+        completion(.success(()))
+    }
     
     // MARK: - Upload Data
     func uploadUserWorkLog(documentID: String, workLogContent: WorkLogContent, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -213,7 +226,7 @@ class ProjectManager {
     func fetchUserProcessingProjects(completion: @escaping (Result<[ProjectDetail], Error>) -> Void) {
         
         guard let uid = UserDefaults.standard.value(forKey: "userID") else { return }
-                
+        
         db.collection("projects").whereField("projectMemberID", arrayContains: uid).whereField("isCompleted", isEqualTo: false).getDocuments { [weak self] (snapshot, error) in
             
             guard let snapshot = snapshot, error == nil else {
@@ -247,7 +260,7 @@ class ProjectManager {
     func fetchUserCompletedProjects(completion: @escaping (Result<[ProjectDetail], Error>) -> Void) {
         
         guard let uid = UserDefaults.standard.value(forKey: "userID") else { return }
-                
+        
         db.collection("projects").whereField("projectMemberID", arrayContains: uid).whereField("isCompleted", isEqualTo: true).getDocuments { [weak self] (snapshot, error) in
             
             guard let snapshot = snapshot, error == nil else {
@@ -309,60 +322,101 @@ class ProjectManager {
     }
     
     func filterSearch(text: String, completion: @escaping (Result<[FriendDetail], Error>) -> Void) {
-         
-         guard lastSearchText != text else {
-             
-             return
-         }
-         
-         lastSearchText = text
-         
-         guard let lastCharacter = text.last else {
-             
-             return
-         }
-         guard let uid = Auth.auth().currentUser?.uid else { return }
-         let nextASICCode = lastCharacter.asciiValue! + 1
-         
-         let nextCharacter = Character(UnicodeScalar(nextASICCode))
-         
-         let nextWord = text.dropLast().appending(String(nextCharacter))
-         
-         clearAll()
-         
-         db.collection("users").document(uid).collection("friends").whereField("userEmail", isGreaterThanOrEqualTo: text).whereField("userEmail", isLessThan: nextWord).getDocuments { [weak self] (snapshot, error) in
-             
+        
+        guard lastSearchText != text else {
+            
+            return
+        }
+        
+        lastSearchText = text
+        
+        guard let lastCharacter = text.last else {
+            
+            return
+        }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let nextASICCode = lastCharacter.asciiValue! + 1
+        
+        let nextCharacter = Character(UnicodeScalar(nextASICCode))
+        
+        let nextWord = text.dropLast().appending(String(nextCharacter))
+        
+        clearAll()
+        
+        db.collection("users").document(uid).collection("friends").whereField("userEmail", isGreaterThanOrEqualTo: text).whereField("userEmail", isLessThan: nextWord).getDocuments { [weak self] (snapshot, error) in
+            
             guard let strongSelf = self else {
                 
                 return
             }
             
-             guard let snapshot = snapshot, error == nil else {
-                 
-                 completion(.failure(error!))
-                 return
-             }
-             
-             for document in snapshot.documents {
-                 
-                 do {
-                     
-                     guard let data = try document.data(as: FriendDetail.self, decoder: Firestore.Decoder()) else { return }
-                     
-                     strongSelf.filterArray.append(data)
-                     
-                 } catch {
-                     
-                     completion(.failure(error))
-                     
-                 }
-             }
-             
-             completion(.success(strongSelf.filterArray))
-             
-         }
-         
-     }
+            guard let snapshot = snapshot, error == nil else {
+                
+                completion(.failure(error!))
+                return
+            }
+            
+            for document in snapshot.documents {
+                
+                do {
+                    
+                    guard let data = try document.data(as: FriendDetail.self, decoder: Firestore.Decoder()) else { return }
+                    
+                    strongSelf.filterArray.append(data)
+                    
+                } catch {
+                    
+                    completion(.failure(error))
+                    
+                }
+            }
+            
+            completion(.success(strongSelf.filterArray))
+            
+        }
+        
+    }
+    
+    func fetchProjectAllHour(projectID: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        completedHour = 0
+        
+        completedMinute = 0
+        
+        db.collection("projects").document(projectID).collection("workLogs").getDocuments { [weak self] (snapshot, error) in
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
+            
+            guard let snapshot = snapshot, error == nil else {
+                
+                return
+            }
+            
+            for document in snapshot.documents {
+                
+                do {
+                    
+                    guard let data = try document.data(as: WorkLogContent.self, decoder: Firestore.Decoder()) else {
+                        
+                        return
+                    }
+                    
+                    strongSelf.completedHour += data.hour
+                    
+                    strongSelf.completedMinute += data.minute
+                    
+                } catch {
+                    
+                    completion(.failure(error))
+                }
+            }
+            
+            completion(.success(()))
+        }
+    }
     
     // MARK: - Update Data
     
@@ -403,23 +457,49 @@ class ProjectManager {
         }
     }
     
-    func completeProject(projectID: String, completion: @escaping (Result<Void, Error>) -> Void) {
+    func completeProject(startDate: String, projectID: String, completion: @escaping (Result<Void, Error>) -> Void) {
         
-        db.collection("projects").document(projectID).setData(["isCompleted": true], merge: true) { (error) in
+        let currentDate = Date()
+        
+        let currendDateString = dayFormatter.string(from: currentDate)
+        
+        fetchProjectAllHour(projectID: projectID) { [weak self] (result) in
             
-            if let error = error {
+            guard let strongSelf = self else {
+                
+                return
+            }
+            
+            switch result {
+                
+            case .success:
+                
+                let hour = strongSelf.completedHour + (strongSelf.completedMinute / 60)
+                
+                let days = hour / 24
+                
+                let data: [String: Any] = ["isCompleted": true, "completedDate": currendDateString, "completedDays": days, "completedHour": hour]
+                
+                strongSelf.db.collection("projects").document(projectID).setData(data, merge: true) { (error) in
+                    
+                    if let error = error {
+                        
+                        print(error)
+                        
+                        completion(.failure(error))
+                        
+                    } else {
+                        
+                        completion(.success(()))
+                    }
+                }
+                
+            case .failure(let error):
                 
                 print(error)
-                
-                completion(.failure(error))
-                
-            } else {
-                
-                completion(.success(()))
             }
         }
     }
-    
     // MARK: - Delete Data
     
     func removeMember(documentID: String, memberID: String, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -427,7 +507,7 @@ class ProjectManager {
         let memberRef = db.collection("users").document(memberID)
         
         db.collection("projects").document(documentID).updateData(["projectMember": FieldValue.arrayRemove([memberRef])]) { (error) in
-          
+            
             if let error = error {
                 
                 completion(.failure(error))
@@ -455,5 +535,5 @@ class ProjectManager {
             }
         }
     }
-    
 }
+

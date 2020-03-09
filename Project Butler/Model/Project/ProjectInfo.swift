@@ -29,7 +29,7 @@ struct ProjectDetail: Codable {
     
     let totalHours: Int
     
-    let isCompleted: Bool = false
+    var isCompleted: Bool = false
     
     let projectID: String
     

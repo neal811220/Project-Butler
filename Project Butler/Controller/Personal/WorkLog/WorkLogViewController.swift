@@ -217,6 +217,11 @@ class WorkLogViewController: UIViewController {
             placeholderStackView.isHidden = false
         }
         
+        if projectDetail?.isCompleted == true {
+            
+            completeProjectButton.isHidden = true
+        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -398,13 +403,51 @@ class WorkLogViewController: UIViewController {
         }
     }
     
+    func completeProject() {
+        
+        guard let projectDetail = projectDetail else {
+            
+            return
+        }
+        
+        PBProgressHUD.pbActivityView(text: "", viewController: self)
+        
+        ProjectManager.shared.completeProject(startDate: projectDetail.startDate, projectID: projectDetail.projectID) { [weak self] (result) in
+            
+            guard let strongSelf = self else {
+                
+                return
+            }
+            
+            switch result {
+                
+            case .success:
+                
+                print("Success")
+                
+                PBProgressHUD.showSuccess(text: "Complete project", viewController: strongSelf)
+                
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                    
+                    strongSelf.navigationController?.popViewController(animated: true)
+                }
+                
+            case .failure(let error):
+                
+                print(error)
+            }
+            
+        }
+    }
+    
     @objc func didTapCompletedProjectButton() {
         
         let completeProjectAlert = UIAlertController(title: "Complete Project", message: "Are you sure you want to change the project status to completed?", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        let submit = UIAlertAction(title: "Submit", style: .default) { (alert) in
+        let submit = UIAlertAction(title: "Submit", style: .default) { [weak self] (alert) in
             
+            self?.completeProject()
         }
         
         completeProjectAlert.addAction(cancel)

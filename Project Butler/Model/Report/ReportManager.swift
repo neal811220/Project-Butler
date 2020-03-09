@@ -159,11 +159,9 @@ class DateReportManager: ReportManager, ChartProvider {
                 
                 if let monthDate = dayFormatter.date(from: filterWorkContentarray[index].date) {
                     
-                    print(filterWorkContentarray[index].date)
                     let monthString = monthFormatter.string(from: monthDate)
                     
                     filterWorkContentarray[index].date = monthString
-                    print(filterWorkContentarray[index].date)
                 }
                 
             case 2:

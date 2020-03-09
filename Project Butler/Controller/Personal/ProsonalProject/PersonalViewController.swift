@@ -863,9 +863,9 @@ extension PersonalViewController: UITableViewDataSource {
             
             cell.hourLabel.text = "\(userCompletedFilterArray[indexPath.row].totalHours) Hour (\(userCompletedFilterArray[indexPath.row].totalDays) Day)"
             
-            cell.completionDateLabel.text = "202022020"
+            cell.completionDateLabel.text = userCompletedFilterArray[indexPath.row].completedDate
             
-            cell.completionHourLable.text = "1111"
+            cell.completionHourLable.text = String(userCompletedFilterArray[indexPath.row].completedHour)
             
             return cell
             
@@ -918,7 +918,7 @@ extension PersonalViewController: UITableViewDelegate {
                         
         case 1:
             
-            workLogVC.projectDetail = userCompletedArray[indexPath.row]
+            workLogVC.projectDetail = userCompletedFilterArray[indexPath.row]
             
             activityView.startAnimating()
             
