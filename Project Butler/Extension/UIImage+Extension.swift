@@ -56,12 +56,14 @@ enum ImageAsset: String {
     
     case Icons_64px_SelectColor
     
-    //PersonalRightButton
+    //PersonalProject
     case Icons_32px_SearchProjectButton
     
     case Icons_32px_AddProjectButton
     
     case Icons_32px_SearhLeader_Selected
+    
+    case Icons_512px_ProjectPlaceholderImage
     
     //MemberButton
     case Icons_64px_Check_Normal

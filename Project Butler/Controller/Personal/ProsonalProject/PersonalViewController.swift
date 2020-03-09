@@ -114,6 +114,36 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         return stackView
     }()
     
+    let placeholderImage: UIImageView = {
+        
+        let image = UIImage.asset(.Icons_512px_ProjectPlaceholderImage)
+        
+        let imageView = UIImageView()
+        
+        imageView.image = image
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
+    
+    let placeholderLabel: UILabel = {
+        
+        let label = UILabel()
+        
+        label.textColor = UIColor.Gray3
+        
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        
+        label.text = "There are currently no projects. Please go to the new project page to add"
+        
+        label.numberOfLines = 0
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
     var activityView: UIActivityIndicatorView = {
         
         let activityView = UIActivityIndicatorView()
@@ -244,7 +274,10 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         refreshLoader()
         
+        setupPlaceholderStackView()
+        
         setupActivityView()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -303,6 +336,8 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         checkButton = sender.tag
         
+        projectisEmpty()
+        
         UIView.animate(withDuration: 0.5) {
             
             self.indicatorViewCenterXConstraint?.isActive = false
@@ -320,6 +355,46 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     @objc func refreshProjectdata() {
         
         refreshLoader()
+    }
+    
+    func projectisEmpty() {
+        
+        switch checkButton {
+            
+        case 0:
+            
+            if userProcessingFilterArray.count == 0 {
+                
+                placeholderImage.isHidden = false
+                
+                placeholderLabel.isHidden = false
+                
+            } else {
+                
+                placeholderImage.isHidden = true
+                
+                placeholderLabel.isHidden = true
+            }
+            
+        case 1:
+            
+            if userCompletedFilterArray.count == 0 {
+                
+                placeholderImage.isHidden = false
+                
+                placeholderLabel.isHidden = false
+                
+            } else {
+                
+                placeholderImage.isHidden = true
+                
+                placeholderLabel.isHidden = true
+            }
+            
+        default:
+            
+            break
+        }
     }
     
     func clearAllArray() {
@@ -351,6 +426,8 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         fetchUserCompletedProject()
         
         refreshGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            
+            self?.projectisEmpty()
             
             self?.tableView.reloadData()
             
@@ -635,6 +712,37 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         }
         
         tableView.reloadData()
+        
+    }
+    
+    func setupPlaceholderStackView() {
+        
+//        view.addSubview(placeholderStackView)
+        
+        view.addSubview(placeholderImage)
+        
+        view.addSubview(placeholderLabel)
+        
+        NSLayoutConstraint.activate([
+
+            placeholderImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+            placeholderImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+
+            placeholderImage.widthAnchor.constraint(equalToConstant: view.frame.width / 3),
+
+            placeholderImage.heightAnchor.constraint(equalToConstant: view.frame.width / 3)
+        ])
+        
+        NSLayoutConstraint.activate([
+            
+            placeholderLabel.topAnchor.constraint(equalTo: placeholderImage.bottomAnchor, constant: 5),
+            
+            placeholderLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+            placeholderLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 2),
+            placeholderLabel.heightAnchor.constraint(equalToConstant: view.frame.width / 3)
+        ])
         
     }
     

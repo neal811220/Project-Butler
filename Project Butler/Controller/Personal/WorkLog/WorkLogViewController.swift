@@ -15,9 +15,7 @@ class WorkLogViewController: UIViewController {
         let label = UILabel()
         
         label.textColor = UIColor.B1
-        
-        label.text = "ChangHua Got Rich"
-        
+                
         label.textAlignment = .center
         
         label.font = UIFont(name: "AmericanTypewriter-Bold", size: 25)
@@ -133,7 +131,9 @@ class WorkLogViewController: UIViewController {
         
         label.font = UIFont.boldSystemFont(ofSize: 20)
         
-        label.text = "Add Work Log"
+        label.text = "Please click the Add button to add a work log"
+        
+        label.numberOfLines = 0
         
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -335,7 +335,7 @@ class WorkLogViewController: UIViewController {
             placeholderStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             placeholderStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             placeholderStackView.widthAnchor.constraint(equalToConstant: view.frame.width / 3),
-            placeholderStackView.heightAnchor.constraint(equalToConstant: view.frame.width / 3)
+            placeholderStackView.heightAnchor.constraint(equalToConstant: view.frame.width / 2)
         ])
         
         NSLayoutConstraint.activate([

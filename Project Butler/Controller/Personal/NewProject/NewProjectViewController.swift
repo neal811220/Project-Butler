@@ -37,37 +37,49 @@ class NewProjectViewController: UIViewController {
         
         tableView.separatorStyle = .none
         
-        
         return tableView
     }()
     
     let backgroundView: UIView = {
-        let bv = UIView()
-        bv.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        bv.layer.cornerRadius = 60
-        bv.backgroundColor = UIColor.Gray1
-        bv.translatesAutoresizingMaskIntoConstraints = false
-        return bv
+        
+        let view = UIView()
+
+        view.backgroundColor = UIColor.Gray1
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
     }()
     
     let startDatePicker: UIDatePicker = {
+        
         let startDatePicker = UIDatePicker()
+        
         startDatePicker.datePickerMode = .date
+        
         startDatePicker.date = NSDate() as Date
+       
         return startDatePicker
     }()
     
     let endDatePicker: UIDatePicker = {
+        
         let endDatePicker = UIDatePicker()
+        
         endDatePicker.datePickerMode = .date
+        
         endDatePicker.date = NSDate() as Date
+        
         return endDatePicker
     }()
     
-     var activityView: UIActivityIndicatorView = {
-           let view = UIActivityIndicatorView()
-           view.translatesAutoresizingMaskIntoConstraints = false
-           return view
+    var activityView: UIActivityIndicatorView = {
+        
+        let view = UIActivityIndicatorView()
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
     }()
     
     let dateFormatter = DateFormatter()
