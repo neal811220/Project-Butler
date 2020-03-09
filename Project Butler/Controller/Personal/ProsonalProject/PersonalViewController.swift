@@ -228,6 +228,8 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
         
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshProjectdata), name: NSNotification.Name(rawValue: "RefreshProjectData"), object: nil)
+        
         navigationController?.navigationBar.tintColor = UIColor.B2
         
         setupStackView()
@@ -313,6 +315,11 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         }
         
         tableView.reloadData()
+    }
+    
+    @objc func refreshProjectdata() {
+        
+        refreshLoader()
     }
     
     func clearAllArray() {

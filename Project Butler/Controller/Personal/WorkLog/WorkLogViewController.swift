@@ -202,7 +202,6 @@ class WorkLogViewController: UIViewController {
         projectlabel.text = projectDetail?.projectName
         
         fetchPersonalWorkLog(porjectID: projectDetail?.projectID ?? "")
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -426,6 +425,8 @@ class WorkLogViewController: UIViewController {
                 print("Success")
                 
                 PBProgressHUD.showSuccess(text: "Complete project", viewController: strongSelf)
+                
+                NotificationCenter.default.post(name: NSNotification.Name("RefreshProjectData"), object: nil)
                 
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                     

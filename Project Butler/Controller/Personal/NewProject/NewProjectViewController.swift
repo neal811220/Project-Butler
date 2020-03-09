@@ -323,6 +323,8 @@ class NewProjectViewController: UIViewController {
                 self.workItemArray = []
                 
                 self.membersArray = []
+                
+                NotificationCenter.default.post(name: NSNotification.Name("RefreshProjectData"), object: nil)
 
                 self.tableView.reloadData()
                                 
