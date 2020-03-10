@@ -135,7 +135,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         label.font = UIFont.boldSystemFont(ofSize: 20)
         
-        label.text = "There are currently no projects. Please go to the new project page to add"
+        label.text = "There are currently no projects. Please go to the new project page to add."
         
         label.numberOfLines = 0
         
@@ -716,9 +716,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     }
     
     func setupPlaceholderStackView() {
-        
-//        view.addSubview(placeholderStackView)
-        
+                
         view.addSubview(placeholderImage)
         
         view.addSubview(placeholderLabel)
@@ -729,9 +727,9 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
 
             placeholderImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 
-            placeholderImage.widthAnchor.constraint(equalToConstant: view.frame.width / 3),
+            placeholderImage.widthAnchor.constraint(equalToConstant: view.frame.width / 4),
 
-            placeholderImage.heightAnchor.constraint(equalToConstant: view.frame.width / 3)
+            placeholderImage.heightAnchor.constraint(equalToConstant: view.frame.width / 4)
         ])
         
         NSLayoutConstraint.activate([
@@ -740,10 +738,9 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
             
             placeholderLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
-            placeholderLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 2),
+            placeholderLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 3 * 2),
             placeholderLabel.heightAnchor.constraint(equalToConstant: view.frame.width / 3)
         ])
-        
     }
     
     func setupSearchBar() {

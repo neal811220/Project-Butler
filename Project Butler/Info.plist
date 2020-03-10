@@ -52,6 +52,8 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Your photos will be used to display personal photos</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Your camera photos will be use to display personal photos</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -50,20 +50,41 @@ class FriendListViewController: UIViewController {
         return search
     }()
     
+    let placeholderImage: UIImageView = {
+        
+        let image = UIImage.asset(.Icons_512px_FriendsPlaceholderImage)
+        
+        let imageView = UIImageView()
+        
+        imageView.image = image
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
+    
+    let placeholderLabel: UILabel = {
+        
+        let label = UILabel()
+        
+        label.textColor = UIColor.Gray3
+        
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        
+        label.text = "No friends currently, please click the search bar to search for users and add friends."
+        
+        label.numberOfLines = 0
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
     var activityView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    //All count
-    var searchUserArray: [AuthInfo] = []
-    //filterCount
-    var friendArray: [FriendDetail] = []
-    
-    var accepFriendArray: [FriendDetail] = []
-    
-    var confirmFriendArray: [FriendDetail] = []
     
     var datas: [[Userable]] = []
     
@@ -97,11 +118,41 @@ class FriendListViewController: UIViewController {
         
         getUserInfo()
         
-        fetchAll()
+        fetchAllFriendInfo()
+        
+        setupPlaceholderStackView()
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: Notification.Name("searchReload"), object: nil)
         
     }
+    
+    func setupPlaceholderStackView() {
+                   
+           view.addSubview(placeholderImage)
+           
+           view.addSubview(placeholderLabel)
+           
+           NSLayoutConstraint.activate([
+
+               placeholderImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+               placeholderImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+
+               placeholderImage.widthAnchor.constraint(equalToConstant: view.frame.width / 4),
+
+               placeholderImage.heightAnchor.constraint(equalToConstant: view.frame.width / 4)
+           ])
+           
+           NSLayoutConstraint.activate([
+               
+               placeholderLabel.topAnchor.constraint(equalTo: placeholderImage.bottomAnchor, constant: 5),
+               
+               placeholderLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+               placeholderLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 3 * 2),
+               placeholderLabel.heightAnchor.constraint(equalToConstant: view.frame.width / 3)
+           ])
+       }
     
     func setupActivityView() {
         
@@ -128,6 +179,33 @@ class FriendListViewController: UIViewController {
             
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    func friendisEmpty() {
+        
+        switch currentSeletedIndex {
+            
+        case 0:
+            
+            if userManager.friendArray.count == 0 {
+                
+                placeholderImage.isHidden = false
+                
+                placeholderLabel.isHidden = false
+                
+            } else {
+                
+                placeholderImage.isHidden = true
+                
+                placeholderLabel.isHidden = true
+            }
+            
+        default:
+            
+            placeholderImage.isHidden = true
+            
+            placeholderLabel.isHidden = true
+        }
     }
     
     func getUserInfo() {
@@ -165,7 +243,7 @@ class FriendListViewController: UIViewController {
         }
     }
     
-    func fetchAll() {
+    func fetchAllFriendInfo() {
         
         fetchUserInfoGroup.notify(queue: DispatchQueue.main) { [weak self] in
             
@@ -175,11 +253,13 @@ class FriendListViewController: UIViewController {
             
             strongSelf.activityView.startAnimating()
             
-            strongSelf.userManager.searchAll { (result) in
+            strongSelf.userManager.searchAllFriendInfo { (result) in
                 
                 switch result {
                     
                 case .success:
+                    
+                    strongSelf.friendisEmpty()
                     
                     strongSelf.reloadData()
                     
@@ -372,6 +452,7 @@ extension FriendListViewController: FriendListTableViewCellDelegate {
         guard let indexPath = tableView.indexPath(for: friendListTableViewCell) else { return }
         
         currentIndexPath = indexPath
+        
     }
     
 }
@@ -379,6 +460,8 @@ extension FriendListViewController: FriendListTableViewCellDelegate {
 extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating {
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        
+        friendisEmpty()
         
         tableView.reloadData()
     }
@@ -393,7 +476,7 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
         
         if searchController.searchBar.text == "" {
             
-            UserManager.shared.searchAll { (result) in
+            UserManager.shared.searchAllFriendInfo { (result) in
                 
                 switch result {
                     

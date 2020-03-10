@@ -129,7 +129,7 @@ struct FriendDetail: Codable, Userable {
         
         UserManager.shared.acceptFrined(uid: userID)
         
-        UserManager.shared.searchAll { (result) in
+        UserManager.shared.searchAllFriendInfo { (result) in
             switch result {
                 
             case .success(let data):
@@ -149,7 +149,7 @@ struct FriendDetail: Codable, Userable {
         
         UserManager.shared.refuseFriend(uid: userID)
         
-        UserManager.shared.searchAll { (result) in
+        UserManager.shared.searchAllFriendInfo { (result) in
             switch result {
                 
             case .success(let data):

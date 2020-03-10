@@ -328,7 +328,7 @@ class UserManager {
         }
     }
     
-    func searchAll(completion: @escaping (Result<Void, Error>) -> Void) {
+    func searchAllFriendInfo(completion: @escaping (Result<Void, Error>) -> Void) {
         
         guard isSearching == false else {
             return

@@ -27,7 +27,7 @@ enum ImageAsset: String {
     
     case Icons_32px_Profile_Selected
     
-    //FriendStatus
+    //Friend
     case Icons_32px_Confirm
     
     case Icons_32px_Accept
@@ -39,6 +39,8 @@ enum ImageAsset: String {
     case Icons_32px_AddFriend_DidTap
     
     case Icons_32px_Refuse
+    
+    case Icons_512px_FriendsPlaceholderImage
     
     //General
     case Icons_128px_General
