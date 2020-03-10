@@ -26,12 +26,6 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
     
     var googleLoginGroup = DispatchGroup()
     
-    var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,7 +39,6 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
             performExistingAccountSetupFlows()
         }
         
-        setupActivityView()
     }
     
     @objc func pressedLoginButton(_ sender: UIButton) {
@@ -74,7 +67,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                 
                 UserDefaults.standard.set(uid, forKey: "userID")
                 
-                strongSelf.activityView.startAnimating()
+                PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
                 
                 CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { (result) in
                     
@@ -89,7 +82,6 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                         print(error)
                     }
                     
-                    strongSelf.activityView.stopAnimating()
                 }
                 
                 strongSelf.transitionToTabBar()
@@ -132,9 +124,9 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                     
                     strongSelf.fbLoginGroup.enter()
                     
+                    PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
+                    
                     UserManager.shared.fetchAllUser { [weak self] (result) in
-                        
-                        strongSelf.activityView.startAnimating()
                         
                         guard let strongSelf = self else {
                             return
@@ -165,7 +157,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                             
                         } else {
                             
-                            strongSelf.activityView.startAnimating()
+                            PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
                             
                             CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { (result) in
                                 
@@ -179,8 +171,6 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                                     
                                     print(error)
                                 }
-                                
-                                strongSelf.activityView.stopAnimating()
                             }
                         }
                         
@@ -214,22 +204,6 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
             delegate.window?.rootViewController = tabBarVC
         }
         
-    }
-    
-    func setupActivityView() {
-        
-        view.addSubview(activityView)
-        
-        NSLayoutConstraint.activate([
-            
-            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            
-            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            activityView.heightAnchor.constraint(equalToConstant: view.frame.size.width / 10),
-            
-            activityView.widthAnchor.constraint(equalToConstant: view.frame.size.width / 10)
-        ])
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -266,10 +240,10 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
             
             strongSelf.googleLoginGroup.enter()
             
+            PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
+            
             UserManager.shared.fetchAllUser { [weak self] (result) in
-                
-                strongSelf.activityView.startAnimating()
-                
+                                
                 guard let strongSelf = self else {
                     return
                 }
@@ -299,7 +273,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                     
                 } else {
                     
-                    strongSelf.activityView.startAnimating()
+                    PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
                     
                     CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { (result) in
                         
@@ -313,8 +287,6 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                             
                             print(error)
                         }
-                        
-                        strongSelf.activityView.stopAnimating()
                     }
                 }
                 
@@ -441,7 +413,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                         
                         DispatchQueue.main.async {
                             
-                            strongSelf.activityView.startAnimating()
+                            PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
                             
                             CurrentUserInfo.shared.getLoginUserInfo(uid: userIdentifier) { (result) in
                                 
@@ -456,7 +428,6 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                                     print(error)
                                 }
                                 
-                                strongSelf.activityView.stopAnimating()
                             }
                         }
                         

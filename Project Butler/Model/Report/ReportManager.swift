@@ -238,7 +238,7 @@ class DateReportManager: ReportManager, ChartProvider {
             seriesElement.append(workHour ?? 0)
         }
         
-        let element = AASeriesElement().name("Project").data(seriesElement)
+        let element = AASeriesElement().name(projectDetail.projectName).data(seriesElement)
         
         chartModel = AAChartModel()
         
@@ -633,8 +633,8 @@ class WorkItemReportManager: ReportManager, ChartProvider {
         chartModel = chartModel.touchEventEnabled(true)
             .chartType(.spline)//Can be any of the chart types listed under `AAChartType`.
             .animationType(.bounce)
-            .title("TITLE")//The chart title
-            .subtitle("subtitle")//The chart subtitle
+            .title("")//The chart title
+//            .subtitle("subtitle")//The chart subtitle
             .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
             .tooltipValueSuffix("Hour")//the value suffix of the chart tooltip
             .categories(Array(beforeSevenDates))

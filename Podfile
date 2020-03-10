@@ -29,7 +29,9 @@ target 'Project Butler' do
   
   pod 'MJRefresh'
   
-  target 'Project_Butler' do
+  pod 'lottie-ios'
+  
+  target 'ProjectButlerTests' do
     inherit! :search_paths
     # Pods for testing
   end

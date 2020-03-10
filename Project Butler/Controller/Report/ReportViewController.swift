@@ -85,7 +85,9 @@ class ReportViewController: UIViewController {
 
         navigationItem.title = LargeTitle.report.rawValue
 
-        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2!]
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
                 
         setupTitleCollectionView()
         
@@ -131,6 +133,7 @@ class ReportViewController: UIViewController {
             
             return
         }
+        
         contentcollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         
     }
@@ -167,6 +170,8 @@ extension ReportViewController: UICollectionViewDataSource {
             cell.titleButton.setTitleColor(UIColor.Black2, for: .normal)
             
             cell.titleButton.setTitleColor(UIColor.Black1, for: .selected)
+            
+            cell.titleButton.titleLabel?.font = UIFont(name: "AmericanTypewriter-Bold", size: 17)
                         
             cell.titleButtonIndexPath = { [weak self] in
             

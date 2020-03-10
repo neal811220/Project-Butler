@@ -75,9 +75,7 @@ class MemberListViewController: UIViewController {
     let updateMemberGroup = DispatchGroup()
     
     let userManager = UserManager.shared
-    
-    let activityView = UIActivityIndicatorView()
-    
+        
     var barButton = UIBarButtonItem()
     
     override func viewDidLoad() {
@@ -115,13 +113,18 @@ class MemberListViewController: UIViewController {
             if isLeader == true {
                 
                 barButton = UIBarButtonItem(title: MemberButtonStatus.invite.rawValue, style: .done, target: self, action: #selector(didTapDoneBarButton))
+                
                 barButton.tintColor = UIColor.B2
+                
+                barButton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "AmericanTypewriter-Bold", size: 17)!], for: .normal)
                 
             } else {
                 
                 barButton = UIBarButtonItem(title: MemberButtonStatus.leaveGroup.rawValue, style: .done, target: self, action: #selector(leaveGroup))
                
                 barButton.tintColor = UIColor.red
+                
+                barButton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "AmericanTypewriter-Bold", size: 17)!], for: .normal)
             }
             
             navigationItem.rightBarButtonItem = barButton
@@ -233,7 +236,7 @@ class MemberListViewController: UIViewController {
                 
         updateMemberGroup.enter()
         
-        activityView.startAnimating()
+        PBProgressHUD.pbActivityView(viewController: tabBarController!)
         
         ProjectManager.shared.updateMember(documentID: documentID, memberID: updateMembers) { [weak self] (result) in
 
@@ -263,6 +266,8 @@ class MemberListViewController: UIViewController {
                 
         updateMemberGroup.enter()
         
+        PBProgressHUD.pbActivityView(viewController: tabBarController!)
+        
         ProjectManager.shared.updateMemberID(documentID: documentID, memberID: updateMembers) { [weak self] (result) in
             
             guard let strongSelf = self else {
@@ -282,9 +287,7 @@ class MemberListViewController: UIViewController {
                 
                 PBProgressHUD.showFailure(text: "\(error)", viewController: strongSelf)
             }
-            
-            strongSelf.activityView.stopAnimating()
-            
+                        
             strongSelf.updateMemberGroup.leave()
         }
     }
@@ -419,6 +422,8 @@ extension MemberListViewController: UITableViewDataSource {
                 
                 return UITableViewCell()
         }
+        
+        cell.selectionStyle = .none
         
         if isFiltering() {
             

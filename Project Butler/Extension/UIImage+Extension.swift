@@ -81,6 +81,10 @@ enum ImageAsset: String {
     
     case Icons_32px_LogDefaultImage
     
+    case Icons_32px_Completed_Selected
+    
+    case Icons_32px_Completed_Normal
+    
     //ReportButton
     case Icons_32px_Report
 }

@@ -38,7 +38,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                 Auth.auth().createUser(withEmail: emailText, password: passwordText) { [weak self] (result, error) in
                     
                     guard let strongSelf = self, let userName = strongSelf.emailText.split(separator: "@").first, let uid = Auth.auth().currentUser?.uid else {
-                        print(error)
+                        
                         return
                     }
                     

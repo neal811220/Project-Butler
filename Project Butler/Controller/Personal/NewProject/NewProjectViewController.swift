@@ -73,15 +73,6 @@ class NewProjectViewController: UIViewController {
         return endDatePicker
     }()
     
-    var activityView: UIActivityIndicatorView = {
-        
-        let view = UIActivityIndicatorView()
-        
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
-    
     let dateFormatter = DateFormatter()
     
     var membersArray: [FriendDetail] = []
@@ -110,22 +101,24 @@ class NewProjectViewController: UIViewController {
         
         saveBarButton.tintColor = UIColor.B2
         
+        saveBarButton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "AmericanTypewriter-Bold", size: 17)!], for: .normal)
+        
         navigationController?.navigationBar.prefersLargeTitles = true
         
         navigationItem.title = LargeTitle.newProject.rawValue
         
-        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2!]
         
         navigationItem.rightBarButtonItem = saveBarButton
         
         navigationController?.navigationBar.tintColor = UIColor.B2
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        
         setupTableView()
         
         setupDatePicker()
-        
-        setupActivityView()
-        
+                
         getUserInfo()
     }
     
@@ -140,22 +133,6 @@ class NewProjectViewController: UIViewController {
         endDatePicker.locale = NSLocale(localeIdentifier: "en-US") as Locale
         
         endDatePicker.addTarget(self, action: #selector(datePickerChanged), for: .valueChanged)
-    }
-    
-    func setupActivityView() {
-        
-        view.addSubview(activityView)
-        
-        NSLayoutConstraint.activate([
-           
-            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            
-            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            activityView.heightAnchor.constraint(equalToConstant: view.frame.width / 10),
-            
-            activityView.widthAnchor.constraint(equalToConstant: view.frame.width / 10)
-        ])
     }
     
     func setupTableView() {
@@ -190,7 +167,7 @@ class NewProjectViewController: UIViewController {
             return
         }
         
-        activityView.startAnimating()
+        PBProgressHUD.pbActivityView(viewController: tabBarController!)
         
         CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { [weak self] (result) in
             
@@ -210,8 +187,6 @@ class NewProjectViewController: UIViewController {
                 
                 print(error)
             }
-            
-            strongSelf.activityView.stopAnimating()
         }
     }
     
@@ -308,7 +283,7 @@ class NewProjectViewController: UIViewController {
                                     completedDays: totalDays
                                     )
     
-        activityView.startAnimating()
+        PBProgressHUD.pbActivityView(viewController: tabBarController!)
         
         ProjectManager.shared.createNewProject(projectID: projectID, newProject: newProject, completion: { [weak self] result in
             
@@ -316,36 +291,34 @@ class NewProjectViewController: UIViewController {
                 
             case .success:
                 
-                guard let self = self else {
+                guard let strongSelf = self else {
                     
                     return
                     
                 }
                 
-                PBProgressHUD.showSuccess(text: "Added Successfully", viewController: self)
+                PBProgressHUD.showSuccess(text: "Added Successfully", viewController: strongSelf)
                 
-                self.inputProjectName = ""
+                strongSelf.inputProjectName = ""
                 
-                self.startText = ""
+                strongSelf.startText = ""
                 
-                self.endText = ""
+                strongSelf.endText = ""
                 
-                self.workItemText = ""
+                strongSelf.workItemText = ""
                 
-                self.workItemArray = []
+                strongSelf.workItemArray = []
                 
-                self.membersArray = []
+                strongSelf.membersArray = []
                 
                 NotificationCenter.default.post(name: NSNotification.Name("RefreshProjectData"), object: nil)
 
-                self.tableView.reloadData()
+                strongSelf.tableView.reloadData()
                                 
             case .failure(let error):
                 
                 print(error)
             }
-            
-            self?.activityView.stopAnimating()
         })
     }
     
@@ -399,7 +372,9 @@ extension NewProjectViewController: UITableViewDataSource {
         if indexPath.section == 0 {
         
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? NewProjectTableViewCell else { return UITableViewCell() }
-
+            
+            cell.selectionStyle = .none
+            
             if dateStatus {
                 
                 cell.endDateTextField.textColor = UIColor.Black2
@@ -469,6 +444,8 @@ extension NewProjectViewController: UITableViewDataSource {
         } else {
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "workItemCell", for: indexPath) as? WorkItemTableViewCell else { return UITableViewCell() }
+            
+            cell.selectionStyle = .none
             
             cell.workItemLabel.text = workItemArray[indexPath.row]
             

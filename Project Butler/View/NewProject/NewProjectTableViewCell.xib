@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -211,7 +212,7 @@
                             <constraint firstAttribute="height" constant="30" id="mIB-B0-Ysu"/>
                         </constraints>
                         <color key="tintColor" red="0.59219002720000002" green="0.55694860219999998" blue="0.52547168730000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <state key="normal" image="plus.circle.fill" catalog="system"/>
+                        <state key="normal" image="Icons_24px_AddItemButton"/>
                         <connections>
                             <action selector="pressedAddButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="697-Ka-Fzb"/>
                         </connections>
@@ -395,13 +396,13 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="Icons_24px_AddItemButton" width="24" height="24"/>
         <image name="Icons_32px_Calendar" width="32" height="32"/>
         <image name="Icons_32px_Leader" width="32" height="32"/>
         <image name="Icons_32px_Member" width="32" height="32"/>
         <image name="Icons_32px_ProjectName" width="32" height="32"/>
         <image name="Icons_32px_WorkItem" width="32" height="32"/>
         <image name="Icons_64px_Color" width="64" height="64"/>
-        <image name="plus.circle.fill" catalog="system" width="64" height="60"/>
         <namedColor name="Gray1">
             <color red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

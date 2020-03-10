@@ -69,7 +69,7 @@ class FriendListViewController: UIViewController {
         
         label.textColor = UIColor.Gray3
         
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont(name: "AmericanTypewriter-Bold", size: 20)
         
         label.text = "No friends currently, please click the search bar to search for users and add friends."
         
@@ -79,13 +79,7 @@ class FriendListViewController: UIViewController {
         
         return label
     }()
-    
-    var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
+
     var datas: [[Userable]] = []
     
     var currentIndexPath: IndexPath?
@@ -108,25 +102,23 @@ class FriendListViewController: UIViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2!]
         
         navigationItem.searchController = searchController
         
         setupTableview()
-        
-        setupActivityView()
-        
+                
         getUserInfo()
         
         fetchAllFriendInfo()
         
-        setupPlaceholderStackView()
+        setupPlaceholdeImage()
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: Notification.Name("searchReload"), object: nil)
         
     }
     
-    func setupPlaceholderStackView() {
+    func setupPlaceholdeImage() {
                    
            view.addSubview(placeholderImage)
            
@@ -153,19 +145,7 @@ class FriendListViewController: UIViewController {
                placeholderLabel.heightAnchor.constraint(equalToConstant: view.frame.width / 3)
            ])
        }
-    
-    func setupActivityView() {
-        
-        view.addSubview(activityView)
-        
-        NSLayoutConstraint.activate([
-            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            activityView.heightAnchor.constraint(equalToConstant: view.frame.size.width / 10),
-            activityView.widthAnchor.constraint(equalToConstant: view.frame.size.width / 10)
-        ])
-    }
-    
+
     func setupTableview() {
         
         view.addSubview(tableView)
@@ -214,7 +194,7 @@ class FriendListViewController: UIViewController {
             return
         }
         
-        activityView.startAnimating()
+        PBProgressHUD.pbActivityView(viewController: tabBarController!)
         
         fetchUserInfoGroup.enter()
         
@@ -236,9 +216,7 @@ class FriendListViewController: UIViewController {
                 
                 print(error)
             }
-            
-            strongSelf.activityView.stopAnimating()
-            
+                        
             strongSelf.fetchUserInfoGroup.leave()
         }
     }
@@ -251,7 +229,7 @@ class FriendListViewController: UIViewController {
                 return
             }
             
-            strongSelf.activityView.startAnimating()
+            PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
             
             strongSelf.userManager.searchAllFriendInfo { (result) in
                 
@@ -268,9 +246,6 @@ class FriendListViewController: UIViewController {
                     print(error)
                     
                 }
-                
-                strongSelf.activityView.stopAnimating()
-                
             }
         }
         
@@ -323,6 +298,8 @@ extension FriendListViewController: UITableViewDataSource {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendListCell", for: indexPath) as? FriendListTableViewCell else { return UITableViewCell() }
         
+        cell.selectionStyle = .none
+        
         cell.friendTitle.text = datas[indexPath.section][indexPath.row].userName
         
         cell.friendEmail.text = datas[indexPath.section][indexPath.row].userEmail
@@ -340,23 +317,37 @@ extension FriendListViewController: UITableViewDataSource {
         switch datas[indexPath.section][indexPath.row].userStatus(flag: userTapStatus) {
             
         case FriendStatus.friend.rawValue:
+           
             cell.leftButton.isHidden = true
+            
             cell.rightButton.isHidden = true
             
         case FriendStatus.accept.rawValue:
+           
             cell.leftButton.isHidden = false
+            
             cell.rightButton.isHidden = false
+            
             cell.rightButton.setImage(UIImage.asset(.Icons_32px_Accept), for: .normal)
+            
             cell.leftButton.setImage(UIImage.asset(.Icons_32px_Refuse), for: .normal)
             
         case FriendStatus.confirm.rawValue:
+           
             cell.leftButton.isHidden = true
+            
             cell.rightButton.isHidden = false
+            
             cell.rightButton.setImage(UIImage.asset(.Icons_32px_Confirm), for: .normal)
+        
         default:
+           
             cell.leftButton.isHidden = true
+            
             cell.rightButton.setImage(UIImage.asset(.Icons_32px_AddFriend_Normal), for: .normal)
+            
             cell.rightButton.setImage(UIImage.asset(.Icons_32px_AddFriend_DidTap), for: .selected)
+            
             cell.rightButton.isHidden = false
         }
         
@@ -389,8 +380,6 @@ extension FriendListViewController: UITableViewDataSource {
         
         tableView.reloadData()
         
-        activityView.stopAnimating()
-        
         userManager.isSearching = false
         
         userManager.isSearch = false
@@ -401,8 +390,11 @@ extension FriendListViewController: UITableViewDataSource {
         guard let indexPath = currentIndexPath else { return }
         
         if sender.tag == 0 {
+            
             userTapStatus = false
+            
         } else {
+            
             userTapStatus = true
         }
         
@@ -412,18 +404,18 @@ extension FriendListViewController: UITableViewDataSource {
             
         case 2:
             
-            activityView.startAnimating()
             datas[indexPath.section][indexPath.row].tapAddButton()
             
         case 1:
             
             if sender.tag == 0 {
-                activityView.startAnimating()
+                
                 datas[indexPath.section][indexPath.row].tapRefuseButton()
                 
             } else {
-                activityView.startAnimating()
+                
                 datas[indexPath.section][indexPath.row].tapAcceptButton()
+                
             }
             
         default:
@@ -454,7 +446,7 @@ extension FriendListViewController: FriendListTableViewCellDelegate {
         currentIndexPath = indexPath
         
     }
-    
+
 }
 
 extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating {
@@ -472,7 +464,7 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
         
         tableView.reloadData()
         
-        activityView.startAnimating()
+        PBProgressHUD.pbActivityView(viewController: tabBarController!)
         
         if searchController.searchBar.text == "" {
             
@@ -492,7 +484,6 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
                 
                 self.reloadData()
                 
-                self.activityView.stopAnimating()
             }
             
         } else {
@@ -513,7 +504,6 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
                 
                 self.reloadData()
                 
-                self.activityView.stopAnimating()
             }
         }
     }

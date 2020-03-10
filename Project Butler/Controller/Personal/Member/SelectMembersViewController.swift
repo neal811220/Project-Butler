@@ -58,9 +58,7 @@ class SelectMembersViewController: UIViewController {
     }()
     
     var projectManager = ProjectManager.shared
-    
-    let activityView = UIActivityIndicatorView()
-    
+        
     var allfriends: [FriendDetail] = []
     
     var filterArray: [FriendDetail] = []
@@ -77,6 +75,8 @@ class SelectMembersViewController: UIViewController {
         super.viewDidLoad()
         
         let doneBarButton = UIBarButtonItem(title: "DONE", style: .done, target: self, action: #selector(didTapDoneBarButton))
+        
+        doneBarButton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "AmericanTypewriter-Bold", size: 17)!], for: .normal)
         
         navigationItem.rightBarButtonItem = doneBarButton
         
@@ -95,7 +95,6 @@ class SelectMembersViewController: UIViewController {
         
         fetchFriends()
         
-        setupActivity()
     }
     
     @objc func didTapDoneBarButton(sender: UIBarButtonItem) {
@@ -126,25 +125,11 @@ class SelectMembersViewController: UIViewController {
         ])
     }
     
-    func setupActivity() {
-        
-        view.addSubview(activityView)
-        
-        activityView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            activityView.heightAnchor.constraint(equalToConstant: view.frame.size.width / 10),
-            activityView.widthAnchor.constraint(equalToConstant: view.frame.size.width / 10)
-        ])
-    }
-    
     func fetchFriends() {
                 
         projectManager.friendArray = []
                 
-        activityView.startAnimating()
+        PBProgressHUD.pbActivityView(viewController: tabBarController!)
         
         projectManager.fetchFriends { [weak self] (result) in
             
@@ -168,7 +153,6 @@ class SelectMembersViewController: UIViewController {
                 print(error)
             }
             
-            strongSelf.activityView.stopAnimating()
         }
     }
     
@@ -224,6 +208,8 @@ extension SelectMembersViewController: UITableViewDataSource {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SelectMemberCell", for: indexPath) as? SelectMemberTableViewCell else { return UITableViewCell() }
         
+        cell.selectionStyle = .none
+        
         cell.userTitleLabel.text = datas[indexPath.row].userName
         
         cell.userEmailLabel.text = datas[indexPath.row].userEmail
@@ -259,7 +245,6 @@ extension SelectMembersViewController: UITableViewDelegate {
             cell.select = false
             
         default:
-            
             break
         }
     }

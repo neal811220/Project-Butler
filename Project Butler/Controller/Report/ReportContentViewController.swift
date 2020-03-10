@@ -49,6 +49,17 @@ class ReportContentViewController: UIViewController {
         return pickerView
     }()
     
+    let indicatorView: UIView = {
+        
+        let view = UIView()
+        
+        view.backgroundColor = UIColor.B2
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
     var reportPickerContentArray: [String] = ["test1", "test2", "test3"]
     
     var projectDetail: ProjectDetail?
@@ -212,10 +223,6 @@ extension ReportContentViewController: UITableViewDataSource {
 extension ReportContentViewController: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-//        let textField = self.view.viewWithTag(20) as? UITextField
-        
-//        textField?.text = reportPickerContentArray[row]
         
         reportManager?.didSelectedPickerContent(at: row)
         

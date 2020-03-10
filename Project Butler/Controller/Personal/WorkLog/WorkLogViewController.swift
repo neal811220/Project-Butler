@@ -15,7 +15,7 @@ class WorkLogViewController: UIViewController {
         let label = UILabel()
         
         label.textColor = UIColor.B1
-                
+        
         label.textAlignment = .center
         
         label.font = UIFont(name: "AmericanTypewriter-Bold", size: 25)
@@ -129,9 +129,9 @@ class WorkLogViewController: UIViewController {
         
         label.textColor = UIColor.Gray3
         
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont(name: "AmericanTypewriter-Bold", size: 20)
         
-        label.text = "Please click the Add button to add a work log"
+        label.text = "Please click the Add button to add a work log."
         
         label.numberOfLines = 0
         
@@ -141,29 +141,14 @@ class WorkLogViewController: UIViewController {
     }()
     
     var completeProjectButton: UIButton = {
+        
         let button = UIButton(type: .custom)
         
         button.setTitle("Complete", for: .normal)
         
-        button.setTitleColor(UIColor.white, for: .normal)
-        
-        button.backgroundColor = UIColor.B2
+        button.setTitleColor(UIColor.B2, for: .normal)
         
         button.titleLabel?.font = UIFont(name: "AmericanTypewriter-Bold", size: 17)
-        
-        button.layer.borderWidth = 1
-        
-        button.layer.cornerRadius = 10
-        
-        button.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width / 4, height: 34)
-        
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
-        
-        button.layer.borderColor = UIColor.darkGray.cgColor
-        
-        button.isEnabled = true
-        
-        button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
         
@@ -177,27 +162,37 @@ class WorkLogViewController: UIViewController {
         
         didSet {
             
-            placeholderStackView.isHidden = true
+            placeholderImage.isHidden = true
+            
+            placeholderLabel.isHidden = true
             
         }
     }
-
+    
     var projectWorkLogContent: [WorkLogContent] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
         navigationItem.title = LargeTitle.workLog.rawValue
-
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: completeProjectButton)
+        
+        completeProjectButton.addTarget(self, action: #selector(didTapCompletedProjectButton), for: .touchUpInside)
+        
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2!, NSAttributedString.Key.font: UIFont(name: "AmericanTypewriter-Bold", size: 17)!]
+        
         setupProjectTitle()
         
         setupCollectionView()
         
         setupTableView()
         
-        setupDufaultStackView()
+        setupPlaceholdeImage()
+        
+        setuptoolButton()
         
         projectlabel.text = projectDetail?.projectName
         
@@ -207,14 +202,7 @@ class WorkLogViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        if personalWorkLogContent.count != 0 {
-            
-            placeholderStackView.isHidden = true
-            
-        } else {
-            
-            placeholderStackView.isHidden = false
-        }
+        navigationItem.largeTitleDisplayMode = .never
         
         if projectDetail?.isCompleted == true {
             
@@ -223,47 +211,20 @@ class WorkLogViewController: UIViewController {
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        setupCompleteProjectButton()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        completeProjectButton.isHidden = true
-    }
-    
-    func setupCompleteProjectButton() {
-        
-        guard let navigationbar = navigationController?.navigationBar else {
-            
-            return
-        }
-        
-        navigationController?.navigationBar.addSubview(completeProjectButton)
-                
-        completeProjectButton.addTarget(self, action: #selector(didTapCompletedProjectButton), for: .touchUpInside)
-        
-        NSLayoutConstraint.activate([
-            
-            completeProjectButton.bottomAnchor.constraint(equalTo: navigationbar.bottomAnchor, constant: -10),
-            
-            completeProjectButton.rightAnchor.constraint(equalTo: navigationbar.rightAnchor, constant: -15),
-            
-            completeProjectButton.widthAnchor.constraint(equalToConstant: navigationbar.frame.width / 4),
-            
-            completeProjectButton.heightAnchor.constraint(equalToConstant: navigationbar.frame.height / 3)
-        ])
-        
-        completeProjectButton.addTarget(self, action: #selector(didTapCompletedProjectButton), for:
-            .touchUpInside)
-    }
-    
     func setupProjectTitle() {
         
         view.addSubview(projectlabel)
+        
+        NSLayoutConstraint.activate([
+            projectlabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            projectlabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            projectlabel.leftAnchor.constraint(equalTo: view.leftAnchor),
+            projectlabel.rightAnchor.constraint(equalTo: view.rightAnchor)
+        ])
+        
+    }
+    
+    func setuptoolButton() {
         
         view.addSubview(reportButton)
         
@@ -274,28 +235,18 @@ class WorkLogViewController: UIViewController {
         reportButton.addTarget(self, action: #selector(didTapReportButton), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            projectlabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            projectlabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            projectlabel.widthAnchor.constraint(greaterThanOrEqualToConstant: view.frame.width / 2),
-            projectlabel.heightAnchor.constraint(equalToConstant: 25)
-        ])
-        
-        NSLayoutConstraint.activate([
-            reportButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            reportButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
             reportButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
             reportButton.heightAnchor.constraint(equalToConstant: 30),
             reportButton.widthAnchor.constraint(equalToConstant: 30)
         ])
         
         NSLayoutConstraint.activate([
-            addLogButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            addLogButton.rightAnchor.constraint(equalTo: reportButton.leftAnchor, constant: -5),
+            addLogButton.topAnchor.constraint(equalTo: reportButton.topAnchor),
+            addLogButton.rightAnchor.constraint(equalTo: reportButton.leftAnchor, constant: -10),
             addLogButton.heightAnchor.constraint(equalToConstant: 30),
             addLogButton.widthAnchor.constraint(equalToConstant: 30)
         ])
-        
-        
-        
     }
     
     func setupCollectionView() {
@@ -304,9 +255,12 @@ class WorkLogViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             
-            collectionView.topAnchor.constraint(equalTo: addLogButton.bottomAnchor, constant: 30),
-            collectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
+            
+            collectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
+            
             collectionView.widthAnchor.constraint(equalToConstant: view.frame.width / 4 + 20),
+            
             collectionView.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
@@ -323,35 +277,32 @@ class WorkLogViewController: UIViewController {
         ])
     }
     
-    func setupDufaultStackView() {
+    func setupPlaceholdeImage() {
         
-        view.addSubview(placeholderStackView)
+        view.addSubview(placeholderImage)
         
-        placeholderStackView.addSubview(placeholderImage)
-        
-        placeholderStackView.addSubview(placeholderLabel)
+        view.addSubview(placeholderLabel)
         
         NSLayoutConstraint.activate([
-            placeholderStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            placeholderStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            placeholderStackView.widthAnchor.constraint(equalToConstant: view.frame.width / 3),
-            placeholderStackView.heightAnchor.constraint(equalToConstant: view.frame.width / 2)
-        ])
-        
-        NSLayoutConstraint.activate([
-            placeholderImage.topAnchor.constraint(equalTo: placeholderStackView.topAnchor),
-            placeholderImage.leftAnchor.constraint(equalTo: placeholderStackView.leftAnchor),
-            placeholderImage.rightAnchor.constraint(equalTo: placeholderStackView.rightAnchor),
+            
+            placeholderImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            placeholderImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            placeholderImage.widthAnchor.constraint(equalToConstant: view.frame.width / 4),
+            
             placeholderImage.heightAnchor.constraint(equalToConstant: view.frame.width / 4)
         ])
         
         NSLayoutConstraint.activate([
-            placeholderLabel.bottomAnchor.constraint(equalTo: placeholderStackView.bottomAnchor),
-            placeholderLabel.rightAnchor.constraint(equalTo: placeholderStackView.rightAnchor),
-            placeholderLabel.leftAnchor.constraint(equalTo: placeholderStackView.leftAnchor),
-            placeholderLabel.topAnchor.constraint(equalTo: placeholderImage.bottomAnchor)
+            
+            placeholderLabel.topAnchor.constraint(equalTo: placeholderImage.bottomAnchor, constant: 5),
+            
+            placeholderLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            placeholderLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 3 * 2),
+            placeholderLabel.heightAnchor.constraint(equalToConstant: view.frame.width / 3)
         ])
-        
     }
     
     func fetchPersonalWorkLog(porjectID: String) {
@@ -367,7 +318,7 @@ class WorkLogViewController: UIViewController {
                 self.personalWorkLogContent = self.personalWorkLogContent.sorted(by: {
                     $0.date < $1.date
                 })
-                                
+                
                 self.tableView.reloadData()
                 
             case .failure(let error):
@@ -409,7 +360,7 @@ class WorkLogViewController: UIViewController {
             return
         }
         
-        PBProgressHUD.pbActivityView(text: "", viewController: self)
+        PBProgressHUD.pbActivityView(text: "", viewController: tabBarController!)
         
         ProjectManager.shared.completeProject(startDate: projectDetail.startDate, projectID: projectDetail.projectID) { [weak self] (result) in
             
@@ -508,11 +459,11 @@ class WorkLogViewController: UIViewController {
             switch result {
                 
             case .success:
-                                
+                
                 reportVC.workLogContent = strongSelf.projectWorkLogContent
                 
                 reportVC.projectDetail = projectDetail
-
+                
                 reportVC.projectMembers = strongSelf.members
                 
                 strongSelf.show(reportVC, sender: nil)
@@ -594,6 +545,8 @@ extension WorkLogViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "WorkLogCell", for: indexPath) as? WorkLogTableViewCell else {
             return UITableViewCell()
         }
+        
+        cell.selectionStyle = .none
         
         cell.dateLabel.textColor = UIColor(patternImage: UIImage(named: projectDetail!.color)!)
         

@@ -36,8 +36,6 @@ private enum Tab {
 
         controller.tabBarItem = tabBarItem()
 
-        controller.tabBarItem.imageInsets = UIEdgeInsets(top: 6.0, left: 0.0, bottom: -6.0, right: 0.0)
-
         return controller
     }
 
@@ -47,28 +45,28 @@ private enum Tab {
 
         case .personal:
             return UITabBarItem(
-                title: nil,
+                title: "List",
                 image: UIImage.asset(.Icons_32px_List_Normal),
                 selectedImage: UIImage.asset(.Icons_32px_List_Selected)
             )
             
         case .newProject:
             return UITabBarItem(
-                title: nil,
+                title: "Create",
                 image: UIImage.asset(.Icons_32px_CreateProject_Normal),
                 selectedImage: UIImage.asset(.Icons_32px_CreateProject_Selected)
             )
 
         case .friendList:
             return UITabBarItem(
-                title: nil,
+                title: "Friend",
                 image: UIImage.asset(.Icons_32px_Friend_Normal),
                 selectedImage: UIImage.asset(.Icons_32px_Friend_Selected)
             )
 
         case .profile:
             return UITabBarItem(
-                title: nil,
+                title: "Profile",
                 image: UIImage.asset(.Icons_32px_Profile_Normal),
                 selectedImage: UIImage.asset(.Icons_32px_Profile_Selected)
             )
@@ -85,6 +83,10 @@ class PBTabBarViewController: UITabBarController {
         
         viewControllers = tabs.map({ $0.controller() })
         
+        tabBar.unselectedItemTintColor = UIColor.darkGray
+        
+        tabBar.tintColor = UIColor.B2
+                        
         self.tabBar.isTranslucent = false
     }
 

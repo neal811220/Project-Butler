@@ -133,7 +133,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         label.textColor = UIColor.Gray3
         
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont(name: "AmericanTypewriter-Bold", size: 20)
         
         label.text = "There are currently no projects. Please go to the new project page to add."
         
@@ -142,15 +142,6 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
-    }()
-    
-    var activityView: UIActivityIndicatorView = {
-        
-        let activityView = UIActivityIndicatorView()
-        
-        activityView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return activityView
     }()
     
     lazy var tableView: UITableView = {
@@ -252,15 +243,17 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = true
         
-        self.navigationItem.title = LargeTitle.personalProject.rawValue
+        navigationItem.title = LargeTitle.personalProject.rawValue
         
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2]
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.B2!]
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshProjectdata), name: NSNotification.Name(rawValue: "RefreshProjectData"), object: nil)
         
         navigationController?.navigationBar.tintColor = UIColor.B2
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         
         setupStackView()
         
@@ -274,16 +267,22 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         refreshLoader()
         
-        setupPlaceholderStackView()
-        
-        setupActivityView()
-        
+        setupPlaceholdeImage()
+                
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
         titleStackView.isHidden = false
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        navigationController?.navigationBar.prefersLargeTitles = false
     }
     
     @objc func didTouchSearchBtn(sender: UIButton) {
@@ -529,14 +528,10 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        activityView.startAnimating()
+        PBProgressHUD.pbActivityView(viewController: tabBarController!)
         
-        CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { [weak self] (result) in
-            
-            guard let strongSelf = self else {
-                return
-            }
-            
+        CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { (result) in
+
             switch result {
                 
             case .success:
@@ -548,29 +543,12 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 print(error)
             }
             
-            strongSelf.activityView.stopAnimating()
         }
     }
-    
-    func setupActivityView() {
-        
-        view.addSubview(activityView)
-        
-        NSLayoutConstraint.activate([
-            
-            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            
-            activityView.heightAnchor.constraint(equalToConstant: view.frame.size.width / 10),
-            
-            activityView.widthAnchor.constraint(equalToConstant: view.frame.size.width / 10)
-        ])
-    }
-    
+
     func fetchUserProcessingProjcet() {
         
-        activityView.startAnimating()
+        PBProgressHUD.pbActivityView(viewController: tabBarController!)
         
         refreshGroup.enter()
         
@@ -596,16 +574,14 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 print(error)
                 
             }
-            
-            strongSelf.activityView.stopAnimating()
-            
+                        
             strongSelf.refreshGroup.leave()
         }
     }
     
     func fetchUserCompletedProject() {
         
-        activityView.startAnimating()
+        PBProgressHUD.pbActivityView(viewController: tabBarController!)
         
         refreshGroup.enter()
         
@@ -632,10 +608,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 
             }
             
-            strongSelf.activityView.stopAnimating()
-            
             strongSelf.refreshGroup.leave()
-            
         }
     }
     
@@ -643,17 +616,12 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     func fetchMemberDetail(documentRef: [DocumentReference], completion: @escaping (Result<[AuthInfo], Error>) -> Void) {
         
-        activityView.startAnimating()
+        PBProgressHUD.pbActivityView(viewController: tabBarController!)
         
         ProjectManager.shared.projectMembers = []
         
-        ProjectManager.shared.fetchMemberDetail(projectMember: documentRef) { [weak self] (result) in
-            
-            guard let strongSelf = self else {
-                
-                return
-            }
-            
+        ProjectManager.shared.fetchMemberDetail(projectMember: documentRef) { (result) in
+ 
             switch result {
                 
             case.success(let data):
@@ -666,11 +634,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 
                 completion(.failure(error))
             }
-            
-            strongSelf.activityView.stopAnimating()
-            
         }
-        
     }
     
     @objc func filterLeaderProject(sender: UIButton) {
@@ -715,7 +679,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    func setupPlaceholderStackView() {
+    func setupPlaceholdeImage() {
                 
         view.addSubview(placeholderImage)
         
@@ -922,7 +886,7 @@ extension PersonalViewController: UITableViewDataSource {
                     return
                 }
                 
-                strongSelf.activityView.startAnimating()
+                PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
                 
                 strongSelf.fetchMemberDetail(documentRef: strongSelf.userProcessingFilterArray[indexPath.row].projectMember) { (result) in
                     
@@ -987,7 +951,7 @@ extension PersonalViewController: UITableViewDataSource {
                     return
                 }
                 
-                strongSelf.activityView.startAnimating()
+                PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
                 
                 strongSelf.fetchMemberDetail(documentRef: strongSelf.userCompletedFilterArray[indexPath.row].projectMember) { (result) in
                     
@@ -1024,7 +988,7 @@ extension PersonalViewController: UITableViewDataSource {
             
             cell.completionDateLabel.text = userCompletedFilterArray[indexPath.row].completedDate
             
-            cell.completionHourLable.text = String(userCompletedFilterArray[indexPath.row].completedHour)
+            cell.completionHourLable.text = "\(userCompletedFilterArray[indexPath.row].completedHour) Hour (\(userCompletedFilterArray[indexPath.row].completedDays) Day)"
             
             return cell
             
@@ -1041,14 +1005,14 @@ extension PersonalViewController: UITableViewDelegate {
         guard let workLogVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "WorkLogVC") as? WorkLogViewController else {
             return
         }
-        
+
         switch checkButton {
             
         case 0:
             
             workLogVC.projectDetail = userProcessingFilterArray[indexPath.row]
             
-            activityView.startAnimating()
+            PBProgressHUD.pbActivityView(viewController: tabBarController!)
             
             fetchMemberDetail(documentRef: userProcessingFilterArray[indexPath.row].projectMember) { [weak self] (result) in
                 
@@ -1067,9 +1031,7 @@ extension PersonalViewController: UITableViewDelegate {
                     
                     print(error)
                 }
-                
-                strongSelf.activityView.stopAnimating()
-                
+                                
                 strongSelf.titleStackView.isHidden = true
                 
                 strongSelf.show(workLogVC, sender: nil)
@@ -1079,7 +1041,7 @@ extension PersonalViewController: UITableViewDelegate {
             
             workLogVC.projectDetail = userCompletedFilterArray[indexPath.row]
             
-            activityView.startAnimating()
+            PBProgressHUD.pbActivityView(viewController: tabBarController!)
             
             fetchMemberDetail(documentRef: userCompletedFilterArray[indexPath.row].projectMember) { [weak self] (result) in
                 
@@ -1098,9 +1060,7 @@ extension PersonalViewController: UITableViewDelegate {
                     
                     print(error)
                 }
-                
-                strongSelf.activityView.stopAnimating()
-                
+                                
                 strongSelf.titleStackView.isHidden = true
                 
                 strongSelf.show(workLogVC, sender: nil)

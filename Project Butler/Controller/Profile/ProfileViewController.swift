@@ -21,12 +21,6 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var userEmail: UILabel!
     
     let imagePickerController = UIImagePickerController()
-        
-    var activityView: UIActivityIndicatorView = {
-        let activityView = UIActivityIndicatorView()
-        activityView.translatesAutoresizingMaskIntoConstraints = false
-        return activityView
-    }()
     
     @IBAction func changePassword(_ sender: UIButton) {
         
@@ -75,9 +69,7 @@ class ProfileViewController: UIViewController {
         imagePickerController.delegate = self
         
         setupUserImage()
-        
-        setupActivityView()
-        
+                
         getUserInfo()
         
     }
@@ -88,7 +80,7 @@ class ProfileViewController: UIViewController {
             return
         }
         
-        activityView.startAnimating()
+        PBProgressHUD.pbActivityView(viewController: tabBarController!)
         
         CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { [weak self] (result) in
             
@@ -112,24 +104,7 @@ class ProfileViewController: UIViewController {
                 print(error)
             }
             
-            strongSelf.activityView.stopAnimating()
         }
-    }
-    
-    func setupActivityView() {
-        
-        view.addSubview(activityView)
-        
-        NSLayoutConstraint.activate([
-            
-            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            
-            activityView.heightAnchor.constraint(equalToConstant: view.frame.size.width / 10),
-            
-            activityView.widthAnchor.constraint(equalToConstant: view.frame.size.width / 10)
-        ])
     }
     
     func setupUserImage() {
@@ -278,13 +253,9 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             
             userImage.image = pickedImage
             
-            activityView.startAnimating()
+            PBProgressHUD.pbActivityView(viewController: tabBarController!)
             
-            UserManager.shared.uploadImage(image: pickedImage, completion: { [weak self] (result) in
-                
-                guard let strongSelf = self else {
-                    return
-                }
+            UserManager.shared.uploadImage(image: pickedImage, completion: { (result) in
                 
                 switch result {
                     
@@ -298,7 +269,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                     
                 }
                 
-                strongSelf.activityView.stopAnimating()
             })
             
         }
