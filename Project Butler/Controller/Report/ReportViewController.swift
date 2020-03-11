@@ -59,6 +59,19 @@ class ReportViewController: UIViewController {
         return collectionView
     }()
     
+    let indicatorView: UIView = {
+        
+        let view = UIView()
+        
+        view.backgroundColor = UIColor.B2
+        
+        view.layer.cornerRadius = 4
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
     var workLogContent: [WorkLogContent] = []
         
     var projectDetail: ProjectDetail!
@@ -68,6 +81,12 @@ class ReportViewController: UIViewController {
     var titleCollectionViewArray = ["Project", "User", "Item"]
     
     var titleButtonIndexPath: IndexPath?
+    
+    var indicatorViewCenterXConstraint: NSLayoutConstraint?
+    
+    var indicatorViewLeftConstraint: NSLayoutConstraint?
+    
+    var indicatorViewWidthConstraint: NSLayoutConstraint?
     
     lazy var reportManagers: [ChartProvider] = [
         
@@ -92,6 +111,8 @@ class ReportViewController: UIViewController {
         setupTitleCollectionView()
         
         setupContentCollectionView()
+        
+        setupIndicatorView()
                 
     }
     
@@ -108,9 +129,13 @@ class ReportViewController: UIViewController {
         view.addSubview(titlecollectionView)
         
         NSLayoutConstraint.activate([
+            
             titlecollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            
             titlecollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            
             titlecollectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            
             titlecollectionView.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
@@ -120,11 +145,38 @@ class ReportViewController: UIViewController {
         view.addSubview(contentcollectionView)
         
         NSLayoutConstraint.activate([
-            contentcollectionView.topAnchor.constraint(equalTo: titlecollectionView.bottomAnchor),
+           
+            contentcollectionView.topAnchor.constraint(equalTo: titlecollectionView.bottomAnchor, constant: 20),
+            
             contentcollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            
             contentcollectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            
             contentcollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    func setupIndicatorView() {
+        
+        view.addSubview(indicatorView)
+        
+        indicatorViewCenterXConstraint = indicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        
+        indicatorViewLeftConstraint = indicatorView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: view.frame.width / 5.59)
+        
+        indicatorViewWidthConstraint = indicatorView.widthAnchor.constraint(equalToConstant: (view.frame.width / 6 / 3))
+        
+        NSLayoutConstraint.activate([
+
+            indicatorView.topAnchor.constraint(equalTo: titlecollectionView.bottomAnchor, constant: 2),
+
+            indicatorView.heightAnchor.constraint(equalToConstant: 2),
+            
+            indicatorViewWidthConstraint!,
+            
+            indicatorViewLeftConstraint!
+        ])
+        
     }
     
     @objc func handleNext(sender: UIButton) {
@@ -136,6 +188,18 @@ class ReportViewController: UIViewController {
         
         contentcollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         
+        UIView.animate(withDuration: 0.3) {
+
+            self.indicatorViewLeftConstraint?.isActive = false
+
+            self.indicatorViewCenterXConstraint?.isActive = false
+
+            self.indicatorViewCenterXConstraint = self.indicatorView.centerXAnchor.constraint(equalTo: sender.centerXAnchor)
+
+            self.indicatorViewCenterXConstraint?.isActive = true
+
+            self.view.layoutIfNeeded()
+        }
     }
     
 }

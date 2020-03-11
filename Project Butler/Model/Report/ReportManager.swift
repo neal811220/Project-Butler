@@ -249,7 +249,6 @@ class DateReportManager: ReportManager, ChartProvider {
             .animationType(.bounce)
             
             .title(workLogName)//The chart title
-            //        .subtitle("subtitle")//The chart subtitle
             
             .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
             
@@ -446,7 +445,7 @@ class MemberReportManager: ReportManager, ChartProvider {
         
         chartModel = AAChartModel()
         chartModel = chartModel.touchEventEnabled(true)
-            .chartType(.area)//Can be any of the chart types listed under `AAChartType`.
+            .chartType(.areaspline)//Can be any of the chart types listed under `AAChartType`.
             .animationType(.bounce)
             .title("")//The chart title
             .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
@@ -630,17 +629,27 @@ class WorkItemReportManager: ReportManager, ChartProvider {
         }
         
         chartModel = AAChartModel()
+        
         chartModel = chartModel.touchEventEnabled(true)
+            
             .chartType(.spline)//Can be any of the chart types listed under `AAChartType`.
+            
             .animationType(.bounce)
+            
             .title("")//The chart title
-//            .subtitle("subtitle")//The chart subtitle
+            
             .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
+            
             .tooltipValueSuffix("Hour")//the value suffix of the chart tooltip
+            
             .categories(Array(beforeSevenDates))
+            
             .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
+            
             .series(elements)
+            
             .markerSymbolStyle(.borderBlank)
+        
         return chartModel
     }
 }

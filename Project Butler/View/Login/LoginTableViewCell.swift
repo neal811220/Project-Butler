@@ -29,11 +29,22 @@ class LoginTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     weak var delegate: LoginTableViewCellDelegate?
     
-    @IBAction func pressedLogin(_ sender: UIButton) {
-        
-        
-    }
+    var didTaptransitionsToPrivacyPolicyVC: (() -> Void)?
     
+    let privacyPolicyButton: UIButton = {
+        
+        let button = UIButton()
+        
+        button.setTitle("Privacy Policy", for: .normal)
+        
+        button.setTitleColor(UIColor.B2, for: .normal)
+        
+        button.titleLabel?.font = UIFont(name: "AmericanTypewriter-Bold", size: 14)
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }()
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         guard let email = userEmailTextField.text, let password = userPasswordTextField.text else {
@@ -43,7 +54,6 @@ class LoginTableViewCell: UITableViewCell, UITextFieldDelegate {
         
         delegate?.passInputText(self, email: email, password: password)
     }
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -57,7 +67,8 @@ class LoginTableViewCell: UITableViewCell, UITextFieldDelegate {
         googleButton.layer.cornerRadius = 28
         
         facebookButton.layer.cornerRadius = 28
-        // Initialization code
+        
+        setupPrivacyPolicyButton()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -66,5 +77,26 @@ class LoginTableViewCell: UITableViewCell, UITextFieldDelegate {
         // Configure the view for the selected state
     }
     
+    func setupPrivacyPolicyButton() {
+        
+        contentView.addSubview(privacyPolicyButton)
+                
+        NSLayoutConstraint.activate([
+            
+            privacyPolicyButton.topAnchor.constraint(equalTo: googleButton.bottomAnchor, constant: 5),
+            
+            privacyPolicyButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            
+            privacyPolicyButton.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            
+            privacyPolicyButton.rightAnchor.constraint(equalTo: contentView.rightAnchor)
+        ])
+        
+        privacyPolicyButton.addTarget(self, action: #selector(transitionsToPrivacyPolicyVC), for: .touchUpInside)
+    }
     
+    @objc func transitionsToPrivacyPolicyVC() {
+        
+        didTaptransitionsToPrivacyPolicyVC?()
+    }
 }

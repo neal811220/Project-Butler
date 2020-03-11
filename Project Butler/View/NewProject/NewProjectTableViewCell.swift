@@ -248,7 +248,7 @@ extension NewProjectTableViewCell: UICollectionViewDataSource {
             
             if memeberInfo.count == 0 {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MemberCell", for: indexPath) as? MemberCollectionViewCell else { return UICollectionViewCell() }
-                
+                cell.memberImage.layer.cornerRadius = 0
                 cell.memberImage.image = UIImage.asset(.Icons_32px_AddMembers)
                 
                 return cell
@@ -256,7 +256,6 @@ extension NewProjectTableViewCell: UICollectionViewDataSource {
             } else if indexPath.row == 3 {
                 
                  guard let numberCell = collectionView.dequeueReusableCell(withReuseIdentifier: "NumberCell", for: indexPath) as? NumberCollectionViewCell else { return UICollectionViewCell() }
-                
                 numberCell.numberLabel.text = "+\(memeberInfo.count - 3)"
                 
                 return numberCell
@@ -264,6 +263,7 @@ extension NewProjectTableViewCell: UICollectionViewDataSource {
             } else {
                 
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MemberCell", for: indexPath) as? MemberCollectionViewCell else { return UICollectionViewCell() }
+                cell.memberImage.layer.cornerRadius = 15
                 cell.memberImage.loadImage(memeberInfo[indexPath.row].userImageUrl, placeHolder: UIImage.asset(.Icons_128px_General))
                 
                 return cell

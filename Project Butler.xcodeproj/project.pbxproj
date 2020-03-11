@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		180727AC23FFA0A400D67EFA /* ReportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180727AB23FFA0A400D67EFA /* ReportManager.swift */; };
+		18281A3E2418D82A00672633 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18281A3D2418D82A00672633 /* PrivacyPolicyViewController.swift */; };
 		182A42F023E305D6002D8013 /* Personal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 182A42EF23E305D6002D8013 /* Personal.storyboard */; };
 		182A856523F2A6D400D5394F /* ProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182A856423F2A6D400D5394F /* ProjectManager.swift */; };
 		183BC5AC23FD4D33002A76CF /* NewProject.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 183BC5AB23FD4D33002A76CF /* NewProject.storyboard */; };
@@ -93,7 +94,7 @@
 		18FC19712405193D00DF4122 /* ResetPasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC19702405193D00DF4122 /* ResetPasswordTableViewCell.swift */; };
 		18FE8C3B24166F44000CE162 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FE8C3A24166F44000CE162 /* UIView+Extension.swift */; };
 		18FFB56223E15A4E004B43C0 /* JGProgressHUDWapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FFB56123E15A4E004B43C0 /* JGProgressHUDWapper.swift */; };
-		18FFB56523E175E2004B43C0 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 18FFB56423E175E2004B43C0 /* SwiftPackageProductDependency */; };
+		18FFB56523E175E2004B43C0 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 18FFB56423E175E2004B43C0 /* FacebookLogin */; };
 		3611E2991791C67DB4C72EFB /* Pods_ProjectButlerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A82D79187EE4DDC68C6A6299 /* Pods_ProjectButlerTests.framework */; };
 		85E28742B6924B98277E4719 /* Pods_Project_Butler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7B481A550B741A992B2F45 /* Pods_Project_Butler.framework */; };
 /* End PBXBuildFile section */
@@ -110,6 +111,7 @@
 
 /* Begin PBXFileReference section */
 		180727AB23FFA0A400D67EFA /* ReportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportManager.swift; sourceTree = "<group>"; };
+		18281A3D2418D82A00672633 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		182A42EF23E305D6002D8013 /* Personal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Personal.storyboard; sourceTree = "<group>"; };
 		182A856423F2A6D400D5394F /* ProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectManager.swift; sourceTree = "<group>"; };
 		183BC5AA23FCF4F2002A76CF /* Project Butler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Project Butler.entitlements"; sourceTree = "<group>"; };
@@ -213,7 +215,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18FFB56523E175E2004B43C0 /* BuildFile in Frameworks */,
+				18FFB56523E175E2004B43C0 /* FacebookLogin in Frameworks */,
 				85E28742B6924B98277E4719 /* Pods_Project_Butler.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -251,6 +253,7 @@
 		182A42F423E307C5002D8013 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				18281A3D2418D82A00672633 /* PrivacyPolicyViewController.swift */,
 				18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */,
 				18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */,
 				18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */,
@@ -656,7 +659,7 @@
 			);
 			name = "Project Butler";
 			packageProductDependencies = (
-				18FFB56423E175E2004B43C0 /* SwiftPackageProductDependency */,
+				18FFB56423E175E2004B43C0 /* FacebookLogin */,
 			);
 			productName = "Project Butler";
 			productReference = 1861E10123D7F71400673640 /* Project Butler.app */;
@@ -710,7 +713,7 @@
 			);
 			mainGroup = 1861E0F823D7F71400673640;
 			packageReferences = (
-				18FFB56323E175E2004B43C0 /* RemoteSwiftPackageReference */,
+				18FFB56323E175E2004B43C0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 			);
 			productRefGroup = 1861E10223D7F71400673640 /* Products */;
 			projectDirPath = "";
@@ -884,6 +887,7 @@
 				18BEF14723E977C200CC401C /* KingFisherWapper.swift in Sources */,
 				18E9F9BA23FA7E4E0078C7FB /* WorkLogContentViewController.swift in Sources */,
 				18FC19712405193D00DF4122 /* ResetPasswordTableViewCell.swift in Sources */,
+				18281A3E2418D82A00672633 /* PrivacyPolicyViewController.swift in Sources */,
 				18E9F99723FA348F0078C7FB /* WorkLogContentTableViewCell.swift in Sources */,
 				18ADFE092403B7EE003EAF2B /* ReportTitleCollectionViewCell.swift in Sources */,
 				18A059D123E3D683002860B6 /* FriendListViewController.swift in Sources */,
@@ -1186,7 +1190,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		18FFB56323E175E2004B43C0 /* RemoteSwiftPackageReference */ = {
+		18FFB56323E175E2004B43C0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
 			requirement = {
@@ -1197,9 +1201,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		18FFB56423E175E2004B43C0 /* SwiftPackageProductDependency */ = {
+		18FFB56423E175E2004B43C0 /* FacebookLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 18FFB56323E175E2004B43C0 /* RemoteSwiftPackageReference */;
+			package = 18FFB56323E175E2004B43C0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
 			productName = FacebookLogin;
 		};
 /* End XCSwiftPackageProductDependency section */

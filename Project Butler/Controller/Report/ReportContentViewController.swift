@@ -49,17 +49,6 @@ class ReportContentViewController: UIViewController {
         return pickerView
     }()
     
-    let indicatorView: UIView = {
-        
-        let view = UIView()
-        
-        view.backgroundColor = UIColor.B2
-        
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
-    
     var reportPickerContentArray: [String] = ["test1", "test2", "test3"]
     
     var projectDetail: ProjectDetail?

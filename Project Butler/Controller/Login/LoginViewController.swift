@@ -67,14 +67,14 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                 
                 UserDefaults.standard.set(uid, forKey: "userID")
                 
-                PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
+                PBProgressHUD.pbActivityView(viewController: strongSelf)
                 
                 CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { (result) in
                     
                     switch result {
                         
                     case .success:
-                        
+                    
                         print("Success")
                         
                     case .failure(let error):
@@ -124,7 +124,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                     
                     strongSelf.fbLoginGroup.enter()
                     
-                    PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
+                    PBProgressHUD.pbActivityView(viewController: strongSelf)
                     
                     UserManager.shared.fetchAllUser { [weak self] (result) in
                         
@@ -157,7 +157,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                             
                         } else {
                             
-                            PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
+                            PBProgressHUD.pbActivityView(viewController: strongSelf)
                             
                             CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { (result) in
                                 
@@ -240,7 +240,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
             
             strongSelf.googleLoginGroup.enter()
             
-            PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
+            PBProgressHUD.pbActivityView(viewController: strongSelf)
             
             UserManager.shared.fetchAllUser { [weak self] (result) in
                                 
@@ -273,7 +273,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                     
                 } else {
                     
-                    PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
+                    PBProgressHUD.pbActivityView(viewController: strongSelf)
                     
                     CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { (result) in
                         
@@ -325,6 +325,15 @@ extension LoginViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "LoginCell", for: indexPath) as? LoginTableViewCell else{
             return UITableViewCell()
+        }
+        
+        guard let privacyPolicyVC = UIStoryboard.login.instantiateViewController(withIdentifier: "PrivacyPolicyVC") as? PrivacyPolicyViewController else {
+            return UITableViewCell()
+        }
+        
+        cell.didTaptransitionsToPrivacyPolicyVC = {
+            
+            self.present(privacyPolicyVC, animated: true, completion: nil)
         }
         
         cell.delegate = self
@@ -413,7 +422,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                         
                         DispatchQueue.main.async {
                             
-                            PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
+                            PBProgressHUD.pbActivityView(viewController: strongSelf)
                             
                             CurrentUserInfo.shared.getLoginUserInfo(uid: userIdentifier) { (result) in
                                 
