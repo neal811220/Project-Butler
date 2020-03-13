@@ -111,7 +111,7 @@ class WorkLogContentViewController: UIViewController {
     
     var documentID = ""
         
-    var passContentData:((WorkLogContent) -> Void)?
+    var passContentData: ((WorkLogContent) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -194,7 +194,7 @@ class WorkLogContentViewController: UIViewController {
             return
         }
         
-        let workLog = WorkLogContent(userID: uid, userName: userName, date: dateText,workItem: workItem, startTime: startText, endTime: endText, problem: problem, workContent: workContent, hour: Int(durationH), minute: durationM)
+        let workLog = WorkLogContent(userID: uid, userName: userName, date: dateText, workItem: workItem, startTime: startText, endTime: endText, problem: problem, workContent: workContent, hour: Int(durationH), minute: durationM)
         
         ProjectManager.shared.uploadUserWorkLog(documentID: documentID, workLogContent: workLog) { (result) in
             

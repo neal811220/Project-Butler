@@ -16,7 +16,7 @@ enum PlaceHolder: String {
     
 }
 
-enum ScopeButton:String {
+enum ScopeButton: String {
     
     case all = "All"
     

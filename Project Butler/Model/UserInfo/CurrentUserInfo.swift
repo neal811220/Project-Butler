@@ -15,7 +15,7 @@ class CurrentUserInfo {
     
     private init() { }
     
-    let db = Firestore.firestore()
+    let userDB = Firestore.firestore()
     
     var userName: String?
     
@@ -38,14 +38,13 @@ class CurrentUserInfo {
     
     func getLoginUserInfo(uid: String, completion: @escaping (Result<Void, Error>) -> Void) {
         
-        
         if userName != nil {
             
             completion(.success(()))
             
         } else {
             
-            db.collection("users").document(uid).getDocument {[weak self] (snapshot, error) in
+            userDB.collection("users").document(uid).getDocument {[weak self] (snapshot, error) in
                 
                 guard let strongSelf = self else {
                     return

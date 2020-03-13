@@ -28,13 +28,16 @@ class ProfileViewController: UIViewController {
         
     }
     
-    @IBAction func Logout(_ sender: UIButton) {
+    @IBAction func logout(_ sender: UIButton) {
         
         do {
             
             let manager = LoginManager()
             
-            let delegate = UIApplication.shared.delegate as! AppDelegate
+            guard let delegate = UIApplication.shared.delegate as? AppDelegate else {
+                
+                return
+            }
             
             let loginVC = UIStoryboard.login.instantiateViewController(withIdentifier: "LoginVC") as? LoginViewController
             
@@ -189,7 +192,7 @@ class ProfileViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
             
             guard let oldPassword = alert.textFields![0].text else {
                 return
@@ -210,7 +213,7 @@ class ProfileViewController: UIViewController {
             
             let credential: AuthCredential = EmailAuthProvider.credential(withEmail: email, password: oldPassword)
             
-            user.reauthenticate(with: credential, completion: { (result, error) in
+            user.reauthenticate(with: credential, completion: { (_, error) in
                 
                 if let error = error {
                     
@@ -218,12 +221,11 @@ class ProfileViewController: UIViewController {
                     
                     print(error)
                     
-                } else{
+                } else {
                     
                     Auth.auth().currentUser?.updatePassword(to: newPassword, completion: { (error) in
                         
                         if let error = error {
-                            
                             
                             print(error.localizedDescription)
                             
@@ -246,11 +248,11 @@ class ProfileViewController: UIViewController {
 }
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
                 
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            
-            
+             
             userImage.image = pickedImage
             
             PBProgressHUD.pbActivityView(viewController: tabBarController!)

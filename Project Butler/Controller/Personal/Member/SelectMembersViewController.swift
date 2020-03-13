@@ -185,7 +185,7 @@ class SelectMembersViewController: UIViewController {
         tableView.reloadData()
     }
     
-      func isSearchBarEmpty() -> Bool{
+      func isSearchBarEmpty() -> Bool {
           
           return searchController.searchBar.text?.isEmpty ?? true
       }
@@ -258,7 +258,7 @@ extension SelectMembersViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         
-        guard let text = searchController.searchBar.text else{
+        guard let text = searchController.searchBar.text else {
             return
         }
         

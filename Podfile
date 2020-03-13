@@ -31,6 +31,8 @@ target 'Project Butler' do
   
   pod 'lottie-ios'
   
+  pod 'SwiftLint'
+  
   target 'ProjectButlerTests' do
     inherit! :search_paths
     # Pods for testing

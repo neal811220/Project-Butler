@@ -47,7 +47,6 @@ class CompletedTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        
         backImage.layer.shadowOpacity = 0.5
         
         backImage.layer.shadowOffset = CGSize(width: 0, height: 3)
@@ -61,7 +60,6 @@ class CompletedTableViewCell: UITableViewCell {
         collectionView.register(nib, forCellWithReuseIdentifier: "CompletedCell")
         
         collectionView.register(numberNib, forCellWithReuseIdentifier: "NumberCell")
-        
         
         // Initialization code
     }

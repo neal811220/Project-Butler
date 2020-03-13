@@ -32,7 +32,7 @@ class WorkLogContentTableViewCell: UITableViewCell {
     
     @IBOutlet weak var saveButton: UIButton!
     
-    var didChangeTextViewHeight:((Bool) -> Void)?
+    var didChangeTextViewHeight: ((Bool) -> Void)?
     
     var textViewDidEdit: ((String, String) -> Void)?
     
@@ -53,7 +53,6 @@ class WorkLogContentTableViewCell: UITableViewCell {
         
         // Configure the view for the selected state
     }
-    
     
     func setupTextView() {
         
@@ -109,4 +108,3 @@ extension WorkLogContentTableViewCell: UITextViewDelegate {
     }
     
 }
-

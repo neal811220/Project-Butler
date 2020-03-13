@@ -94,7 +94,7 @@ class ReportViewController: UIViewController {
         
         MemberReportManager(workLogContent: workLogContent, projectMembers: projectMembers, projectDetail: projectDetail),
         
-        WorkItemReportManager(workLogContent: workLogContent, projectMembers: projectMembers, projectDetail: projectDetail),
+        WorkItemReportManager(workLogContent: workLogContent, projectMembers: projectMembers, projectDetail: projectDetail)
     ]
         
     override func viewDidLoad() {
@@ -331,7 +331,6 @@ extension ReportViewController: UICollectionViewDelegateFlowLayout {
 }
 
 class ContainerCollectionViewCell: UICollectionViewCell {
-    
     
 }
 

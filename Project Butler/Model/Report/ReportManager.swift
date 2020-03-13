@@ -129,12 +129,9 @@ class DateReportManager: ReportManager, ChartProvider {
         
         filterWorkLogContent = []
         
-        for item in contentArray[selectedIndex ?? 0] {
+        for item in contentArray[selectedIndex ?? 0] where item.date == data {
             
-            if item.date == data {
-                
-                filterWorkLogContent.append(item)
-            }
+            filterWorkLogContent.append(item)
         }
         
         targetWorkLogContentsDidChangeHandler?(filterWorkLogContent)
@@ -196,25 +193,25 @@ class DateReportManager: ReportManager, ChartProvider {
             }
         }
         
-        for i in 1...7 {
+        for index in 1...7 {
             
             switch selectedIndex {
                 
             case 1:
                 
-                reportDate = Calendar.current.date(byAdding: .month, value: -i, to: Date()) ?? Date()
+                reportDate = Calendar.current.date(byAdding: .month, value: -index, to: Date()) ?? Date()
                 
                 dateString = monthFormatter.string(from: reportDate)
                 
             case 2:
                 
-                reportDate = Calendar.current.date(byAdding: .year, value: -i, to: Date()) ?? Date()
+                reportDate = Calendar.current.date(byAdding: .year, value: -index, to: Date()) ?? Date()
                 
                 dateString = yearFormatter.string(from: reportDate)
                 
             default:
                 
-                reportDate = Calendar.current.date(byAdding: .day, value: -i, to: Date()) ?? Date()
+                reportDate = Calendar.current.date(byAdding: .day, value: -index, to: Date()) ?? Date()
                 
                 dateString = dayFormatter.string(from: reportDate)
                 
@@ -230,7 +227,7 @@ class DateReportManager: ReportManager, ChartProvider {
         
         for item in beforeSevenDates {
             
-            let workHour = resultDictionary[item]?.map{ $0.hour }.reduce(0, { (sum, num) in
+            let workHour = resultDictionary[item]?.map { $0.hour }.reduce(0, { (sum, num) in
                 
                 return sum + num
             })
@@ -256,7 +253,7 @@ class DateReportManager: ReportManager, ChartProvider {
             
             .categories(Array(beforeSevenDates))
             
-            .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
+            .colorsTheme(["#fe117c", "#ffc069", "#06caf4", "#7dffc0"])
             
             .series([element])
             
@@ -306,12 +303,9 @@ class MemberReportManager: ReportManager, ChartProvider {
         
         filterWorkLogContent = []
         
-        for item in contentArray[selectedIndex ?? 0] {
+        for item in contentArray[selectedIndex ?? 0] where item.date == data {
             
-            if item.date == data {
-                
-                filterWorkLogContent.append(item)
-            }
+            filterWorkLogContent.append(item)
         }
         
         targetWorkLogContentsDidChangeHandler?(filterWorkLogContent)
@@ -360,25 +354,25 @@ class MemberReportManager: ReportManager, ChartProvider {
         
         contentArray[selectedIndex ?? 0] = filterWorkContentarray
         
-        for i in 1...7 {
+        for index in 1...7 {
             
             switch selectedIndex {
                 
             case 1:
                 
-                reportDate = Calendar.current.date(byAdding: .month, value: -i, to: Date()) ?? Date()
+                reportDate = Calendar.current.date(byAdding: .month, value: -index, to: Date()) ?? Date()
                 
                 dateString = monthFormatter.string(from: reportDate)
                 
             case 2:
                 
-                reportDate = Calendar.current.date(byAdding: .year, value: -i, to: Date()) ?? Date()
+                reportDate = Calendar.current.date(byAdding: .year, value: -index, to: Date()) ?? Date()
                 
                 dateString = yearFormatter.string(from: reportDate)
                 
             default:
                 
-                reportDate = Calendar.current.date(byAdding: .day, value: -i, to: Date()) ?? Date()
+                reportDate = Calendar.current.date(byAdding: .day, value: -index, to: Date()) ?? Date()
                 
                 dateString = dayFormatter.string(from: reportDate)
                 
@@ -423,7 +417,7 @@ class MemberReportManager: ReportManager, ChartProvider {
             
             for date in beforeSevenDates {
                 
-                let workHour = resultDictionary[member.userID]?.map{
+                let workHour = resultDictionary[member.userID]?.map {
                     if $0.date == date { return $0.hour } else { return 0} }.reduce(0, { (sum, num ) in
                         
                         return sum + num
@@ -451,7 +445,7 @@ class MemberReportManager: ReportManager, ChartProvider {
             .dataLabelsEnabled(false) //Enable or disable the data labels. Defaults to false
             .tooltipValueSuffix("Hour")//the value suffix of the chart tooltip
             .categories(Array(beforeSevenDates))
-            .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
+            .colorsTheme(["#fe117c", "#ffc069", "#06caf4", "#7dffc0"])
             .series(elements)
             .markerSymbolStyle(.innerBlank)
         return chartModel
@@ -499,12 +493,9 @@ class WorkItemReportManager: ReportManager, ChartProvider {
         
         filterWorkLogContent = []
         
-        for item in contentArray[selectedIndex ?? 0] {
-            
-            if item.date == data {
-                
+        for item in contentArray[selectedIndex ?? 0] where item.date == data {
+         
                 filterWorkLogContent.append(item)
-            }
         }
         
         targetWorkLogContentsDidChangeHandler?(filterWorkLogContent)
@@ -553,25 +544,25 @@ class WorkItemReportManager: ReportManager, ChartProvider {
         
         contentArray[selectedIndex ?? 0] = filterWorkContentarray
         
-        for i in 1...7 {
+        for index in 1...7 {
             
             switch selectedIndex {
                 
             case 1:
                 
-                reportDate = Calendar.current.date(byAdding: .month, value: -i, to: Date()) ?? Date()
+                reportDate = Calendar.current.date(byAdding: .month, value: -index, to: Date()) ?? Date()
                 
                 dateString = monthFormatter.string(from: reportDate)
                 
             case 2:
                 
-                reportDate = Calendar.current.date(byAdding: .year, value: -i, to: Date()) ?? Date()
+                reportDate = Calendar.current.date(byAdding: .year, value: -index, to: Date()) ?? Date()
                 
                 dateString = yearFormatter.string(from: reportDate)
                 
             default:
                 
-                reportDate = Calendar.current.date(byAdding: .day, value: -i, to: Date()) ?? Date()
+                reportDate = Calendar.current.date(byAdding: .day, value: -index, to: Date()) ?? Date()
                 
                 dateString = dayFormatter.string(from: reportDate)
                 
@@ -604,10 +595,10 @@ class WorkItemReportManager: ReportManager, ChartProvider {
         for item in projectDetail.workItems {
             
             seriesElement = []
-                        
+            
             for date in beforeSevenDates {
                 
-                let workHour = resultDictionary[item]?.map{
+                let workHour = resultDictionary[item]?.map {
                     
                     if $0.date == date { return $0.hour } else { return 0} }.reduce(0, { (sum, num ) in
                         
@@ -644,7 +635,7 @@ class WorkItemReportManager: ReportManager, ChartProvider {
             
             .categories(Array(beforeSevenDates))
             
-            .colorsTheme(["#fe117c","#ffc069","#06caf4","#7dffc0"])
+            .colorsTheme(["#fe117c", "#ffc069", "#06caf4", "#7dffc0"])
             
             .series(elements)
             

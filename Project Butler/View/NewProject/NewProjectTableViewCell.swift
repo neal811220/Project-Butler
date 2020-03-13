@@ -89,7 +89,7 @@ class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
         
         textField.resignFirstResponder()
         
-        guard let projectName = projectNameTextField.text, let workItem = workItemTextField.text else{
+        guard let projectName = projectNameTextField.text, let workItem = workItemTextField.text else {
             return
         }
         

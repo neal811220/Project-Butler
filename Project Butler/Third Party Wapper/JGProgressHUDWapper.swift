@@ -91,4 +91,3 @@ class PBProgressHUD {
            shared.hud.dismiss(afterDelay: 1.5)
        }
 }
-

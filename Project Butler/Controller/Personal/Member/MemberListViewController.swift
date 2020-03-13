@@ -151,7 +151,7 @@ class MemberListViewController: UIViewController {
         tableView.reloadData()
     }
     
-    func isSearchBarEmpty() -> Bool{
+    func isSearchBarEmpty() -> Bool {
         
         return searchController.searchBar.text?.isEmpty ?? true
     }
@@ -322,7 +322,7 @@ class MemberListViewController: UIViewController {
         
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
-        alertController.addAction(UIAlertAction(title: "Leave", style: .destructive, handler: { [weak self] (alert) in
+        alertController.addAction(UIAlertAction(title: "Leave", style: .destructive, handler: { [weak self] _ in
             
             guard let strongSelf = self else {
                 
@@ -367,14 +367,11 @@ extension MemberListViewController: SelectMembersViewControllerDelegate {
             
             var isContained = false
             
-            for index in 0 ..< self.memberArray.count {
-            
-                if member.userID == self.memberArray[index].userID {
+            for index in 0 ..< self.memberArray.count where member.userID == self.memberArray[index].userID {
                     
                     isContained = true
                     
                     break
-                }
             }
             
             if !isContained {
@@ -500,7 +497,7 @@ extension MemberListViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         
-        guard let text = searchController.searchBar.text else{
+        guard let text = searchController.searchBar.text else {
             return
         }
         

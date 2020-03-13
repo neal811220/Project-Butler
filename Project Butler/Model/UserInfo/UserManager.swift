@@ -26,11 +26,11 @@ class UserManager {
     
     static let shared = UserManager()
     
-    private init(){ }
+    private init() {}
     
     var scopeButtons = ["Friend", "Confirm", "Search User"]
     
-    let db = Firestore.firestore()
+    let userDB = Firestore.firestore()
     
     let storage = Storage.storage()
     
@@ -80,7 +80,7 @@ class UserManager {
             
             let userdetail: [String: Any] = ["userName": userName, "userEmail": userEmail, "userImageUrl": strongSelf.imageUrl, "userID": uid]
             
-            strongSelf.db.collection("users").document(uid).setData(userdetail)
+            strongSelf.userDB.collection("users").document(uid).setData(userdetail)
             
             CurrentUserInfo.shared.userName = userName
                    
@@ -107,7 +107,7 @@ class UserManager {
                 
                 let userdetail: [String: Any] = ["userName": name, "userEmail": email, "userImageUrl": strongSelf.imageUrl, "userID": uid]
                 
-                strongSelf.db.collection("users").document(uid).setData(userdetail)
+                strongSelf.userDB.collection("users").document(uid).setData(userdetail)
                 
                 CurrentUserInfo.shared.userName = name
                 
@@ -131,8 +131,8 @@ class UserManager {
         
         let currentUserId = current.uid
         
-        let addStatus:[String: Any] = ["accept": false, "confirm": true, "userID": uid, "userName": name, "userEmail": email, "userImageUrl": image]
-        db.collection("users").document(currentUserId).collection("friends").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
+        let addStatus: [String: Any] = ["accept": false, "confirm": true, "userID": uid, "userName": name, "userEmail": email, "userImageUrl": image]
+        userDB.collection("users").document(currentUserId).collection("friends").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
             
             if error == nil && snapshot != nil && snapshot?.documents.count != 0 {
                 
@@ -150,7 +150,7 @@ class UserManager {
                 
             } else if error == nil && snapshot != nil {
                 
-                self.db.collection("users").document(currentUserId).collection("friends").document(uid).setData(addStatus)
+                self.userDB.collection("users").document(currentUserId).collection("friends").document(uid).setData(addStatus)
                 
                 self.changeFriendStatus(uid: uid)
                 
@@ -191,7 +191,7 @@ class UserManager {
                 
                 let imageReference = Storage.storage().reference().child("userImages").child("\(uid).jpg")
                 
-                imageReference.putData(imageData, metadata: nil) { [ weak self] (metadata, error) in
+                imageReference.putData(imageData, metadata: nil) { [ weak self] (_, error) in
                     
                     guard let strongSelf = self else {
                         return
@@ -237,7 +237,7 @@ class UserManager {
         
         let imageReference = Storage.storage().reference().child("userImages").child("\(uid).jpg")
         
-        imageReference.putData(imageData, metadata: nil) { [ weak self] (metadata, error) in
+        imageReference.putData(imageData, metadata: nil) { [ weak self] (_, error) in
             
             guard let strongSelf = self else {
                 return
@@ -273,7 +273,7 @@ class UserManager {
     
     func fetchAllUser(completion: @escaping (Result<[AuthInfo], Error>) -> Void) {
         
-        db.collection("users").getDocuments { [weak self] (snapshot, error) in
+        userDB.collection("users").getDocuments { [weak self] (snapshot, error) in
             
             guard let snapshot = snapshot, error == nil else {
                 return
@@ -308,7 +308,7 @@ class UserManager {
         
         guard let id = CurrentUserInfo.shared.userID else { return }
         
-        db.collection("users").document(id).collection("friends").document(uid).getDocument { (snapshot, error) in
+        userDB.collection("users").document(id).collection("friends").document(uid).getDocument { (snapshot, error) in
             
             if let error = error {
                 
@@ -317,7 +317,7 @@ class UserManager {
             } else {
                 
                 do {
-                    guard let data = try snapshot?.data(as: FriendDetail.self, decoder:Firestore.Decoder()) else { return }
+                    guard let data = try snapshot?.data(as: FriendDetail.self, decoder: Firestore.Decoder()) else { return }
                     
                     completion(.success(data))
                     
@@ -342,7 +342,7 @@ class UserManager {
         
         lastSearchText = ""
         
-        db.collection("users").document(userID).collection("friends").getDocuments { (snapshot, error) in
+        userDB.collection("users").document(userID).collection("friends").getDocuments { (snapshot, error) in
             
             if error == nil && snapshot != nil && snapshot!.documents.count != 0 {
                 
@@ -391,7 +391,7 @@ class UserManager {
         
         guard let userID = Auth.auth().currentUser?.uid else { return }
         
-        db.collection("users").document(userID).collection("friends").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
+        userDB.collection("users").document(userID).collection("friends").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
             
             if error == nil && snapshot != nil && snapshot!.documents.count != 0 {
                 
@@ -423,7 +423,7 @@ class UserManager {
                 
             } else {
                 
-                self.db.collection("users").document(uid).getDocument { (snapshot, error) in
+                self.userDB.collection("users").document(uid).getDocument { (snapshot, error) in
                     if error == nil {
                         do {
                             guard let data = try snapshot?.data(as: AuthInfo.self, decoder: Firestore.Decoder()) else { return }
@@ -491,7 +491,7 @@ class UserManager {
         
         clearAll()
         
-        db.collection("users").whereField("userEmail", isGreaterThanOrEqualTo: text).whereField("userEmail", isLessThan: nextWord).getDocuments { (snapshot, error) in
+        userDB.collection("users").whereField("userEmail", isGreaterThanOrEqualTo: text).whereField("userEmail", isLessThan: nextWord).getDocuments { (snapshot, error) in
             
             if let error = error {
                 print(error)
@@ -537,9 +537,9 @@ class UserManager {
         
         guard let id = CurrentUserInfo.shared.userID else { return }
         
-        db.collection("users").document(id).collection("friends").document(uid).setData(["confirm": true], merge: true)
+        userDB.collection("users").document(id).collection("friends").document(uid).setData(["confirm": true], merge: true)
         
-        db.collection("users").document(uid).collection("friends").document(id).setData(["accept": true], merge: true)
+        userDB.collection("users").document(uid).collection("friends").document(id).setData(["accept": true], merge: true)
     }
     
     func changeFriendStatus(uid: String) {
@@ -552,7 +552,7 @@ class UserManager {
         
         var image = ""
         
-        db.collection("users").document(id).getDocument { (snapshot, error) in
+        userDB.collection("users").document(id).getDocument { (snapshot, error) in
             
             guard let snapshot = snapshot, error == nil else { return }
             
@@ -565,8 +565,8 @@ class UserManager {
                 
                 image = data.userImageUrl
                 
-                let friendStatu:[String: Any] = ["accept": true, "confirm": false, "userID": id, "userName": name, "userEmail": email, "userImageUrl": image]
-                self.db.collection("users").document(uid).collection("friends").document(id).setData(friendStatu)
+                let friendStatu: [String: Any] = ["accept": true, "confirm": false, "userID": id, "userName": name, "userEmail": email, "userImageUrl": image]
+                self.userDB.collection("users").document(uid).collection("friends").document(id).setData(friendStatu)
                 
             } catch {
                 
@@ -582,9 +582,9 @@ class UserManager {
         
         guard let id = CurrentUserInfo.shared.userID else { return }
         
-        db.collection("users").document(id).collection("friends").document(uid).delete()
+        userDB.collection("users").document(id).collection("friends").document(uid).delete()
         
-        db.collection("users").document(uid).collection("friends").document(id).delete()
+        userDB.collection("users").document(uid).collection("friends").document(id).delete()
         
     }
     

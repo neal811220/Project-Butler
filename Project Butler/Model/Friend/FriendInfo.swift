@@ -61,7 +61,7 @@ struct AuthInfo: Codable, Userable {
             
             switch result {
                 
-            case .success(()):
+            case .success:
                 
                 guard let text = UserManager.shared.lastSearchText else { return }
                 
@@ -70,13 +70,13 @@ struct AuthInfo: Codable, Userable {
                 UserManager.shared.searchUser(text: text) { (result) in
                     switch result {
                         
-                        case .success(let data):
-                            
-                            print(data)
-                            
-                        case .failure(let error):
-                            
-                            print(error)
+                    case .success(let data):
+                        
+                        print(data)
+                        
+                    case .failure(let error):
+                        
+                        print(error)
                     }
                     
                 }
@@ -132,7 +132,7 @@ struct FriendDetail: Codable, Userable {
         UserManager.shared.searchAllFriendInfo { (result) in
             switch result {
                 
-            case .success( _):
+            case .success:
 
                 print("Accept Successfully")
                 
@@ -152,7 +152,7 @@ struct FriendDetail: Codable, Userable {
         UserManager.shared.searchAllFriendInfo { (result) in
             switch result {
                 
-            case .success( _):
+            case .success:
                 
                 print("Refuse Successfully")
                 
@@ -184,4 +184,3 @@ struct FriendDetail: Codable, Userable {
         }
     }
 }
-

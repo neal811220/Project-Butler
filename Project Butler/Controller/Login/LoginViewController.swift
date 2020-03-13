@@ -146,7 +146,6 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                         strongSelf.fbLoginGroup.leave()
                     }
                     
-                    
                     strongSelf.fbLoginGroup.notify(queue: DispatchQueue.main) {
                         
                         let match = strongSelf.allUser.filter({ $0.userID == uid })
@@ -195,7 +194,9 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
     func transitionToTabBar() {
         DispatchQueue.main.async {
             
-            let delegate = UIApplication.shared.delegate as! AppDelegate
+            guard let delegate = UIApplication.shared.delegate as? AppDelegate else {
+                return
+            }
             
             guard let tabBarVC = UIStoryboard.main.instantiateViewController(withIdentifier: "TabBarVC") as? PBTabBarViewController else {
                 return
@@ -262,7 +263,6 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                 strongSelf.googleLoginGroup.leave()
             }
             
-            
             strongSelf.googleLoginGroup.notify(queue: DispatchQueue.main) {
                 
                 let match = strongSelf.allUser.filter({ $0.userID == uid })
@@ -323,7 +323,7 @@ extension LoginViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "LoginCell", for: indexPath) as? LoginTableViewCell else{
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "LoginCell", for: indexPath) as? LoginTableViewCell else {
             return UITableViewCell()
         }
         
@@ -359,7 +359,6 @@ extension LoginViewController: UITableViewDataSource {
         return cell
     }
     
-    
 }
 
 extension LoginViewController: LoginTableViewCellDelegate {
@@ -391,7 +390,6 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
         authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
     }
-    
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         

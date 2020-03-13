@@ -54,7 +54,6 @@
 		18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */; };
 		18ADFE022403B7E1003EAF2B /* ReportContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18ADFDFE2403B7E0003EAF2B /* ReportContentTableViewCell.swift */; };
 		18ADFE032403B7E1003EAF2B /* ReportContentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18ADFDFF2403B7E0003EAF2B /* ReportContentTableViewCell.xib */; };
-		18ADFE042403B7E1003EAF2B /* ReportContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18ADFE002403B7E1003EAF2B /* ReportContentCollectionViewCell.swift */; };
 		18ADFE082403B7EE003EAF2B /* ReportTitleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18ADFE062403B7EE003EAF2B /* ReportTitleCollectionViewCell.xib */; };
 		18ADFE092403B7EE003EAF2B /* ReportTitleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18ADFE072403B7EE003EAF2B /* ReportTitleCollectionViewCell.swift */; };
 		18ADFE0E240414A8003EAF2B /* LoginTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18ADFE0C240414A8003EAF2B /* LoginTableViewCell.swift */; };
@@ -162,7 +161,6 @@
 		18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ResetPasswordViewController.swift; path = "/Users/apple/Desktop/Project Butler/Project Butler/Controller/ResetPasswordViewController.swift"; sourceTree = "<absolute>"; };
 		18ADFDFE2403B7E0003EAF2B /* ReportContentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportContentTableViewCell.swift; sourceTree = "<group>"; };
 		18ADFDFF2403B7E0003EAF2B /* ReportContentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportContentTableViewCell.xib; sourceTree = "<group>"; };
-		18ADFE002403B7E1003EAF2B /* ReportContentCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		18ADFE062403B7EE003EAF2B /* ReportTitleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportTitleCollectionViewCell.xib; sourceTree = "<group>"; };
 		18ADFE072403B7EE003EAF2B /* ReportTitleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTitleCollectionViewCell.swift; sourceTree = "<group>"; };
 		18ADFE0C240414A8003EAF2B /* LoginTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTableViewCell.swift; sourceTree = "<group>"; };
@@ -388,7 +386,6 @@
 		18635CEE2403A70E00469168 /* ReportContent */ = {
 			isa = PBXGroup;
 			children = (
-				18ADFE002403B7E1003EAF2B /* ReportContentCollectionViewCell.swift */,
 				18ADFDFE2403B7E0003EAF2B /* ReportContentTableViewCell.swift */,
 				18ADFDFF2403B7E0003EAF2B /* ReportContentTableViewCell.xib */,
 			);
@@ -652,6 +649,7 @@
 				1861E0FF23D7F71400673640 /* Resources */,
 				BB09A2514DAD9A73DFAAD469 /* [CP] Embed Pods Frameworks */,
 				15F5903466A5945554944ED7 /* [CP] Copy Pods Resources */,
+				18AEB999241B97ED0072C4A8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -789,6 +787,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Project Butler/Pods-Project Butler-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		18AEB999241B97ED0072C4A8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
 		54462D366218C3B74D761C2D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -893,7 +908,6 @@
 				18A059D123E3D683002860B6 /* FriendListViewController.swift in Sources */,
 				18B9591723F0432600C6E8EB /* NewProject.swift in Sources */,
 				18F755C2240ACABF00545FC4 /* HTTPClient.swift in Sources */,
-				18ADFE042403B7E1003EAF2B /* ReportContentCollectionViewCell.swift in Sources */,
 				18635CEA2403A6DB00469168 /* ReportChartViewTableViewCell.swift in Sources */,
 				188FE74023E8002200DDF30C /* NewProjectTableViewCell.swift in Sources */,
 				18CE586A23F8412A00D47A2D /* WorkLogCollectionViewCell.swift in Sources */,

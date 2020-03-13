@@ -20,7 +20,7 @@ class ProjectManager {
     
     private init() {}
     
-    let db = Firestore.firestore()
+    let projectDB = Firestore.firestore()
     
     var friendArray: [FriendDetail] = []
     
@@ -64,7 +64,7 @@ class ProjectManager {
         
         do {
             
-            try db.collection("projects").document(projectID).setData(from: newProject)
+            try projectDB.collection("projects").document(projectID).setData(from: newProject)
             
         } catch {
             
@@ -83,11 +83,11 @@ class ProjectManager {
             return
         }
         
-        let docID = db.collection("projects").document(uid).collection("workLogs").document().documentID
+        let docID = projectDB.collection("projects").document(uid).collection("workLogs").document().documentID
         
         do {
             
-            try db.collection("projects").document(documentID).collection("workLogs").document(docID).setData(from: workLogContent)
+            try projectDB.collection("projects").document(documentID).collection("workLogs").document(docID).setData(from: workLogContent)
             
             completion(.success(()))
             
@@ -106,7 +106,7 @@ class ProjectManager {
         
         workLogContent = []
         
-        db.collection("projects").document(projectID).collection("workLogs").getDocuments { [weak self] (snapshot, error) in
+        projectDB.collection("projects").document(projectID).collection("workLogs").getDocuments { [weak self] (snapshot, error) in
             
             guard let strongSelf = self else {
                 
@@ -147,7 +147,7 @@ class ProjectManager {
         guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
             return
         }
-        db.collection("projects").document(projectID).collection("workLogs").whereField("userID", isEqualTo: uid).getDocuments { [weak self] (snapshot, error) in
+        projectDB.collection("projects").document(projectID).collection("workLogs").whereField("userID", isEqualTo: uid).getDocuments { [weak self] (snapshot, error) in
             
             guard let strongSelf = self else {
                 
@@ -205,7 +205,6 @@ class ProjectManager {
                     
                     strongSelf.projectMembers.append(data)
                     
-                    
                     if strongSelf.projectMembers.count == projectMember.count {
                         
                         completion(.success(strongSelf.projectMembers))
@@ -220,14 +219,13 @@ class ProjectManager {
             }
         }
         
-        
     }
     
     func fetchUserProcessingProjects(completion: @escaping (Result<[ProjectDetail], Error>) -> Void) {
         
         guard let uid = UserDefaults.standard.value(forKey: "userID") else { return }
         
-        db.collection("projects").whereField("projectMemberID", arrayContains: uid).whereField("isCompleted", isEqualTo: false).getDocuments { [weak self] (snapshot, error) in
+        projectDB.collection("projects").whereField("projectMemberID", arrayContains: uid).whereField("isCompleted", isEqualTo: false).getDocuments { [weak self] (snapshot, error) in
             
             guard let snapshot = snapshot, error == nil else {
                 
@@ -261,7 +259,7 @@ class ProjectManager {
         
         guard let uid = UserDefaults.standard.value(forKey: "userID") else { return }
         
-        db.collection("projects").whereField("projectMemberID", arrayContains: uid).whereField("isCompleted", isEqualTo: true).getDocuments { [weak self] (snapshot, error) in
+        projectDB.collection("projects").whereField("projectMemberID", arrayContains: uid).whereField("isCompleted", isEqualTo: true).getDocuments { [weak self] (snapshot, error) in
             
             guard let snapshot = snapshot, error == nil else {
                 
@@ -295,7 +293,7 @@ class ProjectManager {
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        db.collection("users").document(uid).collection("friends").whereField("accept", isEqualTo: true).whereField("confirm", isEqualTo: true).getDocuments { (snapshot, error) in
+        projectDB.collection("users").document(uid).collection("friends").whereField("accept", isEqualTo: true).whereField("confirm", isEqualTo: true).getDocuments { (snapshot, error) in
             
             guard let snapshot = snapshot, error == nil else {
                 completion(.failure(error!))
@@ -343,7 +341,7 @@ class ProjectManager {
         
         clearAll()
         
-        db.collection("users").document(uid).collection("friends").whereField("userEmail", isGreaterThanOrEqualTo: text).whereField("userEmail", isLessThan: nextWord).getDocuments { [weak self] (snapshot, error) in
+        projectDB.collection("users").document(uid).collection("friends").whereField("userEmail", isGreaterThanOrEqualTo: text).whereField("userEmail", isLessThan: nextWord).getDocuments { [weak self] (snapshot, error) in
             
             guard let strongSelf = self else {
                 
@@ -383,7 +381,7 @@ class ProjectManager {
         
         completedMinute = 0
         
-        db.collection("projects").document(projectID).collection("workLogs").getDocuments { [weak self] (snapshot, error) in
+        projectDB.collection("projects").document(projectID).collection("workLogs").getDocuments { [weak self] (snapshot, error) in
             
             guard let strongSelf = self else {
                 
@@ -426,10 +424,10 @@ class ProjectManager {
         
         for member in memberID {
             
-            memberRef.append(db.collection("users").document(member))
+            memberRef.append(projectDB.collection("users").document(member))
         }
         
-        db.collection("projects").document(documentID).updateData(["projectMember": FieldValue.arrayUnion(memberRef)]) { (error) in
+        projectDB.collection("projects").document(documentID).updateData(["projectMember": FieldValue.arrayUnion(memberRef)]) { (error) in
             
             if let error = error {
                 
@@ -444,7 +442,7 @@ class ProjectManager {
     
     func updateMemberID(documentID: String, memberID: [String], completion: @escaping (Result<Void, Error>) -> Void) {
         
-        db.collection("projects").document(documentID).updateData(["projectMemberID": FieldValue.arrayUnion(memberID)]) { (error) in
+        projectDB.collection("projects").document(documentID).updateData(["projectMemberID": FieldValue.arrayUnion(memberID)]) { (error) in
             
             if let error = error {
                 
@@ -480,7 +478,7 @@ class ProjectManager {
                 
                 let data: [String: Any] = ["isCompleted": true, "completedDate": currendDateString, "completedDays": days, "completedHour": hour]
                 
-                strongSelf.db.collection("projects").document(projectID).setData(data, merge: true) { (error) in
+                strongSelf.projectDB.collection("projects").document(projectID).setData(data, merge: true) { (error) in
                     
                     if let error = error {
                         
@@ -504,9 +502,9 @@ class ProjectManager {
     
     func removeMember(documentID: String, memberID: String, completion: @escaping (Result<Void, Error>) -> Void) {
         
-        let memberRef = db.collection("users").document(memberID)
+        let memberRef = projectDB.collection("users").document(memberID)
         
-        db.collection("projects").document(documentID).updateData(["projectMember": FieldValue.arrayRemove([memberRef])]) { (error) in
+        projectDB.collection("projects").document(documentID).updateData(["projectMember": FieldValue.arrayRemove([memberRef])]) { (error) in
             
             if let error = error {
                 
@@ -522,7 +520,7 @@ class ProjectManager {
     
     func removeMemberID(documentID: String, removeMemberID: String, completion: @escaping (Result<Void, Error>) -> Void) {
         
-        db.collection("projects").document(documentID).updateData(["projectMemberID": FieldValue.arrayRemove([removeMemberID])]) { (error) in
+        projectDB.collection("projects").document(documentID).updateData(["projectMemberID": FieldValue.arrayRemove([removeMemberID])]) { (error) in
             
             if let error = error {
                 
@@ -536,4 +534,3 @@ class ProjectManager {
         }
     }
 }
-

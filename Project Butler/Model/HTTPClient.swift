@@ -27,7 +27,7 @@ class HTTPClient {
         
         let session = URLSession(configuration: .default)
         
-        let task = session.dataTask(with: request) { (url, response, error) in
+        let task = session.dataTask(with: request) { (url, _, error) in
             
             if let error = error {
                 

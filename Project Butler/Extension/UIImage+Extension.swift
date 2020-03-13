@@ -11,6 +11,7 @@ import UIKit
 enum ImageAsset: String {
     
     //tabbarItem
+    // swiftlint:disable identifier_name redundant_string_enum_value
     case Icons_32px_List_Normal
     
     case Icons_32px_List_Selected

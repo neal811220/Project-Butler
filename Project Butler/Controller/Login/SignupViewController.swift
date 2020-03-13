@@ -35,7 +35,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             
             if passwordText == confirmtext {
                 
-                Auth.auth().createUser(withEmail: emailText, password: passwordText) { [weak self] (result, error) in
+                Auth.auth().createUser(withEmail: emailText, password: passwordText) { [weak self] (_, error) in
                     
                     guard let strongSelf = self, let userName = strongSelf.emailText.split(separator: "@").first, let uid = Auth.auth().currentUser?.uid else {
                         
@@ -63,7 +63,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                         strongSelf.dismiss(animated: true, completion: nil)
                     }
                 }
-            } else{
+            } else {
                 
                 PBProgressHUD.showFailure(text: "Password Not Match!", viewController: self)
             }
@@ -92,7 +92,7 @@ extension SignupViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SignupCell", for: indexPath) as? SignupTableViewCell else{
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SignupCell", for: indexPath) as? SignupTableViewCell else {
             return UITableViewCell()
         }
         
@@ -104,7 +104,6 @@ extension SignupViewController: UITableViewDataSource {
         return cell
     }
 }
-
 
 extension SignupViewController: SignupTableViewCellDelegate {
     

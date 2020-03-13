@@ -154,7 +154,7 @@ extension ReportContentViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch indexPath.section{
+        switch indexPath.section {
 
         case 0:
 
@@ -239,7 +239,6 @@ extension ReportContentViewController: UIPickerViewDataSource {
         
         return manager.pickerContent[row]
     }
-    
     
 }
 

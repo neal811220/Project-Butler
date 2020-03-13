@@ -14,9 +14,9 @@ import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
+    // swiftlint:disable force_cast
     static let shared = UIApplication.shared.delegate as! AppDelegate
-    
+    // swiftlint:enable force_cast
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     @available(iOS 9.0, *)
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         
         if url.scheme == "fb2907817055943167" {
 
@@ -70,4 +70,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
 }
-

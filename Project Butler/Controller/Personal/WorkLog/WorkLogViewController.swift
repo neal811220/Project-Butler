@@ -60,9 +60,7 @@ class WorkLogViewController: UIViewController {
         tableView.register(nib, forCellReuseIdentifier: "WorkLogCell")
         
         tableView.separatorStyle = .none
-        
-        tableView.delegate = self
-        
+                
         tableView.dataSource = self
         
         tableView.rowHeight = UITableView.automaticDimension
@@ -397,7 +395,7 @@ class WorkLogViewController: UIViewController {
         let completeProjectAlert = UIAlertController(title: "Complete Project", message: "Are you sure you want to change the project status to completed?", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        let submit = UIAlertAction(title: "Submit", style: .default) { [weak self] (alert) in
+        let submit = UIAlertAction(title: "Submit", style: .default) { [weak self] _ in
             
             self?.completeProject()
         }
@@ -532,7 +530,6 @@ extension WorkLogViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
-
 extension WorkLogViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -575,9 +572,4 @@ extension WorkLogViewController: UITableViewDataSource {
         
         return cell
     }
-}
-
-extension WorkLogViewController: UITableViewDelegate {
-    
-    
 }

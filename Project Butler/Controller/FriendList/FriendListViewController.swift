@@ -278,7 +278,7 @@ extension FriendListViewController: UITableViewDataSource {
                 
                 return ""
             }
-        } else if currentSeletedIndex == 0{
+        } else if currentSeletedIndex == 0 {
             
             return "Friend"
             
@@ -292,7 +292,6 @@ extension FriendListViewController: UITableViewDataSource {
         
         return datas[section].count
     }
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -433,7 +432,6 @@ extension FriendListViewController: UITableViewDelegate {
         currentIndexPath = indexPath
         print(indexPath)
     }
-    
     
 }
 

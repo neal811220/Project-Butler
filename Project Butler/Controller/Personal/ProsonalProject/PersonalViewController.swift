@@ -176,7 +176,6 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         return tableView
     }()
     
-    
     lazy var searchProjectTexiField: UITextField = {
         
         let textField = UITextField()
@@ -479,7 +478,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         tableView.reloadData()
     }
     
-    func isSearchTextEmpty() -> Bool{
+    func isSearchTextEmpty() -> Bool {
         
         return searchProjectTexiField.text?.isEmpty ?? true
     }
@@ -612,8 +611,6 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
-    
     func fetchMemberDetail(documentRef: [DocumentReference], completion: @escaping (Result<[AuthInfo], Error>) -> Void) {
         
         PBProgressHUD.pbActivityView(viewController: tabBarController!)
@@ -657,7 +654,6 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         case 1:
             
             if searchLeaderButton.isSelected == true {
-                
                 
                 userCompletedFilterArray = userCompletedFilterArray.filter({
                     
@@ -756,7 +752,6 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     func setupTableView() {
         
         view.addSubview(tableView)
-        
         
         tableViewTopConstraint = tableView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20)
         NSLayoutConstraint.activate([
@@ -882,7 +877,7 @@ extension PersonalViewController: UITableViewDataSource {
                     return
                 }
                 
-                guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else{
+                guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else {
                     return
                 }
                 
@@ -947,7 +942,7 @@ extension PersonalViewController: UITableViewDataSource {
                     return
                 }
                 
-                guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else{
+                guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else {
                     return
                 }
                 
@@ -1093,5 +1088,4 @@ extension PersonalViewController: UITableViewDelegate {
         
         animator.startAnimation(afterDelay: 0.1 * Double(indexPath.item))
     }
-    
 }

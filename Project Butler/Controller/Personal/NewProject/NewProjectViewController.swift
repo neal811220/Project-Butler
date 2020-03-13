@@ -239,15 +239,15 @@ class NewProjectViewController: UIViewController {
         
         view.endEditing(true)
         
-        let currentUserRef = UserManager.shared.db.collection("users").document(userId)
+        let currentUserRef = UserManager.shared.userDB.collection("users").document(userId)
         
         let hours = totalDays * 24
         
-        var memberID : [String] = []
+        var memberID: [String] = []
         
         var userRef: [DocumentReference] = []
         
-        let projectID = UserManager.shared.db.collection("users").document().documentID
+        let projectID = UserManager.shared.userDB.collection("users").document().documentID
         
         var memberUrl: [String] = []
         
@@ -322,9 +322,9 @@ class NewProjectViewController: UIViewController {
         })
     }
     
-    func referenceArray(uid: String) -> DocumentReference{
+    func referenceArray(uid: String) -> DocumentReference {
         
-        let ref = UserManager.shared.db.collection("users").document(uid)
+        let ref = UserManager.shared.userDB.collection("users").document(uid)
         
         return ref
     }
@@ -367,7 +367,6 @@ extension NewProjectViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         
         if indexPath.section == 0 {
         
