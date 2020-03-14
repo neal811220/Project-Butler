@@ -5,3 +5,5 @@ Project Butler是一款幫助團隊分工合作，檢視花費工時的應用程
 
 
 [<img src="https://github.com/BigRoot9527/GoToMarket/blob/master/GoToMarket/ScreenShots/DownloadAppStoreBadge.png" width="170" height="50">](http://apps.apple.com/app/id1500539697)
+
+## Feature
