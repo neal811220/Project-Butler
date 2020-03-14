@@ -43,3 +43,13 @@ Project Butler是一款幫助團隊分工合作，檢視花費工時的應用程
 * 填寫工作日誌
 
 <img src="https://github.com/neal811220/Project-Butler/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-03-14%20at%2016.06.04.png" width="250" height="540"> <img src="https://github.com/neal811220/Project-Butler/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-03-14%20at%2017.43.04.png" width="250" height="540">
+
+## Report
+
+* 專案報表
+
+* 成員報表
+
+* 工作項目報表
+
+<img src="https://github.com/neal811220/Project-Butler/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-03-14%20at%2016.31.26.png" width="250" height="540"> <img src="https://github.com/neal811220/Project-Butler/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-03-14%20at%2016.31.28.png" width="250" height="540"> <img src="https://github.com/neal811220/Project-Butler/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-03-14%20at%2016.06.14.png" width="250" height="540">
