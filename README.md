@@ -26,4 +26,4 @@ Project Butler是一款幫助團隊分工合作，檢視花費工時的應用程
 
 * 選擇專案成員
 
-<img src="https://github.com/neal811220/Project-Butler/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-03-14%20at%2015.52.36.png" width="250" height="540"> <img src="https://github.com/neal811220/Project-Butler/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-03-14%20at%2016.02.03.png" width="250" height="540">
+<img src="https://github.com/neal811220/Project-Butler/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-03-14%20at%2017.06.02.png" width="250" height="540"> <img src="https://github.com/neal811220/Project-Butler/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-03-14%20at%2015.52.36.png" width="250" height="540"> <img src="https://github.com/neal811220/Project-Butler/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-03-14%20at%2016.02.03.png" width="250" height="540">
