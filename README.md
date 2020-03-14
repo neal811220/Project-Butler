@@ -53,3 +53,19 @@ Project Butler是一款幫助團隊分工合作，檢視花費工時的應用程
 * 工作項目報表
 
 <img src="https://github.com/neal811220/Project-Butler/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-03-14%20at%2016.31.26.png" width="250" height="540"> <img src="https://github.com/neal811220/Project-Butler/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-03-14%20at%2016.31.28.png" width="250" height="540"> <img src="https://github.com/neal811220/Project-Butler/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-03-14%20at%2016.06.14.png" width="250" height="540">
+
+## Libraries
+* Crashlytics
+* Firebase SDK
+* Facebook SDK
+* Google SDK
+* IQKeyboardManagerSwift
+* Kingfisher
+* SwiftLint
+* JGProgressHUD
+* MJRefresh
+* AAInfographics
+
+## Requirement
+* iOS 12.0 +
+* XCode 11.
