@@ -32,9 +32,7 @@ class NewProjectViewController: UIViewController {
         tableView.register(workItemNib, forCellReuseIdentifier: "workItemCell")
         
         tableView.backgroundColor = UIColor.Gray1
-                
-        tableView.layer.cornerRadius = 60
-        
+                        
         tableView.separatorStyle = .none
         
         return tableView
