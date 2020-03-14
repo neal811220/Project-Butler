@@ -68,4 +68,4 @@ Project Butler是一款幫助團隊分工合作，檢視花費工時的應用程
 
 ## Requirement
 * iOS 12.0 +
-* XCode 11.
+* XCode 11.3
