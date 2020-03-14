@@ -6,4 +6,8 @@ Project Butler是一款幫助團隊分工合作，檢視花費工時的應用程
 
 [<img src="https://github.com/BigRoot9527/GoToMarket/blob/master/GoToMarket/ScreenShots/DownloadAppStoreBadge.png" width="170" height="50">](http://apps.apple.com/app/id1500539697)
 
-## Feature
+## 添加好友
+
+點擊搜尋欄位，切換至Search User 輸入想添加的使用者名稱，若有此使用者即可發出添加好友申請
+
+[<img src="https://github.com/neal811220/Project-Butler/blob/master/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-03-11%20at%2021.43.02.png" width="250" height="540">]
