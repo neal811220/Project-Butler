@@ -7,19 +7,22 @@ target 'Project Butler' do
 
   # Pods for Project Butler
   # add the Firebase pod for Google Analytics
+  
   pod 'Firebase/Analytics'
   
   pod 'Firebase/Auth'
   
-  pod 'JGProgressHUD'
-  
-  pod 'GoogleSignIn'
+  pod 'Crashlytics', '~> 3.14.0'
   
   pod 'Firebase/Firestore'
   
   pod 'Firebase/Storage'
   
   pod 'FirebaseFirestoreSwift'
+  
+  pod 'GoogleSignIn'
+  
+  pod 'JGProgressHUD'
   
   pod 'Kingfisher'
   
