@@ -194,27 +194,34 @@ class WorkLogContentViewController: UIViewController {
             return
         }
         
-        let workLog = WorkLogContent(userID: uid, userName: userName, date: dateText, workItem: workItem, startTime: startText, endTime: endText, problem: problem, workContent: workContent, hour: Int(durationH), minute: durationM)
-        
-        ProjectManager.shared.uploadUserWorkLog(documentID: documentID, workLogContent: workLog) { (result) in
+        if dateText != "", workItem != "", startText != "", endText != "", problem != "", workContent != "" {
             
-            switch result {
+            let workLog = WorkLogContent(userID: uid, userName: userName, date: dateText, workItem: workItem, startTime: startText, endTime: endText, problem: problem, workContent: workContent, hour: Int(durationH), minute: durationM)
+            
+            ProjectManager.shared.uploadUserWorkLog(documentID: documentID, workLogContent: workLog) { (result) in
                 
-            case .success:
-                
-                print("Success")
-                
-                PBProgressHUD.showSuccess(text: "Success!", viewController: self)
-                
-                self.dismiss(animated: true) {
+                switch result {
                     
-                    self.passContentData?(workLog)
+                case .success:
+                    
+                    print("Success")
+                    
+                    PBProgressHUD.showSuccess(text: "Success!", viewController: self)
+                    
+                    self.dismiss(animated: true) {
+                        
+                        self.passContentData?(workLog)
+                    }
+                    
+                case .failure(let error):
+                    
+                    print(error)
                 }
-                
-            case .failure(let error):
-                
-                print(error)
             }
+            
+        } else {
+            
+            PBProgressHUD.showFailure(text: "Input Wrong!", viewController: self)
         }
     }
     
