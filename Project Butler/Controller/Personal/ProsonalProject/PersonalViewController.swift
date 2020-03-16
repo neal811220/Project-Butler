@@ -163,10 +163,10 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         tableView.separatorStyle = .none
         
         tableView.rowHeight = UITableView.automaticDimension
-        
-        tableView.register(processingNib, forCellReuseIdentifier: "ProcessingCell")
-        
-        tableView.register(completedNib, forCellReuseIdentifier: "CompletedCell")
+                
+        tableView.register(processingNib, forCellReuseIdentifier: ProcessingTableViewCell.identifier)
+                
+        tableView.register(completedNib, forCellReuseIdentifier: CompletedTableViewCell.identifier)
         
         tableView.addRefreshHeader {
             
@@ -226,7 +226,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     var indicatorViewCenterXConstraint: NSLayoutConstraint?
     
-    var checkButton = 0
+    var checkButtonIndex = 0
     
     var searchBarStatus = false
     
@@ -237,6 +237,12 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     var searchLeaderStaus = false
     
     let refreshGroup = DispatchGroup()
+    
+    var cells: [PersonalTableViewCellModel] =
+        [
+        PersonalTableViewProcessingCellModel(),
+        PersonalTableViewCompletedCellModel()
+        ]
     
     override func viewDidLoad() {
         
@@ -332,7 +338,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     @objc func didTapStatusButton(sender: UIButton) {
         
-        checkButton = sender.tag
+        checkButtonIndex = sender.tag
         
         projectisEmpty()
         
@@ -357,7 +363,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     func projectisEmpty() {
         
-        switch checkButton {
+        switch checkButtonIndex {
             
         case 0:
             
@@ -435,7 +441,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     func filterContentForSearchText(searchText: String) {
         
-        switch checkButton {
+        switch checkButtonIndex {
             
         case 0:
             
@@ -502,7 +508,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         guard searchProjectTexiField.text != "" else {
             
-            switch checkButton {
+            switch checkButtonIndex {
                 
             case 0:
                 
@@ -638,7 +644,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         searchLeaderButton.isSelected.toggle()
         
-        switch checkButton {
+        switch checkButtonIndex {
             
         case 0:
             
@@ -825,7 +831,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         topButtonStackView.addArrangedSubview(completedButton)
         
         topButtonStackView.anchor(
-           
+            
             top: view.safeAreaLayoutGuide.topAnchor,
             
             left: view.leftAnchor,
@@ -848,7 +854,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         indicatorView.anchor(
             
             top: topButtonStackView.bottomAnchor,
-                             
+            
             paddingTop: 20,
             
             width: view.frame.width / 3,
@@ -863,7 +869,7 @@ extension PersonalViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch checkButton {
+        switch checkButtonIndex {
             
         case 0:
             
@@ -881,146 +887,61 @@ extension PersonalViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch checkButton {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cells[checkButtonIndex].identifier, for: indexPath)
+
+        var filterArray: [ProjectDetail] = []
+        
+        switch checkButtonIndex {
             
         case 0:
             
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProcessingCell") as? ProcessingTableViewCell else {
-                
-                return UITableViewCell()
-            }
-            
-            cell.selectionStyle = .none
-            
-            if searchLeaderButton.isSelected {
-                
-                cell.leaderImage.isHidden = false
-                
-            } else {
-                
-                cell.leaderImage.isHidden = true
-                
-            }
-            
-            cell.transitionToMemberVC = { [weak self] _ in
-                
-                guard let strongSelf = self else {
-                    return
-                }
-                
-                guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else {
-                    return
-                }
-                
-                PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
-                
-                strongSelf.fetchMemberDetail(documentRef: strongSelf.userProcessingFilterArray[indexPath.row].projectMember) { (result) in
-                    
-                    switch result {
-                        
-                    case .success(let data):
-                        
-                        memberVC.memberArray = data
-                        
-                    case .failure(let error):
-                        
-                        print(error)
-                    }
-                    
-                    memberVC.projectDetail = strongSelf.userProcessingFilterArray[indexPath.row]
-                    
-                    strongSelf.titleStackView.isHidden = true
-                    
-                    strongSelf.show(memberVC, sender: nil)
-                }
-                
-            }
-            
-            cell.backImage.image = UIImage(named: userProcessingFilterArray[indexPath.row].color)
-            
-            cell.members = userProcessingFilterArray[indexPath.row].memberImages
-            
-            cell.titleLabel.text = userProcessingFilterArray[indexPath.row].projectName
-            
-            cell.dateLabel.text = "\(userProcessingFilterArray[indexPath.row].startDate) - \(userProcessingFilterArray[indexPath.row].endDate)"
-            
-            cell.hourLabel.text = "\(userProcessingFilterArray[indexPath.row].totalHours) Hour (\(userProcessingFilterArray[indexPath.row].totalDays) Day)"
-            return cell
+            filterArray = userProcessingFilterArray
             
         case 1:
             
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedCell") as? CompletedTableViewCell else {
-                
-                return UITableViewCell()
-                
-            }
-            
-            cell.selectionStyle = .none
-            
-            if searchLeaderButton.isSelected {
-                
-                cell.leaderImage.isHidden = false
-                
-            } else {
-                
-                cell.leaderImage.isHidden = true
-                
-            }
-            
-            cell.transitionToMemberVC = { [weak self] _ in
-                
-                guard let strongSelf = self else {
-                    return
-                }
-                
-                guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else {
-                    return
-                }
-                
-                PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
-                
-                strongSelf.fetchMemberDetail(documentRef: strongSelf.userCompletedFilterArray[indexPath.row].projectMember) { (result) in
-                    
-                    switch result {
-                        
-                    case .success(let data):
-                        
-                        memberVC.memberArray = data
-                        
-                    case .failure(let error):
-                        
-                        print(error)
-                    }
-                    
-                    memberVC.isCompletedProject = true
-                    
-                    memberVC.projectDetail = strongSelf.userCompletedFilterArray[indexPath.row]
-                    
-                    strongSelf.titleStackView.isHidden = true
-                    
-                    strongSelf.show(memberVC, sender: nil)
-                }
-            }
-            
-            cell.backImage.image = UIImage(named: userCompletedFilterArray[indexPath.row].color)
-            
-            cell.members = userCompletedFilterArray[indexPath.row].memberImages
-            
-            cell.titleLabel.text = userCompletedFilterArray[indexPath.row].projectName
-            
-            cell.dateLabel.text = "\(userCompletedFilterArray[indexPath.row].startDate) - \(userCompletedFilterArray[indexPath.row].endDate)"
-            
-            cell.hourLabel.text = "\(userCompletedFilterArray[indexPath.row].totalHours) Hour (\(userCompletedFilterArray[indexPath.row].totalDays) Day)"
-            
-            cell.completionDateLabel.text = userCompletedFilterArray[indexPath.row].completedDate
-            
-            cell.completionHourLable.text = "\(userCompletedFilterArray[indexPath.row].completedHour) Hour (\(userCompletedFilterArray[indexPath.row].completedDays) Day)"
-            
-            return cell
+            filterArray = userCompletedFilterArray
             
         default:
-            return UITableViewCell()
+            
+            break
         }
+        
+        cells[checkButtonIndex].setCell(tableViewCell: cell, button: searchLeaderButton, projectDetailData: filterArray, row: indexPath.row, passData: { [weak self] in
+
+            guard let strongSelf = self else {
+                return
+            }
+
+            guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else {
+                return
+            }
+
+            PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
+
+            strongSelf.fetchMemberDetail(documentRef: filterArray[indexPath.row].projectMember) { (result) in
+
+                switch result {
+
+                case .success(let data):
+
+                    memberVC.memberArray = data
+
+                case .failure(let error):
+
+                    print(error)
+                }
+
+                memberVC.projectDetail = filterArray[indexPath.row]
+
+                strongSelf.titleStackView.isHidden = true
+
+                strongSelf.show(memberVC, sender: nil)
+            }
+
+        })
+
+        return cell
+
     }
 }
 
@@ -1032,7 +953,7 @@ extension PersonalViewController: UITableViewDelegate {
             return
         }
 
-        switch checkButton {
+        switch checkButtonIndex {
             
         case 0:
             

@@ -61,6 +61,7 @@
 		18B9591723F0432600C6E8EB /* NewProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B9591623F0432600C6E8EB /* NewProject.swift */; };
 		18BC87D123F5683600D97F74 /* ProjectInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC87D023F5683600D97F74 /* ProjectInfo.swift */; };
 		18BEF14723E977C200CC401C /* KingFisherWapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BEF14623E977C200CC401C /* KingFisherWapper.swift */; };
+		18BF9859241F767100D694EC /* PersonalTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BF9858241F767100D694EC /* PersonalTableViewCellModel.swift */; };
 		18CE585A23F7D47600D47A2D /* NumberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CE585923F7D47600D47A2D /* NumberCollectionViewCell.swift */; };
 		18CE585C23F7D4A800D47A2D /* NumberCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18CE585B23F7D4A800D47A2D /* NumberCollectionViewCell.xib */; };
 		18CE586023F83FF400D47A2D /* WorkLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CE585F23F83FF400D47A2D /* WorkLogViewController.swift */; };
@@ -168,6 +169,7 @@
 		18B9591623F0432600C6E8EB /* NewProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProject.swift; sourceTree = "<group>"; };
 		18BC87D023F5683600D97F74 /* ProjectInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectInfo.swift; sourceTree = "<group>"; };
 		18BEF14623E977C200CC401C /* KingFisherWapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingFisherWapper.swift; sourceTree = "<group>"; };
+		18BF9858241F767100D694EC /* PersonalTableViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalTableViewCellModel.swift; sourceTree = "<group>"; };
 		18CE585923F7D47600D47A2D /* NumberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberCollectionViewCell.swift; sourceTree = "<group>"; };
 		18CE585B23F7D4A800D47A2D /* NumberCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NumberCollectionViewCell.xib; sourceTree = "<group>"; };
 		18CE585F23F83FF400D47A2D /* WorkLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkLogViewController.swift; sourceTree = "<group>"; };
@@ -519,6 +521,7 @@
 		18B9590E23EFCDF500C6E8EB /* Personal */ = {
 			isa = PBXGroup;
 			children = (
+				18BF9858241F767100D694EC /* PersonalTableViewCellModel.swift */,
 				18B9591623F0432600C6E8EB /* NewProject.swift */,
 			);
 			path = Personal;
@@ -912,6 +915,7 @@
 				18635CEA2403A6DB00469168 /* ReportChartViewTableViewCell.swift in Sources */,
 				188FE74023E8002200DDF30C /* NewProjectTableViewCell.swift in Sources */,
 				18CE586A23F8412A00D47A2D /* WorkLogCollectionViewCell.swift in Sources */,
+				18BF9859241F767100D694EC /* PersonalTableViewCellModel.swift in Sources */,
 				18F0E38123F46E8500149F8F /* MemberCollectionViewCell.swift in Sources */,
 				1861EE6924039E06009AFE0F /* ReportContentViewController.swift in Sources */,
 				18CE586023F83FF400D47A2D /* WorkLogViewController.swift in Sources */,

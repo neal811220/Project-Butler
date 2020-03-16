@@ -28,7 +28,7 @@ class ProcessingTableViewCell: UITableViewCell {
     
     let numberNib = UINib(nibName: "NumberCollectionViewCell", bundle: nil)
     
-    var transitionToMemberVC: ((ProcessingTableViewCell) -> Void)?
+    var transitionToMemberVC: (() -> Void)?
     
     var members: [String] = [] {
         
@@ -72,7 +72,7 @@ extension ProcessingTableViewCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        transitionToMemberVC?(self)
+        transitionToMemberVC?()
     }
     
 }
