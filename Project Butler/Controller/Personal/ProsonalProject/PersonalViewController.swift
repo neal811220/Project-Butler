@@ -681,26 +681,33 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         view.addSubview(placeholderLabel)
         
-        NSLayoutConstraint.activate([
-
-            placeholderImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-
-            placeholderImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-
-            placeholderImage.widthAnchor.constraint(equalToConstant: view.frame.width / 4),
-
-            placeholderImage.heightAnchor.constraint(equalToConstant: view.frame.width / 4)
-        ])
+        placeholderImage.anchor(
+            
+            centerX: view.centerXAnchor,
+                                
+            centerY: view.centerYAnchor,
+                                
+            width: view.frame.width / 4,
+                                
+            height: view.frame.width / 4
+                               
+        )
         
-        NSLayoutConstraint.activate([
+        placeholderLabel.anchor(
             
-            placeholderLabel.topAnchor.constraint(equalTo: placeholderImage.bottomAnchor, constant: 5),
+            top: placeholderImage.bottomAnchor,
+                               
+            centerX: view.centerXAnchor,
+                                
+            paddingTop: 5,
             
-            placeholderLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-
-            placeholderLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 3 * 2),
-            placeholderLabel.heightAnchor.constraint(equalToConstant: view.frame.width / 3)
-        ])
+            paddingCenterX: 0,
+            
+            width: view.frame.width / 3 * 2,
+            
+            height: view.frame.width / 3
+                                
+        )
     }
     
     func setupSearchBar() {
@@ -713,40 +720,47 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         searchLeaderButton.addTarget(self, action: #selector(filterLeaderProject), for: .touchUpInside)
         
+        searchbarStackView.anchor(
+            
+            top: indicatorView.bottomAnchor,
+                                 
+            left: view.leftAnchor,
+            
+            right: view.rightAnchor,
+            
+            paddingTop: 20,
+            
+            paddingLeft: 20,
+            
+            paddingRight: 20
+            
+        )
+        
         searchBarStackViewHightConstraint = searchbarStackView.heightAnchor.constraint(equalToConstant: 0)
-        NSLayoutConstraint.activate([
-            
-            searchbarStackView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20),
-            
-            searchbarStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-            
-            searchbarStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
-            
-            searchBarStackViewHightConstraint!
-        ])
         
-        NSLayoutConstraint.activate([
-            
-            searchProjectTexiField.topAnchor.constraint(equalTo: searchbarStackView.topAnchor),
-            
-            searchProjectTexiField.leftAnchor.constraint(equalTo: searchbarStackView.leftAnchor),
-            
-            searchProjectTexiField.bottomAnchor.constraint(equalTo: searchbarStackView.bottomAnchor),
-            
-            searchProjectTexiField.widthAnchor.constraint(equalToConstant: view.frame.width - 80)
-        ])
+        searchBarStackViewHightConstraint?.isActive = true
         
-        NSLayoutConstraint.activate([
+        searchProjectTexiField.anchor(
             
-            searchLeaderButton.topAnchor.constraint(equalTo: searchbarStackView.topAnchor),
+            top: searchbarStackView.topAnchor,
             
-            searchLeaderButton.rightAnchor.constraint(equalTo: searchbarStackView.rightAnchor),
+            left: searchbarStackView.leftAnchor,
             
-            searchLeaderButton.bottomAnchor.constraint(equalTo: searchbarStackView.bottomAnchor),
+            bottom: searchbarStackView.bottomAnchor,
             
-            searchLeaderButton.leftAnchor.constraint(equalTo: searchProjectTexiField.rightAnchor)
-        ])
+            width: view.frame.width - 80
+        )
         
+        searchLeaderButton.anchor(
+            
+            top: searchbarStackView.topAnchor,
+            
+            left: searchProjectTexiField.rightAnchor,
+            
+            bottom: searchbarStackView.bottomAnchor,
+            
+            right: searchbarStackView.rightAnchor
+        )
     }
     
     func setupTableView() {
@@ -754,16 +768,21 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(tableView)
         
         tableViewTopConstraint = tableView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20)
-        NSLayoutConstraint.activate([
+        
+        tableViewTopConstraint?.isActive = true
+        
+        tableView.anchor(
             
-            tableViewTopConstraint!,
+            left: view.leftAnchor,
             
-            tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
+            bottom: view.bottomAnchor,
             
-            tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            right: view.rightAnchor,
             
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+            paddingLeft: 10,
+            
+            paddingRight: 10
+        )
     }
     
     func setupStackView() {
@@ -779,16 +798,20 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         searchButton.addTarget(self, action: #selector(didTouchSearchBtn), for: .touchUpInside)
         
-        NSLayoutConstraint.activate([
+        titleStackView.anchor(
             
-            titleStackView.bottomAnchor.constraint(equalTo: navigationbar.bottomAnchor, constant: -10),
+            bottom: navigationbar.bottomAnchor,
             
-            titleStackView.rightAnchor.constraint(equalTo: navigationbar.rightAnchor, constant: -15),
+            right: navigationbar.rightAnchor,
             
-            titleStackView.widthAnchor.constraint(equalToConstant: navigationbar.frame.width / 5),
+            paddingBottom: 10,
             
-            titleStackView.heightAnchor.constraint(equalToConstant: navigationbar.frame.height / 3)
-        ])
+            paddingRight: 15,
+            
+            width: navigationbar.frame.width / 5,
+            
+            height: navigationbar.frame.height / 3
+        )
     }
     
     func setupButtonStackView() {
@@ -801,29 +824,37 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         topButtonStackView.addArrangedSubview(completedButton)
         
-        NSLayoutConstraint.activate([
+        topButtonStackView.anchor(
+           
+            top: view.safeAreaLayoutGuide.topAnchor,
             
-            topButtonStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            left: view.leftAnchor,
             
-            topButtonStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            right: view.rightAnchor,
             
-            topButtonStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            paddingTop: 20,
             
-            topButtonStackView.heightAnchor.constraint(equalToConstant: 40)
-        ])
+            paddingLeft: 20 ,
+            
+            paddingRight: 20,
+            
+            height: 40
+        )
         
         indicatorViewCenterXConstraint = indicatorView.centerXAnchor.constraint(equalTo: processingButton.centerXAnchor)
         
-        NSLayoutConstraint.activate([
+        indicatorViewCenterXConstraint?.isActive = true
+        
+        indicatorView.anchor(
             
-            indicatorView.topAnchor.constraint(equalTo: topButtonStackView.bottomAnchor, constant: 20),
+            top: topButtonStackView.bottomAnchor,
+                             
+            paddingTop: 20,
             
-            indicatorView.heightAnchor.constraint(equalToConstant: 3),
+            width: view.frame.width / 3,
             
-            indicatorView.widthAnchor.constraint(equalToConstant: (view.frame.width / 3) ),
-            
-            indicatorViewCenterXConstraint!
-        ])
+            height: 3
+        )
     }
     
 }
