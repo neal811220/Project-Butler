@@ -114,7 +114,7 @@ class FriendListViewController: UIViewController {
         
         setupPlaceholdeImage()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: Notification.Name("searchReload"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reAssignData), name: Notification.Name("searchReload"), object: nil)
         
     }
     
@@ -215,7 +215,11 @@ class FriendListViewController: UIViewController {
             case .failure(let error):
                 
                 print(error)
+                
+                PBProgressHUD.showFailure(text: error.localizedDescription, viewController: strongSelf)
             }
+            
+            PBProgressHUD.dismiss()
                         
             strongSelf.fetchUserInfoGroup.leave()
         }
@@ -239,13 +243,16 @@ class FriendListViewController: UIViewController {
                     
                     strongSelf.friendisEmpty()
                     
-                    strongSelf.reloadData()
+                    strongSelf.reAssignData()
                     
                 case .failure(let error):
                     
                     print(error)
                     
+                    PBProgressHUD.showFailure(text: error.localizedDescription, viewController: strongSelf)
                 }
+                
+                PBProgressHUD.dismiss()
             }
         }
         
@@ -353,7 +360,7 @@ extension FriendListViewController: UITableViewDataSource {
         return cell
     }
     
-    @objc func reloadData() {
+    @objc func reAssignData() {
         
         datas = []
         
@@ -453,7 +460,7 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
         
         friendisEmpty()
         
-        tableView.reloadData()
+        reAssignData()
     }
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -466,7 +473,12 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
         
         if searchController.searchBar.text == "" {
             
-            UserManager.shared.searchAllFriendInfo { (result) in
+            UserManager.shared.searchAllFriendInfo { [weak self] (result) in
+                
+                guard let strongSelf = self else {
+                    
+                    return
+                }
                 
                 switch result {
                     
@@ -478,15 +490,22 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
                     
                     print(error)
                     
+                    PBProgressHUD.showFailure(text: error.localizedDescription, viewController: strongSelf)
                 }
                 
-                self.reloadData()
+                strongSelf.reAssignData()
                 
+                PBProgressHUD.dismiss()
             }
             
         } else {
             
-            UserManager.shared.searchUser(text: searchController.searchBar.text!) { (result) in
+            UserManager.shared.searchUser(text: searchController.searchBar.text!) { [weak self] (result) in
+                
+                guard let strongSelf = self else {
+                    
+                    return
+                }
                 
                 switch result {
                     
@@ -498,9 +517,12 @@ extension FriendListViewController: UISearchBarDelegate, UISearchResultsUpdating
                     
                     print(error)
                     
+                    PBProgressHUD.showFailure(text: error.localizedDescription, viewController: strongSelf)
                 }
                 
-                self.reloadData()
+                PBProgressHUD.dismiss()
+                
+                strongSelf.reAssignData()
                 
             }
         }

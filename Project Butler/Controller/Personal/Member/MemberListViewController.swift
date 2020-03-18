@@ -258,6 +258,8 @@ class MemberListViewController: UIViewController {
                 PBProgressHUD.showFailure(text: "\(error)", viewController: strongSelf)
             }
             
+            PBProgressHUD.dismiss()
+            
             strongSelf.updateMemberGroup.leave()
         }
     }
@@ -287,7 +289,9 @@ class MemberListViewController: UIViewController {
                 
                 PBProgressHUD.showFailure(text: "\(error)", viewController: strongSelf)
             }
-                        
+            
+            PBProgressHUD.dismiss()
+            
             strongSelf.updateMemberGroup.leave()
         }
     }

@@ -48,7 +48,6 @@ class PBProgressHUD {
 
         shared.hud.show(in: viewController.view)
 
-        shared.hud.dismiss(afterDelay: 1.0)
     }
 
     static func showSuccess(text: String = "Success", viewController: UIViewController) {
@@ -90,4 +89,17 @@ class PBProgressHUD {
 
            shared.hud.dismiss(afterDelay: 1.5)
        }
+    
+    static func dismiss() {
+        
+        if !Thread.isMainThread {
+
+            DispatchQueue.main.async {
+                dismiss()
+            }
+
+            return
+        }
+        shared.hud.dismiss()
+    }
 }

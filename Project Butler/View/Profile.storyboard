@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bew-1f-qf0">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,14 +14,14 @@
             <objects>
                 <viewController id="EzT-PJ-HhV" customClass="ProfileViewController" customModule="Project_Butler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="paK-ii-Nya">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eCC-fS-ZM0">
-                                <rect key="frame" x="-200" y="0.0" width="1000" height="180"/>
+                                <rect key="frame" x="-293" y="0.0" width="1000" height="269"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Handsoma Boy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Et-Q5-GJi">
-                                        <rect key="frame" x="404.5" y="132" width="191" height="24"/>
+                                        <rect key="frame" x="434" y="203" width="132" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="ZWd-IF-E8j"/>
                                         </constraints>
@@ -28,7 +30,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="M8s-7i-gxx">
-                                        <rect key="frame" x="460" y="56.5" width="80" height="80"/>
+                                        <rect key="frame" x="460" y="102.5" width="80" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="80" id="Ut5-YY-Xsy"/>
                                             <constraint firstAttribute="width" constant="80" id="bFx-WM-Xj3"/>
@@ -44,28 +46,28 @@
                                 </constraints>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icons_32px_Email" translatesAutoresizingMaskIntoConstraints="NO" id="Ti0-Ru-A7P">
-                                <rect key="frame" x="31" y="278" width="30" height="30"/>
+                                <rect key="frame" x="31" y="367" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="NLM-Ac-u9Z"/>
                                     <constraint firstAttribute="height" constant="30" id="iGb-GA-x2h"/>
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icons_32px_PassWord" translatesAutoresizingMaskIntoConstraints="NO" id="Awy-ZW-gGM">
-                                <rect key="frame" x="30" y="343" width="30" height="30"/>
+                                <rect key="frame" x="30" y="432" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="22A-0Y-b3G"/>
                                     <constraint firstAttribute="height" constant="30" id="CWZ-PT-1mb"/>
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icons_32px_Logout" translatesAutoresizingMaskIntoConstraints="NO" id="dVB-fr-GKH">
-                                <rect key="frame" x="30" y="408" width="32" height="30"/>
+                                <rect key="frame" x="30" y="497" width="32" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="6yW-C5-g03"/>
                                     <constraint firstAttribute="width" constant="32" id="fXb-lC-fmu"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello@gmail.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nDo-0P-Pkw">
-                                <rect key="frame" x="80" y="283" width="489" height="21"/>
+                                <rect key="frame" x="80" y="372" width="303" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="WoY-mg-fzw"/>
                                 </constraints>
@@ -74,14 +76,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fBu-op-cUO">
-                                <rect key="frame" x="80" y="307" width="489" height="1"/>
+                                <rect key="frame" x="80" y="396" width="303" height="1"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="XSw-zY-Vvp"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W9U-Pz-tgF">
-                                <rect key="frame" x="31" y="249" width="238" height="21"/>
+                                <rect key="frame" x="31" y="338" width="52" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="rLq-Ec-VTP"/>
                                 </constraints>
@@ -90,7 +92,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="med-eK-3zC">
-                                <rect key="frame" x="80" y="343" width="336" height="30"/>
+                                <rect key="frame" x="80" y="432" width="150" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="cSy-T9-ea9"/>
                                 </constraints>
@@ -103,7 +105,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bbT-Ea-dFz">
-                                <rect key="frame" x="80" y="408" width="245" height="30"/>
+                                <rect key="frame" x="80" y="497" width="59" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="SEo-v4-q3e"/>
                                 </constraints>
