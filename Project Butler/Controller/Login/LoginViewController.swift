@@ -84,6 +84,8 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                     
                 }
                 
+                PBProgressHUD.dismiss()
+                
                 strongSelf.transitionToTabBar()
             }
             
@@ -143,6 +145,8 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                             print(error)
                         }
                         
+                        PBProgressHUD.dismiss()
+                        
                         strongSelf.fbLoginGroup.leave()
                     }
                     
@@ -170,6 +174,8 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                                     
                                     print(error)
                                 }
+                                
+                                PBProgressHUD.dismiss()
                             }
                         }
                         
@@ -260,6 +266,8 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                     print(error)
                 }
                 
+                PBProgressHUD.dismiss()
+                
                 strongSelf.googleLoginGroup.leave()
             }
             
@@ -287,6 +295,8 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                             
                             print(error)
                         }
+                        
+                        PBProgressHUD.dismiss()
                     }
                 }
                 
@@ -435,6 +445,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                                     print(error)
                                 }
                                 
+                                PBProgressHUD.dismiss()
                             }
                         }
                         

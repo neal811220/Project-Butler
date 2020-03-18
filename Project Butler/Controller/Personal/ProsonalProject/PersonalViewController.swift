@@ -543,25 +543,35 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         PBProgressHUD.pbActivityView(viewController: tabBarController!)
         
-        CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { (result) in
+        CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { [weak self] (result) in
 
+            guard let strongSelf = self else {
+                
+                return
+            }
+            
             switch result {
                 
             case .success:
                 
                 print("Success Get User Info")
                 
+                PBProgressHUD.dismiss()
+                
             case .failure(let error):
                 
                 print(error)
+                
+                PBProgressHUD.showFailure(text: error.localizedDescription, viewController: strongSelf)
             }
             
+            PBProgressHUD.dismiss()
         }
     }
 
     func fetchUserProcessingProjcet() {
         
-        PBProgressHUD.pbActivityView(viewController: tabBarController!)
+        PBProgressHUD.pbActivityView(viewController: self)
         
         refreshGroup.enter()
         
@@ -586,8 +596,12 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 
                 print(error)
                 
+                PBProgressHUD.showFailure(text: error.localizedDescription, viewController: strongSelf)
+                
             }
-                        
+            
+            PBProgressHUD.dismiss()
+            
             strongSelf.refreshGroup.leave()
         }
     }
@@ -619,7 +633,10 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 
                 print(error)
                 
+                PBProgressHUD.showFailure(text: error.localizedDescription, viewController: strongSelf)
             }
+            
+            PBProgressHUD.dismiss()
             
             strongSelf.refreshGroup.leave()
         }
@@ -644,7 +661,10 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 print(error)
                 
                 completion(.failure(error))
+                
             }
+            
+            PBProgressHUD.dismiss()
         }
     }
     
@@ -938,6 +958,8 @@ extension PersonalViewController: UITableViewDataSource {
 
                     print(error)
                 }
+                
+                PBProgressHUD.dismiss()
 
                 memberVC.projectDetail = filterArray[indexPath.row]
 
@@ -986,7 +1008,9 @@ extension PersonalViewController: UITableViewDelegate {
                     
                     print(error)
                 }
-                                
+                
+                PBProgressHUD.dismiss()
+                
                 strongSelf.titleStackView.isHidden = true
                 
                 strongSelf.show(workLogVC, sender: nil)
@@ -1015,7 +1039,9 @@ extension PersonalViewController: UITableViewDelegate {
                     
                     print(error)
                 }
-                                
+                
+                PBProgressHUD.dismiss()
+                
                 strongSelf.titleStackView.isHidden = true
                 
                 strongSelf.show(workLogVC, sender: nil)

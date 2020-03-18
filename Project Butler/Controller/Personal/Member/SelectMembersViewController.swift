@@ -151,8 +151,11 @@ class SelectMembersViewController: UIViewController {
             case .failure(let error):
                 
                 print(error)
+                
+                PBProgressHUD.showFailure(text: error.localizedDescription, viewController: strongSelf)
             }
             
+            PBProgressHUD.dismiss()
         }
     }
     

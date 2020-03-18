@@ -185,6 +185,8 @@ class NewProjectViewController: UIViewController {
                 
                 print(error)
             }
+            
+            PBProgressHUD.dismiss()
         }
     }
     
@@ -317,6 +319,8 @@ class NewProjectViewController: UIViewController {
                 
                 print(error)
             }
+            
+            PBProgressHUD.dismiss()
         })
     }
     
