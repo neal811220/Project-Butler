@@ -190,6 +190,8 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         textField.borderStyle = .roundedRect
         
+        textField.font = UIFont(name: "AmericanTypewriter-Bold", size: 17)
+        
         textField.layer.cornerRadius = 8
         
         textField.textAlignment = .center
