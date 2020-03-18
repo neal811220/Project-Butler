@@ -195,7 +195,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         textField.textAlignment = .center
         
         textField.delegate = self
-        
+                
         return textField
     }()
     
@@ -227,7 +227,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     var indicatorViewCenterXConstraint: NSLayoutConstraint?
     
     var checkButtonIndex = 0
-    
+        
     var searchBarStatus = false
     
     var searchBarStackViewHightConstraint: NSLayoutConstraint?
@@ -243,6 +243,8 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         PersonalTableViewProcessingCellModel(),
         PersonalTableViewCompletedCellModel()
         ]
+    
+    var inputSearchText = ""
     
     override func viewDidLoad() {
         
@@ -486,7 +488,8 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     func isSearchTextEmpty() -> Bool {
         
-        return searchProjectTexiField.text?.isEmpty ?? true
+//        return searchProjectTexiField.text?.isEmpty ?? true
+        return inputSearchText == ""
     }
     
     func isFiltering() -> Bool {
@@ -494,14 +497,19 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         return !isSearchTextEmpty()
     }
     
-    func textFieldDidChangeSelection(_ textField: UITextField) {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        guard let text = searchProjectTexiField.text else {
-            
-            return
-        }
+        let previousText: NSString = textField.text! as NSString
         
-        filterContentForSearchText(searchText: text)
+        let updatedText = previousText.replacingCharacters(in: range, with: string)
+        
+        print("updatedText > ", updatedText)
+        
+        inputSearchText = updatedText
+        
+        filterContentForSearchText(searchText: updatedText)
+        
+        return true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
