@@ -228,7 +228,7 @@ class WorkLogViewController: UIViewController {
         
         view.addSubview(addLogButton)
         
-        addLogButton.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
+        addLogButton.addTarget(self, action: #selector(didTapAddLogButton), for: .touchUpInside)
         
         reportButton.addTarget(self, action: #selector(didTapReportButton), for: .touchUpInside)
         
@@ -410,7 +410,7 @@ class WorkLogViewController: UIViewController {
         present(completeProjectAlert, animated: true, completion: nil)
     }
     
-    @objc func didTapAddButton() {
+    @objc func didTapAddLogButton() {
         
         guard let workLogContentVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "WorkLogContentVC") as? WorkLogContentViewController else {
             return
@@ -436,6 +436,13 @@ class WorkLogViewController: UIViewController {
             
             self.collectionView.reloadData()
         }
+        
+        workLogContentVC.modalPresentationStyle = .custom
+        
+        self.view.alpha = 0.5
+        
+        workLogContentVC.workLogVC = self
+        
         present(workLogContentVC, animated: true, completion: nil)
     }
     

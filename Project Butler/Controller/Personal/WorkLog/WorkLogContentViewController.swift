@@ -75,12 +75,6 @@ class WorkLogContentViewController: UIViewController {
         return datePicker
     }()
     
-    var selectedBackgroundView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.white
-        return view
-    }()
-    
     var workItemArray: [String] = []
     
     var startDate = ""
@@ -110,6 +104,8 @@ class WorkLogContentViewController: UIViewController {
     var workContent = ""
     
     var documentID = ""
+    
+    var workLogVC: WorkLogViewController?
         
     var passContentData: ((WorkLogContent) -> Void)?
     
@@ -177,6 +173,8 @@ class WorkLogContentViewController: UIViewController {
     
     @objc func didTapCancelButton() {
         
+        workLogVC?.view.alpha = 1
+        
         dismiss(animated: true, completion: nil)
     }
     
@@ -198,7 +196,12 @@ class WorkLogContentViewController: UIViewController {
             
             let workLog = WorkLogContent(userID: uid, userName: userName, date: dateText, workItem: workItem, startTime: startText, endTime: endText, problem: problem, workContent: workContent, hour: Int(durationH), minute: durationM)
             
-            ProjectManager.shared.uploadUserWorkLog(documentID: documentID, workLogContent: workLog) { (result) in
+            ProjectManager.shared.uploadUserWorkLog(documentID: documentID, workLogContent: workLog) { [weak self] (result) in
+                
+                guard let strongSelf = self else {
+                    
+                    return
+                }
                 
                 switch result {
                     
@@ -206,11 +209,11 @@ class WorkLogContentViewController: UIViewController {
                     
                     print("Success")
                     
-                    PBProgressHUD.showSuccess(text: "Success!", viewController: self)
+                    PBProgressHUD.showSuccess(text: "Success!", viewController: strongSelf)
                     
-                    self.dismiss(animated: true) {
+                    strongSelf.dismiss(animated: true) {
                         
-                        self.passContentData?(workLog)
+                        strongSelf.passContentData?(workLog)
                     }
                     
                 case .failure(let error):
@@ -277,6 +280,8 @@ extension WorkLogContentViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        cell.selectionStyle = .none
+        
         if timeStatus {
             
             cell.endTimeTextField.textColor = UIColor.Black1
@@ -289,19 +294,22 @@ extension WorkLogContentViewController: UITableViewDataSource {
                 
         workItem = cell.workItemTextField.text ?? ""
         
-        cell.textViewDidEdit = {
+        cell.textViewDidEdit = { [weak self] (problem, workContent) in
             
-            self.problem = $0
+            guard let strongSelf = self else {
+                
+                return
+            }
             
-            self.workContent = $1
+            strongSelf.problem = problem
+            
+            strongSelf.workContent = workContent
         }
         
         cell.dateTextField.inputView = datePickerView
         
         cell.dateTextField.text = dateText
-        
-        cell.selectedBackgroundView = selectedBackgroundView
-        
+                
         cell.workItemTextField.inputView = workItemPickerView
         
         cell.startTimeTextField.inputView = startTimePickerView
