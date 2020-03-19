@@ -110,7 +110,10 @@ class NewProjectTableViewCell: UITableViewCell, UITextFieldDelegate {
             return
         }
         
-        passInputText?(inputText)
+        if inputText != "" {
+            
+            passInputText?(inputText)
+        }
     }
     
     override func awakeFromNib() {

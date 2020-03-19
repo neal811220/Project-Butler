@@ -185,6 +185,8 @@ class NewProjectViewController: UIViewController {
                 
                 print(error)
             }
+            
+            PBProgressHUD.dismiss()
         }
     }
     
@@ -310,13 +312,17 @@ class NewProjectViewController: UIViewController {
                 strongSelf.membersArray = []
                 
                 NotificationCenter.default.post(name: NSNotification.Name("RefreshProjectData"), object: nil)
-
+                
+                self?.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                
                 strongSelf.tableView.reloadData()
                                 
             case .failure(let error):
                 
                 print(error)
             }
+            
+            PBProgressHUD.dismiss()
         })
     }
     

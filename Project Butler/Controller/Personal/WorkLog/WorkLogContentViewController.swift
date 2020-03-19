@@ -75,23 +75,48 @@ class WorkLogContentViewController: UIViewController {
         return datePicker
     }()
     
-    var selectedBackgroundView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.white
-        return view
-    }()
-    
     var workItemArray: [String] = []
     
     var startDate = ""
     
     var endDate = ""
     
-    var startText = ""
+    var startText = "" {
+        
+        didSet {
+            
+            let textField = view.viewWithTag(15) as? UITextField
+            
+            textField?.text = startText
+        }
+    }
     
-    var endText = ""
+    var endText = "" {
+        
+        didSet {
+            
+            guard let textField = view.viewWithTag(16) as? UITextField else {
+                
+                return
+            }
+            
+            textField.text = endText
+            
+            endDateTextColorStatus(textField: textField)
+        }
+
+    }
     
-    var dateText = ""
+    var dateText = "" {
+        
+        didSet {
+            
+            let textField = view.viewWithTag(17) as? UITextField
+            
+            textField?.text = dateText
+        }
+        
+    }
     
     var timeFormatter = DateFormatter()
     
@@ -110,6 +135,8 @@ class WorkLogContentViewController: UIViewController {
     var workContent = ""
     
     var documentID = ""
+    
+    var workLogVC: WorkLogViewController?
         
     var passContentData: ((WorkLogContent) -> Void)?
     
@@ -166,23 +193,36 @@ class WorkLogContentViewController: UIViewController {
         datePickerView.addTarget(self, action: #selector(didTapDatePicker), for: .valueChanged)
     }
     
+    func endDateTextColorStatus(textField: UITextField) {
+        
+        if timeStatus {
+            
+            textField.textColor = UIColor.Gray3
+            
+        } else {
+            
+            textField.textColor = UIColor.red
+            
+        }
+    }
+    
     @objc func didTapDatePicker() {
 
         dateText = dateFormatter.string(from: datePickerView.date)
-        
-        tableView.reloadData()
-        
+                
         view.endEditing(true)
     }
     
     @objc func didTapCancelButton() {
         
+        workLogVC?.view.alpha = 1
+        
         dismiss(animated: true, completion: nil)
     }
     
     @objc func didTapSaveButton() {
-        
-        tableView.reloadData()
+                
+        workLogVC?.view.alpha = 1
         
         guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
             
@@ -194,33 +234,47 @@ class WorkLogContentViewController: UIViewController {
             return
         }
         
-        let workLog = WorkLogContent(userID: uid, userName: userName, date: dateText, workItem: workItem, startTime: startText, endTime: endText, problem: problem, workContent: workContent, hour: Int(durationH), minute: durationM)
-        
-        ProjectManager.shared.uploadUserWorkLog(documentID: documentID, workLogContent: workLog) { (result) in
+        if dateText != "", workItem != "", startText != "", endText != "", problem != "", workContent != "" {
             
-            switch result {
+            let workLog = WorkLogContent(userID: uid, userName: userName, date: dateText, workItem: workItem, startTime: startText, endTime: endText, problem: problem, workContent: workContent, hour: Int(durationH), minute: durationM)
+            
+            ProjectManager.shared.uploadUserWorkLog(documentID: documentID, workLogContent: workLog) { [weak self] (result) in
                 
-            case .success:
-                
-                print("Success")
-                
-                PBProgressHUD.showSuccess(text: "Success!", viewController: self)
-                
-                self.dismiss(animated: true) {
+                guard let strongSelf = self else {
                     
-                    self.passContentData?(workLog)
+                    return
                 }
                 
-            case .failure(let error):
-                
-                print(error)
+                switch result {
+                    
+                case .success:
+                    
+                    print("Success")
+                    
+                    PBProgressHUD.showSuccess(text: "Success!", viewController: strongSelf)
+                    
+                    strongSelf.dismiss(animated: true) {
+                                                
+                        strongSelf.passContentData?(workLog)
+                    }
+                    
+                case .failure(let error):
+                    
+                    print(error)
+                }
             }
+            
+        } else {
+            
+            PBProgressHUD.showFailure(text: "Input Wrong!", viewController: self)
         }
     }
     
     @objc func timePickerChanged() {
         
-        startText = timeFormatter.string(from: startTimePickerView.date)
+        let startDate = timeFormatter.string(from: startTimePickerView.date)
+        
+        let endDate = timeFormatter.string(from: endTimePickerView.date)
         
         let startTime = startTimePickerView.date
         
@@ -245,10 +299,10 @@ class WorkLogContentViewController: UIViewController {
         
         durationM = Int(durationM) % 60
         
-        endText = timeFormatter.string(from: endTimePickerView.date)
+        startText = startDate
         
-        tableView.reloadData()
-        
+        endText = endDate
+                        
         view.endEditing(true)
     }
     
@@ -266,35 +320,29 @@ extension WorkLogContentViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "WorkLogContentCell", for: indexPath) as? WorkLogContentTableViewCell else {
             return UITableViewCell()
         }
         
-        if timeStatus {
+        cell.selectionStyle = .none
+                        
+        cell.textViewDidEdit = { [weak self] (problem, workContent) in
             
-            cell.endTimeTextField.textColor = UIColor.Black1
-            
-        } else {
-            
-            cell.endTimeTextField.textColor = UIColor.red
-            
-        }
+            guard let strongSelf = self else {
                 
-        workItem = cell.workItemTextField.text ?? ""
-        
-        cell.textViewDidEdit = {
+                return
+            }
             
-            self.problem = $0
+            strongSelf.problem = problem
             
-            self.workContent = $1
+            strongSelf.workContent = workContent
         }
         
         cell.dateTextField.inputView = datePickerView
         
         cell.dateTextField.text = dateText
-        
-        cell.selectedBackgroundView = selectedBackgroundView
-        
+                
         cell.workItemTextField.inputView = workItemPickerView
         
         cell.startTimeTextField.inputView = startTimePickerView
@@ -316,6 +364,7 @@ extension WorkLogContentViewController: UITableViewDataSource {
                 tableView.reloadData()
             }
         }
+        
         return cell
     }
 }
@@ -323,13 +372,20 @@ extension WorkLogContentViewController: UITableViewDataSource {
 extension WorkLogContentViewController: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-           
-           let textField = self.view.viewWithTag(10) as? UITextField
-           
-           textField?.text = workItemArray[row]
-           
-           view.endEditing(true)
-       }
+        
+        let textField = self.view.viewWithTag(10) as? UITextField
+        
+        textField?.text = workItemArray[row]
+        
+        guard let text = textField?.text else {
+            
+            return
+        }
+        
+        workItem = text
+        
+        view.endEditing(true)
+    }
 }
 
 extension WorkLogContentViewController: UIPickerViewDataSource {

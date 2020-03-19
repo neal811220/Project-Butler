@@ -102,11 +102,15 @@ class ProfileViewController: UIViewController {
                 strongSelf.userName.text = CurrentUserInfo.shared.userName
                 
                 strongSelf.userEmail.text = CurrentUserInfo.shared.userEmail
+                
             case .failure(let error):
                 
                 print(error)
+                
+                PBProgressHUD.showFailure(text: error.localizedDescription, viewController: strongSelf)
             }
             
+            PBProgressHUD.dismiss()
         }
     }
     
@@ -264,6 +268,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 case .success:
                     
                     print("upload Image Success")
+                    
+                    PBProgressHUD.showSuccess(viewController: self.tabBarController!)
                     
                 case .failure(let error):
                     

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -58,7 +59,7 @@
                             <constraint firstAttribute="height" constant="20" id="yI3-vt-eds"/>
                         </constraints>
                         <color key="tintColor" red="0.59219002720000002" green="0.55694860219999998" blue="0.52547168730000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <state key="normal" image="xmark.circle.fill" catalog="system"/>
+                        <state key="normal" image="Icons_32px_Cacel"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VRW-XL-AjH">
                         <rect key="frame" x="350" y="25" width="48" height="37"/>
@@ -76,12 +77,12 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gzP-WK-Hej">
+                    <textField opaque="NO" tag="17" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gzP-WK-Hej">
                         <rect key="frame" x="30" y="200" width="354" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="ksD-8y-0tI"/>
                         </constraints>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="textColor" name="Gray3"/>
                         <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
@@ -110,7 +111,7 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XQo-Fz-xo4">
+                    <textField opaque="NO" tag="15" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XQo-Fz-xo4">
                         <rect key="frame" x="30" y="282" width="354" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="gbF-Xm-8Sb"/>
@@ -126,7 +127,7 @@
                             <constraint firstAttribute="height" constant="1" id="1Zh-V7-Goa"/>
                         </constraints>
                     </view>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hgw-Pl-XgZ">
+                    <textField opaque="NO" tag="16" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hgw-Pl-XgZ">
                         <rect key="frame" x="30" y="364" width="354" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="QcU-L3-0Rf"/>
@@ -248,6 +249,7 @@
                     <constraint firstAttribute="trailing" secondItem="mzj-Om-jrS" secondAttribute="trailing" constant="30" id="lj3-m3-cE5"/>
                     <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="vcA-s3-7Mg" secondAttribute="trailing" constant="344.5" id="oCl-Sg-rGt"/>
                     <constraint firstItem="EKT-2R-Cj7" firstAttribute="top" secondItem="kfg-6y-3tb" secondAttribute="bottom" constant="5" id="pMx-En-zIW"/>
+                    <constraint firstItem="Rgb-Bg-hrx" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="pla-5k-3VN"/>
                     <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="qet-S4-rjE" secondAttribute="trailing" constant="295" id="s0q-3U-1KR"/>
                     <constraint firstItem="Rgb-Bg-hrx" firstAttribute="leading" relation="lessThanOrEqual" secondItem="XeC-Xi-dvo" secondAttribute="trailing" constant="90" id="sGB-4S-MrH"/>
                     <constraint firstAttribute="trailing" secondItem="gzP-WK-Hej" secondAttribute="trailing" constant="30" id="ucE-if-qak"/>
@@ -279,7 +281,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="xmark.circle.fill" catalog="system" width="64" height="60"/>
+        <image name="Icons_32px_Cacel" width="32" height="32"/>
         <namedColor name="Gray2">
             <color red="0.59215686274509804" green="0.55686274509803924" blue="0.52549019607843139" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

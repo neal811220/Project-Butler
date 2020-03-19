@@ -163,10 +163,10 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         tableView.separatorStyle = .none
         
         tableView.rowHeight = UITableView.automaticDimension
-        
-        tableView.register(processingNib, forCellReuseIdentifier: "ProcessingCell")
-        
-        tableView.register(completedNib, forCellReuseIdentifier: "CompletedCell")
+                
+        tableView.register(processingNib, forCellReuseIdentifier: ProcessingTableViewCell.identifier)
+                
+        tableView.register(completedNib, forCellReuseIdentifier: CompletedTableViewCell.identifier)
         
         tableView.addRefreshHeader {
             
@@ -190,12 +190,14 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         textField.borderStyle = .roundedRect
         
+        textField.font = UIFont(name: "AmericanTypewriter-Bold", size: 17)
+        
         textField.layer.cornerRadius = 8
         
         textField.textAlignment = .center
         
         textField.delegate = self
-        
+                
         return textField
     }()
     
@@ -226,8 +228,8 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     var indicatorViewCenterXConstraint: NSLayoutConstraint?
     
-    var checkButton = 0
-    
+    var checkButtonIndex = 0
+        
     var searchBarStatus = false
     
     var searchBarStackViewHightConstraint: NSLayoutConstraint?
@@ -237,6 +239,14 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     var searchLeaderStaus = false
     
     let refreshGroup = DispatchGroup()
+    
+    var cells: [PersonalTableViewCellModel] =
+        [
+        PersonalTableViewProcessingCellModel(),
+        PersonalTableViewCompletedCellModel()
+        ]
+    
+    var inputSearchText = ""
     
     override func viewDidLoad() {
         
@@ -332,7 +342,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     @objc func didTapStatusButton(sender: UIButton) {
         
-        checkButton = sender.tag
+        checkButtonIndex = sender.tag
         
         projectisEmpty()
         
@@ -357,7 +367,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     func projectisEmpty() {
         
-        switch checkButton {
+        switch checkButtonIndex {
             
         case 0:
             
@@ -435,7 +445,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     func filterContentForSearchText(searchText: String) {
         
-        switch checkButton {
+        switch checkButtonIndex {
             
         case 0:
             
@@ -480,7 +490,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     func isSearchTextEmpty() -> Bool {
         
-        return searchProjectTexiField.text?.isEmpty ?? true
+        return inputSearchText == ""
     }
     
     func isFiltering() -> Bool {
@@ -488,21 +498,26 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         return !isSearchTextEmpty()
     }
     
-    func textFieldDidChangeSelection(_ textField: UITextField) {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        guard let text = searchProjectTexiField.text else {
-            
-            return
-        }
+        let previousText: NSString = textField.text! as NSString
         
-        filterContentForSearchText(searchText: text)
+        let updatedText = previousText.replacingCharacters(in: range, with: string)
+        
+        print("updatedText > ", updatedText)
+        
+        inputSearchText = updatedText
+        
+        filterContentForSearchText(searchText: updatedText)
+        
+        return true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         guard searchProjectTexiField.text != "" else {
             
-            switch checkButton {
+            switch checkButtonIndex {
                 
             case 0:
                 
@@ -529,25 +544,35 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         PBProgressHUD.pbActivityView(viewController: tabBarController!)
         
-        CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { (result) in
+        CurrentUserInfo.shared.getLoginUserInfo(uid: uid) { [weak self] (result) in
 
+            guard let strongSelf = self else {
+                
+                return
+            }
+            
             switch result {
                 
             case .success:
                 
                 print("Success Get User Info")
                 
+                PBProgressHUD.dismiss()
+                
             case .failure(let error):
                 
                 print(error)
+                
+                PBProgressHUD.showFailure(text: error.localizedDescription, viewController: strongSelf)
             }
             
+            PBProgressHUD.dismiss()
         }
     }
 
     func fetchUserProcessingProjcet() {
         
-        PBProgressHUD.pbActivityView(viewController: tabBarController!)
+        PBProgressHUD.pbActivityView(viewController: self)
         
         refreshGroup.enter()
         
@@ -572,15 +597,19 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 
                 print(error)
                 
+                PBProgressHUD.showFailure(text: error.localizedDescription, viewController: strongSelf)
+                
             }
-                        
+            
+            PBProgressHUD.dismiss()
+            
             strongSelf.refreshGroup.leave()
         }
     }
     
     func fetchUserCompletedProject() {
         
-        PBProgressHUD.pbActivityView(viewController: tabBarController!)
+        PBProgressHUD.pbActivityView(viewController: self)
         
         refreshGroup.enter()
         
@@ -605,7 +634,10 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 
                 print(error)
                 
+                PBProgressHUD.showFailure(text: error.localizedDescription, viewController: strongSelf)
             }
+            
+            PBProgressHUD.dismiss()
             
             strongSelf.refreshGroup.leave()
         }
@@ -630,7 +662,10 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 print(error)
                 
                 completion(.failure(error))
+                
             }
+            
+            PBProgressHUD.dismiss()
         }
     }
     
@@ -638,7 +673,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         searchLeaderButton.isSelected.toggle()
         
-        switch checkButton {
+        switch checkButtonIndex {
             
         case 0:
             
@@ -681,26 +716,33 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         view.addSubview(placeholderLabel)
         
-        NSLayoutConstraint.activate([
-
-            placeholderImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-
-            placeholderImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-
-            placeholderImage.widthAnchor.constraint(equalToConstant: view.frame.width / 4),
-
-            placeholderImage.heightAnchor.constraint(equalToConstant: view.frame.width / 4)
-        ])
+        placeholderImage.anchor(
+            
+            centerX: view.centerXAnchor,
+                                
+            centerY: view.centerYAnchor,
+                                
+            width: view.frame.width / 4,
+                                
+            height: view.frame.width / 4
+                               
+        )
         
-        NSLayoutConstraint.activate([
+        placeholderLabel.anchor(
             
-            placeholderLabel.topAnchor.constraint(equalTo: placeholderImage.bottomAnchor, constant: 5),
+            top: placeholderImage.bottomAnchor,
+                               
+            centerX: view.centerXAnchor,
+                                
+            paddingTop: 5,
             
-            placeholderLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-
-            placeholderLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 3 * 2),
-            placeholderLabel.heightAnchor.constraint(equalToConstant: view.frame.width / 3)
-        ])
+            paddingCenterX: 0,
+            
+            width: view.frame.width / 3 * 2,
+            
+            height: view.frame.width / 3
+                                
+        )
     }
     
     func setupSearchBar() {
@@ -713,40 +755,47 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         searchLeaderButton.addTarget(self, action: #selector(filterLeaderProject), for: .touchUpInside)
         
+        searchbarStackView.anchor(
+            
+            top: indicatorView.bottomAnchor,
+                                 
+            left: view.leftAnchor,
+            
+            right: view.rightAnchor,
+            
+            paddingTop: 20,
+            
+            paddingLeft: 20,
+            
+            paddingRight: 20
+            
+        )
+        
         searchBarStackViewHightConstraint = searchbarStackView.heightAnchor.constraint(equalToConstant: 0)
-        NSLayoutConstraint.activate([
-            
-            searchbarStackView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20),
-            
-            searchbarStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-            
-            searchbarStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
-            
-            searchBarStackViewHightConstraint!
-        ])
         
-        NSLayoutConstraint.activate([
-            
-            searchProjectTexiField.topAnchor.constraint(equalTo: searchbarStackView.topAnchor),
-            
-            searchProjectTexiField.leftAnchor.constraint(equalTo: searchbarStackView.leftAnchor),
-            
-            searchProjectTexiField.bottomAnchor.constraint(equalTo: searchbarStackView.bottomAnchor),
-            
-            searchProjectTexiField.widthAnchor.constraint(equalToConstant: view.frame.width - 80)
-        ])
+        searchBarStackViewHightConstraint?.isActive = true
         
-        NSLayoutConstraint.activate([
+        searchProjectTexiField.anchor(
             
-            searchLeaderButton.topAnchor.constraint(equalTo: searchbarStackView.topAnchor),
+            top: searchbarStackView.topAnchor,
             
-            searchLeaderButton.rightAnchor.constraint(equalTo: searchbarStackView.rightAnchor),
+            left: searchbarStackView.leftAnchor,
             
-            searchLeaderButton.bottomAnchor.constraint(equalTo: searchbarStackView.bottomAnchor),
+            bottom: searchbarStackView.bottomAnchor,
             
-            searchLeaderButton.leftAnchor.constraint(equalTo: searchProjectTexiField.rightAnchor)
-        ])
+            width: view.frame.width - 80
+        )
         
+        searchLeaderButton.anchor(
+            
+            top: searchbarStackView.topAnchor,
+            
+            left: searchProjectTexiField.rightAnchor,
+            
+            bottom: searchbarStackView.bottomAnchor,
+            
+            right: searchbarStackView.rightAnchor
+        )
     }
     
     func setupTableView() {
@@ -754,16 +803,21 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(tableView)
         
         tableViewTopConstraint = tableView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20)
-        NSLayoutConstraint.activate([
+        
+        tableViewTopConstraint?.isActive = true
+        
+        tableView.anchor(
             
-            tableViewTopConstraint!,
+            left: view.leftAnchor,
             
-            tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
+            bottom: view.bottomAnchor,
             
-            tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            right: view.rightAnchor,
             
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+            paddingLeft: 10,
+            
+            paddingRight: 10
+        )
     }
     
     func setupStackView() {
@@ -779,16 +833,20 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         searchButton.addTarget(self, action: #selector(didTouchSearchBtn), for: .touchUpInside)
         
-        NSLayoutConstraint.activate([
+        titleStackView.anchor(
             
-            titleStackView.bottomAnchor.constraint(equalTo: navigationbar.bottomAnchor, constant: -10),
+            bottom: navigationbar.bottomAnchor,
             
-            titleStackView.rightAnchor.constraint(equalTo: navigationbar.rightAnchor, constant: -15),
+            right: navigationbar.rightAnchor,
             
-            titleStackView.widthAnchor.constraint(equalToConstant: navigationbar.frame.width / 5),
+            paddingBottom: 10,
             
-            titleStackView.heightAnchor.constraint(equalToConstant: navigationbar.frame.height / 3)
-        ])
+            paddingRight: 15,
+            
+            width: navigationbar.frame.width / 5,
+            
+            height: navigationbar.frame.height / 3
+        )
     }
     
     func setupButtonStackView() {
@@ -801,29 +859,37 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         topButtonStackView.addArrangedSubview(completedButton)
         
-        NSLayoutConstraint.activate([
+        topButtonStackView.anchor(
             
-            topButtonStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            top: view.safeAreaLayoutGuide.topAnchor,
             
-            topButtonStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            left: view.leftAnchor,
             
-            topButtonStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            right: view.rightAnchor,
             
-            topButtonStackView.heightAnchor.constraint(equalToConstant: 40)
-        ])
+            paddingTop: 20,
+            
+            paddingLeft: 20 ,
+            
+            paddingRight: 20,
+            
+            height: 40
+        )
         
         indicatorViewCenterXConstraint = indicatorView.centerXAnchor.constraint(equalTo: processingButton.centerXAnchor)
         
-        NSLayoutConstraint.activate([
+        indicatorViewCenterXConstraint?.isActive = true
+        
+        indicatorView.anchor(
             
-            indicatorView.topAnchor.constraint(equalTo: topButtonStackView.bottomAnchor, constant: 20),
+            top: topButtonStackView.bottomAnchor,
             
-            indicatorView.heightAnchor.constraint(equalToConstant: 3),
+            paddingTop: 20,
             
-            indicatorView.widthAnchor.constraint(equalToConstant: (view.frame.width / 3) ),
+            width: view.frame.width / 3,
             
-            indicatorViewCenterXConstraint!
-        ])
+            height: 3
+        )
     }
     
 }
@@ -832,7 +898,7 @@ extension PersonalViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch checkButton {
+        switch checkButtonIndex {
             
         case 0:
             
@@ -850,146 +916,63 @@ extension PersonalViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch checkButton {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cells[checkButtonIndex].identifier, for: indexPath)
+
+        var filterArray: [ProjectDetail] = []
+        
+        switch checkButtonIndex {
             
         case 0:
             
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProcessingCell") as? ProcessingTableViewCell else {
-                
-                return UITableViewCell()
-            }
-            
-            cell.selectionStyle = .none
-            
-            if searchLeaderButton.isSelected {
-                
-                cell.leaderImage.isHidden = false
-                
-            } else {
-                
-                cell.leaderImage.isHidden = true
-                
-            }
-            
-            cell.transitionToMemberVC = { [weak self] _ in
-                
-                guard let strongSelf = self else {
-                    return
-                }
-                
-                guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else {
-                    return
-                }
-                
-                PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
-                
-                strongSelf.fetchMemberDetail(documentRef: strongSelf.userProcessingFilterArray[indexPath.row].projectMember) { (result) in
-                    
-                    switch result {
-                        
-                    case .success(let data):
-                        
-                        memberVC.memberArray = data
-                        
-                    case .failure(let error):
-                        
-                        print(error)
-                    }
-                    
-                    memberVC.projectDetail = strongSelf.userProcessingFilterArray[indexPath.row]
-                    
-                    strongSelf.titleStackView.isHidden = true
-                    
-                    strongSelf.show(memberVC, sender: nil)
-                }
-                
-            }
-            
-            cell.backImage.image = UIImage(named: userProcessingFilterArray[indexPath.row].color)
-            
-            cell.members = userProcessingFilterArray[indexPath.row].memberImages
-            
-            cell.titleLabel.text = userProcessingFilterArray[indexPath.row].projectName
-            
-            cell.dateLabel.text = "\(userProcessingFilterArray[indexPath.row].startDate) - \(userProcessingFilterArray[indexPath.row].endDate)"
-            
-            cell.hourLabel.text = "\(userProcessingFilterArray[indexPath.row].totalHours) Hour (\(userProcessingFilterArray[indexPath.row].totalDays) Day)"
-            return cell
+            filterArray = userProcessingFilterArray
             
         case 1:
             
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "CompletedCell") as? CompletedTableViewCell else {
-                
-                return UITableViewCell()
-                
-            }
-            
-            cell.selectionStyle = .none
-            
-            if searchLeaderButton.isSelected {
-                
-                cell.leaderImage.isHidden = false
-                
-            } else {
-                
-                cell.leaderImage.isHidden = true
-                
-            }
-            
-            cell.transitionToMemberVC = { [weak self] _ in
-                
-                guard let strongSelf = self else {
-                    return
-                }
-                
-                guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else {
-                    return
-                }
-                
-                PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
-                
-                strongSelf.fetchMemberDetail(documentRef: strongSelf.userCompletedFilterArray[indexPath.row].projectMember) { (result) in
-                    
-                    switch result {
-                        
-                    case .success(let data):
-                        
-                        memberVC.memberArray = data
-                        
-                    case .failure(let error):
-                        
-                        print(error)
-                    }
-                    
-                    memberVC.isCompletedProject = true
-                    
-                    memberVC.projectDetail = strongSelf.userCompletedFilterArray[indexPath.row]
-                    
-                    strongSelf.titleStackView.isHidden = true
-                    
-                    strongSelf.show(memberVC, sender: nil)
-                }
-            }
-            
-            cell.backImage.image = UIImage(named: userCompletedFilterArray[indexPath.row].color)
-            
-            cell.members = userCompletedFilterArray[indexPath.row].memberImages
-            
-            cell.titleLabel.text = userCompletedFilterArray[indexPath.row].projectName
-            
-            cell.dateLabel.text = "\(userCompletedFilterArray[indexPath.row].startDate) - \(userCompletedFilterArray[indexPath.row].endDate)"
-            
-            cell.hourLabel.text = "\(userCompletedFilterArray[indexPath.row].totalHours) Hour (\(userCompletedFilterArray[indexPath.row].totalDays) Day)"
-            
-            cell.completionDateLabel.text = userCompletedFilterArray[indexPath.row].completedDate
-            
-            cell.completionHourLable.text = "\(userCompletedFilterArray[indexPath.row].completedHour) Hour (\(userCompletedFilterArray[indexPath.row].completedDays) Day)"
-            
-            return cell
+            filterArray = userCompletedFilterArray
             
         default:
-            return UITableViewCell()
+            
+            break
         }
+        
+        cells[checkButtonIndex].setCell(tableViewCell: cell, button: searchLeaderButton, projectDetailData: filterArray, row: indexPath.row, passData: { [weak self] in
+
+            guard let strongSelf = self else {
+                return
+            }
+
+            guard let memberVC = UIStoryboard.personal.instantiateViewController(withIdentifier: "MemberVC") as? MemberListViewController else {
+                return
+            }
+
+            PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
+
+            strongSelf.fetchMemberDetail(documentRef: filterArray[indexPath.row].projectMember) { (result) in
+
+                switch result {
+
+                case .success(let data):
+
+                    memberVC.memberArray = data
+
+                case .failure(let error):
+
+                    print(error)
+                }
+                
+                PBProgressHUD.dismiss()
+
+                memberVC.projectDetail = filterArray[indexPath.row]
+
+                strongSelf.titleStackView.isHidden = true
+
+                strongSelf.show(memberVC, sender: nil)
+            }
+
+        })
+
+        return cell
+
     }
 }
 
@@ -1001,7 +984,7 @@ extension PersonalViewController: UITableViewDelegate {
             return
         }
 
-        switch checkButton {
+        switch checkButtonIndex {
             
         case 0:
             
@@ -1026,7 +1009,9 @@ extension PersonalViewController: UITableViewDelegate {
                     
                     print(error)
                 }
-                                
+                
+                PBProgressHUD.dismiss()
+                
                 strongSelf.titleStackView.isHidden = true
                 
                 strongSelf.show(workLogVC, sender: nil)
@@ -1055,7 +1040,9 @@ extension PersonalViewController: UITableViewDelegate {
                     
                     print(error)
                 }
-                                
+                
+                PBProgressHUD.dismiss()
+                
                 strongSelf.titleStackView.isHidden = true
                 
                 strongSelf.show(workLogVC, sender: nil)
