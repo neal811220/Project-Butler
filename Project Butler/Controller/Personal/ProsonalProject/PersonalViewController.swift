@@ -490,7 +490,6 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     func isSearchTextEmpty() -> Bool {
         
-//        return searchProjectTexiField.text?.isEmpty ?? true
         return inputSearchText == ""
     }
     
@@ -610,7 +609,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     func fetchUserCompletedProject() {
         
-        PBProgressHUD.pbActivityView(viewController: tabBarController!)
+        PBProgressHUD.pbActivityView(viewController: self)
         
         refreshGroup.enter()
         

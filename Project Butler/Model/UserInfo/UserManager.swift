@@ -478,14 +478,22 @@ class UserManager {
         }
         
         guard isSearch == false else {
+            
+            notification()
+            
             return
         }
         
         isSearch = true
         
-        let nextASICCode = lastCharacter.asciiValue! + 1
+        guard let nextASICCode = lastCharacter.asciiValue else {
+            
+            notification()
+            
+            return
+        }
         
-        let nextCharacter = Character(UnicodeScalar(nextASICCode))
+        let nextCharacter = Character(UnicodeScalar(nextASICCode + 1))
         
         let nextWord = text.dropLast().appending(String(nextCharacter))
         
@@ -507,15 +515,23 @@ class UserManager {
                             self.group.enter()
                             
                             self.searchUserStatus(uid: data.userID) { (result) in
+                                
                                 switch result {
+                                    
                                 case .success(let data):
+                                    
                                     print(data)
+                                    
                                 case .failure(let error):
+                                    
                                     print(error)
+                                    
                                 }
+                                
                                 self.group.leave()
                             }
                         }
+                        
                     } catch {
                         
                         completion(.failure(error))

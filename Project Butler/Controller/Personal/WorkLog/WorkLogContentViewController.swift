@@ -256,7 +256,7 @@ class WorkLogContentViewController: UIViewController {
         durationM = Int(durationM) % 60
         
         endText = timeFormatter.string(from: endTimePickerView.date)
-        
+                
         tableView.reloadData()
         
         view.endEditing(true)

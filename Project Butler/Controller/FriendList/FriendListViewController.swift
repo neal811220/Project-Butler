@@ -384,11 +384,14 @@ extension FriendListViewController: UITableViewDataSource {
             
         }
         
+        PBProgressHUD.dismiss()
+        
         tableView.reloadData()
         
         userManager.isSearching = false
         
         userManager.isSearch = false
+        
     }
     
     @objc func tapButton(sender: UIButton) {
