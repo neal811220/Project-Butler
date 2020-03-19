@@ -77,12 +77,12 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gzP-WK-Hej">
+                    <textField opaque="NO" tag="17" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gzP-WK-Hej">
                         <rect key="frame" x="30" y="200" width="354" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="ksD-8y-0tI"/>
                         </constraints>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="textColor" name="Gray3"/>
                         <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
@@ -111,7 +111,7 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XQo-Fz-xo4">
+                    <textField opaque="NO" tag="15" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XQo-Fz-xo4">
                         <rect key="frame" x="30" y="282" width="354" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="gbF-Xm-8Sb"/>
@@ -127,7 +127,7 @@
                             <constraint firstAttribute="height" constant="1" id="1Zh-V7-Goa"/>
                         </constraints>
                     </view>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hgw-Pl-XgZ">
+                    <textField opaque="NO" tag="16" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hgw-Pl-XgZ">
                         <rect key="frame" x="30" y="364" width="354" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="QcU-L3-0Rf"/>
