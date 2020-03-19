@@ -437,13 +437,21 @@ class WorkLogViewController: UIViewController {
             self.collectionView.reloadData()
         }
         
-        workLogContentVC.modalPresentationStyle = .custom
-        
-        self.view.alpha = 0.5
-        
-        workLogContentVC.workLogVC = self
-        
-        present(workLogContentVC, animated: true, completion: nil)
+        if #available(iOS 13.0, *) {
+            
+            present(workLogContentVC, animated: true, completion: nil)
+            
+        } else {
+            
+            workLogContentVC.modalPresentationStyle = .custom
+            
+            self.view.alpha = 0.5
+            
+            workLogContentVC.workLogVC = self
+            
+            present(workLogContentVC, animated: true, completion: nil)
+            
+        }
     }
     
     @objc func didTapReportButton() {
