@@ -291,7 +291,7 @@ class ProjectManager {
     
     func fetchFriends(completion: @escaping (Result<[FriendDetail], Error>) -> Void) {
         
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else { return }
         
         projectDB.collection("users").document(uid).collection("friends").whereField("accept", isEqualTo: true).whereField("confirm", isEqualTo: true).getDocuments { (snapshot, error) in
             
@@ -332,7 +332,8 @@ class ProjectManager {
             
             return
         }
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else { return }
+        
         let nextASICCode = lastCharacter.asciiValue! + 1
         
         let nextCharacter = Character(UnicodeScalar(nextASICCode))

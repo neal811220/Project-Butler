@@ -108,7 +108,7 @@ class MemberListViewController: UIViewController {
             
         } else {
             
-            isLeader = projectDetail?.projectLeaderID == CurrentUserInfo.shared.userID
+            isLeader = projectDetail?.projectLeaderID == UserDefaults.standard.value(forKey: "userID") as? String
             
             if isLeader == true {
                 
@@ -333,7 +333,7 @@ class MemberListViewController: UIViewController {
                 return
             }
             
-            guard let documentID = strongSelf.projectDetail?.projectID, let userID = CurrentUserInfo.shared.userID else {
+            guard let documentID = strongSelf.projectDetail?.projectID, let userID = UserDefaults.standard.value(forKey: "userID") as? String else {
                 
                 return
             }

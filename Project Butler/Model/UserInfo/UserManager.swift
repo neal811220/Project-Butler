@@ -306,8 +306,10 @@ class UserManager {
     
     func getSeletedLeader(uid: String, completion: @escaping (Result<FriendDetail, Error>) -> Void) {
         
-        guard let id = CurrentUserInfo.shared.userID else { return }
-        
+        guard let id = UserDefaults.standard.value(forKey: "userID") as? String else {
+            
+            return
+        }
         userDB.collection("users").document(id).collection("friends").document(uid).getDocument { (snapshot, error) in
             
             if let error = error {
@@ -336,7 +338,7 @@ class UserManager {
         
         isSearching = true
         
-        guard let userID = CurrentUserInfo.shared.userID else { return }
+        guard let userID = UserDefaults.standard.value(forKey: "userID") as? String else { return }
         
         clearAll()
         
@@ -515,7 +517,8 @@ class UserManager {
                     do {
                         if let data = try document.data(as: AuthInfo.self, decoder: Firestore.Decoder()) {
                             
-                            if data.userID == CurrentUserInfo.shared.userID {
+                            if data.userID == UserDefaults.standard.value(forKey: "userID") as? String {
+                                
                                 continue
                             }
                             
@@ -558,7 +561,11 @@ class UserManager {
     
     func acceptFrined(uid: String) {
         
-        guard let id = CurrentUserInfo.shared.userID else { return }
+        guard let id = UserDefaults.standard.value(forKey: "userID") as? String else {
+            
+            return
+            
+        }
         
         userDB.collection("users").document(id).collection("friends").document(uid).setData(["confirm": true], merge: true)
         
@@ -603,7 +610,11 @@ class UserManager {
     
     func refuseFriend(uid: String) {
         
-        guard let id = CurrentUserInfo.shared.userID else { return }
+        guard let id = UserDefaults.standard.value(forKey: "userID") as? String else {
+            
+            return
+            
+        }
         
         userDB.collection("users").document(id).collection("friends").document(uid).delete()
         
