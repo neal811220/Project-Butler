@@ -538,7 +538,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     
     func fetchCurrentUserInfo() {
         
-        guard let uid = Auth.auth().currentUser?.uid else {
+        guard let uid = UserDefaults.standard.value(forKey: "userID") as? String else {
             return
         }
         
@@ -679,7 +679,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
             
             if searchLeaderButton.isSelected == true {
                 
-                userProcessingFilterArray = userProcessingFilterArray.filter({ return $0.projectLeaderID == CurrentUserInfo.shared.userID})
+                userProcessingFilterArray = userProcessingFilterArray.filter({ return $0.projectLeaderID == UserDefaults.standard.value(forKey: "userID") as? String})
                 
             } else {
                 
@@ -692,7 +692,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 
                 userCompletedFilterArray = userCompletedFilterArray.filter({
                     
-                    return $0.projectLeaderID == CurrentUserInfo.shared.userID
+                    return $0.projectLeaderID == UserDefaults.standard.value(forKey: "userID") as? String
                 })
                 
             } else {

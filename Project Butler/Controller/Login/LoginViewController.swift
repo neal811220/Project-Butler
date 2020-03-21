@@ -428,6 +428,8 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                     // The Apple ID credential is valid. Show Home UI Here
                     if firstName == nil || familyName == nil || email == nil {
                         
+                        UserDefaults.standard.set(userIdentifier, forKey: "userID")
+                        
                         DispatchQueue.main.async {
                             
                             PBProgressHUD.pbActivityView(viewController: strongSelf)
