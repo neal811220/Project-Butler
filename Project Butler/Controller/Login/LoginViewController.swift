@@ -432,6 +432,8 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                             
                             PBProgressHUD.pbActivityView(viewController: strongSelf)
                             
+                            UserDefaults.standard.set(userIdentifier, forKey: "userID")
+                            
                             CurrentUserInfo.shared.getLoginUserInfo(uid: userIdentifier) { (result) in
                                 
                                 switch result {

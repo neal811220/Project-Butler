@@ -389,9 +389,16 @@ class UserManager {
     
     func searchUserStatus(uid: String, completion: @escaping (Result<Void, Error>) -> Void) {
         
-        guard let userID = Auth.auth().currentUser?.uid else { return }
-        
-        userDB.collection("users").document(userID).collection("friends").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
+//        guard let userID = Auth.auth().currentUser?.uid else {
+//
+//            return
+//        }
+        guard let useID = UserDefaults.standard.value(forKey: "userID") as? String else {
+            
+            return
+        }
+
+        userDB.collection("users").document(useID).collection("friends").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
             
             if error == nil && snapshot != nil && snapshot!.documents.count != 0 {
                 
