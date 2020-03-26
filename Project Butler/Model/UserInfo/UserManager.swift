@@ -127,9 +127,9 @@ class UserManager {
     
     func addFriend(uid: String, name: String, email: String, image: String, completion: @escaping (Result<Void, Error>) -> Void) {
         
-        guard let current = Auth.auth().currentUser else { return }
-        
-        let currentUserId = current.uid
+        guard let currentUserId = UserDefaults.standard.value(forKey: "userID") as? String else {
+            return
+        }
         
         let addStatus: [String: Any] = ["accept": false, "confirm": true, "userID": uid, "userName": name, "userEmail": email, "userImageUrl": image]
         userDB.collection("users").document(currentUserId).collection("friends").whereField("userID", isEqualTo: uid).getDocuments { (snapshot, error) in
@@ -390,11 +390,7 @@ class UserManager {
     }
     
     func searchUserStatus(uid: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        
-//        guard let userID = Auth.auth().currentUser?.uid else {
-//
-//            return
-//        }
+
         guard let useID = UserDefaults.standard.value(forKey: "userID") as? String else {
             
             return
@@ -574,7 +570,11 @@ class UserManager {
     
     func changeFriendStatus(uid: String) {
         
-        guard let id = Auth.auth().currentUser?.uid else { return }
+        guard let id = UserDefaults.standard.value(forKey: "userID") as? String else {
+            
+            return
+            
+        }
         
         var name = ""
         

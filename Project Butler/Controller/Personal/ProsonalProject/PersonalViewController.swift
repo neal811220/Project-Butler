@@ -283,9 +283,13 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        titleStackView.isHidden = false
-        
         navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        titleStackView.isHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
