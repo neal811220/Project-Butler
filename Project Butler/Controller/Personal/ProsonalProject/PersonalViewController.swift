@@ -348,6 +348,8 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         checkButtonIndex = sender.tag
         
+        filterLeaderProject()
+        
         projectisEmpty()
         
         UIView.animate(withDuration: 0.5) {
@@ -671,9 +673,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    @objc func filterLeaderProject(sender: UIButton) {
-        
-        searchLeaderButton.isSelected.toggle()
+    func filterLeaderProject() {
         
         switch checkButtonIndex {
             
@@ -709,6 +709,47 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         }
         
         tableView.reloadData()
+    }
+    
+    @objc func didTapLeaderButton(sender: UIButton) {
+        
+        searchLeaderButton.isSelected.toggle()
+        
+        filterLeaderProject()
+//        switch checkButtonIndex {
+//
+//        case 0:
+//
+//            if searchLeaderButton.isSelected == true {
+//
+//                userProcessingFilterArray = userProcessingFilterArray.filter({ return $0.projectLeaderID == UserDefaults.standard.value(forKey: "userID") as? String})
+//
+//            } else {
+//
+//                userProcessingFilterArray = userProcessingArray
+//            }
+//
+//        case 1:
+//
+//            if searchLeaderButton.isSelected == true {
+//
+//                userCompletedFilterArray = userCompletedFilterArray.filter({
+//
+//                    return $0.projectLeaderID == UserDefaults.standard.value(forKey: "userID") as? String
+//                })
+//
+//            } else {
+//
+//                userCompletedFilterArray = userCompletedArray
+//
+//            }
+//
+//        default:
+//
+//            break
+//        }
+//
+//        tableView.reloadData()
         
     }
     
@@ -755,7 +796,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         
         searchbarStackView.addSubview(searchLeaderButton)
         
-        searchLeaderButton.addTarget(self, action: #selector(filterLeaderProject), for: .touchUpInside)
+        searchLeaderButton.addTarget(self, action: #selector(didTapLeaderButton), for: .touchUpInside)
         
         searchbarStackView.anchor(
             
