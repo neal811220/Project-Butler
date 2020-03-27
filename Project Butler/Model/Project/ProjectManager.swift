@@ -222,7 +222,7 @@ class ProjectManager {
     }
     
     func fetchUserProcessingProjects(completion: @escaping (Result<[ProjectDetail], Error>) -> Void) {
-        
+                
         guard let uid = UserDefaults.standard.value(forKey: "userID") else { return }
         
         projectDB.collection("projects").whereField("projectMemberID", arrayContains: uid).whereField("isCompleted", isEqualTo: false).getDocuments { [weak self] (snapshot, error) in

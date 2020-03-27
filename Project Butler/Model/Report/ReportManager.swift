@@ -412,9 +412,7 @@ class MemberReportManager: ReportManager, ChartProvider {
         for member in projectMembers {
             
             seriesElement = []
-            
-            print(member.userName)
-            
+                        
             for date in beforeSevenDates {
                 
                 let workHour = resultDictionary[member.userID]?.map {

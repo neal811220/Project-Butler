@@ -116,14 +116,6 @@ class ReportViewController: UIViewController {
                 
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        print(titlecollectionView.frame)
-        
-        print(contentcollectionView.frame)
-    }
-    
     func setupTitleCollectionView() {
         
         view.addSubview(titlecollectionView)
@@ -188,16 +180,32 @@ class ReportViewController: UIViewController {
         
         contentcollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         
+        UIView.animate(withDuration: 0.3) { [weak self] in
+
+            self?.indicatorViewLeftConstraint?.isActive = false
+
+            self?.indicatorViewCenterXConstraint?.isActive = false
+
+            self?.indicatorViewCenterXConstraint = self?.indicatorView.centerXAnchor.constraint(equalTo: sender.centerXAnchor)
+
+            self?.indicatorViewCenterXConstraint?.isActive = true
+
+            self?.view.layoutIfNeeded()
+        }
+    }
+    
+    func didScrollContentCollectionView(constant: CGFloat) {
+        
         UIView.animate(withDuration: 0.3) {
-
-            self.indicatorViewLeftConstraint?.isActive = false
-
+            
             self.indicatorViewCenterXConstraint?.isActive = false
-
-            self.indicatorViewCenterXConstraint = self.indicatorView.centerXAnchor.constraint(equalTo: sender.centerXAnchor)
-
+            
+            self.indicatorViewLeftConstraint?.isActive = false
+            
+            self.indicatorViewCenterXConstraint = self.indicatorView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: constant)
+            
             self.indicatorViewCenterXConstraint?.isActive = true
-
+            
             self.view.layoutIfNeeded()
         }
     }
@@ -210,6 +218,25 @@ extension ReportViewController: UICollectionViewDelegate {
         
         titleButtonIndexPath = indexPath
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let constant = view.frame.width / 3.4
+
+        if scrollView.contentOffset.x == 0.0 {
+            
+            didScrollContentCollectionView(constant: -constant)
+            
+        } else if scrollView.contentOffset.x == view.frame.width {
+            
+            didScrollContentCollectionView(constant: 0.0)
+            
+        } else if scrollView.contentOffset.x == view.frame.width * 2 {
+            
+            didScrollContentCollectionView(constant: constant)
+        }
+    }
+    
 }
 
 extension ReportViewController: UICollectionViewDataSource {
@@ -220,7 +247,7 @@ extension ReportViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+        titleButtonIndexPath = indexPath
         if collectionView == titlecollectionView {
 
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ReportTitleCell", for: indexPath) as? ReportTitleCollectionViewCell else {
@@ -246,7 +273,6 @@ extension ReportViewController: UICollectionViewDataSource {
                 
                 strongSelf.titleButtonIndexPath = indexPath
             }
-            
             return cell
 
         } else {
@@ -283,7 +309,7 @@ extension ReportViewController: UICollectionViewDataSource {
             ])
             
             reportContentVC.didMove(toParent: self)
-                        
+            
             return cell
         }
     }
