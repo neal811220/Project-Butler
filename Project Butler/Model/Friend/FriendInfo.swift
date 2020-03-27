@@ -38,7 +38,7 @@ protocol Userable: Codable {
     func tapRefuseButton()
 }
 
-struct AuthInfo: Codable, Userable {
+struct AuthInfo: Codable, Userable, Hashable {
     
     let userName: String
     
@@ -99,7 +99,7 @@ struct AuthInfo: Codable, Userable {
     
 }
 
-struct FriendDetail: Codable, Userable {
+struct FriendDetail: Codable, Userable, Hashable {
     
     let accept: Bool
     

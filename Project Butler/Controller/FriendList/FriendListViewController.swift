@@ -79,6 +79,10 @@ class FriendListViewController: UIViewController {
         
         return label
     }()
+    
+    var friendSet = Set<FriendDetail>()
+    
+    var userSet = Set<AuthInfo>()
 
     var datas: [[Userable]] = []
     
@@ -257,6 +261,107 @@ class FriendListViewController: UIViewController {
         }
         
     }
+    
+    @objc func reAssignData() {
+        
+        datas = []
+        
+        self.friendSet = []
+        
+        self.userSet = []
+        
+        switch currentSeletedIndex {
+            
+        case 0:
+            
+            for friend in userManager.friendArray {
+                
+                friendSet.insert(friend)
+                
+            }
+            
+            datas.append(Array(friendSet))
+                        
+        case 1:
+            
+            for confirm in userManager.confirmArray {
+
+                friendSet.insert(confirm)
+
+            }
+            
+            datas.append(Array(friendSet))
+            
+            friendSet = []
+            
+            for accept in userManager.acceptArray {
+                
+                friendSet.insert(accept)
+                
+            }
+            
+            datas.append(Array(friendSet))
+            
+        case 2:
+            
+            for user in userManager.searchUserArray {
+                
+                userSet.insert(user)
+            }
+            datas.append(Array(userSet))
+            
+        default: break
+            
+        }
+        
+        PBProgressHUD.dismiss()
+        
+        tableView.reloadData()
+        
+        userManager.isSearching = false
+        
+        userManager.isSearch = false
+        
+    }
+    
+    @objc func tapButton(sender: UIButton) {
+        
+        guard let indexPath = currentIndexPath else { return }
+        
+        if sender.tag == 0 {
+            
+            userTapStatus = false
+            
+        } else {
+            
+            userTapStatus = true
+        }
+        
+        sender.isSelected = !sender.isSelected
+        
+        switch currentSeletedIndex {
+            
+        case 2:
+            
+            datas[indexPath.section][indexPath.row].tapAddButton()
+            
+        case 1:
+            
+            if sender.tag == 0 {
+                
+                datas[indexPath.section][indexPath.row].tapRefuseButton()
+                
+            } else {
+                
+                datas[indexPath.section][indexPath.row].tapAcceptButton()
+                
+            }
+            
+        default:
+            
+            break
+        }
+    }
 }
 
 extension FriendListViewController: UITableViewDataSource {
@@ -358,79 +463,6 @@ extension FriendListViewController: UITableViewDataSource {
         }
         
         return cell
-    }
-    
-    @objc func reAssignData() {
-        
-        datas = []
-        
-        switch currentSeletedIndex {
-            
-        case 0:
-            
-            datas.append(userManager.friendArray)
-                        
-        case 1:
-            
-            datas.append(userManager.confirmArray)
-            
-            datas.append(userManager.acceptArray)
-            
-        case 2:
-            
-            datas.append(userManager.searchUserArray)
-            
-        default: break
-            
-        }
-        
-        PBProgressHUD.dismiss()
-        
-        tableView.reloadData()
-        
-        userManager.isSearching = false
-        
-        userManager.isSearch = false
-        
-    }
-    
-    @objc func tapButton(sender: UIButton) {
-        
-        guard let indexPath = currentIndexPath else { return }
-        
-        if sender.tag == 0 {
-            
-            userTapStatus = false
-            
-        } else {
-            
-            userTapStatus = true
-        }
-        
-        sender.isSelected = !sender.isSelected
-        
-        switch currentSeletedIndex {
-            
-        case 2:
-            
-            datas[indexPath.section][indexPath.row].tapAddButton()
-            
-        case 1:
-            
-            if sender.tag == 0 {
-                
-                datas[indexPath.section][indexPath.row].tapRefuseButton()
-                
-            } else {
-                
-                datas[indexPath.section][indexPath.row].tapAcceptButton()
-                
-            }
-            
-        default:
-            
-            break
-        }
     }
     
 }
