@@ -136,7 +136,7 @@ extension ReportContentViewController: UITableViewDelegate {
 extension ReportContentViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-
+        
         return 2
     }
     

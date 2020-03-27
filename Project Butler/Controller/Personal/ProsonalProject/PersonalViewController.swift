@@ -168,9 +168,9 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
                 
         tableView.register(completedNib, forCellReuseIdentifier: CompletedTableViewCell.identifier)
         
-        tableView.addRefreshHeader {
+        tableView.addRefreshHeader { [weak self] in
             
-            self.refreshLoader()
+            self?.refreshLoader()
         }
         
         return tableView
@@ -265,17 +265,17 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         
         setupStackView()
-        
+
         setupButtonStackView()
-        
+
         setupSearchBar()
-        
+
         setupTableView()
-        
+
         fetchCurrentUserInfo()
-        
+
         refreshLoader()
-        
+
         setupPlaceholdeImage()
                 
     }
@@ -365,7 +365,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func refreshProjectdata() {
-        
+                
         refreshLoader()
     }
     
@@ -425,7 +425,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
     }
     
     func refreshLoader() {
-        
+                
         if searchLeaderButton.isSelected {
                         
             searchLeaderButton.isSelected = false
@@ -507,9 +507,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         let previousText: NSString = textField.text! as NSString
         
         let updatedText = previousText.replacingCharacters(in: range, with: string)
-        
-        print("updatedText > ", updatedText)
-        
+                
         inputSearchText = updatedText
         
         filterContentForSearchText(searchText: updatedText)
@@ -646,7 +644,7 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
             strongSelf.refreshGroup.leave()
         }
     }
-    
+ 
     func fetchMemberDetail(documentRef: [DocumentReference], completion: @escaping (Result<[AuthInfo], Error>) -> Void) {
         
         PBProgressHUD.pbActivityView(viewController: tabBarController!)
@@ -807,19 +805,19 @@ class PersonalViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(tableView)
         
         tableViewTopConstraint = tableView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20)
-        
+
         tableViewTopConstraint?.isActive = true
-        
+
         tableView.anchor(
-            
+
             left: view.leftAnchor,
-            
+
             bottom: view.bottomAnchor,
-            
+
             right: view.rightAnchor,
-            
+
             paddingLeft: 10,
-            
+
             paddingRight: 10
         )
     }
@@ -951,7 +949,7 @@ extension PersonalViewController: UITableViewDataSource {
 
             PBProgressHUD.pbActivityView(viewController: strongSelf.tabBarController!)
 
-            strongSelf.fetchMemberDetail(documentRef: filterArray[indexPath.row].projectMember) { (result) in
+            strongSelf.fetchMemberDetail(documentRef: filterArray[indexPath.row].projectMember) { [weak self] (result) in
 
                 switch result {
 
@@ -968,9 +966,9 @@ extension PersonalViewController: UITableViewDataSource {
 
                 memberVC.projectDetail = filterArray[indexPath.row]
 
-                strongSelf.titleStackView.isHidden = true
+                self?.titleStackView.isHidden = true
 
-                strongSelf.show(memberVC, sender: nil)
+                self?.show(memberVC, sender: nil)
             }
 
         })
@@ -1068,13 +1066,13 @@ extension PersonalViewController: UITableViewDelegate {
         
         cell.transform = CGAffineTransform(translationX: 0, y: 100 * 0.6)
         
-        animator.addAnimations {
+        animator.addAnimations { [weak self] in
             
             cell.alpha = 1
             
             cell.transform = .identity
             
-            self.tableView.layoutIfNeeded()
+            self?.tableView.layoutIfNeeded()
         }
         
         animator.startAnimation(afterDelay: 0.1 * Double(indexPath.item))

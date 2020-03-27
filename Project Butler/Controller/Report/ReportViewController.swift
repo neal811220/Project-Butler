@@ -116,14 +116,6 @@ class ReportViewController: UIViewController {
                 
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        print(titlecollectionView.frame)
-        
-        print(contentcollectionView.frame)
-    }
-    
     func setupTitleCollectionView() {
         
         view.addSubview(titlecollectionView)
@@ -202,6 +194,10 @@ class ReportViewController: UIViewController {
         }
     }
     
+    func didScrollContentCollectionView() {
+        
+    }
+    
 }
 
 extension ReportViewController: UICollectionViewDelegate {
@@ -210,6 +206,22 @@ extension ReportViewController: UICollectionViewDelegate {
         
         titleButtonIndexPath = indexPath
     }
+    
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        
+//        print("\(scrollView.contentOffset)")
+//
+//        let offSet = CGPoint(x: scrollView.contentOffset.x, y: scrollView.contentOffset.y)
+//
+//        switch  scrollView.contentOffset {
+//
+//        case CGPoint(x: <#T##Int#>, y: <#T##Int#>):
+//            <#code#>
+//        default:
+//            <#code#>
+//        }
+//    }
+    
 }
 
 extension ReportViewController: UICollectionViewDataSource {
@@ -220,7 +232,7 @@ extension ReportViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+        titleButtonIndexPath = indexPath
         if collectionView == titlecollectionView {
 
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ReportTitleCell", for: indexPath) as? ReportTitleCollectionViewCell else {
@@ -246,7 +258,6 @@ extension ReportViewController: UICollectionViewDataSource {
                 
                 strongSelf.titleButtonIndexPath = indexPath
             }
-            
             return cell
 
         } else {
@@ -283,7 +294,7 @@ extension ReportViewController: UICollectionViewDataSource {
             ])
             
             reportContentVC.didMove(toParent: self)
-                        
+            
             return cell
         }
     }

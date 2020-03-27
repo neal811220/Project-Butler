@@ -52,8 +52,6 @@
 		18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */; };
 		18AD1F3F23DB4AF600C75504 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */; };
 		18AD1F4123DB4B1700C75504 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */; };
-		18ADFE022403B7E1003EAF2B /* ReportContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18ADFDFE2403B7E0003EAF2B /* ReportContentTableViewCell.swift */; };
-		18ADFE032403B7E1003EAF2B /* ReportContentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18ADFDFF2403B7E0003EAF2B /* ReportContentTableViewCell.xib */; };
 		18ADFE082403B7EE003EAF2B /* ReportTitleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18ADFE062403B7EE003EAF2B /* ReportTitleCollectionViewCell.xib */; };
 		18ADFE092403B7EE003EAF2B /* ReportTitleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18ADFE072403B7EE003EAF2B /* ReportTitleCollectionViewCell.swift */; };
 		18ADFE0E240414A8003EAF2B /* LoginTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18ADFE0C240414A8003EAF2B /* LoginTableViewCell.swift */; };
@@ -160,8 +158,6 @@
 		18AD1F3C23DB4A8600C75504 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		18AD1F3E23DB4AF600C75504 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		18AD1F4023DB4B1600C75504 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ResetPasswordViewController.swift; path = "/Users/apple/Desktop/Project Butler/Project Butler/Controller/ResetPasswordViewController.swift"; sourceTree = "<absolute>"; };
-		18ADFDFE2403B7E0003EAF2B /* ReportContentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportContentTableViewCell.swift; sourceTree = "<group>"; };
-		18ADFDFF2403B7E0003EAF2B /* ReportContentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportContentTableViewCell.xib; sourceTree = "<group>"; };
 		18ADFE062403B7EE003EAF2B /* ReportTitleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportTitleCollectionViewCell.xib; sourceTree = "<group>"; };
 		18ADFE072403B7EE003EAF2B /* ReportTitleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTitleCollectionViewCell.swift; sourceTree = "<group>"; };
 		18ADFE0C240414A8003EAF2B /* LoginTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTableViewCell.swift; sourceTree = "<group>"; };
@@ -385,15 +381,6 @@
 			path = TitleCollectionView;
 			sourceTree = "<group>";
 		};
-		18635CEE2403A70E00469168 /* ReportContent */ = {
-			isa = PBXGroup;
-			children = (
-				18ADFDFE2403B7E0003EAF2B /* ReportContentTableViewCell.swift */,
-				18ADFDFF2403B7E0003EAF2B /* ReportContentTableViewCell.xib */,
-			);
-			path = ReportContent;
-			sourceTree = "<group>";
-		};
 		1885EE6B23DA9B29005A4835 /* Third Party Wapper */ = {
 			isa = PBXGroup;
 			children = (
@@ -550,7 +537,6 @@
 				18635CEC2403A6E400469168 /* ChartView */,
 				18635CED2403A6F600469168 /* TitleCollectionView */,
 				18CE586623F8409300D47A2D /* WorkLog */,
-				18635CEE2403A70E00469168 /* ReportContent */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -757,7 +743,6 @@
 				18AD1F3B23DB4A3F00C75504 /* Login.storyboard in Resources */,
 				18635CF22403A84800469168 /* ReportChartPickerTableViewCell.xib in Resources */,
 				18CE586523F8408B00D47A2D /* WorkLogTableViewCell.xib in Resources */,
-				18ADFE032403B7E1003EAF2B /* ReportContentTableViewCell.xib in Resources */,
 				1861E10C23D7F71400673640 /* Main.storyboard in Resources */,
 				1844082423E541D000A879F7 /* FriendListTableViewCell.xib in Resources */,
 			);
@@ -880,7 +865,6 @@
 				18F8CC3D23ED1993004D8420 /* CurrentUserInfo.swift in Sources */,
 				18AD1F3D23DB4A8600C75504 /* LoginViewController.swift in Sources */,
 				18F0E37623F3C04700149F8F /* SelectMembersViewController.swift in Sources */,
-				18ADFE022403B7E1003EAF2B /* ReportContentTableViewCell.swift in Sources */,
 				180727AC23FFA0A400D67EFA /* ReportManager.swift in Sources */,
 				18F0E37A23F3C80100149F8F /* LargeTitleInfo.swift in Sources */,
 				18BC87D123F5683600D97F74 /* ProjectInfo.swift in Sources */,
