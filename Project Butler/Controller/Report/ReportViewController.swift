@@ -221,24 +221,19 @@ extension ReportViewController: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        let centerX = view.frame.width / 3.4
+        let constant = view.frame.width / 3.4
 
-        switch  scrollView.contentOffset {
-
-        case CGPoint(x: 0.0, y: 0.0):
+        if scrollView.contentOffset.x == 0.0 {
             
-            didScrollContentCollectionView(constant: -centerX)
+            didScrollContentCollectionView(constant: -constant)
             
-        case CGPoint(x: 414.0, y: 0.0):
+        } else if scrollView.contentOffset.x == view.frame.width {
             
             didScrollContentCollectionView(constant: 0.0)
             
-        case CGPoint(x: 828.0, y: 0.0):
+        } else if scrollView.contentOffset.x == view.frame.width * 2 {
             
-            didScrollContentCollectionView(constant: centerX)
-            
-        default:
-            break
+            didScrollContentCollectionView(constant: constant)
         }
     }
     
