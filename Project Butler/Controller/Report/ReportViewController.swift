@@ -180,22 +180,34 @@ class ReportViewController: UIViewController {
         
         contentcollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
 
-            self.indicatorViewLeftConstraint?.isActive = false
+            self?.indicatorViewLeftConstraint?.isActive = false
 
-            self.indicatorViewCenterXConstraint?.isActive = false
+            self?.indicatorViewCenterXConstraint?.isActive = false
 
-            self.indicatorViewCenterXConstraint = self.indicatorView.centerXAnchor.constraint(equalTo: sender.centerXAnchor)
+            self?.indicatorViewCenterXConstraint = self?.indicatorView.centerXAnchor.constraint(equalTo: sender.centerXAnchor)
 
-            self.indicatorViewCenterXConstraint?.isActive = true
+            self?.indicatorViewCenterXConstraint?.isActive = true
 
-            self.view.layoutIfNeeded()
+            self?.view.layoutIfNeeded()
         }
     }
     
-    func didScrollContentCollectionView() {
+    func didScrollContentCollectionView(constant: CGFloat) {
         
+        UIView.animate(withDuration: 0.3) {
+            
+            self.indicatorViewCenterXConstraint?.isActive = false
+            
+            self.indicatorViewLeftConstraint?.isActive = false
+            
+            self.indicatorViewCenterXConstraint = self.indicatorView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: constant)
+            
+            self.indicatorViewCenterXConstraint?.isActive = true
+            
+            self.view.layoutIfNeeded()
+        }
     }
     
 }
@@ -207,20 +219,28 @@ extension ReportViewController: UICollectionViewDelegate {
         titleButtonIndexPath = indexPath
     }
     
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        
-//        print("\(scrollView.contentOffset)")
-//
-//        let offSet = CGPoint(x: scrollView.contentOffset.x, y: scrollView.contentOffset.y)
-//
-//        switch  scrollView.contentOffset {
-//
-//        case CGPoint(x: <#T##Int#>, y: <#T##Int#>):
-//            <#code#>
-//        default:
-//            <#code#>
-//        }
-//    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let centerX = view.frame.width / 3.4
+
+        switch  scrollView.contentOffset {
+
+        case CGPoint(x: 0.0, y: 0.0):
+            
+            didScrollContentCollectionView(constant: -centerX)
+            
+        case CGPoint(x: 414.0, y: 0.0):
+            
+            didScrollContentCollectionView(constant: 0.0)
+            
+        case CGPoint(x: 828.0, y: 0.0):
+            
+            didScrollContentCollectionView(constant: centerX)
+            
+        default:
+            break
+        }
+    }
     
 }
 
